@@ -1,16 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:background="@color/bg_while"
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_main_homepager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/mainavtivity_me"
+            android:gravity="center"
+            android:drawablePadding="@dimen/dimen_3"
+            android:paddingTop="@dimen/dimen_4"
+            android:text="首页" />
+        <RadioButton
+            android:id="@+id/rb_main_recharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/mainavtivity_recharge"
+            android:gravity="center"
+            android:drawablePadding="@dimen/dimen_3"
+            android:paddingTop="@dimen/dimen_4"
+            android:text="Buy chips" />
+        <RadioButton
+            android:id="@+id/rb_main_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="@dimen/dimen_3"
+            android:drawableTop="@drawable/mainavtivity_gift"
+            android:gravity="center"
+            android:paddingTop="@dimen/dimen_4"
+            android:text="Winning" />
+        <RadioButton
+            android:id="@+id/rb_main_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="@dimen/dimen_3"
+            android:drawableTop="@drawable/mainavtivity_show"
+            android:gravity="center"
+            android:paddingTop="@dimen/dimen_4"
+            android:text="Show" />
+        <RadioButton
+            android:id="@+id/rb_main_live"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/mainavtivity_me"
+            android:gravity="center"
+            android:drawablePadding="@dimen/dimen_3"
+            android:paddingTop="@dimen/dimen_4"
+            android:text="Me" />
+
+    </RadioGroup>
+</LinearLayout>

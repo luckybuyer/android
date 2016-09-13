@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_home_header"
+        android:background="@color/bg_while"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_width="@dimen/dimen_134"
+            android:text="LUCKYBUYER"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/dimen_20"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:layout_height="@dimen/dimen_23" />
+
+        <TextView
+            android:id="@+id/tv_home_share"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_7"
+            android:layout_centerHorizontal="true"
+            android:layout_width="@dimen/dimen_36"
+            android:layout_alignParentRight="true"
+            android:text="Share"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_marginBottom="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_21" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_home"
+        android:layout_below="@+id/rl_home_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_117">
+    </android.support.v4.view.ViewPager>
+    
+    <LinearLayout
+        android:gravity="center"
+        android:id="@+id/ll_home_point"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dimen_34"
+        android:layout_alignBottom="@+id/vp_home"
+        android:layout_width="@dimen/dimen_62"
+        android:layout_height="@dimen/dimen_6"></LinearLayout>
+
+    <View
+        android:layout_marginLeft="@dimen/dimen_18"
+        android:layout_marginRight="@dimen/dimen_18"
+        android:layout_below="@id/vp_home"
+        android:layout_width="match_parent"
+        android:background="@color/bg_view"
+        android:layout_height="1dp"></View>
+    <RelativeLayout
+        android:background="#ffffff"
+        android:id="@+id/rl_home_marquee"
+        android:layout_below="@id/vp_home"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_39">
+        <TextView
+            android:id="@+id/tv_home_marquee"
+            android:gravity="center"
+            android:textColor="@color/text_buy"
+            android:text="iphone plus"
+            android:layout_centerInParent="true"
+            android:layout_width="@dimen/dimen_271"
+            android:layout_height="@dimen/dimen_18" />
+        <ImageView
+            android:layout_width="@dimen/dimen_6"
+            android:layout_height="@dimen/dimen_12" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:background="#ffffff"
+        android:id="@+id/rl_home_products"
+        android:layout_below="@+id/rl_home_marquee"
+        android:layout_marginTop="@dimen/dimen_14"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_42">
+        <TextView
+            android:id="@+id/tv_home_products"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_width="@dimen/dimen_81"
+            android:textColor="@color/text_buy"
+            android:text="PRODUCTS"
+            android:textSize="@dimen/dimen_16"
+            android:layout_height="@dimen/dimen_22" />
+
+        <View
+            android:layout_width="@dimen/dimen_14"
+            android:background="#666666"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_toRightOf="@id/tv_home_products"
+            android:layout_height="@dimen/dimen_1"></View>
+        <View
+            android:layout_width="@dimen/dimen_14"
+            android:background="#666666"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dimen_10"
+            android:layout_toLeftOf="@id/tv_home_products"
+            android:layout_height="@dimen/dimen_1"></View>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_home_producer"
+        android:layout_below="@+id/rl_home_products"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>
