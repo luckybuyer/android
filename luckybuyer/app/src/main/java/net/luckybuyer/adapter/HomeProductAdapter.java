@@ -2,6 +2,7 @@ package net.luckybuyer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +47,12 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.tv_producet_discribe.setText(list.get(position).getProduct().getDetail());
-        holder.tv_product_progress.setText("Lottery Progress:" + list.get(position).getResult_countdown() + "%");
-        holder.pb_product_progress.setProgress(list.get(position).getResult_countdown());
+        int precent = (int) (list.get(position).getLeft_shares()/list.get(position).getShares())*100;
+        holder.tv_producet_discribe.setText(list.get(position).getProduct().getTitle());
+        holder.tv_product_progress.setText("Participate Progress:" + precent + "%");
+        holder.pb_product_progress.setProgress((int) (list.get(position).getLeft_shares()*100/list.get(position).getShares()));
         Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).into(holder.iv_product_icon);
-        holder.iv_product_icon.setBackgroundResource(R.drawable.mainavtivity_gift);
+//        holder.iv_product_icon.setBackgroundResource(R.drawable.mainavtivity_gift);
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

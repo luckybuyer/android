@@ -24,7 +24,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile files('libs/volly-1.0.11.jar')
     compile files('libs/gson-2.5.jar')
     compile files('libs/glide-3.6.1.jar')
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
 }

@@ -23,7 +23,7 @@
 
     <color name="text_blue">#2FB3FF</color>
     <color name="text_gray">#767676</color>
-    <color name="text_black">#000000</color>
+    <color name="text_black">#333333</color>
     <color name="text_red">#e7331a</color>
     <color name="text_white">#ffffff</color>
     <color name="text_buy">#333333</color>

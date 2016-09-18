@@ -14,7 +14,7 @@
         <ImageView
             android:layout_centerInParent="true"
             android:id="@+id/iv_product_icon"
-            android:layout_width="@dimen/dimen_70"
+            android:layout_width="@dimen/dimen_90"
             android:layout_height="wrap_content" />
     </RelativeLayout>
 
@@ -33,12 +33,13 @@
 
     <TextView
         android:id="@+id/tv_product_progress"
-        android:layout_width="@dimen/dimen_115"
+        android:layout_width="wrap_content"
         android:textSize="@dimen/dimen_12"
         android:textColor="#999999"
         android:layout_marginTop="@dimen/dimen_9"
-        android:text="Lottery Progress:46%"
+        android:text="Participate Progress:46%"
         android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginRight="@dimen/dimen_12"
         android:layout_height="@dimen/dimen_16" />
 
     <ProgressBar

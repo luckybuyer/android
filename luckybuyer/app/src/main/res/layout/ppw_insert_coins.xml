@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_while">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_22"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_13"
+        android:text="Please select the quantity"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_50"
+        android:background="#d8d8d8"></View>
+
+    <RelativeLayout
+        android:id="@+id/rl_insert_num"
+        android:layout_width="@dimen/dimen_175"
+        android:layout_height="@dimen/dimen_44"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_75"
+        android:background="#f6f6f7">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_25"
+            android:layout_centerInParent="true"
+            android:text="520"
+            android:textColor="#ff4f3c"
+            android:textSize="@dimen/dimen_18" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/dimen_44"
+        android:layout_height="@dimen/dimen_44"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_75"
+        android:layout_toLeftOf="@+id/rl_insert_num"
+        android:background="#f6f6f7">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_18"
+            android:layout_height="@dimen/dimen_2"
+            android:layout_centerInParent="true"
+            android:background="@drawable/icons_delete" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="@dimen/dimen_44"
+        android:layout_height="@dimen/dimen_44"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_75"
+        android:layout_toRightOf="@+id/rl_insert_num"
+        android:background="#f6f6f7">
+
+        <ImageView
+            android:layout_width="@dimen/dimen_18"
+            android:layout_height="@dimen/dimen_18"
+            android:layout_centerInParent="true"
+            android:background="@drawable/icons_add" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -2,7 +2,7 @@ package net.luckybuyer.pager;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
@@ -13,25 +13,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
+import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.adapter.HomeImagePageAdapter;
 import net.luckybuyer.adapter.HomeProductAdapter;
 import net.luckybuyer.base.BasePager;
@@ -41,9 +32,7 @@ import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.AutoTextView;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -63,13 +52,15 @@ public class HomePager extends BasePager {
 
     //轮播图集合
     public List imageList;
-    public List productList;
+    public List<GameProductBean.GameBean> productList;
     private List mStringArray;
     int mLoopCount = 1;
 
-    private Handler handler = new Handler(){
-        public void handleMessage(Message msg){
-            switch (msg.what){
+    private int batch_id;
+
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case WHAT:
                     vp_home.setCurrentItem(vp_home.getCurrentItem() + 1);
                     handler.sendEmptyMessageDelayed(WHAT, 5000);
@@ -78,9 +69,8 @@ public class HomePager extends BasePager {
                     int i = mLoopCount % mStringArray.size();
                     atv_home_marquee.next();
                     atv_home_marquee.setText(mStringArray.get(i) + "");
-                    mLoopCount ++;
-                    handler.sendEmptyMessageDelayed(WHAT_AUTO,3000);
-                    Log.e("TAG", "进来auto");
+                    mLoopCount++;
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
                     break;
             }
         }
@@ -93,16 +83,14 @@ public class HomePager extends BasePager {
         findView();
         setHeadMargin();
 
-        handler.sendEmptyMessageDelayed(WHAT,5000);
         return inflate;
-
-
     }
 
 
     @Override
     public void initData() {
         super.initData();
+        HttpUtils.getInstance().startNetworkWaiting(context);
         //请求接口
         startRequestGame();
 
@@ -113,7 +101,6 @@ public class HomePager extends BasePager {
         mStringArray.add("134****7602 获得周杰伦演唱会门票一张");
         mStringArray.add("170****7758 获得MacBookPro一台");
     }
-
 
 
     //加载视图   并设置监听
@@ -131,83 +118,26 @@ public class HomePager extends BasePager {
         vp_home.setOnPageChangeListener(new MyOnPageChangeListener());
     }
 
-    private void setView() {
-        ImageView imageView;
-        for (int i = 0;i < imageList.size();i++){
-            imageView = new ImageView(context);
-            imageView.setBackgroundResource(R.drawable.homepager_point_selector);
-            ll_home_point.addView(imageView);
-            if(i < 5) {
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                lp.leftMargin = DensityUtil.px2dip(context,20);
-                imageView.setLayoutParams(lp);
-            }
-        }
-        ll_home_point.getChildAt(0).setEnabled(false);
-
-        //设置viewpager
-        vp_home.setAdapter(new HomeImagePageAdapter(imageList,context,vp_home));
-        vp_home.setCurrentItem(imageList.size() * 100);
-
-        //设置recycleView
-        HomeProductAdapter homeProductAdapter = new HomeProductAdapter(context, productList);
-        rv_home_producer.setAdapter(homeProductAdapter);
-
-        //设置 recycleviewde manager   重写canScrollVertically方法是为了解决潜逃scrollview的卡顿问题
-        rv_home_producer.setLayoutManager(new GridLayoutManager(context,2,LinearLayoutManager.VERTICAL,false){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-
-        homeProductAdapter.setOnClickListener(new HomeProductAdapter.OnClickListener() {
-            @Override
-            public void onclick(View view, int position) {
-                Utils.MyToast(context, position + "长安");
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-                Utils.MyToast(context, position + "长按");
-            }
-        });
-
-        atv_home_marquee.setText(mStringArray.get(0) + "");
-        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
-
-    }
 
     private void startRequestGame() {
-        String url = "https://api-staging.luckybuyer.net/v1/games/?per_page=20&page=1&timezone=utc";
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        StringRequest stringRequest = new StringRequest(StringRequest.Method.GET, url, new Response.Listener<String>() {
+        String url = "https://api-staging.luckybuyer.net/v1/games/?status=running&per_page=20&page=1&timezone=utc";
+        HttpUtils.getInstance().getRequest(url, new HttpUtils.OnRequestListener() {
             @Override
-            public void onResponse(String s) {
-                processData(s);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-
-            }
-        }) {
-            //解决乱码问题
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                try {
-                    String data = new String(response.data, "UTF-8");
-                    return Response.success(data, HttpHeaderParser.parseCacheHeaders(response));
-
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                return super.parseNetworkResponse(response);
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        processData(response);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                    }
+                });
             }
 
-        };
-        requestQueue.add(stringRequest);
+            @Override
+            public void error(String error) {
+
+            }
+        });
     }
 
     //解析数据
@@ -222,9 +152,9 @@ public class HomePager extends BasePager {
     }
 
     private void setData(GameProductBean gameProductBean) {
+        handler.sendEmptyMessageDelayed(WHAT, 5000);       //开始轮播
         imageList = new ArrayList();
-
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < gameProductBean.getGame().size(); i++) {
             String detail_image = "http:" + gameProductBean.getGame().get(i).getProduct().getDetail_image();
             ImageView image_header = new ImageView(context);
             Glide.with(context).load(detail_image).into(image_header);
@@ -259,6 +189,57 @@ public class HomePager extends BasePager {
         productList = gameProductBean.getGame();
     }
 
+    private void setView() {
+        ImageView imageView;
+        for (int i = 0; i < imageList.size(); i++) {
+            imageView = new ImageView(context);
+            imageView.setBackgroundResource(R.drawable.homepager_point_selector);
+            ll_home_point.addView(imageView);
+            if (i < imageList.size()) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                lp.leftMargin = DensityUtil.px2dip(context, 20);
+                imageView.setLayoutParams(lp);
+            }
+        }
+        ll_home_point.getChildAt(0).setEnabled(false);
+
+        //设置viewpager
+        vp_home.setAdapter(new HomeImagePageAdapter(imageList, context, vp_home));
+        vp_home.setCurrentItem(imageList.size() * 100);
+
+        //设置recycleView
+        HomeProductAdapter homeProductAdapter = new HomeProductAdapter(context, productList);
+        rv_home_producer.setAdapter(homeProductAdapter);
+
+        //设置 recycleviewde manager   重写canScrollVertically方法是为了解决潜逃scrollview的卡顿问题
+        rv_home_producer.setLayoutManager(new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+
+        homeProductAdapter.setOnClickListener(new HomeProductAdapter.OnClickListener() {
+            @Override
+            public void onclick(View view, int position) {
+                batch_id = productList.get(position).getBatch_id();
+                Intent intent = new Intent(context, SecondPagerActivity.class);
+                intent.putExtra("from", "productdetail");
+                intent.putExtra("batch_id", batch_id);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                Utils.MyToast(context, position + "长按");
+            }
+        });
+
+        atv_home_marquee.setText(mStringArray.get(0) + "");
+        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+
+    }
+
     //点击监听
     class MyOnClickListener implements View.OnClickListener {
 
@@ -284,7 +265,7 @@ public class HomePager extends BasePager {
 
         @Override
         public void onPageSelected(int position) {
-            position = position%imageList.size();
+            position = position % imageList.size();
             ll_home_point.getChildAt(curPostion).setEnabled(true);
             ll_home_point.getChildAt(position).setEnabled(false);
             curPostion = position;
@@ -292,12 +273,12 @@ public class HomePager extends BasePager {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if(state ==ViewPager.SCROLL_STATE_DRAGGING){
+            if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                 handler.removeMessages(WHAT);
-            }else if(state ==ViewPager.SCROLL_STATE_IDLE) {
+            } else if (state == ViewPager.SCROLL_STATE_IDLE) {
                 handler.removeMessages(WHAT);
-                handler.sendEmptyMessageDelayed(WHAT,5000);
-            }else if(state ==ViewPager.SCROLL_STATE_SETTLING){
+                handler.sendEmptyMessageDelayed(WHAT, 5000);
+            } else if (state == ViewPager.SCROLL_STATE_SETTLING) {
                 handler.removeMessages(WHAT);
             }
         }
@@ -311,6 +292,7 @@ public class HomePager extends BasePager {
         //获取状态栏高度
         ((Activity) context).getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int statusBarHeight = frame.top;
+        Log.e("TAhome", statusBarHeight + "");
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         lp.topMargin = statusBarHeight;
         rl_home_header.setLayoutParams(lp);
