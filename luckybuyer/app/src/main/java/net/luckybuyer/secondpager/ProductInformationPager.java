@@ -13,7 +13,6 @@ public class ProductInformationPager extends BasePager{
     @Override
     public View initView() {
         textView = new TextView(context);
-
         return textView;
     }
 

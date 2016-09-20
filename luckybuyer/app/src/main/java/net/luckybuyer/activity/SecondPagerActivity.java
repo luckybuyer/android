@@ -1,32 +1,17 @@
 package net.luckybuyer.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.graphics.Rect;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.luckybuyer.R;
-import net.luckybuyer.pager.BuyChipsPager;
-import net.luckybuyer.pager.HomePager;
-import net.luckybuyer.pager.MePager;
-import net.luckybuyer.pager.ShowPager;
-import net.luckybuyer.pager.WinningPager;
-import net.luckybuyer.secondpager.InsertCoinsPager;
 import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
@@ -74,8 +59,6 @@ public class SecondPagerActivity extends FragmentActivity {
         list.add(new WinnersSharingPager());
         //往期揭晓界面
         list.add(new PreviousWinnersPager());
-        //购买界面
-        list.add(new InsertCoinsPager());
     }
 
     //发现视图  设置监听

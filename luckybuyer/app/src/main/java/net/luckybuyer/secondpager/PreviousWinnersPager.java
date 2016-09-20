@@ -3,6 +3,7 @@ package net.luckybuyer.secondpager;
 import android.view.View;
 import android.widget.TextView;
 
+import net.luckybuyer.R;
 import net.luckybuyer.base.BasePager;
 
 /**
@@ -14,7 +15,6 @@ public class PreviousWinnersPager extends BasePager {
     @Override
     public View initView() {
         textView = new TextView(context);
-
         return textView;
     }
 

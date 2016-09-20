@@ -1,12 +1,15 @@
 package net.luckybuyer.utils;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -16,7 +19,16 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.Time;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import net.luckybuyer.R;
+import net.luckybuyer.activity.SecondPagerActivity;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,7 +47,6 @@ public class Utils {
     /**
      * 判断是否是手机号码
      *
-     * @param phoneNumber
      * @return
      */
     public static boolean isMobileNO(String mobiles) {
@@ -256,9 +267,10 @@ public class Utils {
 
     /**
      * 返回年月日时分秒
+     *
      * @return
      */
-    public static List getTime(){
+    public static List getTime() {
         Time time = new Time("GMT+8");
         time.setToNow();
         int year = time.year;
@@ -276,6 +288,55 @@ public class Utils {
         list.add(hour);
         list.add(sec);
         return list;
+    }
+
+    /**
+     * 得到屏幕的宽高
+     *
+     * @param context
+     * @return
+     */
+    public static int getScreenWidth(Context context) {
+        //得到屏幕的 尺寸 动态设置
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        return screenWidth;
+    }
+
+    public static int getScreenHeight(Context context) {
+        //得到屏幕的 尺寸 动态设置
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        int screenHeight = wm.getDefaultDisplay().getHeight();
+        return screenHeight;
+    }
+
+
+    /**
+     * 创建PopupWindow
+     *
+     */
+    public static PopupWindow startPPW(final Activity activity,View view,int width,int height){
+        final PopupWindow mPopupWindow = new PopupWindow(view, width, height);
+        mPopupWindow.setFocusable(true);
+        ColorDrawable dw = new ColorDrawable(0xb0000000);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.setBackgroundDrawable(dw);
+        mPopupWindow.setOutsideTouchable(false);
+        mPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        // 设置背景颜色变暗
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 0.6f;
+        activity.getWindow().setAttributes(lp);
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+                lp.alpha = 1f;
+                activity.getWindow().setAttributes(lp);
+            }
+        });
+        return mPopupWindow;
     }
 }
 

@@ -28,8 +28,7 @@
     <color name="text_white">#ffffff</color>
     <color name="text_buy">#333333</color>
 
-
-
     <color name="bg_all">#F1F1F1</color>
 
+    <color name="all_orange">#ff311a</color>
 </resources>

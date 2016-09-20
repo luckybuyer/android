@@ -1,14 +1,22 @@
 package net.luckybuyer.secondpager;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +30,9 @@ import net.luckybuyer.adapter.ProductDetailAdapter;
 import net.luckybuyer.bean.ProductOrderBean;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.ProductDetailBean;
+import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
+import net.luckybuyer.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +58,22 @@ public class ProductDetailPager extends BasePager{
     private RelativeLayout rl_productdetail_indsertcoins;
     private View inflate;
 
+    //popupWindow中空间
+    private RelativeLayout rl_insert_delete;
+    private RelativeLayout rl_insert_add;
+    private TextView tv_insert_two;
+    private TextView tv_insert_five;
+    private TextView tv_insert_ten;
+    private TextView tv_insert_all;
+    private TextView tv_insert_buy;
+    private EditText et_insert_count;
+
     private List imageList = new ArrayList();
+    private PopupWindow popupWindow;
+    private View PPW;
+
+    //产品  数据
+    private ProductDetailBean productDetailBean;
 
 //    private Handler handler = new Handler(){
 //
@@ -145,7 +170,7 @@ public class ProductDetailPager extends BasePager{
 //        handler.sendEmptyMessageDelayed(WHAT, 5000);
         Gson gson = new Gson();
         String game = "{\"productdetail\":" + s + "}";
-        ProductDetailBean productDetailBean = gson.fromJson(game, ProductDetailBean.class);
+        productDetailBean = gson.fromJson(game, ProductDetailBean.class);
 //
 //        imageList = new ArrayList();
 //
@@ -224,7 +249,7 @@ public class ProductDetailPager extends BasePager{
         rv_productdetail.setAdapter(productDetailAdapter);
 
         //设置 recycleviewde manager   重写canScrollVertically方法是为了解决潜逃scrollview的卡顿问题
-        rv_productdetail.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false){
+        rv_productdetail.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -232,12 +257,13 @@ public class ProductDetailPager extends BasePager{
         });
     }
 
+
     class MyOnClickListener implements View.OnClickListener{
 
         @Override
         public void onClick(View view) {
             SecondPagerActivity activity = (SecondPagerActivity) context;
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.rl_productdetail_iteminformation:   //商品详情介绍
                     activity.from = "productdetail";
                     activity.switchPage(1);
@@ -251,11 +277,103 @@ public class ProductDetailPager extends BasePager{
                     activity.switchPage(3);
                     break;
                 case R.id.rl_productdetail_indsertcoins:
-                    activity.from = "productdetail";
-                    activity.switchPage(4);
+                    //判断是否登陆  未登陆  先登录  登陆 弹出popupwindow
+//                    startPPW();
+                    View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
+                    int dip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
+                    popupWindow = Utils.startPPW((SecondPagerActivity) context, viewPPW, Utils.getScreenWidth(context), dip);
+
+                    setPPW(viewPPW);
+                    break;
+                case R.id.rl_insert_delete:
+                    int count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
+                    if(count > 1) {
+                        et_insert_count.setText(count -1 +"");
+                    }
+                    break;
+                case R.id.rl_insert_add:
+                    count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
+                    if(count < productDetailBean.getProductdetail().get(0).getLeft_shares()) {
+                        et_insert_count.setText(count +1 + "");
+                    }
+                    break;
+                case R.id.tv_insert_two:
+                    tv_insert_two.setBackgroundResource(R.drawable.selector_tv_insert);
+                    if(!insertTwo) {
+                        tv_insert_two.setHovered(true);
+                    }else{
+                        tv_insert_two.setHovered(false);
+                    }
+                    insertTwo = !insertTwo;
+                    et_insert_count.setText(2+"");
+                    break;
+                case R.id.tv_insert_five:
+                    tv_insert_five.setBackgroundResource(R.drawable.selector_tv_insert);
+                    if(!insertFive) {
+                        tv_insert_five.setHovered(true);
+                    }else{
+                        tv_insert_five.setHovered(false);
+                    }
+                    insertFive = !insertFive;
+                    et_insert_count.setText(5+"");
+                    break;
+                case R.id.tv_insert_ten:
+                    tv_insert_ten.setBackgroundResource(R.drawable.selector_tv_insert);
+                    if(!insertTen) {
+                        tv_insert_ten.setHovered(true);
+                    }else{
+                        tv_insert_ten.setHovered(false);
+                    }
+                    insertTen = !insertTen;
+                    et_insert_count.setText(10 + "");
+                    break;
+                case R.id.tv_insert_all:
+
+                    break;
+                case R.id.tv_insert_buy:
+
                     break;
             }
         }
+    }
+
+    //定义变量   选择按钮是否是被选中
+    boolean insertTwo = false;
+    boolean insertFive = false;
+    boolean insertTen = false;
+    boolean insertAll = false;
+    //对popupwindow进行操作
+    public void setPPW(View PPW) {
+        this.PPW = PPW;
+        rl_insert_delete = (RelativeLayout) PPW.findViewById(R.id.rl_insert_delete);
+        rl_insert_add = (RelativeLayout) PPW.findViewById(R.id.rl_insert_add);
+        tv_insert_two = (TextView) PPW.findViewById(R.id.tv_insert_two);
+        tv_insert_five = (TextView) PPW.findViewById(R.id.tv_insert_five);
+        tv_insert_ten = (TextView) PPW.findViewById(R.id.tv_insert_ten);
+        tv_insert_all = (TextView) PPW.findViewById(R.id.tv_insert_all);
+        tv_insert_buy = (TextView) PPW.findViewById(R.id.tv_insert_buy);
+        et_insert_count = (EditText) PPW.findViewById(R.id.et_insert_count);
+
+        rl_insert_delete.setOnClickListener(new MyOnClickListener());
+        rl_insert_add.setOnClickListener(new MyOnClickListener());
+        if(productDetailBean.getProductdetail().get(0).getLeft_shares() < 10) {
+            tv_insert_ten.setEnabled(false);
+            tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
+        }
+        if(productDetailBean.getProductdetail().get(0).getLeft_shares() < 5) {
+            tv_insert_five.setEnabled(false);
+            tv_insert_five.setBackgroundResource(R.drawable.background_insert);
+        }
+        if(productDetailBean.getProductdetail().get(0).getLeft_shares() < 2) {
+            tv_insert_ten.setEnabled(false);
+            tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
+        }
+
+        tv_insert_two.setOnClickListener(new MyOnClickListener());
+        tv_insert_five.setOnClickListener(new MyOnClickListener());
+        tv_insert_ten.setOnClickListener(new MyOnClickListener());
+        tv_insert_all.setOnClickListener(new MyOnClickListener());
+        tv_insert_buy.setOnClickListener(new MyOnClickListener());
     }
 //    int curPostion = 0;
 //    //ViewPager页面改变监听
