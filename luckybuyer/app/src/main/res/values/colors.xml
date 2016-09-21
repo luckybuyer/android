@@ -5,7 +5,6 @@
     <color name="abc_blue">#0000FF</color>
     <color name="abc_green">#00FF00</color>
     <color name="abc_white">#FFFFFF</color>
-    <color name="abc_textColor">#999999</color>
     <color name="abc_ziser">#A384EE</color>
 
     <color name="bg_gray_low">#eeeeee</color>
@@ -22,13 +21,14 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="text_blue">#2FB3FF</color>
-    <color name="text_gray">#767676</color>
+    <color name="text_gray">#999999</color>
     <color name="text_black">#333333</color>
     <color name="text_red">#e7331a</color>
     <color name="text_white">#ffffff</color>
     <color name="text_buy">#333333</color>
 
     <color name="bg_all">#F1F1F1</color>
+    <color name="bg_ff4f3c">#ff4f3c</color>
 
     <color name="all_orange">#ff311a</color>
 </resources>

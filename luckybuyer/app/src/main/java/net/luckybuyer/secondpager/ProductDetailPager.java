@@ -1,6 +1,9 @@
 package net.luckybuyer.secondpager;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +13,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,12 +34,17 @@ import net.luckybuyer.adapter.ProductDetailAdapter;
 import net.luckybuyer.bean.ProductOrderBean;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.ProductDetailBean;
+import net.luckybuyer.bean.Token;
+import net.luckybuyer.pager.MePager;
 import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.zip.Inflater;
 
 /**
  * Created by admin on 2016/9/17.
@@ -120,7 +129,7 @@ public class ProductDetailPager extends BasePager{
             }
         });
 
-        String listUrl = "https://api-staging.luckybuyer.net/v1/games/"+ 10 +"/public-orders/?per_page=20&page=1&timezone=utc";
+        String listUrl = "https://api-staging.luckybuyer.net/v1/games/"+ ((SecondPagerActivity)context).game_id +"/public-orders/?per_page=20&page=1&timezone=utc";
         HttpUtils.getInstance().getRequest(listUrl, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -278,12 +287,15 @@ public class ProductDetailPager extends BasePager{
                     break;
                 case R.id.rl_productdetail_indsertcoins:
                     //判断是否登陆  未登陆  先登录  登陆 弹出popupwindow
-//                    startPPW();
-                    View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
-                    int dip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
-                    popupWindow = Utils.startPPW((SecondPagerActivity) context, viewPPW, Utils.getScreenWidth(context), dip);
+//                    if(Token.IDToken > System.currentTimeMillis()/1000) {
+                        View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
+                        int dip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
+                        popupWindow = Utils.startPPW((SecondPagerActivity) context, viewPPW, Utils.getScreenWidth(context), dip);
 
-                    setPPW(viewPPW);
+                        setPPW(viewPPW);
+//                    }else{
+//                        context.startActivity(((SecondPagerActivity)context).lock.newIntent(((SecondPagerActivity)context)));
+//                    }
                     break;
                 case R.id.rl_insert_delete:
                     int count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
@@ -331,10 +343,51 @@ public class ProductDetailPager extends BasePager{
 
                     break;
                 case R.id.tv_insert_buy:
+                    String url = "https://api-staging.luckybuyer.net/v1/game-orders/?timezone=utc";
+                    Map map = new HashMap();
+//                    map.put("token",Token.IDToken+"");
+                    map.put("Bear","1474440800");
+                    HttpUtils.getInstance().postJson(url, "{\n" + "  \"game_id\": 0,\n" + "  \"shares\": 0\n" + "}", map, new HttpUtils.OnRequestListener() {
+                        @Override
+                        public void success(String response) {
+                            Log.e("TAG_order", response);
+                        }
 
+                        @Override
+                        public void error(String error) {
+                            Log.e("TAG_order", error.toString());
+                        }
+                    });
+                    View inflate = View.inflate(context, R.layout.alertdialog_insertcoins_success, null);
+                    RelativeLayout rl_insert_ok = (RelativeLayout) inflate.findViewById(R.id.rl_insert_ok);
+                    rl_insert_ok.setOnClickListener(this);
+                    StartAlertDialog(inflate);
+                    break;
+                case R.id.rl_insert_ok:
+                    if(show.isShowing()) {
+                        show.dismiss();
+                    }
                     break;
             }
         }
+    }
+    private AlertDialog show;
+    private void StartAlertDialog(View inflate) {
+        //得到屏幕的 尺寸 动态设置
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        int screenHeight = wm.getDefaultDisplay().getHeight();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(inflate);
+        show = builder.show();
+        show.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = show.getWindow();
+        window.setGravity(Gravity.CENTER);
+        show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     //定义变量   选择按钮是否是被选中

@@ -57,6 +57,7 @@ public class HomePager extends BasePager {
     int mLoopCount = 1;
 
     private int batch_id;
+    private int game_id;
 
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -135,7 +136,8 @@ public class HomePager extends BasePager {
 
             @Override
             public void error(String error) {
-
+//                HttpUtils.getInstance().stopNetWorkWaiting();
+                Log.e("TAG", error.toString());
             }
         });
     }
@@ -201,7 +203,10 @@ public class HomePager extends BasePager {
                 imageView.setLayoutParams(lp);
             }
         }
-        ll_home_point.getChildAt(0).setEnabled(false);
+        if(ll_home_point.getChildCount() > 0) {
+            ll_home_point.getChildAt(0).setEnabled(false);
+        }
+
 
         //设置viewpager
         vp_home.setAdapter(new HomeImagePageAdapter(imageList, context, vp_home));
@@ -223,9 +228,11 @@ public class HomePager extends BasePager {
             @Override
             public void onclick(View view, int position) {
                 batch_id = productList.get(position).getBatch_id();
+                game_id = productList.get(position).getId();
                 Intent intent = new Intent(context, SecondPagerActivity.class);
                 intent.putExtra("from", "productdetail");
                 intent.putExtra("batch_id", batch_id);
+                intent.putExtra("game_id", game_id);
                 startActivity(intent);
             }
 

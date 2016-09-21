@@ -47,10 +47,10 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        int precent = (int) (list.get(position).getLeft_shares()/list.get(position).getShares())*100;
+        int precent = (int) ((list.get(position).getShares()-list.get(position).getLeft_shares())*100/list.get(position).getShares());
         holder.tv_producet_discribe.setText(list.get(position).getProduct().getTitle());
         holder.tv_product_progress.setText("Participate Progress:" + precent + "%");
-        holder.pb_product_progress.setProgress((int) (list.get(position).getLeft_shares()*100/list.get(position).getShares()));
+        holder.pb_product_progress.setProgress((int) ((list.get(position).getShares()-list.get(position).getLeft_shares())*100/list.get(position).getShares()));
         Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).into(holder.iv_product_icon);
 //        holder.iv_product_icon.setBackgroundResource(R.drawable.mainavtivity_gift);
 

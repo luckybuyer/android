@@ -83,7 +83,6 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (getItemViewType(position) == 0) {
             final String imgUrl = list.get(position - 1).getUser().getProfile().getPicture();
-            Log.e("TAG_imgurl", imgUrl);
 //            Glide.with(context).load(imgUrl).into(holder.civ_productdetail);
             Glide.with(context).load(imgUrl).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override

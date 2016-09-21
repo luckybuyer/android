@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_corners_background"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Participation success"
+        android:textColor="@color/text_black"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:textSize="@dimen/dimen_16" />
+
+    <net.luckybuyer.view.JustifyTextView
+        android:layout_marginLeft="@dimen/dimen_22"
+        android:layout_marginRight="@dimen/dimen_22"
+        android:layout_marginTop="@dimen/dimen_15"
+      android:text="You will be notified when a winner is drawn."
+        android:layout_width="match_parent"
+        android:textSize="@dimen/dimen_15"
+        android:textColor="#999999"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:background="#d8d8d8"
+        android:layout_height="1px"></View>
+    <RelativeLayout
+        android:id="@+id/rl_insert_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/dimen_12"
+            android:layout_marginBottom="@dimen/dimen_12"
+            android:textSize="@dimen/dimen_17"
+            android:textColor="#ff9c06"
+            android:text="OK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+</LinearLayout>

@@ -1,17 +1,31 @@
 package net.luckybuyer.activity;
 
 import android.annotation.TargetApi;
+import android.app.Application;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.auth0.android.Auth0;
+import com.auth0.android.lock.AuthenticationCallback;
+import com.auth0.android.lock.Lock;
+import com.auth0.android.lock.LockCallback;
+import com.auth0.android.lock.utils.LockException;
+import com.auth0.android.result.Credentials;
+import com.google.gson.Gson;
+
 import net.luckybuyer.R;
+import net.luckybuyer.app.MyApplication;
+import net.luckybuyer.bean.Token;
+import net.luckybuyer.bean.UserBean;
 import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
@@ -19,20 +33,25 @@ import net.luckybuyer.secondpager.WinnersSharingPager;
 import net.luckybuyer.utils.StatusBarUtils;
 import net.luckybuyer.utils.Utils;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SecondPagerActivity extends FragmentActivity {
 
-    private RelativeLayout rl_secondpager_header;
+    public RelativeLayout rl_secondpager_header;
     private TextView tv_second_share;
     private TextView tv_second_back;
     private List<Fragment> list;
     public int batch_id;
+    public int game_id;
 
     //需要去哪
     public String from;
+
+    public Lock lock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +59,17 @@ public class SecondPagerActivity extends FragmentActivity {
         //沉浸式状态栏
         new StatusBarUtils(this).statusBar();
         setContentView(R.layout.activity_second_pager);
-        batch_id = getIntent().getIntExtra("batch_id",-1);
+
+        //auth0登陆
+        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
+        this.lock = Lock.newBuilder(auth0, callback)
+                // Add parameters to the Lock Builder
+                .build();
+        this.lock.onCreate(this);
+
+
+        batch_id = getIntent().getIntExtra("batch_id", -1);
+        game_id = getIntent().getIntExtra("game_id", -1);
         setData();
         //发现视图  设置监听
         findView();
@@ -63,9 +92,9 @@ public class SecondPagerActivity extends FragmentActivity {
 
     //发现视图  设置监听
     private void findView() {
-        rl_secondpager_header = (RelativeLayout)findViewById(R.id.rl_secondpager_header);
-        tv_second_share = (TextView)findViewById(R.id.tv_second_share);
-        tv_second_back = (TextView)findViewById(R.id.tv_second_back);
+        rl_secondpager_header = (RelativeLayout) findViewById(R.id.rl_secondpager_header);
+        tv_second_share = (TextView) findViewById(R.id.tv_second_share);
+        tv_second_back = (TextView) findViewById(R.id.tv_second_back);
 
         tv_second_back.setOnClickListener(new MyOnClickListener());
         tv_second_share.setOnClickListener(new MyOnClickListener());
@@ -80,9 +109,10 @@ public class SecondPagerActivity extends FragmentActivity {
         fragmentTransaction.replace(R.id.fl_secondpager, fragment);
         fragmentTransaction.commit();
     }
+
     private void selectPager() {
         from = getIntent().getStringExtra("from");
-        if("productdetail".equals(from)) {
+        if ("productdetail".equals(from)) {
             switchPage(0);
         }
     }
@@ -91,30 +121,74 @@ public class SecondPagerActivity extends FragmentActivity {
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.tv_second_back:
                     finish();
                     break;
                 case R.id.tv_second_share:
-                    Utils.MyToast(SecondPagerActivity.this,"SHARE");
+                    Utils.MyToast(SecondPagerActivity.this, "SHARE");
                     break;
             }
         }
     }
+
+    //auth0登陆回掉
+
+    private LockCallback callback = new AuthenticationCallback() {
+        @Override
+        public void onAuthentication(Credentials credentials) {
+
+            // Base64 解码：
+            String token = credentials.getIdToken();
+
+            Log.e("TAG_TOKEN", token);
+            byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
+
+
+
+
+            String str = null;
+            try {
+                str = new String(mmmm, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            String[] use = str.split("\\}");
+            String user = use[1] + "}";
+
+            UserBean userBean = new Gson().fromJson(user, UserBean.class);
+            Token.IDToken = userBean.getExp();
+//            Log.e("TAG_user", user);
+//            Log.e("TAG_userbean", userBean.getIss());
+            Log.e("TAG", Token.IDToken+"");
+        }
+
+        @Override
+        public void onCanceled() {
+            // Login Cancelled response
+        }
+
+        @Override
+        public void onError(LockException error) {
+            Log.e("TAG", error.toString());
+        }
+    };
+
     //根据版本判断是否 需要设置据顶部状态栏高度
     @TargetApi(19)
     private void setHeadMargin() {
-        Class<?> c =  null;
-        Object obj =  null;
-        Field field =  null;
-        int  x = 0, sbar =  0;
-        try  {
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0, sbar = 0;
+        try {
             c = Class.forName("com.android.internal.R$dimen");
             obj = c.newInstance();
             field = c.getField("status_bar_height");
             x = Integer.parseInt(field.get(obj).toString());
             sbar = getResources().getDimensionPixelSize(x);
-        } catch(Exception e1) {
+        } catch (Exception e1) {
             e1.printStackTrace();
 
         }
@@ -126,9 +200,17 @@ public class SecondPagerActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Your own Activity code
+        this.lock.onDestroy(this);
+        this.lock = null;
+    }
+
+    @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK) {
-            if("productdetail".equals(from)) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ("productdetail".equals(from)) {
                 switchPage(0);
                 from = "";
                 return false;

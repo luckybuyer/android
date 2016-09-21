@@ -28,6 +28,7 @@ import net.luckybuyer.pager.HomePager;
 import net.luckybuyer.pager.MePager;
 import net.luckybuyer.pager.ShowPager;
 import net.luckybuyer.pager.WinningPager;
+import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.StatusBarUtils;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
     private FrameLayout fl_main;
-    private RadioGroup rg_main;
+    public RadioGroup rg_main;
     private List<Fragment> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

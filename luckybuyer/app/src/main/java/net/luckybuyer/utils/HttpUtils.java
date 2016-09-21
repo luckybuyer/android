@@ -2,10 +2,12 @@ package net.luckybuyer.utils;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.SocketTimeoutException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -48,11 +51,18 @@ import okio.Source;
 public class HttpUtils {
     private static HttpUtils httpUtils;
     private static OkHttpClient okHttpClient;
-    private HttpUtils (){}
+
+    private HttpUtils() {
+    }
+
     public static synchronized HttpUtils getInstance() {
         if (httpUtils == null) {
             httpUtils = new HttpUtils();
-            okHttpClient = new OkHttpClient();
+            okHttpClient = new OkHttpClient.Builder()
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .build();
         }
         return httpUtils;
     }
@@ -60,47 +70,52 @@ public class HttpUtils {
     /**
      * 只是回调请求码的原因（200  返回success  其余返回error   一些另外错误（url错误） 会在Log中打印）
      */
-    public interface OnRequestListener{
+    public interface OnRequestListener {
         public void success(String response);
+
         public void error(String error);
     }
-    
+
     public OnRequestListener onRequestListener;
-    public void setOnRequestListener(OnRequestListener onRequestListener){
+
+    public void setOnRequestListener(OnRequestListener onRequestListener) {
         this.onRequestListener = onRequestListener;
     }
 
     /**
      * 上传进度回调接口
      */
-    public interface OnUploadPregressListener{
+    public interface OnUploadPregressListener {
         public void progress(int progress);
     }
 
     public OnUploadPregressListener OnUploadPregressListener;
-    public void OnUploadPregressListener(OnUploadPregressListener onUploadPregressListener){
+
+    public void OnUploadPregressListener(OnUploadPregressListener onUploadPregressListener) {
         this.OnUploadPregressListener = onUploadPregressListener;
     }
 
     /**
      * 下载进度回调接口
      */
-    public interface OnDownProgressListener{
+    public interface OnDownProgressListener {
         public void progress(int progress);
     }
 
     public OnDownProgressListener onDownProgressListener;
-    public void OnDownPregressListener(OnDownProgressListener onDownPregrossListener){
+
+    public void OnDownPregressListener(OnDownProgressListener onDownPregrossListener) {
         this.onDownProgressListener = onDownProgressListener;
     }
 
 
     /**
      * get请求
+     *
      * @param url
      * @param onRequestListener
      */
-    public void getRequest(String url, final OnRequestListener onRequestListener){
+    public void getRequest(String url, final OnRequestListener onRequestListener) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -108,27 +123,31 @@ public class HttpUtils {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("TAG_Okhttp", e.toString());
+                if (e.getCause().equals(SocketTimeoutException.class)) {
+                    //网络连接超时  指定界面
+                }
+
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(onRequestListener != null) {
-                    if(response.code() == 200) {
+                if (onRequestListener != null) {
+                    if (response.code() == 200) {
                         onRequestListener.success(response.body().string());
-                    }else{
-                        onRequestListener.error("杨少发现错误，服务器请求吗码为：" + response.code());
+                    } else {
+                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
                     }
                 }
             }
         });
     }
 
-    public void postRequest(String url,Map<String,String> map, final OnRequestListener onRequestListener){
-        FormBody.Builder builder= new FormBody.Builder();
+    public void postRequest(String url, Map<String, String> map, final OnRequestListener onRequestListener) {
+        FormBody.Builder builder = new FormBody.Builder();
         Set<String> key = map.keySet();
-        for (Iterator it = key.iterator(); it.hasNext();) {
+        for (Iterator it = key.iterator(); it.hasNext(); ) {
             String s = (String) it.next();
-            builder.add(s,map.get(s));
+            builder.add(s, map.get(s));
         }
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
@@ -143,18 +162,55 @@ public class HttpUtils {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(onRequestListener != null) {
-                    if(response.code() == 200) {
+                if (onRequestListener != null) {
+                    if (response.code() == 200) {
                         onRequestListener.success(response.body().string());
-                    }else{
-                        onRequestListener.error("杨少发现错误，服务器请求吗码为：" + response.code());
+                    } else {
+                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
                     }
                 }
             }
         });
     }
 
-    public void UpLoadRequest(String url,File file,String type, final OnRequestListener onRequestListener, final OnUploadPregressListener onUploadPregressListener){
+    //Post JSON
+    public void postJson(String url, String json, Map<String,String> header,final OnRequestListener onRequestListener) {
+
+        Set<String> key = header.keySet();
+        Request.Builder builder = new Request.Builder();
+        builder.url(url)
+                .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json));
+
+        for (Iterator it = key.iterator(); it.hasNext(); ) {
+            String s = (String) it.next();
+            builder.addHeader(s,header.get(s));
+            Log.e("TAG", s + "...." + header.get(s));
+        }
+        Request request = builder.build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("TAG_Okhttp", e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (onRequestListener != null) {
+                    if (response.code() == 200) {
+                        onRequestListener.success(response.body().string());
+                    } else {
+                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
+                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.message());
+                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.body().string());
+
+                    }
+                }
+            }
+        });
+    }
+
+    public void UpLoadRequest(String url, File file, String type, final OnRequestListener onRequestListener, final OnUploadPregressListener onUploadPregressListener) {
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("file", type, RequestBody.create(MediaType.parse("application/pdf; charset=utf-8"), file))
@@ -162,7 +218,7 @@ public class HttpUtils {
         ProgressRequestBody progressRequestBody = new ProgressRequestBody(requestBody, new ProgressListener() {
             @Override
             public void update(long bytesRead, long contentLength, boolean done) {
-                if(onUploadPregressListener != null) {
+                if (onUploadPregressListener != null) {
                     int progress = (int) (100.0 * bytesRead / contentLength);
                     onUploadPregressListener.progress(progress);
                 }
@@ -180,18 +236,18 @@ public class HttpUtils {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(onRequestListener != null) {
-                    if(response.code() == 200) {
+                if (onRequestListener != null) {
+                    if (response.code() == 200) {
                         onRequestListener.success(response.body().string());
-                    }else{
-                        onRequestListener.error("杨少发现错误，服务器请求吗码为：" + response.code());
+                    } else {
+                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
                     }
                 }
             }
         });
     }
 
-    public void downRequest(String url, final File file, final OnRequestListener onRequestListener, final OnDownProgressListener onDownProgressListener){
+    public void downRequest(String url, final File file, final OnRequestListener onRequestListener, final OnDownProgressListener onDownProgressListener) {
         okHttpClient = new OkHttpClient.Builder().addNetworkInterceptor(new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -200,7 +256,7 @@ public class HttpUtils {
                         .body(new ProgressResponseBody(originalResponse.body(), new ProgressResponseListener() {
                             @Override
                             public void update(long bytesRead, long contentLength, boolean done) {
-                                if(onDownProgressListener != null) {
+                                if (onDownProgressListener != null) {
                                     int progress = (int) (100.0 * bytesRead / contentLength);
                                     onDownProgressListener.progress(progress);
                                 }
@@ -226,23 +282,23 @@ public class HttpUtils {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                if(onRequestListener != null) {
-                    if(response.code() == 200) {
+                if (onRequestListener != null) {
+                    if (response.code() == 200) {
                         Log.e("TAG_okhttp", "下载成功");
                         onRequestListener.success(response.body().string());
-                        if(response != null) {
+                        if (response != null) {
                             //下载完成，保存数据到文件
                             InputStream is = response.body().byteStream();
                             FileOutputStream fos = new FileOutputStream(file);
                             byte[] buf = new byte[1024];
                             int hasRead = 0;
-                            while((hasRead = is.read(buf)) > 0) {
+                            while ((hasRead = is.read(buf)) > 0) {
                                 fos.write(buf, 0, hasRead);
                             }
                             fos.close();
                             is.close();
                         }
-                    }else{
+                    } else {
                         onRequestListener.error("杨少发现错误，服务器请求吗码为：" + response.code());
                     }
                 }
@@ -359,15 +415,18 @@ public class HttpUtils {
             this.progressResponseListener = progressResponseListener;
         }
 
-        @Override public MediaType contentType() {
+        @Override
+        public MediaType contentType() {
             return responseBody.contentType();
         }
 
-        @Override public long contentLength() {
+        @Override
+        public long contentLength() {
             return responseBody.contentLength();
         }
 
-        @Override public BufferedSource source() {
+        @Override
+        public BufferedSource source() {
             if (bufferedSource == null) {
                 bufferedSource = Okio.buffer(source(responseBody.source()));
             }
@@ -378,7 +437,8 @@ public class HttpUtils {
             return new ForwardingSource(source) {
                 long totalBytesRead = 0L;
 
-                @Override public long read(Buffer sink, long byteCount) throws IOException {
+                @Override
+                public long read(Buffer sink, long byteCount) throws IOException {
                     long bytesRead = super.read(sink, byteCount);
                     // read() returns the number of bytes read, or -1 if this source is exhausted.
                     totalBytesRead += bytesRead != -1 ? bytesRead : 0;
@@ -398,8 +458,9 @@ public class HttpUtils {
      * 联网请求 等待 alertdialog
      */
 
-    AlertDialog show;
-    public void startNetworkWaiting(Context context){
+    static AlertDialog show;
+
+    public void startNetworkWaiting(Context context) {
         //得到屏幕的 尺寸 动态设置
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int screenWidth = wm.getDefaultDisplay().getWidth();
@@ -409,15 +470,17 @@ public class HttpUtils {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(inflate);
         show = builder.show();
+        show.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
 //        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        Window window = show.getWindow();
 //        window.setGravity(Gravity.BOTTOM);
-        show.getWindow().setLayout(1*screenWidth/3,1*screenHeight/10);
+        show.getWindow().setLayout(1 * screenWidth / 3, 1 * screenHeight / 10);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    public void stopNetWorkWaiting(){
-        if(show != null) {
+    public void stopNetWorkWaiting() {
+        if (show != null) {
             show.dismiss();
         }
     }

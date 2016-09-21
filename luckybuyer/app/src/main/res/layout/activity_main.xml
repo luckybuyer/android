@@ -14,11 +14,11 @@
         android:layout_weight="1" />
 
     <RadioGroup
-        android:background="@color/bg_while"
         android:id="@+id/rg_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/bg_while"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -28,22 +28,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
+            android:drawablePadding="@dimen/dimen_3"
             android:drawableTop="@drawable/mainavtivity_me"
             android:gravity="center"
-            android:drawablePadding="@dimen/dimen_3"
             android:paddingTop="@dimen/dimen_4"
             android:text="首页" />
+
         <RadioButton
             android:id="@+id/rb_main_recharge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
+            android:drawablePadding="@dimen/dimen_3"
             android:drawableTop="@drawable/mainavtivity_recharge"
             android:gravity="center"
-            android:drawablePadding="@dimen/dimen_3"
             android:paddingTop="@dimen/dimen_4"
             android:text="Buy chips" />
+
         <RadioButton
             android:id="@+id/rb_main_gift"
             android:layout_width="wrap_content"
@@ -55,6 +57,7 @@
             android:gravity="center"
             android:paddingTop="@dimen/dimen_4"
             android:text="Winning" />
+
         <RadioButton
             android:id="@+id/rb_main_show"
             android:layout_width="wrap_content"
@@ -66,15 +69,16 @@
             android:gravity="center"
             android:paddingTop="@dimen/dimen_4"
             android:text="Show" />
+
         <RadioButton
             android:id="@+id/rb_main_live"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
+            android:drawablePadding="@dimen/dimen_3"
             android:drawableTop="@drawable/mainavtivity_me"
             android:gravity="center"
-            android:drawablePadding="@dimen/dimen_3"
             android:paddingTop="@dimen/dimen_4"
             android:text="Me" />
 
