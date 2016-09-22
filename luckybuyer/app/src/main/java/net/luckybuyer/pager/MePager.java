@@ -2,8 +2,12 @@ package net.luckybuyer.pager;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,10 +18,13 @@ import android.widget.TextView;
 import net.luckybuyer.R;
 import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
+import net.luckybuyer.adapter.MePagerAllAdapter;
 import net.luckybuyer.adapter.MePagerViewPagerAdapter;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.utils.DensityUtil;
+import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.CircleImageView;
+import net.luckybuyer.view.RecycleViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +51,7 @@ public class MePager extends BasePager {
     private View inflate;
 
     private List vpList;
-
+    private List allList;
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_me, null);
@@ -57,8 +64,27 @@ public class MePager extends BasePager {
     @Override
     public void initData() {
         super.initData();
+        allList = new ArrayList();
+        for (int i =0;i < 10;i++){
+            allList.add(i);
+        }
+//        RecyclerView recyclerView = new RecyclerView(context);
+//        LinearLayoutManager linearLayoutManager = new GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+//
+//
+//        recyclerView.setAdapter(new MePagerAllAdapter(context, allList));
+        View view = View.inflate(context,R.layout.pager_me_recycle_all,null);
+
+        RecyclerView rv_me_all = (RecyclerView) view.findViewById(R.id.rv_me_all);
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false);
+        rv_me_all.setLayoutManager(linearLayoutManager);
+
+
+        rv_me_all.setAdapter(new MePagerAllAdapter(context, allList));
         vpList = new ArrayList();
-        for (int i = 0; i < 4; i++) {
+        vpList.add(view);
+        for (int i = 0; i < 3; i++) {
             TextView textView = new TextView(context);
             textView.setText("这是第" + i + "个页面");
             vpList.add(textView);
@@ -83,14 +109,30 @@ public class MePager extends BasePager {
         iv_me_line = (ImageView) inflate.findViewById(R.id.iv_me_line);
 
         vp_me.setOnPageChangeListener(new MyOnPageChangeListener());
+        i_me_set.setOnClickListener(new MyOnClickListener());
+        iv_me_voice.setOnClickListener(new MyOnClickListener());
     }
 
+    //点击监听
+    class MyOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.i_me_set:
+                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","setpager");
+                    startActivity(intent);
+                    break;
+            }
+        }
+    }
     //viewpager的滚动监听
     class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             int viewWidth = iv_me_line.getWidth();
-            int width = ll_me_vpcontrol.getWidth() / 4;
+            int width = Utils.getScreenWidth(context)/4;
             //红点移动的距离 = 页面移动的百分比 * 总间距
             int slideLeft = (int) (positionOffset * width);
 
@@ -99,7 +141,7 @@ public class MePager extends BasePager {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(viewWidth, 5);
             params.leftMargin = slideLeft + DensityUtil.dip2px(context, 12);
             iv_me_line.setLayoutParams(params);
-
+            Log.e("TAG", iv_me_line + "");
         }
 
         @Override
@@ -124,4 +166,6 @@ public class MePager extends BasePager {
         lp.topMargin = statusBarHeight;
         rl_me_title.setLayoutParams(lp);
     }
+
+
 }

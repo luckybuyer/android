@@ -108,7 +108,7 @@ public class MainActivity extends FragmentActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Again according to exit the program", Toast.LENGTH_SHORT).show();
                 mExitTime = System.currentTimeMillis();
 
             } else {

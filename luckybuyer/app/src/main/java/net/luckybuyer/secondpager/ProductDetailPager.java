@@ -40,6 +40,8 @@ import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 
+import org.apache.http.params.CoreConnectionPNames;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -99,6 +101,7 @@ public class ProductDetailPager extends BasePager{
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_productdetail, null);
+        ((SecondPagerActivity)context).from = null;
         findView();
 
         return inflate;

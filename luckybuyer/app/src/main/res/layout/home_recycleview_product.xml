@@ -18,9 +18,8 @@
             android:layout_height="wrap_content" />
     </RelativeLayout>
 
-    <TextView
+    <net.luckybuyer.view.JustifyTextView
         android:id="@+id/tv_producet_discribe"
-        android:gravity="center"
         android:layout_marginLeft="@dimen/dimen_12"
         android:layout_marginRight="@dimen/dimen_12"
         android:layout_width="match_parent"

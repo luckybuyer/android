@@ -29,6 +29,7 @@ import net.luckybuyer.bean.UserBean;
 import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
+import net.luckybuyer.secondpager.SetPager;
 import net.luckybuyer.secondpager.WinnersSharingPager;
 import net.luckybuyer.utils.StatusBarUtils;
 import net.luckybuyer.utils.Utils;
@@ -82,12 +83,14 @@ public class SecondPagerActivity extends FragmentActivity {
         list = new ArrayList<>();
         list.add(new ProductDetailPager());
 
-        //商品详情介绍页面
+        //商品详情介绍页面                 1
         list.add(new ProductInformationPager());
-        //晒单分享界面
+        //晒单分享界面                     2
         list.add(new WinnersSharingPager());
-        //往期揭晓界面
+        //往期揭晓界面                     3
         list.add(new PreviousWinnersPager());
+        //设置界面                         4
+        list.add(new SetPager());
     }
 
     //发现视图  设置监听
@@ -114,6 +117,8 @@ public class SecondPagerActivity extends FragmentActivity {
         from = getIntent().getStringExtra("from");
         if ("productdetail".equals(from)) {
             switchPage(0);
+        }else if("setpager".equals(from)) {
+            switchPage(4);
         }
     }
 
@@ -215,6 +220,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 from = "";
                 return false;
             }
+            finish();
         }
         return super.onKeyUp(keyCode, event);
     }
