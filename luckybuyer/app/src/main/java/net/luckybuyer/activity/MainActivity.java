@@ -46,6 +46,7 @@ public class MainActivity extends FragmentActivity {
         new StatusBarUtils(this).statusBar();
         setContentView(R.layout.activity_main);
 
+        
         //设置数据
         setData();
         //发现视图  设置监听
@@ -87,6 +88,7 @@ public class MainActivity extends FragmentActivity {
                 id = 3;
                 switchPage(id);
             }else if(checkedId == rg_main.getChildAt(4).getId()) {
+
                 id = 4;
                 switchPage(id);
             }

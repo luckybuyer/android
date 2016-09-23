@@ -15,10 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.flyco.tablayout.SlidingTabLayout;
+
 import net.luckybuyer.R;
 import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.adapter.MePagerAllAdapter;
+import net.luckybuyer.adapter.MePagerLuckyAdapter;
+import net.luckybuyer.adapter.MePagerShowAdapter;
 import net.luckybuyer.adapter.MePagerViewPagerAdapter;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.utils.DensityUtil;
@@ -34,7 +38,6 @@ import java.util.List;
  */
 public class MePager extends BasePager {
 
-    private LinearLayout ll_me_vpcontrol;
     private RelativeLayout rl_me_title;
     private CircleImageView civ_me_header;
     private ImageView iv_me_voice;
@@ -42,21 +45,19 @@ public class MePager extends BasePager {
     private TextView tv_me_name;
     private TextView tv_me_fbcode;
     private TextView tv_me_gold;
-    private TextView tv_me_all;
-    private TextView tv_me_lucky;
-    private TextView tv_me_show;
-    private TextView tv_me_history;
     private ViewPager vp_me;
-    private ImageView iv_me_line;
+    private SlidingTabLayout stl_me_vpcontrol;
     private View inflate;
 
     private List vpList;
     private List allList;
+
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_me, null);
         findView();
         setHeadMargin();
+
         return inflate;
     }
 
@@ -65,31 +66,41 @@ public class MePager extends BasePager {
     public void initData() {
         super.initData();
         allList = new ArrayList();
-        for (int i =0;i < 10;i++){
+        vpList = new ArrayList();
+        for (int i = 0; i < 10; i++) {
             allList.add(i);
         }
-//        RecyclerView recyclerView = new RecyclerView(context);
-//        LinearLayoutManager linearLayoutManager = new GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//
-//
-//        recyclerView.setAdapter(new MePagerAllAdapter(context, allList));
-        View view = View.inflate(context,R.layout.pager_me_recycle_all,null);
 
+        //加载All页面
+        View view = View.inflate(context, R.layout.pager_me_recycle_all, null);
         RecyclerView rv_me_all = (RecyclerView) view.findViewById(R.id.rv_me_all);
-        LinearLayoutManager linearLayoutManager = new GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
         rv_me_all.setLayoutManager(linearLayoutManager);
-
-
         rv_me_all.setAdapter(new MePagerAllAdapter(context, allList));
-        vpList = new ArrayList();
         vpList.add(view);
-        for (int i = 0; i < 3; i++) {
-            TextView textView = new TextView(context);
-            textView.setText("这是第" + i + "个页面");
-            vpList.add(textView);
-        }
+
+        //加载lucky界面
+        RecyclerView recyclerView = new RecyclerView(context);
+        linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(new MePagerLuckyAdapter(context, allList));
+        vpList.add(recyclerView);
+
+        //加载Show界面
+        recyclerView = new RecyclerView(context);
+        linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(new MePagerShowAdapter(context, allList));
+        vpList.add(recyclerView);
+
+
+        TextView textView = new TextView(context);
+        textView.setText("这是第History个页面");
+        vpList.add(textView);
+
+
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
+        stl_me_vpcontrol.setViewPager(vp_me);
     }
 
     private void findView() {
@@ -100,15 +111,10 @@ public class MePager extends BasePager {
         tv_me_name = (TextView) inflate.findViewById(R.id.tv_me_name);
         tv_me_fbcode = (TextView) inflate.findViewById(R.id.tv_me_fbcode);
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
-        tv_me_all = (TextView) inflate.findViewById(R.id.tv_me_all);
-        tv_me_lucky = (TextView) inflate.findViewById(R.id.tv_me_lucky);
-        tv_me_show = (TextView) inflate.findViewById(R.id.tv_me_show);
-        tv_me_history = (TextView) inflate.findViewById(R.id.tv_me_history);
         vp_me = (ViewPager) inflate.findViewById(R.id.vp_me);
-        ll_me_vpcontrol = (LinearLayout) inflate.findViewById(R.id.ll_me_vpcontrol);
-        iv_me_line = (ImageView) inflate.findViewById(R.id.iv_me_line);
+        stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
 
-        vp_me.setOnPageChangeListener(new MyOnPageChangeListener());
+
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
     }
@@ -118,40 +124,13 @@ public class MePager extends BasePager {
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.i_me_set:
                     Intent intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from","setpager");
+                    intent.putExtra("from", "setpager");
                     startActivity(intent);
                     break;
             }
-        }
-    }
-    //viewpager的滚动监听
-    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            int viewWidth = iv_me_line.getWidth();
-            int width = Utils.getScreenWidth(context)/4;
-            //红点移动的距离 = 页面移动的百分比 * 总间距
-            int slideLeft = (int) (positionOffset * width);
-
-            //真正在屏幕移动的距离 = 起始坐标 + 红点移动的距离
-            slideLeft = (int) ((position + positionOffset) * width);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(viewWidth, 5);
-            params.leftMargin = slideLeft + DensityUtil.dip2px(context, 12);
-            iv_me_line.setLayoutParams(params);
-            Log.e("TAG", iv_me_line + "");
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-
         }
     }
 
@@ -166,6 +145,5 @@ public class MePager extends BasePager {
         lp.topMargin = statusBarHeight;
         rl_me_title.setLayoutParams(lp);
     }
-
 
 }

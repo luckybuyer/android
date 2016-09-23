@@ -7,6 +7,7 @@
 
 
     <TextView
+        android:id="@+id/tv_insertcoins_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -16,6 +17,7 @@
         android:textSize="@dimen/dimen_16" />
 
     <net.luckybuyer.view.JustifyTextView
+        android:id="@+id/jtv_insertcoins_discribe"
         android:layout_marginLeft="@dimen/dimen_22"
         android:layout_marginRight="@dimen/dimen_22"
         android:layout_marginTop="@dimen/dimen_15"

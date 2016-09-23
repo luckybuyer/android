@@ -30,4 +30,5 @@ dependencies {
     compile 'com.auth0.android:lock:2.0.0-beta.3'
     //auth0登陆
     compile 'com.google.code.gson:gson:2.7'
+    compile project(':FlycoTabLayout_Lib')
 }

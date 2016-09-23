@@ -1,7 +1,6 @@
 package net.luckybuyer.activity;
 
 import android.annotation.TargetApi;
-import android.app.Application;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,22 +22,23 @@ import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
-import net.luckybuyer.app.MyApplication;
-import net.luckybuyer.bean.Token;
-import net.luckybuyer.bean.UserBean;
+import net.luckybuyer.bean.TokenBean;
+import net.luckybuyer.bean.User;
 import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
 import net.luckybuyer.secondpager.SetPager;
 import net.luckybuyer.secondpager.WinnersSharingPager;
+import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.StatusBarUtils;
 import net.luckybuyer.utils.Utils;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SecondPagerActivity extends FragmentActivity {
 
@@ -117,7 +117,7 @@ public class SecondPagerActivity extends FragmentActivity {
         from = getIntent().getStringExtra("from");
         if ("productdetail".equals(from)) {
             switchPage(0);
-        }else if("setpager".equals(from)) {
+        } else if ("setpager".equals(from)) {
             switchPage(4);
         }
     }
@@ -145,13 +145,10 @@ public class SecondPagerActivity extends FragmentActivity {
 
             // Base64 解码：
             String token = credentials.getIdToken();
-
             Log.e("TAG_TOKEN", token);
+
+
             byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
-
-
-
-
             String str = null;
             try {
                 str = new String(mmmm, "UTF-8");
@@ -162,11 +159,32 @@ public class SecondPagerActivity extends FragmentActivity {
             String[] use = str.split("\\}");
             String user = use[1] + "}";
 
-            UserBean userBean = new Gson().fromJson(user, UserBean.class);
-            Token.IDToken = userBean.getExp();
-//            Log.e("TAG_user", user);
-//            Log.e("TAG_userbean", userBean.getIss());
-            Log.e("TAG", Token.IDToken+"");
+            TokenBean tokenBean = new Gson().fromJson(user, TokenBean.class);
+
+            Utils.setSpData("token", token, SecondPagerActivity.this);
+            Utils.setSpData("token_num", tokenBean.getExp() + "", SecondPagerActivity.this);
+            String url = "https://api-staging.luckybuyer.net/v1/users/me/?timezone=utc";
+            Map map = new HashMap<String, String>();
+            map.put("Authorization", "Bearer " + token);
+            //请求登陆接口
+            HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+                @Override
+                public void success(String response) {
+                    Gson gson = new Gson();
+                    User user = gson.fromJson(response, User.class);
+                    Utils.setSpData("user_id", user.getAuth0_user_id(), SecondPagerActivity.this);
+                    Utils.setSpData("balance", user.getBalance() + "", SecondPagerActivity.this);
+                    Utils.setSpData("name", user.getProfile().getName(), SecondPagerActivity.this);
+                    Utils.setSpData("picture", user.getProfile().getPicture(), SecondPagerActivity.this);
+                }
+
+                @Override
+                public void error(int requestCode, String message) {
+                    Log.e("TAG", requestCode + "");
+                    Log.e("TAG", message);
+                }
+            });
+
         }
 
         @Override

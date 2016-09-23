@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -29,29 +28,24 @@ import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.activity.SecondPagerActivity;
-import net.luckybuyer.adapter.HomeProductAdapter;
 import net.luckybuyer.adapter.ProductDetailAdapter;
+import net.luckybuyer.bean.BuyStateBean;
 import net.luckybuyer.bean.ProductOrderBean;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.ProductDetailBean;
-import net.luckybuyer.bean.Token;
-import net.luckybuyer.pager.MePager;
-import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
-
-import org.apache.http.params.CoreConnectionPNames;
+import net.luckybuyer.view.JustifyTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.Inflater;
 
 /**
  * Created by admin on 2016/9/17.
  */
-public class ProductDetailPager extends BasePager{
+public class ProductDetailPager extends BasePager {
 
     public static final int WHAT = 1;
     private ViewPager vp_productdetail;               //轮播图    暂时只有一张图片  暂时不设置
@@ -101,7 +95,7 @@ public class ProductDetailPager extends BasePager{
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_productdetail, null);
-        ((SecondPagerActivity)context).from = null;
+        ((SecondPagerActivity) context).from = null;
         findView();
 
         return inflate;
@@ -112,9 +106,9 @@ public class ProductDetailPager extends BasePager{
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
 
-        int batch_id = ((SecondPagerActivity)context).batch_id;
-        String url = "https://api-staging.luckybuyer.net/v1/games/?status=running&batch_id=" + batch_id +"&per_page=20&page=1&timezone=utc";
-        HttpUtils.getInstance().getRequest(url, new HttpUtils.OnRequestListener() {
+        int batch_id = ((SecondPagerActivity) context).batch_id;
+        String url = "https://api-staging.luckybuyer.net/v1/games/?status=running&batch_id=" + batch_id + "&per_page=20&page=1&timezone=utc";
+        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -127,13 +121,13 @@ public class ProductDetailPager extends BasePager{
             }
 
             @Override
-            public void error(String error) {
+            public void error(int code, String message) {
 
             }
         });
 
-        String listUrl = "https://api-staging.luckybuyer.net/v1/games/"+ ((SecondPagerActivity)context).game_id +"/public-orders/?per_page=20&page=1&timezone=utc";
-        HttpUtils.getInstance().getRequest(listUrl, new HttpUtils.OnRequestListener() {
+        String listUrl = "https://api-staging.luckybuyer.net/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page=1&timezone=utc";
+        HttpUtils.getInstance().getRequest(listUrl, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -146,7 +140,7 @@ public class ProductDetailPager extends BasePager{
             }
 
             @Override
-            public void error(String error) {
+            public void error(int code, String message) {
 
             }
         });
@@ -177,6 +171,7 @@ public class ProductDetailPager extends BasePager{
 
 //        vp_productdetail.setOnPageChangeListener(new MyOnPageChangeListener());
     }
+
     //解析数据
     private void processData(String s) {
 //        handler.sendEmptyMessageDelayed(WHAT, 5000);
@@ -248,7 +243,6 @@ public class ProductDetailPager extends BasePager{
         pb_productdetail_progress.setProgress(productDetailBean.getProductdetail().get(0).getShares() - productDetailBean.getProductdetail().get(0).getLeft_shares());
 
 
-
     }
 
     private void processListData(String response) {
@@ -270,7 +264,7 @@ public class ProductDetailPager extends BasePager{
     }
 
 
-    class MyOnClickListener implements View.OnClickListener{
+    class MyOnClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
@@ -289,54 +283,60 @@ public class ProductDetailPager extends BasePager{
                     activity.switchPage(3);
                     break;
                 case R.id.rl_productdetail_indsertcoins:
+                    String token_s = Utils.getSpData("token_num", context);
+                    int token = 0;
+                    if (token_s != null) {
+                        token = Integer.parseInt(token_s);
+                    }
+
                     //判断是否登陆  未登陆  先登录  登陆 弹出popupwindow
-//                    if(Token.IDToken > System.currentTimeMillis()/1000) {
+                    if (token > System.currentTimeMillis() / 1000) {
                         View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
                         int dip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 300, getResources().getDisplayMetrics());
                         popupWindow = Utils.startPPW((SecondPagerActivity) context, viewPPW, Utils.getScreenWidth(context), dip);
 
                         setPPW(viewPPW);
-//                    }else{
-//                        context.startActivity(((SecondPagerActivity)context).lock.newIntent(((SecondPagerActivity)context)));
-//                    }
+                    } else {
+                        context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
+                    }
                     break;
                 case R.id.rl_insert_delete:
                     int count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
-                    if(count > 1) {
-                        et_insert_count.setText(count -1 +"");
+                    if (count > 1) {
+                        et_insert_count.setText(count - 1 + "");
                     }
                     break;
                 case R.id.rl_insert_add:
                     count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
-                    if(count < productDetailBean.getProductdetail().get(0).getLeft_shares()) {
-                        et_insert_count.setText(count +1 + "");
+                    if (count < productDetailBean.getProductdetail().get(0).getLeft_shares()) {
+                        et_insert_count.setText(count + 1 + "");
                     }
                     break;
                 case R.id.tv_insert_two:
                     tv_insert_two.setBackgroundResource(R.drawable.selector_tv_insert);
-                    if(!insertTwo) {
+                    if (!insertTwo) {
                         tv_insert_two.setHovered(true);
-                    }else{
+                    } else {
                         tv_insert_two.setHovered(false);
                     }
                     insertTwo = !insertTwo;
-                    et_insert_count.setText(2+"");
+                    et_insert_count.setText(2 + "");
                     break;
                 case R.id.tv_insert_five:
                     tv_insert_five.setBackgroundResource(R.drawable.selector_tv_insert);
-                    if(!insertFive) {
+                    if (!insertFive) {
                         tv_insert_five.setHovered(true);
-                    }else{
+                    } else {
                         tv_insert_five.setHovered(false);
                     }
                     insertFive = !insertFive;
-                    et_insert_count.setText(5+"");
+                    et_insert_count.setText(5 + "");
                     break;
                 case R.id.tv_insert_ten:
                     tv_insert_ten.setBackgroundResource(R.drawable.selector_tv_insert);
-                    if(!insertTen) {
+                    if (!insertTen) {
                         tv_insert_ten.setHovered(true);
-                    }else{
+                    } else {
                         tv_insert_ten.setHovered(false);
                     }
                     insertTen = !insertTen;
@@ -346,35 +346,92 @@ public class ProductDetailPager extends BasePager{
 
                     break;
                 case R.id.tv_insert_buy:
+                    //购买商品接口
+                    int shares = Integer.parseInt(et_insert_count.getText().toString());
+
                     String url = "https://api-staging.luckybuyer.net/v1/game-orders/?timezone=utc";
+                    String json = "{\"game_id\": " + ((SecondPagerActivity) context).game_id + ",\"shares\": " + shares + "}";
                     Map map = new HashMap();
-//                    map.put("token",Token.IDToken+"");
-                    map.put("Bear","1474440800");
-                    HttpUtils.getInstance().postJson(url, "{\n" + "  \"game_id\": 0,\n" + "  \"shares\": 0\n" + "}", map, new HttpUtils.OnRequestListener() {
+                    String mToken = Utils.getSpData("token", context);
+                    map.put("Authorization", "Bearer " + mToken);
+                    HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(String response) {
                             Log.e("TAG_order", response);
+                            startPrompt(response,true);
                         }
 
                         @Override
-                        public void error(String error) {
-                            Log.e("TAG_order", error.toString());
+                        public void error(final int code, final String message) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (code == 409) {
+                                        startPrompt(message,false);
+                                    }
+                                }
+                            });
                         }
                     });
-                    View inflate = View.inflate(context, R.layout.alertdialog_insertcoins_success, null);
-                    RelativeLayout rl_insert_ok = (RelativeLayout) inflate.findViewById(R.id.rl_insert_ok);
-                    rl_insert_ok.setOnClickListener(this);
-                    StartAlertDialog(inflate);
                     break;
                 case R.id.rl_insert_ok:
-                    if(show.isShowing()) {
+                    if (show.isShowing()) {
                         show.dismiss();
                     }
+                    break;
+                case R.id.tv_lessicons_cancel:
+                    //金币不足时 取消
+                    if (show.isShowing()) {
+                        show.dismiss();
+                    }
+                    break;
+                case R.id.tv_lessicons_ok:
+                    //金币不足时  去充值
+                    if (show.isShowing()) {
+                        show.dismiss();
+                    }
+                    Utils.MyToast(context,"去充值");
                     break;
             }
         }
     }
+    private void startPrompt(String message, boolean flag) {
+        Log.e("TAG", message);
+        View inflate = View.inflate(context, R.layout.alertdialog_insertcoins, null);
+        TextView tv_insertcoins_title = (TextView) inflate.findViewById(R.id.tv_insertcoins_title);
+        JustifyTextView jtv_insertcoins_discribe = (JustifyTextView) inflate.findViewById(R.id.jtv_insertcoins_discribe);
+        RelativeLayout rl_insert_ok = (RelativeLayout) inflate.findViewById(R.id.rl_insert_ok);
+        rl_insert_ok.setOnClickListener(new MyOnClickListener());
+
+        if(flag == false) {
+            Gson gson = new Gson();
+            BuyStateBean buyStateBean = gson.fromJson(message, BuyStateBean.class);
+            if("GameNotFound".equals(buyStateBean.getMessage())) {
+                //产品没有发现
+
+            }else if("InsufficientGameShares".equals(buyStateBean.getMessage())) {
+                //产品  数量不足
+
+            }else if("GameNotSellable".equals(buyStateBean.getMessage())) {
+                //产品不能出售  有可能是还没出售   还有可能已经售完
+                tv_insertcoins_title.setText("Item expired");
+                jtv_insertcoins_discribe.setText("This issue is  closed, please participate again.");
+            }else if("InsufficientBalance".equals(buyStateBean.getMessage())) {
+                //余额不足
+                inflate = View.inflate(context,R.layout.alertdialog_insertcoins_lessicons,null);
+                TextView tv_lessicons_cancel = (TextView) inflate.findViewById(R.id.tv_lessicons_cancel);
+                TextView tv_lessicons_ok = (TextView) inflate.findViewById(R.id.tv_lessicons_ok);
+
+                tv_lessicons_cancel.setOnClickListener(new MyOnClickListener());
+                tv_lessicons_ok.setOnClickListener(new MyOnClickListener());
+            }
+        }
+
+        StartAlertDialog(inflate);
+    }
+
     private AlertDialog show;
+
     private void StartAlertDialog(View inflate) {
         //得到屏幕的 尺寸 动态设置
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -398,6 +455,7 @@ public class ProductDetailPager extends BasePager{
     boolean insertFive = false;
     boolean insertTen = false;
     boolean insertAll = false;
+
     //对popupwindow进行操作
     public void setPPW(View PPW) {
         this.PPW = PPW;
@@ -412,15 +470,15 @@ public class ProductDetailPager extends BasePager{
 
         rl_insert_delete.setOnClickListener(new MyOnClickListener());
         rl_insert_add.setOnClickListener(new MyOnClickListener());
-        if(productDetailBean.getProductdetail().get(0).getLeft_shares() < 10) {
+        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 10) {
             tv_insert_ten.setEnabled(false);
             tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
         }
-        if(productDetailBean.getProductdetail().get(0).getLeft_shares() < 5) {
+        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 5) {
             tv_insert_five.setEnabled(false);
             tv_insert_five.setBackgroundResource(R.drawable.background_insert);
         }
-        if(productDetailBean.getProductdetail().get(0).getLeft_shares() < 2) {
+        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 2) {
             tv_insert_ten.setEnabled(false);
             tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
         }

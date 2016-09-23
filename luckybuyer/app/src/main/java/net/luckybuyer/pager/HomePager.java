@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.adapter.HomeImagePageAdapter;
 import net.luckybuyer.adapter.HomeProductAdapter;
 import net.luckybuyer.base.BasePager;
+import net.luckybuyer.bean.BannersBean;
 import net.luckybuyer.bean.GameProductBean;
 import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
@@ -121,8 +123,29 @@ public class HomePager extends BasePager {
 
 
     private void startRequestGame() {
+        //请求 产品轮播图
+        String bannersUrl = "https://api-staging.luckybuyer.net/v1/banners/?per_page=20&page=1&timezone=utc";
+        HttpUtils.getInstance().getRequest(bannersUrl,null, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        processBannerData(response);
+                    }
+                });
+            }
+
+            @Override
+            public void error(int requestCode, String message) {
+
+            }
+
+        });
+
+        //请求  产品  列表
         String url = "https://api-staging.luckybuyer.net/v1/games/?status=running&per_page=20&page=1&timezone=utc";
-        HttpUtils.getInstance().getRequest(url, new HttpUtils.OnRequestListener() {
+        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -135,29 +158,22 @@ public class HomePager extends BasePager {
             }
 
             @Override
-            public void error(String error) {
-//                HttpUtils.getInstance().stopNetWorkWaiting();
-                Log.e("TAG", error.toString());
+            public void error(int requestCode, String message) {
+
             }
+
         });
     }
 
-    //解析数据
-    private void processData(String s) {
+    private void processBannerData(String response) {
         Gson gson = new Gson();
-        String game = "{\"game\":" + s + "}";
-        GameProductBean gameProductBean = gson.fromJson(game, GameProductBean.class);
-        //设置数据
-        setData(gameProductBean);
-        //设置视图
-        setView();
-    }
+        String banner = "{\"banner\":" + response + "}";
+        BannersBean bannersBean = gson.fromJson(banner, BannersBean.class);
 
-    private void setData(GameProductBean gameProductBean) {
         handler.sendEmptyMessageDelayed(WHAT, 5000);       //开始轮播
         imageList = new ArrayList();
-        for (int i = 0; i < gameProductBean.getGame().size(); i++) {
-            String detail_image = "http:" + gameProductBean.getGame().get(i).getProduct().getDetail_image();
+        for (int i = 0; i < bannersBean.getBanner().size()+2; i++) {
+            String detail_image = "http:" + bannersBean.getBanner().get(0).getImage();
             ImageView image_header = new ImageView(context);
             Glide.with(context).load(detail_image).into(image_header);
             imageList.add(image_header);
@@ -187,21 +203,19 @@ public class HomePager extends BasePager {
 
         }
 
-        //产品列表数据
-        productList = gameProductBean.getGame();
-    }
-
-    private void setView() {
         ImageView imageView;
+        Log.e("TAG_size", imageList.size()+"");
         for (int i = 0; i < imageList.size(); i++) {
             imageView = new ImageView(context);
             imageView.setBackgroundResource(R.drawable.homepager_point_selector);
             ll_home_point.addView(imageView);
             if (i < imageList.size()) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                lp.gravity = Gravity.CENTER;
                 lp.leftMargin = DensityUtil.px2dip(context, 20);
                 imageView.setLayoutParams(lp);
             }
+            Log.e("TAG", i+"");
         }
         if(ll_home_point.getChildCount() > 0) {
             ll_home_point.getChildAt(0).setEnabled(false);
@@ -211,7 +225,17 @@ public class HomePager extends BasePager {
         //设置viewpager
         vp_home.setAdapter(new HomeImagePageAdapter(imageList, context, vp_home));
         vp_home.setCurrentItem(imageList.size() * 100);
+    }
 
+    //解析数据
+    private void processData(String s) {
+        Gson gson = new Gson();
+        String game = "{\"game\":" + s + "}";
+        GameProductBean gameProductBean = gson.fromJson(game, GameProductBean.class);
+        //设置视图
+
+        //产品列表数据
+        productList = gameProductBean.getGame();
         //设置recycleView
         HomeProductAdapter homeProductAdapter = new HomeProductAdapter(context, productList);
         rv_home_producer.setAdapter(homeProductAdapter);
@@ -244,8 +268,10 @@ public class HomePager extends BasePager {
 
         atv_home_marquee.setText(mStringArray.get(0) + "");
         handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
-
     }
+
+
+
 
     //点击监听
     class MyOnClickListener implements View.OnClickListener {

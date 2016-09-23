@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_5"
+        android:background="#E5E5E5">
+
+    </RelativeLayout>
+    <net.luckybuyer.view.JustifyTextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_20"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_25"
+        android:text="Magic sound headphones second"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_14" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_33"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_55"
+        android:lines="2"
+        android:text="Goods have been receivd, look very good, I hope after winning more and more!"
+        android:textColor="#666666"
+        android:textSize="@dimen/dimen_12" />
+
+    <RelativeLayout
+        android:id="@+id/rl_show_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_98">
+
+        <RelativeLayout
+            android:layout_width="@dimen/dimen_82"
+            android:layout_height="@dimen/dimen_82"
+            android:background="#ffffff">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/default_icon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/dimen_82"
+            android:layout_height="@dimen/dimen_82"
+            android:layout_alignParentRight="true"
+            android:background="#ffffff">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/default_icon" />
+        </RelativeLayout>
+
+        <RelativeLayout
+
+            android:layout_width="@dimen/dimen_82"
+            android:layout_height="@dimen/dimen_82"
+            android:layout_centerHorizontal="true"
+            android:background="#ffffff">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/default_icon" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="@dimen/dimen_13"
+        android:layout_height="@dimen/dimen_13"
+        android:layout_below="@+id/rl_show_icon"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_14"
+        android:background="@drawable/productdetail_previous" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_16"
+        android:layout_below="@+id/rl_show_icon"
+        android:layout_marginBottom="@dimen/dimen_20"
+        android:layout_marginLeft="@dimen/dimen_30"
+        android:layout_marginTop="@dimen/dimen_12"
+        android:text="2016-08-04 13:18"
+        android:textColor="#999999"
+        android:textSize="@dimen/dimen_12" />
+</RelativeLayout>

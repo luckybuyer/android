@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +15,14 @@ public class MePagerViewPagerAdapter extends PagerAdapter {
     private Context context;
     private List<View> list;
 
+    private List<String> titleList = new ArrayList();
     public MePagerViewPagerAdapter(Context context, List list) {
         this.context = context;
         this.list = list;
+        titleList.add("    All    ");
+        titleList.add("Lucky Records");
+        titleList.add("    Show   ");
+        titleList.add("   Hisory  ");
     }
 
     @Override
@@ -39,5 +45,10 @@ public class MePagerViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         container.addView(list.get(position));
         return list.get(position % list.size());
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titleList.get(position);
     }
 }

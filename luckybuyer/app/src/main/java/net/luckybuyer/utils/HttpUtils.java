@@ -59,8 +59,8 @@ public class HttpUtils {
         if (httpUtils == null) {
             httpUtils = new HttpUtils();
             okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .connectTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(2, TimeUnit.SECONDS)
+                    .connectTimeout(2, TimeUnit.SECONDS)
                     .writeTimeout(60, TimeUnit.SECONDS)
                     .build();
         }
@@ -73,7 +73,7 @@ public class HttpUtils {
     public interface OnRequestListener {
         public void success(String response);
 
-        public void error(String error);
+        public void error(int requestCode, String message);
     }
 
     public OnRequestListener onRequestListener;
@@ -115,16 +115,30 @@ public class HttpUtils {
      * @param url
      * @param onRequestListener
      */
-    public void getRequest(String url, final OnRequestListener onRequestListener) {
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
+    public void getRequest(String url, Map<String, String> map, final OnRequestListener onRequestListener) {
+//        Request request = new Request.Builder()
+//                .url(url)
+//                .build();
+
+        Request.Builder builder = new Request.Builder();
+        builder.url(url);
+        if (map != null) {
+            Set<String> key = map.keySet();
+            for (Iterator it = key.iterator(); it.hasNext(); ) {
+                String s = (String) it.next();
+                builder.addHeader(s, map.get(s));
+            }
+        }
+
+        Request request = builder.build();
+
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("TAG_Okhttp", e.toString());
                 if (e.getCause().equals(SocketTimeoutException.class)) {
                     //网络连接超时  指定界面
+                    Log.e("TAG", "连接超时");
                 }
 
             }
@@ -135,7 +149,7 @@ public class HttpUtils {
                     if (response.code() == 200) {
                         onRequestListener.success(response.body().string());
                     } else {
-                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
+                        onRequestListener.error(response.code(), response.body().string());
                     }
                 }
             }
@@ -166,7 +180,7 @@ public class HttpUtils {
                     if (response.code() == 200) {
                         onRequestListener.success(response.body().string());
                     } else {
-                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
+                        onRequestListener.error(response.code(), response.body().string());
                     }
                 }
             }
@@ -174,18 +188,21 @@ public class HttpUtils {
     }
 
     //Post JSON
-    public void postJson(String url, String json, Map<String,String> header,final OnRequestListener onRequestListener) {
+    public void postJson(String url, String json, Map<String, String> header, final OnRequestListener onRequestListener) {
 
         Set<String> key = header.keySet();
         Request.Builder builder = new Request.Builder();
         builder.url(url)
                 .post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json));
 
-        for (Iterator it = key.iterator(); it.hasNext(); ) {
-            String s = (String) it.next();
-            builder.addHeader(s,header.get(s));
-            Log.e("TAG", s + "...." + header.get(s));
+        if (header != null) {
+            for (Iterator it = key.iterator(); it.hasNext(); ) {
+                String s = (String) it.next();
+                builder.addHeader(s, header.get(s));
+                Log.e("TAG_ZUOTIAN", s + "...." + header.get(s));
+            }
         }
+
         Request request = builder.build();
 
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -200,9 +217,7 @@ public class HttpUtils {
                     if (response.code() == 200) {
                         onRequestListener.success(response.body().string());
                     } else {
-                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
-                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.message());
-                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.body().string());
+                        onRequestListener.error(response.code(), response.body().string());
 
                     }
                 }
@@ -240,7 +255,7 @@ public class HttpUtils {
                     if (response.code() == 200) {
                         onRequestListener.success(response.body().string());
                     } else {
-                        onRequestListener.error("发现错误，服务器请求吗码为：" + response.code());
+                        onRequestListener.error(response.code(), response.body().string());
                     }
                 }
             }
@@ -299,7 +314,7 @@ public class HttpUtils {
                             is.close();
                         }
                     } else {
-                        onRequestListener.error("杨少发现错误，服务器请求吗码为：" + response.code());
+                        onRequestListener.error(response.code(), response.body().string());
                     }
                 }
 

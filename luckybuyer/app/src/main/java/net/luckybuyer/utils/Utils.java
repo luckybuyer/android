@@ -62,7 +62,7 @@ public class Utils {
     }
 
     //sp存储
-    public static void setData(String key, String value, Context context) {
+    public static void setSpData(String key, String value, Context context) {
         SharedPreferences sp = context.getSharedPreferences(key, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(key, value);
@@ -70,7 +70,7 @@ public class Utils {
     }
 
     //得到存储在sp中的值
-    public static String getData(String key, Context context) {
+    public static String getSpData(String key, Context context) {
         SharedPreferences sp = context.getSharedPreferences(key, Context.MODE_PRIVATE);
         String spString = sp.getString(key, null);
         return spString;
@@ -338,6 +338,8 @@ public class Utils {
         });
         return mPopupWindow;
     }
+
+
 }
 
 

@@ -58,7 +58,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_home_point"
-                android:layout_width="@dimen/dimen_62"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_6"
                 android:layout_alignBottom="@+id/vp_home"
                 android:layout_centerHorizontal="true"
