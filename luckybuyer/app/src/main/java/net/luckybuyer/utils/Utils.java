@@ -36,8 +36,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Administrator on 2016/6/27 0027.
@@ -313,9 +317,8 @@ public class Utils {
 
     /**
      * 创建PopupWindow
-     *
      */
-    public static PopupWindow startPPW(final Activity activity,View view,int width,int height){
+    public static PopupWindow startPPW(final Activity activity, View view, int width, int height) {
         final PopupWindow mPopupWindow = new PopupWindow(view, width, height);
         mPopupWindow.setFocusable(true);
         ColorDrawable dw = new ColorDrawable(0xb0000000);
@@ -339,7 +342,22 @@ public class Utils {
         return mPopupWindow;
     }
 
-
+    //UTC时间转化为本地时间
+    public static String utc2Local(String utcTime, String utcTimePatten,
+                                   String localTimePatten) {
+        SimpleDateFormat utcFormater = new SimpleDateFormat(utcTimePatten);
+        utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
+        Date gpsUTCDate = null;
+        try {
+            gpsUTCDate = utcFormater.parse(utcTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat localFormater = new SimpleDateFormat(localTimePatten);
+        localFormater.setTimeZone(TimeZone.getDefault());
+        String localTime = localFormater.format(gpsUTCDate.getTime());
+        return localTime;
+    }
 }
 
 

@@ -137,8 +137,7 @@ public class SecondPagerActivity extends FragmentActivity {
         }
     }
 
-    //auth0登陆回掉
-
+    //auth0登陆回调
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {

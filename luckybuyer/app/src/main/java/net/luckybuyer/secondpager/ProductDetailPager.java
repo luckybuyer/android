@@ -356,9 +356,14 @@ public class ProductDetailPager extends BasePager {
                     map.put("Authorization", "Bearer " + mToken);
                     HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
                         @Override
-                        public void success(String response) {
-                            Log.e("TAG_order", response);
-                            startPrompt(response,true);
+                        public void success(final String response) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startPrompt(response, true);
+                                }
+                            });
+
                         }
 
                         @Override
@@ -367,7 +372,7 @@ public class ProductDetailPager extends BasePager {
                                 @Override
                                 public void run() {
                                     if (code == 409) {
-                                        startPrompt(message,false);
+                                        startPrompt(message, false);
                                     }
                                 }
                             });
@@ -390,11 +395,12 @@ public class ProductDetailPager extends BasePager {
                     if (show.isShowing()) {
                         show.dismiss();
                     }
-                    Utils.MyToast(context,"去充值");
+                    Utils.MyToast(context, "去充值");
                     break;
             }
         }
     }
+
     private void startPrompt(String message, boolean flag) {
         Log.e("TAG", message);
         View inflate = View.inflate(context, R.layout.alertdialog_insertcoins, null);
@@ -403,22 +409,22 @@ public class ProductDetailPager extends BasePager {
         RelativeLayout rl_insert_ok = (RelativeLayout) inflate.findViewById(R.id.rl_insert_ok);
         rl_insert_ok.setOnClickListener(new MyOnClickListener());
 
-        if(flag == false) {
+        if (flag == false) {
             Gson gson = new Gson();
             BuyStateBean buyStateBean = gson.fromJson(message, BuyStateBean.class);
-            if("GameNotFound".equals(buyStateBean.getMessage())) {
+            if ("GameNotFound".equals(buyStateBean.getMessage())) {
                 //产品没有发现
 
-            }else if("InsufficientGameShares".equals(buyStateBean.getMessage())) {
+            } else if ("InsufficientGameShares".equals(buyStateBean.getMessage())) {
                 //产品  数量不足
 
-            }else if("GameNotSellable".equals(buyStateBean.getMessage())) {
+            } else if ("GameNotSellable".equals(buyStateBean.getMessage())) {
                 //产品不能出售  有可能是还没出售   还有可能已经售完
                 tv_insertcoins_title.setText("Item expired");
                 jtv_insertcoins_discribe.setText("This issue is  closed, please participate again.");
-            }else if("InsufficientBalance".equals(buyStateBean.getMessage())) {
+            } else if ("InsufficientBalance".equals(buyStateBean.getMessage())) {
                 //余额不足
-                inflate = View.inflate(context,R.layout.alertdialog_insertcoins_lessicons,null);
+                inflate = View.inflate(context, R.layout.alertdialog_insertcoins_lessicons, null);
                 TextView tv_lessicons_cancel = (TextView) inflate.findViewById(R.id.tv_lessicons_cancel);
                 TextView tv_lessicons_ok = (TextView) inflate.findViewById(R.id.tv_lessicons_ok);
 

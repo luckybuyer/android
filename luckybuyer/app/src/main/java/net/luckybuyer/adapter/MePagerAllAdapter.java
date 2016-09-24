@@ -2,11 +2,15 @@ package net.luckybuyer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import net.luckybuyer.R;
+import net.luckybuyer.bean.AllOrderBean;
+import net.luckybuyer.utils.Utils;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,7 +18,7 @@ import java.util.List;
  */
 public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.ViewHolder> {
     private Context context;
-    private List list;
+    private List<AllOrderBean.AllorderBean> list;
 
     public MePagerAllAdapter(Context context, List list) {
         this.context = context;
@@ -23,10 +27,14 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
     @Override
     public int getItemViewType(int position) {
-        int type = -1;
-        if(position % 2 != 0) {
+        String status = list.get(position).getGame().getStatus();
+        if("running".equals(status)) {
             return 0;
-        }else if(position % 2 == 0) {
+        }else if("finished".equals(status)) {
+            String utcTime = list.get(position).getGame().getFinished_at();
+            Date d = new Date();
+
+            d.setTime(utcTime + 28800);//
             return 1;
         }
         return super.getItemViewType(position);

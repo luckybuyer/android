@@ -3,6 +3,7 @@ package net.luckybuyer.pager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,7 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.activity.MainActivity;
@@ -25,13 +31,19 @@ import net.luckybuyer.adapter.MePagerLuckyAdapter;
 import net.luckybuyer.adapter.MePagerShowAdapter;
 import net.luckybuyer.adapter.MePagerViewPagerAdapter;
 import net.luckybuyer.base.BasePager;
+import net.luckybuyer.bean.AllOrderBean;
+import net.luckybuyer.bean.User;
 import net.luckybuyer.utils.DensityUtil;
+import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.CircleImageView;
 import net.luckybuyer.view.RecycleViewDivider;
 
+import java.sql.DataTruncation;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/9/13.
@@ -58,6 +70,7 @@ public class MePager extends BasePager {
         findView();
         setHeadMargin();
 
+        setView();
         return inflate;
     }
 
@@ -65,6 +78,46 @@ public class MePager extends BasePager {
     @Override
     public void initData() {
         super.initData();
+
+        String token = Utils.getSpData("token", context);
+        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?per_page=20&page=1&timezone=utc";
+        Map map = new HashMap<String, String>();
+        map.put("Authorization", "Bearer " + token);
+        //请求登陆接口
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+
+//                int length = response.length();
+//                String str = response.substring(0, length / 2);
+//                String str1 = response.substring(length/2,response.length());
+//
+//                Log.e("TAG", str);
+//                Log.e("TAG", str1);
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        processData(response);
+                    }
+                });
+            }
+
+            @Override
+            public void error(int requestCode, String message) {
+                Log.e("TAG", requestCode + "");
+                Log.e("TAG", message);
+            }
+        });
+
+
+
+    }
+
+    private void processData(String response) {
+        response = "{\"allorder\":" + response + "}";
+        Gson gson = new Gson();
+        AllOrderBean allOrderBean = gson.fromJson(response, AllOrderBean.class);
+
         allList = new ArrayList();
         vpList = new ArrayList();
         for (int i = 0; i < 10; i++) {
@@ -76,7 +129,7 @@ public class MePager extends BasePager {
         RecyclerView rv_me_all = (RecyclerView) view.findViewById(R.id.rv_me_all);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
         rv_me_all.setLayoutManager(linearLayoutManager);
-        rv_me_all.setAdapter(new MePagerAllAdapter(context, allList));
+        rv_me_all.setAdapter(new MePagerAllAdapter(context, allOrderBean.getAllorder()));
         vpList.add(view);
 
         //加载lucky界面
@@ -117,6 +170,24 @@ public class MePager extends BasePager {
 
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
+    }
+
+    private void setView() {
+        String user_id = Utils.getSpData("user_id", context);
+        String balance = Utils.getSpData("balance", context);
+        String name = Utils.getSpData("name", context);
+        final String picture = Utils.getSpData("picture", context);
+
+        tv_me_name.setText(name);
+        tv_me_fbcode.setText(user_id);
+        tv_me_gold.setText("Gold:$" + balance);
+        Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                Log.e("TAG", picture);
+                civ_me_header.setImageBitmap(resource);
+            }
+        });
     }
 
     //点击监听
