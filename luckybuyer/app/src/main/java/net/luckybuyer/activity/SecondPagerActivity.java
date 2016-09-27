@@ -43,7 +43,7 @@ import java.util.Map;
 public class SecondPagerActivity extends FragmentActivity {
 
     public RelativeLayout rl_secondpager_header;
-    private TextView tv_second_share;
+//    private TextView tv_second_share;
     private TextView tv_second_back;
     private List<Fragment> list;
     public int batch_id;
@@ -96,11 +96,11 @@ public class SecondPagerActivity extends FragmentActivity {
     //发现视图  设置监听
     private void findView() {
         rl_secondpager_header = (RelativeLayout) findViewById(R.id.rl_secondpager_header);
-        tv_second_share = (TextView) findViewById(R.id.tv_second_share);
+//        tv_second_share = (TextView) findViewById(R.id.tv_second_share);
         tv_second_back = (TextView) findViewById(R.id.tv_second_back);
 
         tv_second_back.setOnClickListener(new MyOnClickListener());
-        tv_second_share.setOnClickListener(new MyOnClickListener());
+//        tv_second_share.setOnClickListener(new MyOnClickListener());
     }
 
 
@@ -130,9 +130,9 @@ public class SecondPagerActivity extends FragmentActivity {
                 case R.id.tv_second_back:
                     finish();
                     break;
-                case R.id.tv_second_share:
-                    Utils.MyToast(SecondPagerActivity.this, "SHARE");
-                    break;
+//                case R.id.tv_second_share:
+//                    Utils.MyToast(SecondPagerActivity.this, "SHARE");
+//                    break;
             }
         }
     }
@@ -171,10 +171,12 @@ public class SecondPagerActivity extends FragmentActivity {
                 public void success(String response) {
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
+                    Utils.setSpData("id", user.getId()+"", SecondPagerActivity.this);
                     Utils.setSpData("user_id", user.getAuth0_user_id(), SecondPagerActivity.this);
                     Utils.setSpData("balance", user.getBalance() + "", SecondPagerActivity.this);
                     Utils.setSpData("name", user.getProfile().getName(), SecondPagerActivity.this);
                     Utils.setSpData("picture", user.getProfile().getPicture(), SecondPagerActivity.this);
+                    Utils.setSpData("social_link", user.getProfile().getSocial_link(), SecondPagerActivity.this);
                 }
 
                 @Override

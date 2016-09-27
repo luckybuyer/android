@@ -40,6 +40,7 @@ import net.luckybuyer.view.CircleImageView;
 import net.luckybuyer.view.RecycleViewDivider;
 
 import java.sql.DataTruncation;
+import java.text.FieldPosition;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,7 +63,6 @@ public class MePager extends BasePager {
     private View inflate;
 
     private List vpList;
-    private List allList;
 
     @Override
     public View initView() {
@@ -78,37 +78,64 @@ public class MePager extends BasePager {
     @Override
     public void initData() {
         super.initData();
-
+        HttpUtils.getInstance().startNetworkWaiting(context);
         String token = Utils.getSpData("token", context);
         String url = "https://api-staging.luckybuyer.net/v1/game-orders/?per_page=20&page=1&timezone=utc";
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
-            @Override
-            public void success(final String response) {
-
-//                int length = response.length();
-//                String str = response.substring(0, length / 2);
-//                String str1 = response.substring(length/2,response.length());
-//
-//                Log.e("TAG", str);
-//                Log.e("TAG", str1);
-                ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
-                    public void run() {
-                        processData(response);
+                    public void success(final String response) {
+//                        String str = response.substring(0,response.length()/10);
+//                        String str1 = response.substring(response.length()/10,response.length()/5);
+//                        String str2 = response.substring(response.length()/5,response.length()*3/10);
+//                        String str3 = response.substring(response.length()*3/10,response.length()*4/10);
+//                        String str4 = response.substring(response.length()*4/10,response.length()*5/10);
+//                        String str5 = response.substring(response.length()*5/10,response.length()*6/10);
+//                        String str6 = response.substring(response.length()*6/10,response.length()*7/10);
+//                        String str7 = response.substring(response.length()*7/10,response.length()*8/10);
+//                        String str8 = response.substring(response.length()*8/10,response.length()*9/10);
+//                        String str9 = response.substring(response.length()*9/10,response.length());
+//                        Log.e("TAG1", str);
+//                        Log.e("TAG2", str1);
+//                        Log.e("TAG3", str2);
+//                        Log.e("TAG4", str3);
+//                        Log.e("TAG5", str4);
+//                        Log.e("TAG6", str5);
+//                        Log.e("TAG7", str6);
+//                        Log.e("TAG8", str7);
+//                        Log.e("TAG9", str8);
+//                        Log.e("TAG0", str9);
+
+                        ((Activity) context).runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        processData(response);
+                                        HttpUtils.getInstance().stopNetWorkWaiting();
+
+
+                                    }
+                                }
+                        );
                     }
-                });
-            }
 
-            @Override
-            public void error(int requestCode, String message) {
-                Log.e("TAG", requestCode + "");
-                Log.e("TAG", message);
-            }
-        });
+                    @Override
+                    public void error(int requestCode, String message) {
+                        Log.e("TAG", requestCode + "");
+                        Log.e("TAG", message);
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                HttpUtils.getInstance().stopNetWorkWaiting();
 
+                            }
+                        });
+                    }
+                }
+
+        );
 
 
     }
@@ -118,11 +145,13 @@ public class MePager extends BasePager {
         Gson gson = new Gson();
         AllOrderBean allOrderBean = gson.fromJson(response, AllOrderBean.class);
 
-        allList = new ArrayList();
-        vpList = new ArrayList();
-        for (int i = 0; i < 10; i++) {
-            allList.add(i);
+        List listLucky = new ArrayList();
+        for (int i = 0; i < allOrderBean.getAllorder().size(); i++) {
+            if (allOrderBean.getAllorder().get(i).getGame().getLucky_user() != null && Utils.getSpData("id", context).equals(allOrderBean.getAllorder().get(i).getGame().getLucky_user().getId() + "")) {
+                listLucky.add(allOrderBean.getAllorder().get(i));
+            }
         }
+        vpList = new ArrayList();
 
         //加载All页面
         View view = View.inflate(context, R.layout.pager_me_recycle_all, null);
@@ -136,20 +165,20 @@ public class MePager extends BasePager {
         RecyclerView recyclerView = new RecyclerView(context);
         linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new MePagerLuckyAdapter(context, allList));
+        recyclerView.setAdapter(new MePagerLuckyAdapter(context, listLucky));
         vpList.add(recyclerView);
 
-        //加载Show界面
-        recyclerView = new RecyclerView(context);
-        linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new MePagerShowAdapter(context, allList));
-        vpList.add(recyclerView);
-
-
-        TextView textView = new TextView(context);
-        textView.setText("这是第History个页面");
-        vpList.add(textView);
+//        //加载Show界面
+//        recyclerView = new RecyclerView(context);
+//        linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
+//        recyclerView.setLayoutManager(linearLayoutManager);
+//        recyclerView.setAdapter(new MePagerShowAdapter(context, allList));
+//        vpList.add(recyclerView);
+//
+//
+//        TextView textView = new TextView(context);
+//        textView.setText("这是第History个页面");
+//        vpList.add(textView);
 
 
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
@@ -184,7 +213,6 @@ public class MePager extends BasePager {
         Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                Log.e("TAG", picture);
                 civ_me_header.setImageBitmap(resource);
             }
         });

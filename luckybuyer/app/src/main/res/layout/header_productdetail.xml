@@ -5,8 +5,11 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
+        android:background="#EEEEEE"
+        android:layout_height="@dimen/dimen_15"></RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_50"
-        android:layout_marginTop="@dimen/dimen_15"
         android:background="@color/bg_while">
 
         <ImageView
@@ -21,7 +24,7 @@
             android:layout_height="@dimen/dimen_22"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dimen_34"
-            android:text="Current record participation"
+            android:text="participation Record"
             android:textColor="#666666"
             android:textSize="@dimen/dimen_16" />
 

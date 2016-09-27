@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -48,6 +50,7 @@ import java.util.Map;
 public class ProductDetailPager extends BasePager {
 
     public static final int WHAT = 1;
+    private RelativeLayout rl_productdetail_allview;
     private ViewPager vp_productdetail;               //轮播图    暂时只有一张图片  暂时不设置
     private LinearLayout ll_productdetail_point;      //轮播图点
     private TextView tv_productdetail_producttitle;
@@ -56,7 +59,7 @@ public class ProductDetailPager extends BasePager {
     private TextView tv_productdetail_icon;           //剩余金币
     private ProgressBar pb_productdetail_progress;    //比率
     private RelativeLayout rl_productdetail_iteminformation;     //商品详情介绍
-    private RelativeLayout rl_productdetail_share;               //晒单分享
+    //    private RelativeLayout rl_productdetail_share;               //晒单分享
     private RelativeLayout rl_productdetail_announced;           //往期揭晓
     private RecyclerView rv_productdetail;                       //参与记录
     private ImageView iv_productdetail_image;                    //顶部图片
@@ -77,37 +80,33 @@ public class ProductDetailPager extends BasePager {
     private PopupWindow popupWindow;
     private View PPW;
 
+    //请求数据   与请求失败时显示的页面
+    private TextView tv_productdetail_data;                   //数据请求失败的时候需要更改
+
     //产品  数据
     private ProductDetailBean productDetailBean;
 
-//    private Handler handler = new Handler(){
-//
-//        public void handleMessage(Message msg){
-//            switch (msg.what){
-//                case WHAT:
-//                    vp_productdetail.setCurrentItem(vp_productdetail.getCurrentItem() + 1);
-//                    handler.sendEmptyMessageDelayed(WHAT, 5000);
-//                    break;
-//            }
-//        }
-//    };
+    //当 请求initdata的时候   看是否需要开始progresssdialog
+    boolean isNeedNetWaiting = true;
 
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_productdetail, null);
         ((SecondPagerActivity) context).from = null;
         findView();
-
         return inflate;
     }
 
     @Override
     public void initData() {
         super.initData();
-        HttpUtils.getInstance().startNetworkWaiting(context);
+        if (isNeedNetWaiting) {
+            HttpUtils.getInstance().startNetworkWaiting(context);
+            isNeedNetWaiting = false;
+        }
 
         int batch_id = ((SecondPagerActivity) context).batch_id;
-        String url = "https://api-staging.luckybuyer.net/v1/games/?status=running&batch_id=" + batch_id + "&per_page=20&page=1&timezone=utc";
+        String url = "https://api-staging.luckybuyer.net/v1/games/"+ ((SecondPagerActivity) context).game_id  +"?timezone=utc";
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -116,13 +115,20 @@ public class ProductDetailPager extends BasePager {
                     public void run() {
                         processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_productdetail_allview.setVisibility(View.VISIBLE);
+                        tv_productdetail_data.setText("Please wait...");
                     }
                 });
             }
 
             @Override
             public void error(int code, String message) {
-
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_productdetail_data.setText("Network request failed...");
+                    }
+                });
             }
         });
 
@@ -149,6 +155,7 @@ public class ProductDetailPager extends BasePager {
 
     //发现视图  设置监听
     private void findView() {
+        rl_productdetail_allview = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_allview);
         vp_productdetail = (ViewPager) inflate.findViewById(R.id.vp_productdetail);
         ll_productdetail_point = (LinearLayout) inflate.findViewById(R.id.ll_productdetail_point);
         tv_productdetail_producttitle = (TextView) inflate.findViewById(R.id.tv_productdetail_producttitle);
@@ -157,16 +164,18 @@ public class ProductDetailPager extends BasePager {
         tv_productdetail_icon = (TextView) inflate.findViewById(R.id.tv_productdetail_icon);
         pb_productdetail_progress = (ProgressBar) inflate.findViewById(R.id.pb_productdetail_progress);
         rl_productdetail_iteminformation = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_iteminformation);
-        rl_productdetail_share = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_share);
+//        rl_productdetail_share = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_share);
         rl_productdetail_announced = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_announced);
         rv_productdetail = (RecyclerView) inflate.findViewById(R.id.rv_productdetail);
         iv_productdetail_image = (ImageView) inflate.findViewById(R.id.iv_productdetail_image);
         rl_productdetail_indsertcoins = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_indsertcoins);
 
+        tv_productdetail_data = (TextView) inflate.findViewById(R.id.tv_productdetail_data);
+
 
         rl_productdetail_indsertcoins.setOnClickListener(new MyOnClickListener());
         rl_productdetail_iteminformation.setOnClickListener(new MyOnClickListener());
-        rl_productdetail_share.setOnClickListener(new MyOnClickListener());
+//        rl_productdetail_share.setOnClickListener(new MyOnClickListener());
         rl_productdetail_announced.setOnClickListener(new MyOnClickListener());
 
 //        vp_productdetail.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -177,71 +186,21 @@ public class ProductDetailPager extends BasePager {
 //        handler.sendEmptyMessageDelayed(WHAT, 5000);
         Gson gson = new Gson();
         String game = "{\"productdetail\":" + s + "}";
-        productDetailBean = gson.fromJson(game, ProductDetailBean.class);
-//
-//        imageList = new ArrayList();
-//
-//        for (int i = 0; i < 2; i++) {
-//            ImageView image_header = new ImageView(context);
-//            String imgUrl = "http:" + productDetailBean.getProductdetail().get(0).getProduct().getDetail_image();
-//            Log.e("TAG_imgurl", imgUrl);
-//            Glide.with(context).load(imgUrl).into(image_header);
-//            imageList.add(image_header);
-//            image_header.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    switch (event.getAction()) {
-//                        case MotionEvent.ACTION_DOWN://手指按下
-//                            handler.removeMessages(WHAT);
-//                            break;
-//                        case MotionEvent.ACTION_MOVE://手指滑动
-//                            handler.removeMessages(WHAT);
-//                            handler.sendEmptyMessageDelayed(WHAT, 5000);
-//                            break;
-//                        case MotionEvent.ACTION_CANCEL://事件丢失
-////                            handler.removeCallbacksAndMessages(null);
-////                            handler.sendEmptyMessageDelayed(0,3000);
-//                            break;
-//                        case MotionEvent.ACTION_UP://手指离开图片
-//                            handler.removeMessages(WHAT);
-//                            handler.sendEmptyMessageDelayed(WHAT, 5000);
-//                            break;
-//                    }
-//                    return true;
-//                }
-//            });
-//        }
-//        ImageView imageView;
-//        for (int i = 0;i < imageList.size();i++){
-//            imageView = new ImageView(context);
-//            imageView.setBackgroundResource(R.drawable.homepager_point_selector);
-//            ll_productdetail_point.addView(imageView);
-//            if(i < imageList.size()) {
-//                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//                lp.leftMargin = DensityUtil.px2dip(context, 20);
-//                imageView.setLayoutParams(lp);
-//            }
-//        }
-//        ll_productdetail_point.getChildAt(0).setEnabled(false);
-//
-//        //设置viewpager
-//        vp_productdetail.setAdapter(new HomeImagePageAdapter(imageList, context, vp_productdetail));
-//        vp_productdetail.setCurrentItem(imageList.size() * 100);
+        productDetailBean = gson.fromJson(s, ProductDetailBean.class);
 
-        String imgUrl = "http:" + productDetailBean.getProductdetail().get(0).getProduct().getDetail_image();
+        String imgUrl = "http:" + productDetailBean.getProduct().getDetail_image();
         Glide.with(context).load(imgUrl).into(iv_productdetail_image);
 
-        tv_productdetail_producttitle.setText(productDetailBean.getProductdetail().get(0).getProduct().getTitle());
+        tv_productdetail_producttitle.setText(productDetailBean.getProduct().getTitle());
 
-        tv_productdetail_issue.setText("Issue:" + productDetailBean.getProductdetail().get(0).getIssue_id());
+        tv_productdetail_issue.setText("Issue:" + productDetailBean.getIssue_id());
 
-        tv_productdetail_totalicon.setText("Total demand:" + productDetailBean.getProductdetail().get(0).getShares() + "coins");
+        tv_productdetail_totalicon.setText("Total demand:" + productDetailBean.getShares());
 
-        tv_productdetail_icon.setText("Remaining:" + productDetailBean.getProductdetail().get(0).getLeft_shares());
+        tv_productdetail_icon.setText("Remaining:" + productDetailBean.getLeft_shares());
 
-        pb_productdetail_progress.setMax(productDetailBean.getProductdetail().get(0).getShares());
-        pb_productdetail_progress.setProgress(productDetailBean.getProductdetail().get(0).getShares() - productDetailBean.getProductdetail().get(0).getLeft_shares());
-
+        pb_productdetail_progress.setMax(productDetailBean.getShares());
+        pb_productdetail_progress.setProgress(productDetailBean.getShares() - productDetailBean.getLeft_shares());
 
     }
 
@@ -274,10 +233,10 @@ public class ProductDetailPager extends BasePager {
                     activity.from = "productdetail";
                     activity.switchPage(1);
                     break;
-                case R.id.rl_productdetail_share:             //晒单分享
-                    activity.from = "productdetail";
-                    activity.switchPage(2);
-                    break;
+//                case R.id.rl_productdetail_share:             //晒单分享
+//                    activity.from = "productdetail";
+//                    activity.switchPage(2);
+//                    break;
                 case R.id.rl_productdetail_announced:          //往期回顾
                     activity.from = "productdetail";
                     activity.switchPage(3);
@@ -308,44 +267,39 @@ public class ProductDetailPager extends BasePager {
                     break;
                 case R.id.rl_insert_add:
                     count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
-                    if (count < productDetailBean.getProductdetail().get(0).getLeft_shares()) {
+                    if (count < productDetailBean.getLeft_shares()) {
                         et_insert_count.setText(count + 1 + "");
                     }
                     break;
                 case R.id.tv_insert_two:
-                    tv_insert_two.setBackgroundResource(R.drawable.selector_tv_insert);
-                    if (!insertTwo) {
-                        tv_insert_two.setHovered(true);
-                    } else {
-                        tv_insert_two.setHovered(false);
+                    if (productDetailBean.getLeft_shares() >= 2) {
+                        et_insert_count.setText(2 + "");
+                    } else if (productDetailBean.getLeft_shares() < 2) {
+                        et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    insertTwo = !insertTwo;
-                    et_insert_count.setText(2 + "");
                     break;
                 case R.id.tv_insert_five:
-                    tv_insert_five.setBackgroundResource(R.drawable.selector_tv_insert);
-                    if (!insertFive) {
-                        tv_insert_five.setHovered(true);
-                    } else {
-                        tv_insert_five.setHovered(false);
+                    if (productDetailBean.getLeft_shares() >= 5) {
+                        et_insert_count.setText(5 + "");
+                    } else if (productDetailBean.getLeft_shares() < 5) {
+                        et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    insertFive = !insertFive;
-                    et_insert_count.setText(5 + "");
                     break;
                 case R.id.tv_insert_ten:
-                    tv_insert_ten.setBackgroundResource(R.drawable.selector_tv_insert);
-                    if (!insertTen) {
-                        tv_insert_ten.setHovered(true);
-                    } else {
-                        tv_insert_ten.setHovered(false);
+                    if (productDetailBean.getLeft_shares() >= 10) {
+                        et_insert_count.setText(10 + "");
+                    } else if (productDetailBean.getLeft_shares() < 10) {
+                        et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    insertTen = !insertTen;
-                    et_insert_count.setText(10 + "");
                     break;
                 case R.id.tv_insert_all:
-
+                    et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     break;
                 case R.id.tv_insert_buy:
+                    if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0")) {
+                        Utils.MyToast(context, "Please input wanted to buy the quantity");
+                        return;
+                    }
                     //购买商品接口
                     int shares = Integer.parseInt(et_insert_count.getText().toString());
 
@@ -383,6 +337,8 @@ public class ProductDetailPager extends BasePager {
                     if (show.isShowing()) {
                         show.dismiss();
                     }
+                    //现在只处理一种情况  产品售完   点击ok 刷新同种产品
+                    initData();
                     break;
                 case R.id.tv_lessicons_cancel:
                     //金币不足时 取消
@@ -402,7 +358,6 @@ public class ProductDetailPager extends BasePager {
     }
 
     private void startPrompt(String message, boolean flag) {
-        Log.e("TAG", message);
         View inflate = View.inflate(context, R.layout.alertdialog_insertcoins, null);
         TextView tv_insertcoins_title = (TextView) inflate.findViewById(R.id.tv_insertcoins_title);
         JustifyTextView jtv_insertcoins_discribe = (JustifyTextView) inflate.findViewById(R.id.jtv_insertcoins_discribe);
@@ -456,11 +411,6 @@ public class ProductDetailPager extends BasePager {
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    //定义变量   选择按钮是否是被选中
-    boolean insertTwo = false;
-    boolean insertFive = false;
-    boolean insertTen = false;
-    boolean insertAll = false;
 
     //对popupwindow进行操作
     public void setPPW(View PPW) {
@@ -476,52 +426,48 @@ public class ProductDetailPager extends BasePager {
 
         rl_insert_delete.setOnClickListener(new MyOnClickListener());
         rl_insert_add.setOnClickListener(new MyOnClickListener());
-        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 10) {
-            tv_insert_ten.setEnabled(false);
-            tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
-        }
-        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 5) {
-            tv_insert_five.setEnabled(false);
-            tv_insert_five.setBackgroundResource(R.drawable.background_insert);
-        }
-        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 2) {
-            tv_insert_ten.setEnabled(false);
-            tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
-        }
+//        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 10) {
+//            tv_insert_ten.setEnabled(false);
+//            tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
+//        }
+//        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 5) {
+//            tv_insert_five.setEnabled(false);
+//            tv_insert_five.setBackgroundResource(R.drawable.background_insert);
+//        }
+//        if (productDetailBean.getProductdetail().get(0).getLeft_shares() < 2) {
+//            tv_insert_ten.setEnabled(false);
+//            tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
+//        }
+
+        tv_insert_buy.setText("Total" + et_insert_count.getText().toString());
 
         tv_insert_two.setOnClickListener(new MyOnClickListener());
         tv_insert_five.setOnClickListener(new MyOnClickListener());
         tv_insert_ten.setOnClickListener(new MyOnClickListener());
         tv_insert_all.setOnClickListener(new MyOnClickListener());
         tv_insert_buy.setOnClickListener(new MyOnClickListener());
+
+        et_insert_count.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString() != null && charSequence.toString().length() > 0) {
+                    int count = Integer.parseInt(charSequence.toString());
+                    if (count > productDetailBean.getLeft_shares()) {
+                        et_insert_count.setText(productDetailBean.getLeft_shares() + "");
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
-//    int curPostion = 0;
-//    //ViewPager页面改变监听
-//    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
-//
-//        @Override
-//        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//        }
-//
-//        @Override
-//        public void onPageSelected(int position) {
-//            position = position%imageList.size();
-//            ll_productdetail_point.getChildAt(curPostion).setEnabled(true);
-//            ll_productdetail_point.getChildAt(position).setEnabled(false);
-//            curPostion = position;
-//        }
-//
-//        @Override
-//        public void onPageScrollStateChanged(int state) {
-//            if(state ==ViewPager.SCROLL_STATE_DRAGGING){
-//                handler.removeMessages(WHAT);
-//            }else if(state ==ViewPager.SCROLL_STATE_IDLE) {
-//                handler.removeMessages(WHAT);
-//                handler.sendEmptyMessageDelayed(WHAT,5000);
-//            }else if(state ==ViewPager.SCROLL_STATE_SETTLING){
-//                handler.removeMessages(WHAT);
-//            }
-//        }
-//    }
+
 }

@@ -21,7 +21,7 @@
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/tv_all_icon"
+            android:id="@+id/iv_all_icon"
             android:layout_width="@dimen/dimen_60"
             android:layout_height="@dimen/dimen_60"
             android:background="@drawable/me_voice" />
@@ -54,6 +54,7 @@
         android:textSize="@dimen/dimen_14" />
 
     <TextView
+        android:id="@+id/tv_all_participation"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_19"
         android:layout_below="@id/tv_all_issue"
@@ -70,9 +71,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_all_issue"
         android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_2"
         android:background="@drawable/go_go"
         android:textColor="@color/text_black"
-        android:layout_marginTop="@dimen/dimen_2"
         android:textSize="@dimen/dimen_12" />
 
     <TextView
@@ -109,6 +110,7 @@
         android:progressDrawable="@drawable/home_product_progress" />
 
     <TextView
+        android:id="@+id/tv_all_leftshares"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_16"
         android:layout_alignRight="@id/pb_all_progress"
@@ -118,6 +120,7 @@
         android:textSize="@dimen/dimen_12" />
 
     <RelativeLayout
+        android:id="@+id/rl_all_continue"
         android:layout_width="@dimen/dimen_76"
         android:layout_height="@dimen/dimen_27"
         android:layout_alignBottom="@id/pb_all_progress"

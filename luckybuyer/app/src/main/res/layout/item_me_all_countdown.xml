@@ -21,14 +21,14 @@
         android:gravity="center">
 
         <ImageView
-            android:id="@+id/tv_all_icon"
+            android:id="@+id/iv_countdown_icon"
             android:layout_width="@dimen/dimen_60"
             android:layout_height="@dimen/dimen_60"
             android:background="@drawable/default_icon" />
     </RelativeLayout>
 
     <net.luckybuyer.view.JustifyTextView
-        android:id="@+id/jtv_all_discribe"
+        android:id="@+id/jtv_countdown_discribe"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_38"
         android:layout_marginLeft="@dimen/dimen_15"
@@ -43,10 +43,10 @@
         android:textSize="@dimen/dimen_14" />
 
     <TextView
-        android:id="@+id/tv_all_issue"
+        android:id="@+id/tv_countdown_issue"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_19"
-        android:layout_below="@id/jtv_all_discribe"
+        android:layout_below="@id/jtv_countdown_discribe"
         android:layout_marginLeft="@dimen/dimen_15"
         android:layout_toRightOf="@+id/rl_all"
         android:text="Issue：171754"
@@ -54,9 +54,10 @@
         android:textSize="@dimen/dimen_14" />
 
     <TextView
+        android:id="@+id/tv_countdown_participation"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_19"
-        android:layout_below="@id/tv_all_issue"
+        android:layout_below="@id/tv_countdown_issue"
         android:layout_marginLeft="@dimen/dimen_15"
         android:layout_toRightOf="@+id/rl_all"
         android:text="My participation: 1"
@@ -64,11 +65,11 @@
         android:textSize="@dimen/dimen_14" />
 
     <ImageView
-        android:id="@+id/iv_all_goview"
+        android:id="@+id/iv_countdown_goview"
         android:layout_width="@dimen/dimen_6"
         android:layout_height="@dimen/dimen_11"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_all_issue"
+        android:layout_below="@+id/tv_countdown_issue"
         android:layout_marginRight="@dimen/dimen_12"
         android:layout_marginTop="@dimen/dimen_2"
         android:background="@drawable/go_go"
@@ -76,19 +77,19 @@
         android:textSize="@dimen/dimen_12" />
 
     <TextView
-        android:id="@+id/tv_all_goview"
+        android:id="@+id/tv_countdown_goview"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_16"
-        android:layout_below="@+id/tv_all_issue"
+        android:layout_below="@+id/tv_countdown_issue"
         android:layout_marginRight="@dimen/dimen_4"
-        android:layout_toLeftOf="@id/iv_all_goview"
+        android:layout_toLeftOf="@id/iv_countdown_goview"
         android:text="view all"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_12" />
 
 
     <TextView
-        android:id="@+id/tv_all_shares"
+        android:id="@+id/tv_countdown_shares"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_16"
         android:layout_marginLeft="@dimen/dimen_12"
@@ -98,10 +99,10 @@
         android:textSize="@dimen/dimen_12" />
 
     <LinearLayout
-        android:layout_marginBottom="@dimen/dimen_6"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_17"
-        android:layout_below="@id/tv_all_shares"
+        android:layout_below="@id/tv_countdown_shares"
+        android:layout_marginBottom="@dimen/dimen_6"
         android:layout_marginLeft="@dimen/dimen_12"
         android:layout_marginTop="@dimen/dimen_1"
         android:gravity="center_vertical"
@@ -232,6 +233,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_countdown_continue"
         android:layout_width="@dimen/dimen_76"
         android:layout_height="@dimen/dimen_27"
         android:layout_alignParentRight="true"
@@ -241,11 +243,12 @@
         android:gravity="center">
 
         <TextView
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Continue"
+            android:text="Participate again"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_11" />
     </RelativeLayout>
 
     <View

@@ -19,10 +19,10 @@ public class MePagerViewPagerAdapter extends PagerAdapter {
     public MePagerViewPagerAdapter(Context context, List list) {
         this.context = context;
         this.list = list;
-        titleList.add("    All    ");
+        titleList.add("\n\n\n\nAll\n\n\n");
         titleList.add("Lucky Records");
-        titleList.add("    Show   ");
-        titleList.add("   Hisory  ");
+//        titleList.add("    Show   ");
+//        titleList.add("   Hisory  ");
     }
 
     @Override

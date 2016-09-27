@@ -136,7 +136,10 @@ public class HttpUtils {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("TAG_Okhttp", e.toString());
-                if (e.getCause().equals(SocketTimeoutException.class)) {
+                Log.e("TAG..", e.getClass() +"");
+                Log.e("TAG..", e.getLocalizedMessage() +"");
+                Log.e("TAG..", e.getCause() +"");
+                if (e.getClass().equals(SocketTimeoutException.class)) {
                     //网络连接超时  指定界面
                     Log.e("TAG", "连接超时");
                 }
@@ -495,7 +498,7 @@ public class HttpUtils {
     }
 
     public void stopNetWorkWaiting() {
-        if (show != null) {
+        if (show != null&&show.isShowing()) {
             show.dismiss();
         }
     }

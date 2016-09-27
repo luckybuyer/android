@@ -19,6 +19,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -342,21 +344,41 @@ public class Utils {
         return mPopupWindow;
     }
 
-    //UTC时间转化为本地时间
-    public static String utc2Local(String utcTime, String utcTimePatten,
-                                   String localTimePatten) {
-        SimpleDateFormat utcFormater = new SimpleDateFormat(utcTimePatten);
-        utcFormater.setTimeZone(TimeZone.getTimeZone("UTC"));//时区定义并进行时间获取
-        Date gpsUTCDate = null;
-        try {
-            gpsUTCDate = utcFormater.parse(utcTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        SimpleDateFormat localFormater = new SimpleDateFormat(localTimePatten);
-        localFormater.setTimeZone(TimeZone.getDefault());
-        String localTime = localFormater.format(gpsUTCDate.getTime());
-        return localTime;
+
+    /**
+     * ISO8601与现在时间对比
+     */
+    public static Long Iso8601ToLong(String time){
+        String year = time.substring(0, 4);
+        String month = time.substring(5, 7);
+        String day = time.substring(8, 10);
+
+        String hour = time.substring(11, 13);
+        String minute = time.substring(14, 16);
+        String sec = time.substring(17, 19);
+
+        int yea = Integer.parseInt(year);
+        int mont = Integer.parseInt(month);
+        int da = Integer.parseInt(day);
+        int hou = Integer.parseInt(hour);
+        int minut = Integer.parseInt(minute);
+        int se = Integer.parseInt(sec);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(yea,mont-1,da,hou,minut,se);
+        calendar.add(Calendar.HOUR, 8);
+
+//        Log.e("TAG", yea+"");
+//        Log.e("TAG", mont+"");
+//        Log.e("TAG", da+"");
+//        Log.e("TAG", hou+"");
+//        Log.e("TAG", minut+"");
+//        Log.e("TAG", se+"");
+//        Log.e("TAG_time", calendar.getTime().toString());
+        Calendar calendarNow = Calendar.getInstance();
+        Long mm = calendar.getTimeInMillis() - calendarNow.getTimeInMillis();
+//        Log.e("TAG_time", calendar.getTimeInMillis()+"");
+//        Log.e("TAG_time", calendarNow.getTimeInMillis()+"");
+        return mm;
     }
 }
 

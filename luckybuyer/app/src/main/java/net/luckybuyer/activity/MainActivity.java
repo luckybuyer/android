@@ -1,26 +1,14 @@
 package net.luckybuyer.activity;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
-import android.net.wifi.WifiConfiguration;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -33,7 +21,7 @@ import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
-import net.luckybuyer.base.BasePager;
+import net.luckybuyer.bean.CourseBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
 import net.luckybuyer.pager.BuyChipsPager;
@@ -76,6 +64,7 @@ public class MainActivity extends FragmentActivity {
         setData();
         //发现视图  设置监听
         findView();
+
     }
 
     //设置数据
@@ -177,10 +166,12 @@ public class MainActivity extends FragmentActivity {
                 public void success(String response) {
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
+                    Utils.setSpData("id", user.getId()+"", MainActivity.this);
                     Utils.setSpData("user_id", user.getAuth0_user_id(), MainActivity.this);
                     Utils.setSpData("balance", user.getBalance() + "", MainActivity.this);
                     Utils.setSpData("name", user.getProfile().getName(), MainActivity.this);
                     Utils.setSpData("picture", user.getProfile().getPicture(), MainActivity.this);
+                    Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
                     //登陆成功  直接进入me页面
                     switchPage(4);
@@ -213,7 +204,7 @@ public class MainActivity extends FragmentActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                Toast.makeText(this, "Again according to exit the program", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
                 mExitTime = System.currentTimeMillis();
 
             } else {

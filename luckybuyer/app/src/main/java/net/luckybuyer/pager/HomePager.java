@@ -109,7 +109,7 @@ public class HomePager extends BasePager {
     //加载视图   并设置监听
     private void findView() {
         rl_home_header = (RelativeLayout) inflate.findViewById(R.id.rl_home_header);
-        tv_home_share = (TextView) inflate.findViewById(R.id.tv_home_share);
+//        tv_home_share = (TextView) inflate.findViewById(R.id.tv_home_share);
         vp_home = (ViewPager) inflate.findViewById(R.id.vp_home);
         ll_home_point = (LinearLayout) inflate.findViewById(R.id.ll_home_point);
         rv_home_producer = (RecyclerView) inflate.findViewById(R.id.rv_home_producer);
@@ -117,7 +117,7 @@ public class HomePager extends BasePager {
 
 
         //设置监听
-        tv_home_share.setOnClickListener(new MyOnClickListener());
+//        tv_home_share.setOnClickListener(new MyOnClickListener());
         vp_home.setOnPageChangeListener(new MyOnPageChangeListener());
     }
 
@@ -204,7 +204,6 @@ public class HomePager extends BasePager {
         }
 
         ImageView imageView;
-        Log.e("TAG_size", imageList.size()+"");
         for (int i = 0; i < imageList.size(); i++) {
             imageView = new ImageView(context);
             imageView.setBackgroundResource(R.drawable.homepager_point_selector);
@@ -215,7 +214,6 @@ public class HomePager extends BasePager {
                 lp.leftMargin = DensityUtil.px2dip(context, 20);
                 imageView.setLayoutParams(lp);
             }
-            Log.e("TAG", i+"");
         }
         if(ll_home_point.getChildCount() > 0) {
             ll_home_point.getChildAt(0).setEnabled(false);
@@ -270,21 +268,6 @@ public class HomePager extends BasePager {
         handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
     }
 
-
-
-
-    //点击监听
-    class MyOnClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.tv_home_share:
-                    Utils.MyToast(context, "SHARED");
-                    break;
-            }
-        }
-    }
 
     int curPostion = 0;
 
