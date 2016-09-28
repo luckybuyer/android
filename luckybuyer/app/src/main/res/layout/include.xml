@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.circleimageviewdemo_1.MainActivity">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="#eeeeee"
+            android:layout_height="@dimen/dimen_5"/>
+        <ImageView
+            android:layout_width="@dimen/dimen_13"
+            android:background="@drawable/me_lucky"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_18"
+            android:layout_height="@dimen/dimen_12" />
+
+        <TextView
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_13"
+            android:textColor="#ff9c05"
+            android:text="Winners"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginLeft="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_20" />
+
+        <TextView
+            android:id="@+id/tv_productdetail_luckynum"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_13"
+            android:textColor="#ff9c05"
+            android:text="Lucky Number：0965389"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_20" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/dimen_50"
+            android:background="@color/bg_view"
+            android:layout_height="1px"></View>
+
+        <net.luckybuyer.view.CircleImageView
+            android:id="@+id/civ_productdetail_lucky"
+            android:layout_width="@dimen/dimen_38"
+            android:layout_marginTop="@dimen/dimen_65"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:src="@drawable/default_icon"
+            android:layout_height="@dimen/dimen_38" />
+
+        <TextView
+            android:id="@+id/tv_productdetail_typesomething"
+            android:layout_toRightOf="@+id/civ_productdetail_lucky"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_12"
+            android:textColor="#666666"
+            android:text="Type something"
+            android:layout_marginTop="@dimen/dimen_65"
+            android:layout_height="@dimen/dimen_18" />
+        <TextView
+            android:id="@+id/tv_productdetail_luckyid"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_11"
+            android:textColor="#999999"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:text="User ID:109653049"
+            android:layout_below="@id/tv_productdetail_typesomething"
+            android:layout_toRightOf="@id/civ_productdetail_lucky"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_productdetail_luckytime"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_11"
+            android:textColor="#999999"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:text="Lottery time:2016-08-02  12:45"
+            android:layout_below="@id/tv_productdetail_luckyid"
+            android:layout_toRightOf="@id/civ_productdetail_lucky"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/tv_productdetail_luckymany"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_11"
+            android:textColor="#999999"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:text="Number of participants:20"
+            android:layout_below="@id/tv_productdetail_luckytime"
+            android:layout_toRightOf="@id/civ_productdetail_lucky"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_productdetail_luckygo"
+            android:layout_width="@dimen/dimen_6"
+            android:background="@drawable/go_go"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dimen_3"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_alignTop="@+id/tv_productdetail_luckymany"
+            android:layout_height="@dimen/dimen_11" />
+
+        <TextView
+            android:layout_marginRight="@dimen/dimen_4"
+            android:layout_alignTop="@+id/tv_productdetail_luckymany"
+            android:layout_toLeftOf="@+id/iv_productdetail_luckygo"
+            android:layout_width="wrap_content"
+            android:text="Participation details"
+            android:textSize="@dimen/dimen_11"
+            android:textColor="@color/text_black"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:id="@+id/view_lucky"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/dimen_150"
+            android:background="@color/bg_view"></View>
+
+        <TextView
+            android:id="@+id/tv_productdetail_myparticipate"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_12"
+            android:textColor="#666666"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_15"
+            android:text="You participate:1"
+            android:layout_below="@id/view_lucky"
+            android:layout_toRightOf="@id/civ_productdetail_lucky"
+            android:layout_height="@dimen/dimen_18" />
+
+        <TextView
+            android:id="@+id/tv_productdetail_mynum"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_11"
+            android:textColor="#999999"
+            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:text="Participation numbers:109653049   109653049 109653049 109653049 109653049 109653049"
+            android:layout_below="@id/tv_productdetail_myparticipate"
+            android:layout_toRightOf="@id/civ_productdetail_lucky"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_productdetail_mygo"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_below="@+id/tv_productdetail_mynum"
+            android:layout_marginTop="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_6"
+            android:background="@drawable/go_go"
+            android:layout_height="@dimen/dimen_11" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_12"
+            android:textColor="@color/text_black"
+            android:text="View all"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:layout_marginRight="@dimen/dimen_4"
+            android:layout_toLeftOf="@+id/iv_productdetail_mygo"
+            android:layout_below="@+id/tv_productdetail_mynum"
+            android:layout_marginBottom="@dimen/dimen_15"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>

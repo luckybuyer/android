@@ -16,17 +16,17 @@ public class CourseBean {
      * count : 0
      */
 
-    private List<Course> course;
+    private List<CourseChildBean> course;
 
-    public List<Course> getCourse() {
+    public List<CourseChildBean> getCourseChildBean() {
         return course;
     }
 
-    public void setCourse(List<Course> course) {
+    public void setCourseChildBean(List<CourseChildBean> course) {
         this.course = course;
     }
 
-    public static class Course {
+    public static class CourseChildBean {
         private String MI_szKPID;
         private int MI_szVCPID;
         private String MI_szVCPName;
@@ -39,7 +39,7 @@ public class CourseBean {
          * count : 0
          */
 
-        private List<ChildBean> child;
+        private List<ChildrenBean> children;
 
         public String getMI_szKPID() {
             return MI_szKPID;
@@ -73,15 +73,15 @@ public class CourseBean {
             this.count = count;
         }
 
-        public List<ChildBean> getChildren() {
-            return child;
+        public List<ChildrenBean> getChildren() {
+            return children;
         }
 
-        public void setChildren(List<ChildBean> child) {
-            this.child = child;
+        public void setChildren(List<ChildrenBean> children) {
+            this.children = children;
         }
 
-        public static class ChildBean {
+        public static class ChildrenBean {
             private String MI_szKPID;
             private int MI_szVCPID;
             private String MI_szVCPName;
@@ -93,7 +93,7 @@ public class CourseBean {
              * count : 0
              */
 
-            private List<ChildrenBean> children;
+            private List<Children> children;
 
             public String getMI_szKPID() {
                 return MI_szKPID;
@@ -127,15 +127,15 @@ public class CourseBean {
                 this.count = count;
             }
 
-            public List<ChildrenBean> getChildren() {
+            public List<Children> getChildren() {
                 return children;
             }
 
-            public void setChildren(List<ChildrenBean> children) {
+            public void setChildren(List<Children> children) {
                 this.children = children;
             }
 
-            public static class ChildrenBean {
+            public static class Children {
                 private int MI_szKPID;
                 private int MI_szVCPID;
                 private String MI_szVCPName;

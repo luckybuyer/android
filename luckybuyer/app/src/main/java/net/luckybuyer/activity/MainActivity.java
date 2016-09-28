@@ -1,5 +1,6 @@
 package net.luckybuyer.activity;
 
+import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -65,7 +66,9 @@ public class MainActivity extends FragmentActivity {
         //发现视图  设置监听
         findView();
 
+
     }
+
 
     //设置数据
     private void setData() {

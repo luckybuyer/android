@@ -60,7 +60,7 @@ public class HttpUtils {
             httpUtils = new HttpUtils();
             okHttpClient = new OkHttpClient.Builder()
                     .readTimeout(2, TimeUnit.SECONDS)
-                    .connectTimeout(2, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(60, TimeUnit.SECONDS)
                     .build();
         }

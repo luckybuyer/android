@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,10 +40,12 @@ import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.JustifyTextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Created by admin on 2016/9/17.
@@ -64,7 +67,16 @@ public class ProductDetailPager extends BasePager {
     private RecyclerView rv_productdetail;                       //参与记录
     private ImageView iv_productdetail_image;                    //顶部图片
     private RelativeLayout rl_productdetail_indsertcoins;
+    private TextView tv_productdetail_inprogress;                 //无意义  描述  黄边
     private View inflate;
+
+    //倒計時  開獎
+    private RelativeLayout rl_productdetail_countdown;
+    private RelativeLayout rl_productdetail_calculation;
+    private TextView tv_productdetail_currentround;
+    private LinearLayout ll_productdetail_buyit;
+
+    private RelativeLayout rl_productdetail_lucky;
 
     //popupWindow中空间
     private RelativeLayout rl_insert_delete;
@@ -156,22 +168,26 @@ public class ProductDetailPager extends BasePager {
     //发现视图  设置监听
     private void findView() {
         rl_productdetail_allview = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_allview);
-        vp_productdetail = (ViewPager) inflate.findViewById(R.id.vp_productdetail);
-        ll_productdetail_point = (LinearLayout) inflate.findViewById(R.id.ll_productdetail_point);
         tv_productdetail_producttitle = (TextView) inflate.findViewById(R.id.tv_productdetail_producttitle);
         tv_productdetail_issue = (TextView) inflate.findViewById(R.id.tv_productdetail_issue);
         tv_productdetail_totalicon = (TextView) inflate.findViewById(R.id.tv_productdetail_totalicon);
         tv_productdetail_icon = (TextView) inflate.findViewById(R.id.tv_productdetail_icon);
         pb_productdetail_progress = (ProgressBar) inflate.findViewById(R.id.pb_productdetail_progress);
         rl_productdetail_iteminformation = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_iteminformation);
-//        rl_productdetail_share = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_share);
         rl_productdetail_announced = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_announced);
         rv_productdetail = (RecyclerView) inflate.findViewById(R.id.rv_productdetail);
         iv_productdetail_image = (ImageView) inflate.findViewById(R.id.iv_productdetail_image);
         rl_productdetail_indsertcoins = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_indsertcoins);
+        tv_productdetail_inprogress = (TextView) inflate.findViewById(R.id.tv_productdetail_inprogress);
 
         tv_productdetail_data = (TextView) inflate.findViewById(R.id.tv_productdetail_data);
 
+        //倒计时  開獎
+        rl_productdetail_countdown = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_countdown);
+        rl_productdetail_calculation = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_calculation);
+        tv_productdetail_currentround = (TextView) inflate.findViewById(R.id.tv_productdetail_currentround);
+        ll_productdetail_buyit = (LinearLayout) inflate.findViewById(R.id.ll_productdetail_buyit);
+        rl_productdetail_lucky = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_lucky);
 
         rl_productdetail_indsertcoins.setOnClickListener(new MyOnClickListener());
         rl_productdetail_iteminformation.setOnClickListener(new MyOnClickListener());
@@ -188,6 +204,62 @@ public class ProductDetailPager extends BasePager {
         String game = "{\"productdetail\":" + s + "}";
         productDetailBean = gson.fromJson(s, ProductDetailBean.class);
 
+        if("running".equals(productDetailBean.getStatus())) {
+            tv_productdetail_inprogress.setVisibility(View.VISIBLE);
+            tv_productdetail_issue.setVisibility(View.VISIBLE);
+            tv_productdetail_totalicon.setVisibility(View.VISIBLE);
+            tv_productdetail_icon.setVisibility(View.VISIBLE);
+            pb_productdetail_progress.setVisibility(View.VISIBLE);
+
+            //隐藏一些控件
+            rl_productdetail_countdown.setVisibility(View.GONE);
+            rl_productdetail_calculation.setVisibility(View.GONE);
+            tv_productdetail_currentround.setVisibility(View.GONE);
+            ll_productdetail_buyit.setVisibility(View.GONE);
+            rl_productdetail_lucky.setVisibility(View.GONE);
+
+        }else if("closed".equals(productDetailBean.getStatus())) {
+            String finishTime = productDetailBean.getFinished_at();
+            //如果  是正数  说明需要倒计时  如果为负数  说明已经开奖
+            long time = Utils.Iso8601ToLong(finishTime);
+            Log.e("TAG", time + "");
+            rl_productdetail_countdown.setVisibility(View.VISIBLE);
+            rl_productdetail_calculation.setVisibility(View.VISIBLE);
+            tv_productdetail_currentround.setVisibility(View.VISIBLE);
+            ll_productdetail_buyit.setVisibility(View.VISIBLE);
+            new MyCountDownTimer(time,1000).start();
+
+            ll_productdetail_buyit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                }
+            });
+            //原先控件隐藏
+            tv_productdetail_inprogress.setVisibility(View.GONE);
+            tv_productdetail_issue.setVisibility(View.GONE);
+            tv_productdetail_totalicon.setVisibility(View.GONE);
+            tv_productdetail_icon.setVisibility(View.GONE);
+            pb_productdetail_progress.setVisibility(View.GONE);
+        }else if("finished".equals(productDetailBean.getStatus())) {
+            Log.e("TAG_finished", s);
+            tv_productdetail_inprogress.setText("Lottery");
+            //显示一些 控件
+            rl_productdetail_lucky.setVisibility(View.VISIBLE);
+            rl_productdetail_calculation.setVisibility(View.VISIBLE);
+            tv_productdetail_currentround.setVisibility(View.VISIBLE);
+            ll_productdetail_buyit.setVisibility(View.VISIBLE);
+
+            //隐藏一些控件
+            rl_productdetail_countdown.setVisibility(View.GONE);
+            tv_productdetail_issue.setVisibility(View.GONE);
+            tv_productdetail_totalicon.setVisibility(View.GONE);
+            tv_productdetail_icon.setVisibility(View.GONE);
+            pb_productdetail_progress.setVisibility(View.GONE);
+
+            setLucky();
+        }
+
+
         String imgUrl = "http:" + productDetailBean.getProduct().getDetail_image();
         Glide.with(context).load(imgUrl).into(iv_productdetail_image);
 
@@ -203,6 +275,7 @@ public class ProductDetailPager extends BasePager {
         pb_productdetail_progress.setProgress(productDetailBean.getShares() - productDetailBean.getLeft_shares());
 
     }
+
 
     private void processListData(String response) {
         Gson gson = new Gson();
@@ -222,6 +295,38 @@ public class ProductDetailPager extends BasePager {
         });
     }
 
+    private void setLucky() {
+        ((TextView)inflate.findViewById(R.id.tv_productdetail_luckynum)).setText(productDetailBean.getLucky_number()+"");
+        ((TextView)inflate.findViewById(R.id.tv_productdetail_luckyid)).setText(productDetailBean.getLucky_user().getId()+"");
+        ((TextView)inflate.findViewById(R.id.tv_productdetail_luckytime)).setText(productDetailBean.getFinished_at().substring(0,19).replace("T","\n"));
+    }
+    //倒计时
+    class MyCountDownTimer extends CountDownTimer {
+
+        public MyCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long l) {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
+            String time = formatter.format(l);
+
+            ((TextView)inflate.findViewById(R.id.tv_countdown_1)).setText(time.substring(0,1));
+            ((TextView)inflate.findViewById(R.id.tv_countdown_2)).setText(time.substring(1,2));
+            ((TextView)inflate.findViewById(R.id.tv_countdown_3)).setText(time.substring(3,4));
+            ((TextView)inflate.findViewById(R.id.tv_countdown_4)).setText(time.substring(4,5));
+            ((TextView)inflate.findViewById(R.id.tv_countdown_5)).setText(time.substring(6,7));
+            ((TextView)inflate.findViewById(R.id.tv_countdown_6)).setText(time.substring(7,8));
+        }
+
+        @Override
+        public void onFinish() {
+            ((TextView)inflate.findViewById(R.id.tv_countdown_6)).setText(0+"");
+            initData();
+        }
+    }
 
     class MyOnClickListener implements View.OnClickListener {
 
@@ -233,10 +338,6 @@ public class ProductDetailPager extends BasePager {
                     activity.from = "productdetail";
                     activity.switchPage(1);
                     break;
-//                case R.id.rl_productdetail_share:             //晒单分享
-//                    activity.from = "productdetail";
-//                    activity.switchPage(2);
-//                    break;
                 case R.id.rl_productdetail_announced:          //往期回顾
                     activity.from = "productdetail";
                     activity.switchPage(3);
@@ -337,8 +438,12 @@ public class ProductDetailPager extends BasePager {
                     if (show.isShowing()) {
                         show.dismiss();
                     }
-                    //现在只处理一种情况  产品售完   点击ok 刷新同种产品
+                    //购买成功
                     initData();
+                    break;
+                case R.id.rl_insert_notsellgame:
+                    //game 可能不足时处理
+                    Utils.MyToast(context,"game不足");
                     break;
                 case R.id.tv_lessicons_cancel:
                     //金币不足时 取消
@@ -375,8 +480,11 @@ public class ProductDetailPager extends BasePager {
 
             } else if ("GameNotSellable".equals(buyStateBean.getMessage())) {
                 //产品不能出售  有可能是还没出售   还有可能已经售完
-                tv_insertcoins_title.setText("Item expired");
-                jtv_insertcoins_discribe.setText("This issue is  closed, please participate again.");
+                //余额不足
+                inflate = View.inflate(context, R.layout.alertdialog_insertcoins_notsellgame, null);
+                RelativeLayout rl_insert_notsellgame = (RelativeLayout) inflate.findViewById(R.id.rl_insert_notsellgame);
+
+                rl_insert_notsellgame.setOnClickListener(new MyOnClickListener());
             } else if ("InsufficientBalance".equals(buyStateBean.getMessage())) {
                 //余额不足
                 inflate = View.inflate(context, R.layout.alertdialog_insertcoins_lessicons, null);

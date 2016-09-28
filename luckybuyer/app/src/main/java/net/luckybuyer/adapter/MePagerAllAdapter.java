@@ -41,18 +41,16 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         String status = list.get(position).getGame().getStatus();
         if("running".equals(status)) {
             return 0;
-        }else if("finished".equals(status)) {
+        }else if("closed".equals(status)) {
             String finishTime = list.get(position).getGame().getFinished_at();
             long time = Utils.Iso8601ToLong(finishTime);
-            if(time > 0) {
-                return 1;
-            }else if(time < 0) {
-                String id = list.get(position).getGame().getLucky_user().getId() + "";
-                if(id.equals(Utils.getSpData("id",context))) {
-                    return 3;
-                }
-                return 2;
+            return 1;
+        }else if("finished".equals(status)) {
+            String id = list.get(position).getGame().getLucky_user().getId() + "";
+            if(id.equals(Utils.getSpData("id",context))) {
+                return 3;
             }
+            return 2;
         }
         return super.getItemViewType(position);
     }
