@@ -80,7 +80,7 @@ public class MePager extends BasePager {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
         String token = Utils.getSpData("token", context);
-        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?per_page=20&page=1&timezone=utc";
+        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?per_page=10&page=1&timezone=utc";
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -199,6 +199,7 @@ public class MePager extends BasePager {
 
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
+        tv_me_gold.setOnClickListener(new MyOnClickListener());
     }
 
     private void setView() {
@@ -227,6 +228,11 @@ public class MePager extends BasePager {
                 case R.id.i_me_set:
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "setpager");
+                    startActivity(intent);
+                    break;
+                case R.id.tv_me_gold:
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from", "coindetailpager");
                     startActivity(intent);
                     break;
             }

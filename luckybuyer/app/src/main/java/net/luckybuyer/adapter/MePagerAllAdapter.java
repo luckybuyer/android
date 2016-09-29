@@ -116,6 +116,17 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     holder.iv_lucky_icon.setImageBitmap(resource);
                 }
             });
+
+//            String status = list.get(position).getDelivery().getStatus();
+//            if ("pending".equals(status)) {
+//                holder.tv_lucky_go.setText("Please confirm shipping address");
+//            } else if ("processing".equals(status)) {
+//                holder.tv_lucky_go.setText("Waiting for shippment");
+//            } else if ("shipping".equals(status)) {
+//                holder.tv_lucky_go.setText("Shipped, out for delivery");
+//            } else if ("finished".equals(status)) {
+//                holder.tv_lucky_go.setText("Delivered and show to win awards");
+//            }
             holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
             holder.tv_lucky_participation.setText("My participation:" + list.get(position).getShares());
@@ -159,6 +170,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private TextView tv_lucky_name;
         private RelativeLayout rl_lucky_address;
         private RelativeLayout rl_lucky_continue;
+        private TextView tv_lucky_go;
 
         public ViewHolder(View itemView,int type) {
             super(itemView);
@@ -191,8 +203,8 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_lucky_name = (TextView) itemView.findViewById(R.id.tv_lucky_name);
                 rl_lucky_address = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_address);
                 rl_lucky_continue = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_continue);
-                rl_lucky_continue.setVisibility(View.GONE);
-                rl_lucky_address.setVisibility(View.VISIBLE);
+                rl_lucky_continue.setVisibility(View.VISIBLE);
+                rl_lucky_address.setVisibility(View.GONE);
             }else if(type == 3) {
                 iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
                 jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
@@ -203,8 +215,9 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_lucky_name = (TextView) itemView.findViewById(R.id.tv_lucky_name);
                 rl_lucky_address = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_address);
                 rl_lucky_continue = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_continue);
-                rl_lucky_continue.setVisibility(View.VISIBLE);
-                rl_lucky_address.setVisibility(View.GONE);
+                tv_lucky_go = (TextView) itemView.findViewById(R.id.tv_lucky_go);
+                rl_lucky_continue.setVisibility(View.GONE);
+                rl_lucky_address.setVisibility(View.VISIBLE);
             }
         }
     }

@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import net.luckybuyer.R;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
+import net.luckybuyer.secondpager.BuyCoinPager;
+import net.luckybuyer.secondpager.CoinDetailPager;
 import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
@@ -91,6 +93,10 @@ public class SecondPagerActivity extends FragmentActivity {
         list.add(new PreviousWinnersPager());
         //设置界面                         4
         list.add(new SetPager());
+        //金币详情页面                     5
+        list.add(new CoinDetailPager());
+        //购买金币页面                     6
+        list.add(new BuyCoinPager());
     }
 
     //发现视图  设置监听
@@ -119,6 +125,8 @@ public class SecondPagerActivity extends FragmentActivity {
             switchPage(0);
         } else if ("setpager".equals(from)) {
             switchPage(4);
+        }else if("coindetailpager".equals(from)) {
+            switchPage(5);
         }
     }
 
@@ -236,6 +244,10 @@ public class SecondPagerActivity extends FragmentActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ("productdetail".equals(from)) {
                 switchPage(0);
+                from = "";
+                return false;
+            }else if("coindetailpager".equals(from)) {
+                switchPage(5);
                 from = "";
                 return false;
             }

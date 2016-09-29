@@ -28,16 +28,16 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 
     @Override
     public int getItemViewType(int position) {
-        String status = list.get(position).getDelivery().getStatus();
-        if ("pending".equals(status)) {
-            return 0;
-        } else if ("processing".equals(status)) {
-            return 1;
-        } else if ("shipping".equals(status)) {
-            return 2;
-        } else if ("finished".equals(status)) {
-            return 3;
-        }
+//        String status = list.get(position).getDelivery().getStatus();
+//        if ("pending".equals(status)) {
+//            return 0;
+//        } else if ("processing".equals(status)) {
+//            return 1;
+//        } else if ("shipping".equals(status)) {
+//            return 2;
+//        } else if ("finished".equals(status)) {
+//            return 3;
+//        }
         return super.getItemViewType(position);
     }
 
@@ -51,6 +51,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         int viewType = getItemViewType(position);
+        viewType = 0;
         if(viewType == 0) {
             holder.tv_lucky_go.setText("Please confirm shipping address");
         }else if(viewType ==1) {

@@ -17,6 +17,7 @@ public class HomeImagePageAdapter extends PagerAdapter {
     public List<View> list;
     public Context context;
     public ViewPager vp_home;
+
     public HomeImagePageAdapter(List list, Context context, ViewPager vp_home) {
         this.list = list;
         this.context = context;
@@ -41,7 +42,7 @@ public class HomeImagePageAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(list.get(position%list.size()));
-        return list.get(position%list.size());
+        container.addView(list.get(position % list.size()));
+        return list.get(position % list.size());
     }
 }

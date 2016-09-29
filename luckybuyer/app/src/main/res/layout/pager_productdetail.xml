@@ -260,6 +260,7 @@
                         android:layout_below="@+id/tv_productdetail_producttitle"
                         android:layout_marginLeft="@dimen/dimen_12"
                         android:layout_marginTop="@dimen/dimen_10"
+                        android:layout_marginBottom="@dimen/dimen_10"
                         android:background="@drawable/selector_tv_productdetail_inprogress"
                         android:gravity="center"
                         android:paddingLeft="@dimen/dimen_2"
@@ -275,6 +276,7 @@
                         android:layout_below="@+id/tv_productdetail_producttitle"
                         android:layout_marginRight="@dimen/dimen_12"
                         android:layout_marginTop="@dimen/dimen_10"
+                        android:layout_marginBottom="@dimen/dimen_10"
                         android:text="Issue：171754"
                         android:textColor="#666666"
                         android:textSize="@dimen/dimen_14" />
@@ -285,7 +287,6 @@
                         android:layout_height="@dimen/dimen_16"
                         android:layout_below="@+id/tv_productdetail_inprogress"
                         android:layout_marginLeft="@dimen/dimen_12"
-                        android:layout_marginTop="@dimen/dimen_10"
                         android:text="Total demand:1280 coins"
                         android:textColor="#999999"
                         android:textSize="@dimen/dimen_12" />
@@ -297,7 +298,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_below="@+id/tv_productdetail_inprogress"
                         android:layout_marginRight="@dimen/dimen_12"
-                        android:layout_marginTop="@dimen/dimen_10"
                         android:text="Remaining:8822"
                         android:textColor="#999999"
                         android:textSize="@dimen/dimen_12" />
@@ -358,8 +358,10 @@
                         android:layout_marginRight="@dimen/dimen_12"
                         android:background="@drawable/go_go" />
                 </RelativeLayout>
-
                 <include layout="@layout/include" android:id="@+id/rl_productdetail_lucky"></include>
+
+                <include layout="@layout/pager_productdetail_mybuy" android:id="@+id/rl_productdetail_mybuy"></include>
+
                 //防止使用 margintop出现空白区域
                 <RelativeLayout
                     android:layout_width="match_parent"

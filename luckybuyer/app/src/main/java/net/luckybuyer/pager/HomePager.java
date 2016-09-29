@@ -172,7 +172,7 @@ public class HomePager extends BasePager {
 
         handler.sendEmptyMessageDelayed(WHAT, 5000);       //开始轮播
         imageList = new ArrayList();
-        for (int i = 0; i < bannersBean.getBanner().size()+2; i++) {
+        for (int i = 0; i < bannersBean.getBanner().size()+4; i++) {
             String detail_image = "http:" + bannersBean.getBanner().get(0).getImage();
             ImageView image_header = new ImageView(context);
             Glide.with(context).load(detail_image).into(image_header);
