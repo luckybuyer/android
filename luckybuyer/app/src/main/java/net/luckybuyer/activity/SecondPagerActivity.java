@@ -1,6 +1,7 @@
 package net.luckybuyer.activity;
 
 import android.annotation.TargetApi;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +20,7 @@ import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
@@ -26,6 +28,7 @@ import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
 import net.luckybuyer.secondpager.BuyCoinPager;
 import net.luckybuyer.secondpager.CoinDetailPager;
+import net.luckybuyer.secondpager.DispatchPager;
 import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
@@ -45,7 +48,7 @@ import java.util.Map;
 public class SecondPagerActivity extends FragmentActivity {
 
     public RelativeLayout rl_secondpager_header;
-//    private TextView tv_second_share;
+    //    private TextView tv_second_share;
     private TextView tv_second_back;
     private List<Fragment> list;
     public int batch_id;
@@ -55,6 +58,8 @@ public class SecondPagerActivity extends FragmentActivity {
     public String from;
 
     public Lock lock;
+
+    public CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +102,8 @@ public class SecondPagerActivity extends FragmentActivity {
         list.add(new CoinDetailPager());
         //购买金币页面                     6
         list.add(new BuyCoinPager());
+        //物流分发界面                     7
+        list.add(new DispatchPager());
     }
 
     //发现视图  设置监听
@@ -125,8 +132,10 @@ public class SecondPagerActivity extends FragmentActivity {
             switchPage(0);
         } else if ("setpager".equals(from)) {
             switchPage(4);
-        }else if("coindetailpager".equals(from)) {
+        } else if ("coindetailpager".equals(from)) {
             switchPage(5);
+        }else if ("dispatchpager".equals(from)) {
+            switchPage(7);
         }
     }
 
@@ -179,7 +188,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 public void success(String response) {
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
-                    Utils.setSpData("id", user.getId()+"", SecondPagerActivity.this);
+                    Utils.setSpData("id", user.getId() + "", SecondPagerActivity.this);
                     Utils.setSpData("user_id", user.getAuth0_user_id(), SecondPagerActivity.this);
                     Utils.setSpData("balance", user.getBalance() + "", SecondPagerActivity.this);
                     Utils.setSpData("name", user.getProfile().getName(), SecondPagerActivity.this);
@@ -237,6 +246,9 @@ public class SecondPagerActivity extends FragmentActivity {
         // Your own Activity code
         this.lock.onDestroy(this);
         this.lock = null;
+        if (countDownTimer != null) {
+            countDownTimer.onFinish();
+        }
     }
 
     @Override
@@ -246,7 +258,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 switchPage(0);
                 from = "";
                 return false;
-            }else if("coindetailpager".equals(from)) {
+            } else if ("coindetailpager".equals(from)) {
                 switchPage(5);
                 from = "";
                 return false;

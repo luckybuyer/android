@@ -1,7 +1,9 @@
 package net.luckybuyer.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -18,11 +20,15 @@ import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.util.Util;
 
 import net.luckybuyer.R;
+import net.luckybuyer.activity.MainActivity;
+import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.bean.AllOrderBean;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.JustifyTextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by admin on 2016/9/21.
@@ -42,8 +48,6 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         if("running".equals(status)) {
             return 0;
         }else if("closed".equals(status)) {
-            String finishTime = list.get(position).getGame().getFinished_at();
-            long time = Utils.Iso8601ToLong(finishTime);
             return 1;
         }else if("finished".equals(status)) {
             String id = list.get(position).getGame().getLucky_user().getId() + "";
@@ -75,9 +79,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         return viewHolder;
     }
 
+    int type;
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        int type = getItemViewType(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        type = getItemViewType(position);
         if(type == 0) {
             String picture = "htpps:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -93,9 +98,50 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.tv_all_leftshares.setText("Remaining:" + list.get(position).getGame().getLeft_shares());
             holder.pb_all_progress.setMax(list.get(position).getGame().getShares());
             holder.pb_all_progress.setProgress(list.get(position).getGame().getShares() - list.get(position).getGame().getLeft_shares());
+            holder.rl_all_continue.setOnClickListener(new MyOnClickListener());
+            holder.iv_all_goview.setOnClickListener(new MyOnClickListener());
+            holder.tv_all_goview.setOnClickListener(new MyOnClickListener());
 
         }else if(type == 1) {
+            String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
+            Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    holder.iv_countdown_icon.setImageBitmap(resource);
+                }
+            });
+            holder.jtv_countdown_discribe.setText(list.get(position).getGame().getProduct().getTitle());
+            holder.tv_countdown_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
+            holder.tv_countdown_participation.setText("My participation:" + list.get(position).getShares());
+            String finishTime = list.get(position).getGame().getFinished_at();
+            long time = Utils.Iso8601ToLong(finishTime);
+            new CountDownTimer(time, 1000) {
+                @Override
+                public void onTick(long l) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                    formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
+                    String time = formatter.format(l);
 
+                    holder.tv_countdown_1.setText(time.substring(0,1));
+                    holder.tv_countdown_2.setText(time.substring(1, 2));
+                    holder.tv_countdown_3.setText(time.substring(3, 4));
+                    holder.tv_countdown_4.setText(time.substring(4, 5));
+                    holder.tv_countdown_5.setText(time.substring(6, 7));
+                    holder.tv_countdown_6.setText(time.substring(7, 8));
+                }
+
+                @Override
+                public void onFinish() {
+                    holder.tv_countdown_6.setText("0");
+//                    list.get(position).getGame().setStatus("finished");
+//                    notifyDataSetChanged();
+
+                }
+            }.start();
+
+            holder.rl_countdown_continue.setOnClickListener(new MyOnClickListener());
+            holder.iv_countdown_goview.setOnClickListener(new MyOnClickListener());
+            holder.tv_countdown_goview.setOnClickListener(new MyOnClickListener());
         }else if(type == 2) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -108,6 +154,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
             holder.tv_lucky_participation.setText("My participation:" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
+
+            holder.rl_lucky_continue.setOnClickListener(new MyOnClickListener());
+            holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener());
+            holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener());
         }else if(type == 3) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -131,6 +181,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
             holder.tv_lucky_participation.setText("My participation:" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
+
+            holder.rl_lucky_address.setOnClickListener(new MyOnClickListener());
+            holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener());
+            holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener());
         }
     }
 
@@ -139,6 +193,56 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         return list.size();
     }
 
+    //设置监听
+    class MyOnClickListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.rl_all_continue:                    //还在进行中
+                    Utils.MyToast(context,"还在进行中");
+                    break;
+                case R.id.iv_all_goview:
+                    Utils.MyToast(context,"还在进行中 goview");
+                    break;
+                case R.id.tv_all_goview:
+                    Utils.MyToast(context,"还在进行中 goview");
+                    break;
+                case R.id.rl_lucky_continue:                   //别人中奖了
+                    Utils.MyToast(context,"别人中奖了");
+                    break;
+                case R.id.iv_countdown_goview:
+                    Utils.MyToast(context,"倒计时 goview");
+                    break;
+                case R.id.tv_countdown_goview:
+                    Utils.MyToast(context,"倒计时 goview");
+                    break;
+                case R.id.rl_countdown_continue:
+                    Utils.MyToast(context,"倒计时");            //倒计时
+                    break;
+                case R.id.iv_lucky_goview:
+
+                    if(type == 2) {
+                        Utils.MyToast(context,"别人中奖了 goview");
+                    }else{
+                        Utils.MyToast(context,"我中奖了 goview");
+                    }
+                    break;
+                case R.id.tv_lucky_goview:
+                    if(type == 2) {
+                        Utils.MyToast(context,"别人中奖了 goview");
+                    }else{
+                        Utils.MyToast(context, "我中奖了 goview");
+                    }
+                    break;
+                case R.id.rl_lucky_address:                     //我中奖了点击地址
+                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","dispatchpager");
+                    ((MainActivity)context).startActivity(intent);
+                    break;
+            }
+        }
+    }
     class ViewHolder extends RecyclerView.ViewHolder{
         //all
         private ImageView iv_all_icon;
@@ -159,6 +263,12 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private TextView tv_countdown_goview;
         private ImageView iv_countdown_goview;
         private RelativeLayout rl_countdown_continue;
+        private TextView tv_countdown_1;
+        private TextView tv_countdown_2;
+        private TextView tv_countdown_3;
+        private TextView tv_countdown_4;
+        private TextView tv_countdown_5;
+        private TextView tv_countdown_6;
 
         //luckey
         private ImageView iv_lucky_icon;
@@ -193,6 +303,12 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_countdown_goview = (TextView) itemView.findViewById(R.id.tv_countdown_goview);
                 iv_countdown_goview = (ImageView) itemView.findViewById(R.id.iv_countdown_goview);
                 rl_countdown_continue = (RelativeLayout) itemView.findViewById(R.id.rl_countdown_continue);
+                tv_countdown_1 = (TextView) itemView.findViewById(R.id.tv_countdown_1);
+                tv_countdown_2 = (TextView) itemView.findViewById(R.id.tv_countdown_2);
+                tv_countdown_3 = (TextView) itemView.findViewById(R.id.tv_countdown_3);
+                tv_countdown_4 = (TextView) itemView.findViewById(R.id.tv_countdown_4);
+                tv_countdown_5 = (TextView) itemView.findViewById(R.id.tv_countdown_5);
+                tv_countdown_6 = (TextView) itemView.findViewById(R.id.tv_countdown_6);
             }else if(type == 2) {
                 iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
                 jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);

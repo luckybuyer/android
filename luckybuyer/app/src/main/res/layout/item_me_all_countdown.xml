@@ -115,6 +115,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_countdown_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -130,53 +131,7 @@
             android:gravity="center">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@color/text_white"
-                android:textSize="@dimen/dimen_14" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="@dimen/dimen_3"
-            android:layout_height="@dimen/dimen_10"
-            android:layout_marginLeft="@dimen/dimen_4">
-
-            <ImageView
-                android:layout_width="@dimen/dimen_3"
-                android:layout_height="@dimen/dimen_3"
-                android:background="@drawable/shape_iv_all_time_blackpoint" />
-
-            <ImageView
-                android:layout_width="@dimen/dimen_3"
-                android:layout_height="@dimen/dimen_3"
-                android:layout_alignParentBottom="true"
-                android:background="@drawable/shape_iv_all_time_blackpoint" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="@dimen/dimen_13"
-            android:layout_height="@dimen/dimen_17"
-            android:layout_marginLeft="@dimen/dimen_4"
-            android:background="#000000"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@color/text_white"
-                android:textSize="@dimen/dimen_14" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="@dimen/dimen_13"
-            android:layout_height="@dimen/dimen_17"
-            android:layout_marginLeft="@dimen/dimen_4"
-            android:background="#000000"
-            android:gravity="center">
-
-            <TextView
+                android:id="@+id/tv_countdown_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -209,6 +164,7 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_countdown_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -224,6 +180,56 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/tv_countdown_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/dimen_14" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/dimen_3"
+            android:layout_height="@dimen/dimen_10"
+            android:layout_marginLeft="@dimen/dimen_4">
+
+            <ImageView
+                android:layout_width="@dimen/dimen_3"
+                android:layout_height="@dimen/dimen_3"
+                android:background="@drawable/shape_iv_all_time_blackpoint" />
+
+            <ImageView
+                android:layout_width="@dimen/dimen_3"
+                android:layout_height="@dimen/dimen_3"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/shape_iv_all_time_blackpoint" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/dimen_13"
+            android:layout_height="@dimen/dimen_17"
+            android:layout_marginLeft="@dimen/dimen_4"
+            android:background="#000000"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_countdown_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/dimen_14" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/dimen_13"
+            android:layout_height="@dimen/dimen_17"
+            android:layout_marginLeft="@dimen/dimen_4"
+            android:background="#000000"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_countdown_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"

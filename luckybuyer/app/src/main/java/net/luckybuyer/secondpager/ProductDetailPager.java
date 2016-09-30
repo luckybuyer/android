@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
@@ -269,7 +270,7 @@ public class ProductDetailPager extends BasePager {
             tv_productdetail_currentround.setVisibility(View.VISIBLE);
             ll_productdetail_buyit.setVisibility(View.VISIBLE);
             tv_productdetail_currentround.setText("Issue:" + productDetailBean.getIssue_id());
-            new MyCountDownTimer(time,1000).start();
+            ((SecondPagerActivity)context).countDownTimer = new MyCountDownTimer(time,1000).start();
 
             ll_productdetail_buyit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -308,7 +309,12 @@ public class ProductDetailPager extends BasePager {
 
 
         String imgUrl = "http:" + productDetailBean.getProduct().getDetail_image();
-        Glide.with(context).load(imgUrl).into(iv_productdetail_image);
+
+        boolean flag = ((SecondPagerActivity)context).isDestroyed();
+        if(!flag) {
+
+            Glide.with(context).load(imgUrl).into(iv_productdetail_image);
+        }
 
         tv_productdetail_producttitle.setText(productDetailBean.getProduct().getTitle());
 

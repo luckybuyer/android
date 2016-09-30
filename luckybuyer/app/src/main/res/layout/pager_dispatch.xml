@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <RelativeLayout
+        android:id="@+id/rl_dispatch_header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_39"
+        android:background="@color/bg_while">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_30"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dimen_9"
+            android:layout_marginTop="@dimen/dimen_1"
+            android:gravity="center"
+            android:text="Items confirm"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_20" />
+
+        <TextView
+            android:id="@+id/tv_dispatch_share"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_20"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dimen_12"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_7"
+            android:gravity="center"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_14" />
+
+        <ImageView
+            android:id="@+id/iv_dispatchs_back"
+            android:layout_width="@dimen/dimen_10"
+            android:layout_height="@dimen/dimen_18"
+            android:layout_marginBottom="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:background="@drawable/go_back" />
+
+        <TextView
+            android:id="@+id/tv_dispatch_back"
+            android:layout_width="@dimen/dimen_39"
+            android:layout_height="@dimen/dimen_16"
+            android:layout_marginLeft="@dimen/dimen_6"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_toRightOf="@+id/iv_dispatchs_back"
+            android:text="Back"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_14" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/bg_view"></View>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_dispatch_icon"
+        android:layout_width="@dimen/dimen_70"
+        android:layout_height="@dimen/dimen_70"
+        android:layout_below="@+id/rl_dispatch_header"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_17"
+        android:background="@drawable/shape_rl_all">
+
+        <ImageView
+            android:id="@+id/iv_dispatch_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/default_icon" />
+    </RelativeLayout>
+
+    <net.luckybuyer.view.JustifyTextView
+        android:id="@+id/jtv_dispatch_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_dispatch_header"
+        android:layout_marginLeft="@dimen/dimen_14"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_17"
+        android:layout_toRightOf="@+id/rl_dispatch_icon"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="Magic sound headphones second generation"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_13" />
+
+    <TextView
+        android:id="@+id/jtv_dispatch_issue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/jtv_dispatch_title"
+        android:layout_marginLeft="@dimen/dimen_14"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_3"
+        android:layout_toRightOf="@+id/rl_dispatch_icon"
+        android:text="Issue:171754"
+        android:textColor="#666666"
+        android:textSize="@dimen/dimen_13" />
+
+    <TextView
+        android:id="@+id/jtv_dispatch_participate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/jtv_dispatch_issue"
+        android:layout_marginLeft="@dimen/dimen_14"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_3"
+        android:layout_toRightOf="@+id/rl_dispatch_icon"
+        android:text="I participation:1"
+        android:textColor="#666666"
+        android:textSize="@dimen/dimen_13" />
+
+    <TextView
+        android:id="@+id/tv_dispatch_adddiscribe"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40"
+        android:layout_below="@id/rl_dispatch_icon"
+        android:layout_marginTop="@dimen/dimen_18"
+        android:background="#F2F2F4"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dimen_12"
+        android:text="Please confirm shipping address"
+        android:textColor="#999999"
+        android:textSize="@dimen/dimen_13" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dispatch_adddiscribe"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_18"
+        android:text="Order tracking"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_13" />
+
+    <!-- 获得产品描述-->
+    <RelativeLayout
+        android:id="@+id/rl_dispatch1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50"
+        android:layout_below="@id/tv_dispatch_adddiscribe"
+        android:layout_marginTop="@dimen/dimen_53">
+
+        <ImageView
+            android:id="@+id/tv_disaptch_timepoint1"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:background="@drawable/dispatch_black" />
+
+        <TextView
+            android:id="@+id/tv_dispatch_discribe1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_18"
+            android:layout_marginLeft="@dimen/dimen_9"
+            android:layout_toRightOf="@+id/tv_disaptch_timepoint1"
+            android:gravity="center_horizontal"
+            android:text="Congratulations! You won this product"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_13" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_18"
+            android:layout_below="@+id/tv_dispatch_discribe1"
+            android:layout_marginLeft="@dimen/dimen_9"
+            android:layout_toRightOf="@+id/tv_disaptch_timepoint1"
+            android:gravity="center_horizontal"
+            android:text="6-07-13 16:02"
+            android:textColor="#999999"
+            android:textSize="@dimen/dimen_12" />
+
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_marginLeft="@dimen/dimen_18"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="#333333"></View>
+    </RelativeLayout>
+
+    <!-- 地址-->
+    <RelativeLayout
+        android:id="@+id/rl_dispatch_address"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_55"
+        android:layout_below="@id/rl_dispatch1"
+        android:layout_marginTop="-5dp">
+
+        <ImageView
+            android:id="@+id/iv_disaptch_selector_address"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:background="@drawable/selector_dispatch_point" />
+
+        <TextView
+            android:id="@+id/tv_disaptch_selector_address"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_18"
+            android:layout_marginLeft="@dimen/dimen_9"
+            android:layout_toRightOf="@+id/iv_disaptch_selector_address"
+            android:enabled="true"
+            android:gravity="center_horizontal"
+            android:text="Confirm shipping address"
+            android:textColor="@drawable/selector_dispatch_textcoclor"
+            android:textSize="@dimen/dimen_13" />
+
+        <RelativeLayout
+            android:id="@+id/rl_dispatch_address_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_disaptch_selector_address"
+            android:layout_marginLeft="@dimen/dimen_9"
+            android:layout_toRightOf="@+id/iv_disaptch_selector_address">
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_address"
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_18"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="@drawable/selector_dispatch_view"></View>
+    </RelativeLayout>
+
+    <!-- shipping-->
+    <RelativeLayout
+        android:id="@+id/rl_dispatch_shipping"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50"
+        android:layout_below="@id/rl_dispatch_address"
+        android:layout_marginTop="-5dp">
+
+        <ImageView
+            android:id="@+id/iv_disaptch_shipping"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:background="@drawable/dispatch_gray" />
+
+        <TextView
+            android:id="@+id/tv_dispatch_shipping"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_18"
+            android:layout_marginLeft="@dimen/dimen_9"
+            android:layout_toRightOf="@+id/iv_disaptch_shipping"
+            android:gravity="center_horizontal"
+            android:text="Shipping"
+            android:textColor="#cccccc"
+            android:textSize="@dimen/dimen_13" />
+
+
+        <View
+            android:id="@+id/view_shipping"
+            android:layout_width="1px"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_marginLeft="@dimen/dimen_18"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="#cccccc"></View>
+    </RelativeLayout>
+    <!-- delivered-->
+    <RelativeLayout
+        android:id="@+id/rl_delivered"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_dispatch_shipping"
+        android:layout_marginBottom="@dimen/dimen_20"
+        android:layout_marginTop="-5dp">
+
+        <ImageView
+            android:id="@+id/iv_disaptch_delivered"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:background="@drawable/dispatch_gray" />
+
+        <TextView
+            android:id="@+id/tv_dispatch_delivered"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_18"
+            android:layout_marginLeft="@dimen/dimen_9"
+            android:layout_toRightOf="@+id/iv_disaptch_delivered"
+            android:gravity="center_horizontal"
+            android:text="Delivered"
+            android:textColor="#cccccc"
+            android:textSize="@dimen/dimen_13" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_delivered"
+        android:background="#F2F2F4"></RelativeLayout>
+
+    <RelativeLayout
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/tv_dispatch_again"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_40"
+            android:gravity="center"
+            android:textSize="@dimen/dimen_14"
+            android:layout_centerInParent="true"
+            android:text="Participate again"
+            android:textColor="#ff9c05"/>
+        <ImageView
+            android:layout_toRightOf="@+id/tv_dispatch_again"
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:background="@drawable/go_yellow"
+            android:layout_width="@dimen/dimen_6"
+            android:layout_centerVertical="true"
+            android:layout_height="@dimen/dimen_11" />
+    </RelativeLayout>
+
+</RelativeLayout>
