@@ -79,42 +79,57 @@ public class MePager extends BasePager {
     public void initData() {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
-        String token = Utils.getSpData("token", context);
-        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?per_page=10&page=1&timezone=utc";
+        final String token = Utils.getSpData("token", context);
+        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?per_page=20&page=1&timezone=utc";
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
                     public void success(final String response) {
-//                        String str = response.substring(0,response.length()/10);
-//                        String str1 = response.substring(response.length()/10,response.length()/5);
-//                        String str2 = response.substring(response.length()/5,response.length()*3/10);
-//                        String str3 = response.substring(response.length()*3/10,response.length()*4/10);
-//                        String str4 = response.substring(response.length()*4/10,response.length()*5/10);
-//                        String str5 = response.substring(response.length()*5/10,response.length()*6/10);
-//                        String str6 = response.substring(response.length()*6/10,response.length()*7/10);
-//                        String str7 = response.substring(response.length()*7/10,response.length()*8/10);
-//                        String str8 = response.substring(response.length()*8/10,response.length()*9/10);
-//                        String str9 = response.substring(response.length()*9/10,response.length());
-//                        Log.e("TAG1", str);
-//                        Log.e("TAG2", str1);
-//                        Log.e("TAG3", str2);
-//                        Log.e("TAG4", str3);
-//                        Log.e("TAG5", str4);
-//                        Log.e("TAG6", str5);
-//                        Log.e("TAG7", str6);
-//                        Log.e("TAG8", str7);
-//                        Log.e("TAG9", str8);
-//                        Log.e("TAG0", str9);
 
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        processData(response);
-                                        HttpUtils.getInstance().stopNetWorkWaiting();
+                                        //我的中奖  接口(lucky)
+                                        LuckyResponse(token, response);
+                                    }
+                                }
+                        );
+                    }
 
+                    @Override
+                    public void error(int requestCode, String message) {
+                        Log.e("TAG", requestCode + "");
+                        Log.e("TAG", message);
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                HttpUtils.getInstance().stopNetWorkWaiting();
+
+                            }
+                        });
+                    }
+                }
+
+        );
+    }
+
+    private void LuckyResponse(String token, final String res) {
+        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=utc";
+        Map map = new HashMap<String, String>();
+        map.put("Authorization", "Bearer " + token);
+        //请求登陆接口
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+                    @Override
+                    public void success(final String response) {
+                        ((Activity) context).runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        processData(res, response);
+                                        HttpUtils.getInstance().stopNetWorkWaiting();
 
                                     }
                                 }
@@ -136,21 +151,16 @@ public class MePager extends BasePager {
                 }
 
         );
-
-
     }
 
-    private void processData(String response) {
-        response = "{\"allorder\":" + response + "}";
+    private void processData(String res, String resLucky) {
+        res = "{\"allorder\":" + res + "}";
         Gson gson = new Gson();
-        AllOrderBean allOrderBean = gson.fromJson(response, AllOrderBean.class);
+        AllOrderBean allOrderBean = gson.fromJson(res, AllOrderBean.class);
 
-        List listLucky = new ArrayList();
-        for (int i = 0; i < allOrderBean.getAllorder().size(); i++) {
-            if (allOrderBean.getAllorder().get(i).getGame().getLucky_user() != null && Utils.getSpData("id", context).equals(allOrderBean.getAllorder().get(i).getGame().getLucky_user().getId() + "")) {
-                listLucky.add(allOrderBean.getAllorder().get(i));
-            }
-        }
+        resLucky = "{\"allorder\":" + resLucky + "}";
+        gson = new Gson();
+        AllOrderBean luckyOrderBean = gson.fromJson(resLucky, AllOrderBean.class);
         vpList = new ArrayList();
 
         //加载All页面
@@ -165,7 +175,7 @@ public class MePager extends BasePager {
         RecyclerView recyclerView = new RecyclerView(context);
         linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(new MePagerLuckyAdapter(context, listLucky));
+        recyclerView.setAdapter(new MePagerLuckyAdapter(context, luckyOrderBean.getAllorder()));
         vpList.add(recyclerView);
 
 //        //加载Show界面

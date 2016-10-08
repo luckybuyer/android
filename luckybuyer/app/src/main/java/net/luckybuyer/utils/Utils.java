@@ -378,6 +378,7 @@ public class Utils {
         Long mm = calendar.getTimeInMillis() - calendarNow.getTimeInMillis();
 //        Log.e("TAG_time", calendar.getTimeInMillis()+"");
 //        Log.e("TAG_time", calendarNow.getTimeInMillis()+"");
+
         return mm;
     }
 }

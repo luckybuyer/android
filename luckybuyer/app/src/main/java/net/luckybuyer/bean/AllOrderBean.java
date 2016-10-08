@@ -1,22 +1,23 @@
 package net.luckybuyer.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by admin on 2016/9/23.
  */
-public class AllOrderBean {
+public class AllOrderBean implements Serializable{
 
 
     /**
-     * _resource : GameOrder
-     * amount : 8
-     * delivery : {"_resource":"Delivery","created_at":"2016-09-23T08:44:24.546219+00:00","id":4,"status":"pending","status_changes":[],"url":"https://api-staging.luckybuyer.net/v1/deliveries/4"}
-     * game : {"_resource":"Game","batch_id":8,"closed_at":"2016-09-23T08:44:24.397675+00:00","finished_at":"2016-09-23T08:45:24.397675+00:00","id":10,"issue_id":1,"left_shares":0,"lucky_number":"1000001","lucky_order":{"_resource":"WinnerGameOrder","created_at":"2016-09-23T08:44:24.390935+00:00","id":31,"numbers":[1000001],"shares":1,"total_shares":1,"user":{"_resource":"PublicUser","id":3,"profile":{"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}}},"lucky_user":{"_resource":"PublicUser","id":3,"profile":{"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}},"num_orders":2,"product":{"_resource":"Product","detail":"Japan box type student school bag","detail_image":"//s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/7-2.jpg","id":8,"title":"Japan box type student school bag","title_image":"//s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/3-2.jpg"},"result_countdown":60,"share_price":8,"shares":2,"start_at":"2016-09-20T05:33:08+00:00","status":"finished","url":"https://api-staging.luckybuyer.net/v1/games/10"}
-     * id : 31
-     * numbers : [1000001]
-     * shares : 1
-     * url : https://api-staging.luckybuyer.net/v1/game-orders/31
+     * _resource : type of the resource
+     * amount : 0
+     * delivery : {"_resource":"type of the resource","address":{"_resource":"type of the resource","address":"string","created_at":"2016-10-08T01:41:31.255Z","id":0,"is_default":true,"name":"string","phone":"string","url":"string","zipcode":"string"},"created_at":"2016-10-08T01:41:31.255Z","id":0,"status":"processing","status_changes":[{"_resource":"type of the resource","created_at":"2016-10-08T01:41:31.255Z","status":"processing"}],"url":"string"}
+     * game : {"_resource":"type of the resource","closed_at":"2016-10-08T01:41:31.255Z","finished_at":"2016-10-08T01:41:31.255Z","id":0,"issue_id":0,"left_shares":0,"lucky_number":"string","lucky_order":{"_resource":"type of the resource","created_at":"2016-10-08T01:41:31.255Z","id":0,"numbers":[0],"shares":0,"total_shares":"string","user":{"_resource":"type of the resource","id":0,"profile":{"locale":"string","name":"string","picture":"string","picture_large":"string","social_link":"string","timezone":"string"}}},"lucky_user":{"_resource":"type of the resource","id":0,"profile":{"locale":"string","name":"string","picture":"string","picture_large":"string","social_link":"string","timezone":"string"}},"num_orders":0,"product":{"_resource":"type of the resource","detail":"string","detail_image":"string","id":0,"title":"string","title_image":"string"},"result_countdown":0,"share_price":0,"shares":0,"start_at":"2016-10-08T01:41:31.256Z","status":"running","url":"string"}
+     * id : 0
+     * numbers : [0]
+     * shares : 0
+     * url : string
      */
 
     private List<AllorderBean> allorder;
@@ -29,38 +30,38 @@ public class AllOrderBean {
         this.allorder = allorder;
     }
 
-    public static class AllorderBean {
+    public static class AllorderBean implements Serializable{
         private String _resource;
         private int amount;
         /**
-         * _resource : Delivery
-         * created_at : 2016-09-23T08:44:24.546219+00:00
-         * id : 4
-         * status : pending
-         * status_changes : []
-         * url : https://api-staging.luckybuyer.net/v1/deliveries/4
+         * _resource : type of the resource
+         * address : {"_resource":"type of the resource","address":"string","created_at":"2016-10-08T01:41:31.255Z","id":0,"is_default":true,"name":"string","phone":"string","url":"string","zipcode":"string"}
+         * created_at : 2016-10-08T01:41:31.255Z
+         * id : 0
+         * status : processing
+         * status_changes : [{"_resource":"type of the resource","created_at":"2016-10-08T01:41:31.255Z","status":"processing"}]
+         * url : string
          */
 
         private DeliveryBean delivery;
         /**
-         * _resource : Game
-         * batch_id : 8
-         * closed_at : 2016-09-23T08:44:24.397675+00:00
-         * finished_at : 2016-09-23T08:45:24.397675+00:00
-         * id : 10
-         * issue_id : 1
+         * _resource : type of the resource
+         * closed_at : 2016-10-08T01:41:31.255Z
+         * finished_at : 2016-10-08T01:41:31.255Z
+         * id : 0
+         * issue_id : 0
          * left_shares : 0
-         * lucky_number : 1000001
-         * lucky_order : {"_resource":"WinnerGameOrder","created_at":"2016-09-23T08:44:24.390935+00:00","id":31,"numbers":[1000001],"shares":1,"total_shares":1,"user":{"_resource":"PublicUser","id":3,"profile":{"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}}}
-         * lucky_user : {"_resource":"PublicUser","id":3,"profile":{"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}}
-         * num_orders : 2
-         * product : {"_resource":"Product","detail":"Japan box type student school bag","detail_image":"//s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/7-2.jpg","id":8,"title":"Japan box type student school bag","title_image":"//s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/3-2.jpg"}
-         * result_countdown : 60
-         * share_price : 8
-         * shares : 2
-         * start_at : 2016-09-20T05:33:08+00:00
-         * status : finished
-         * url : https://api-staging.luckybuyer.net/v1/games/10
+         * lucky_number : string
+         * lucky_order : {"_resource":"type of the resource","created_at":"2016-10-08T01:41:31.255Z","id":0,"numbers":[0],"shares":0,"total_shares":"string","user":{"_resource":"type of the resource","id":0,"profile":{"locale":"string","name":"string","picture":"string","picture_large":"string","social_link":"string","timezone":"string"}}}
+         * lucky_user : {"_resource":"type of the resource","id":0,"profile":{"locale":"string","name":"string","picture":"string","picture_large":"string","social_link":"string","timezone":"string"}}
+         * num_orders : 0
+         * product : {"_resource":"type of the resource","detail":"string","detail_image":"string","id":0,"title":"string","title_image":"string"}
+         * result_countdown : 0
+         * share_price : 0
+         * shares : 0
+         * start_at : 2016-10-08T01:41:31.256Z
+         * status : running
+         * url : string
          */
 
         private GameBean game;
@@ -133,13 +134,32 @@ public class AllOrderBean {
             this.numbers = numbers;
         }
 
-        public static class DeliveryBean {
+        public static class DeliveryBean implements Serializable{
             private String _resource;
+            /**
+             * _resource : type of the resource
+             * address : string
+             * created_at : 2016-10-08T01:41:31.255Z
+             * id : 0
+             * is_default : true
+             * name : string
+             * phone : string
+             * url : string
+             * zipcode : string
+             */
+
+            private AddressBean address;
             private String created_at;
             private int id;
             private String status;
             private String url;
-            private List<?> status_changes;
+            /**
+             * _resource : type of the resource
+             * created_at : 2016-10-08T01:41:31.255Z
+             * status : processing
+             */
+
+            private List<StatusChangesBean> status_changes;
 
             public String get_resource() {
                 return _resource;
@@ -147,6 +167,14 @@ public class AllOrderBean {
 
             public void set_resource(String _resource) {
                 this._resource = _resource;
+            }
+
+            public AddressBean getAddress() {
+                return address;
+            }
+
+            public void setAddress(AddressBean address) {
+                this.address = address;
             }
 
             public String getCreated_at() {
@@ -181,18 +209,131 @@ public class AllOrderBean {
                 this.url = url;
             }
 
-            public List<?> getStatus_changes() {
+            public List<StatusChangesBean> getStatus_changes() {
                 return status_changes;
             }
 
-            public void setStatus_changes(List<?> status_changes) {
+            public void setStatus_changes(List<StatusChangesBean> status_changes) {
                 this.status_changes = status_changes;
+            }
+
+            public static class AddressBean implements Serializable{
+                private String _resource;
+                private String address;
+                private String created_at;
+                private int id;
+                private boolean is_default;
+                private String name;
+                private String phone;
+                private String url;
+                private String zipcode;
+
+                public String get_resource() {
+                    return _resource;
+                }
+
+                public void set_resource(String _resource) {
+                    this._resource = _resource;
+                }
+
+                public String getAddress() {
+                    return address;
+                }
+
+                public void setAddress(String address) {
+                    this.address = address;
+                }
+
+                public String getCreated_at() {
+                    return created_at;
+                }
+
+                public void setCreated_at(String created_at) {
+                    this.created_at = created_at;
+                }
+
+                public int getId() {
+                    return id;
+                }
+
+                public void setId(int id) {
+                    this.id = id;
+                }
+
+                public boolean isIs_default() {
+                    return is_default;
+                }
+
+                public void setIs_default(boolean is_default) {
+                    this.is_default = is_default;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getPhone() {
+                    return phone;
+                }
+
+                public void setPhone(String phone) {
+                    this.phone = phone;
+                }
+
+                public String getUrl() {
+                    return url;
+                }
+
+                public void setUrl(String url) {
+                    this.url = url;
+                }
+
+                public String getZipcode() {
+                    return zipcode;
+                }
+
+                public void setZipcode(String zipcode) {
+                    this.zipcode = zipcode;
+                }
+            }
+
+            public static class StatusChangesBean implements Serializable{
+                private String _resource;
+                private String created_at;
+                private String status;
+
+                public String get_resource() {
+                    return _resource;
+                }
+
+                public void set_resource(String _resource) {
+                    this._resource = _resource;
+                }
+
+                public String getCreated_at() {
+                    return created_at;
+                }
+
+                public void setCreated_at(String created_at) {
+                    this.created_at = created_at;
+                }
+
+                public String getStatus() {
+                    return status;
+                }
+
+                public void setStatus(String status) {
+                    this.status = status;
+                }
             }
         }
 
-        public static class GameBean {
+        public static class GameBean implements Serializable{
             private String _resource;
-            private int batch_id;
             private String closed_at;
             private String finished_at;
             private int id;
@@ -200,31 +341,31 @@ public class AllOrderBean {
             private int left_shares;
             private String lucky_number;
             /**
-             * _resource : WinnerGameOrder
-             * created_at : 2016-09-23T08:44:24.390935+00:00
-             * id : 31
-             * numbers : [1000001]
-             * shares : 1
-             * total_shares : 1
-             * user : {"_resource":"PublicUser","id":3,"profile":{"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}}
+             * _resource : type of the resource
+             * created_at : 2016-10-08T01:41:31.255Z
+             * id : 0
+             * numbers : [0]
+             * shares : 0
+             * total_shares : string
+             * user : {"_resource":"type of the resource","id":0,"profile":{"locale":"string","name":"string","picture":"string","picture_large":"string","social_link":"string","timezone":"string"}}
              */
 
             private LuckyOrderBean lucky_order;
             /**
-             * _resource : PublicUser
-             * id : 3
-             * profile : {"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}
+             * _resource : type of the resource
+             * id : 0
+             * profile : {"locale":"string","name":"string","picture":"string","picture_large":"string","social_link":"string","timezone":"string"}
              */
 
             private LuckyUserBean lucky_user;
             private int num_orders;
             /**
-             * _resource : Product
-             * detail : Japan box type student school bag
-             * detail_image : //s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/7-2.jpg
-             * id : 8
-             * title : Japan box type student school bag
-             * title_image : //s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/3-2.jpg
+             * _resource : type of the resource
+             * detail : string
+             * detail_image : string
+             * id : 0
+             * title : string
+             * title_image : string
              */
 
             private ProductBean product;
@@ -241,14 +382,6 @@ public class AllOrderBean {
 
             public void set_resource(String _resource) {
                 this._resource = _resource;
-            }
-
-            public int getBatch_id() {
-                return batch_id;
-            }
-
-            public void setBatch_id(int batch_id) {
-                this.batch_id = batch_id;
             }
 
             public String getClosed_at() {
@@ -379,16 +512,16 @@ public class AllOrderBean {
                 this.url = url;
             }
 
-            public static class LuckyOrderBean {
+            public static class LuckyOrderBean implements Serializable{
                 private String _resource;
                 private String created_at;
                 private int id;
                 private int shares;
-                private int total_shares;
+                private String total_shares;
                 /**
-                 * _resource : PublicUser
-                 * id : 3
-                 * profile : {"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}
+                 * _resource : type of the resource
+                 * id : 0
+                 * profile : {"locale":"string","name":"string","picture":"string","picture_large":"string","social_link":"string","timezone":"string"}
                  */
 
                 private UserBean user;
@@ -426,11 +559,11 @@ public class AllOrderBean {
                     this.shares = shares;
                 }
 
-                public int getTotal_shares() {
+                public String getTotal_shares() {
                     return total_shares;
                 }
 
-                public void setTotal_shares(int total_shares) {
+                public void setTotal_shares(String total_shares) {
                     this.total_shares = total_shares;
                 }
 
@@ -450,16 +583,16 @@ public class AllOrderBean {
                     this.numbers = numbers;
                 }
 
-                public static class UserBean {
+                public static class UserBean implements Serializable{
                     private String _resource;
                     private int id;
                     /**
-                     * locale : zh_CN
-                     * name : 杨树宇
-                     * picture : https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F
-                     * picture_large : https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg
-                     * social_link : https://www.facebook.com/app_scoped_user_id/118093991983735/
-                     * timezone : +08:00
+                     * locale : string
+                     * name : string
+                     * picture : string
+                     * picture_large : string
+                     * social_link : string
+                     * timezone : string
                      */
 
                     private ProfileBean profile;
@@ -488,7 +621,7 @@ public class AllOrderBean {
                         this.profile = profile;
                     }
 
-                    public static class ProfileBean {
+                    public static class ProfileBean implements Serializable{
                         private String locale;
                         private String name;
                         private String picture;
@@ -547,16 +680,16 @@ public class AllOrderBean {
                 }
             }
 
-            public static class LuckyUserBean {
+            public static class LuckyUserBean implements Serializable{
                 private String _resource;
                 private int id;
                 /**
-                 * locale : zh_CN
-                 * name : 杨树宇
-                 * picture : https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F
-                 * picture_large : https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg
-                 * social_link : https://www.facebook.com/app_scoped_user_id/118093991983735/
-                 * timezone : +08:00
+                 * locale : string
+                 * name : string
+                 * picture : string
+                 * picture_large : string
+                 * social_link : string
+                 * timezone : string
                  */
 
                 private ProfileBean profile;
@@ -585,7 +718,7 @@ public class AllOrderBean {
                     this.profile = profile;
                 }
 
-                public static class ProfileBean {
+                public static class ProfileBean implements Serializable{
                     private String locale;
                     private String name;
                     private String picture;
@@ -643,7 +776,7 @@ public class AllOrderBean {
                 }
             }
 
-            public static class ProductBean {
+            public static class ProductBean implements Serializable{
                 private String _resource;
                 private String detail;
                 private String detail_image;

@@ -24,7 +24,7 @@
             android:layout_marginBottom="@dimen/dimen_10"
             android:layout_marginTop="@dimen/dimen_5"
             android:text="LUCKYBUYER"
-            android:textSize="@dimen/dimen_20" />
+            android:textSize="@dimen/dimen_18" />
 
         <TextView
             android:id="@+id/tv_home_share"

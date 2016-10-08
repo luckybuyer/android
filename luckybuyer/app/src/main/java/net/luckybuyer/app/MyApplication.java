@@ -9,6 +9,7 @@ import com.auth0.android.result.Credentials;
  */
 public class MyApplication extends Application{
 
+    public static String utc = "utc";
     @Override
     public void onCreate() {
         super.onCreate();

@@ -26,6 +26,7 @@ import net.luckybuyer.bean.AllOrderBean;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.JustifyTextView;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TimeZone;
@@ -51,7 +52,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             return 1;
         }else if("finished".equals(status)) {
             String id = list.get(position).getGame().getLucky_user().getId() + "";
-            if(id.equals(Utils.getSpData("id",context))) {
+            if(list.get(position).getDelivery() != null) {
                 return 3;
             }
             return 2;
@@ -84,7 +85,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         type = getItemViewType(position);
         if(type == 0) {
-            String picture = "htpps:" + list.get(position).getGame().getProduct().getTitle_image();
+            String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -98,9 +99,9 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.tv_all_leftshares.setText("Remaining:" + list.get(position).getGame().getLeft_shares());
             holder.pb_all_progress.setMax(list.get(position).getGame().getShares());
             holder.pb_all_progress.setProgress(list.get(position).getGame().getShares() - list.get(position).getGame().getLeft_shares());
-            holder.rl_all_continue.setOnClickListener(new MyOnClickListener());
-            holder.iv_all_goview.setOnClickListener(new MyOnClickListener());
-            holder.tv_all_goview.setOnClickListener(new MyOnClickListener());
+            holder.rl_all_continue.setOnClickListener(new MyOnClickListener(position));
+            holder.iv_all_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.tv_all_goview.setOnClickListener(new MyOnClickListener(position));
 
         }else if(type == 1) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
@@ -139,9 +140,9 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 }
             }.start();
 
-            holder.rl_countdown_continue.setOnClickListener(new MyOnClickListener());
-            holder.iv_countdown_goview.setOnClickListener(new MyOnClickListener());
-            holder.tv_countdown_goview.setOnClickListener(new MyOnClickListener());
+            holder.rl_countdown_continue.setOnClickListener(new MyOnClickListener(position));
+            holder.iv_countdown_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.tv_countdown_goview.setOnClickListener(new MyOnClickListener(position));
         }else if(type == 2) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -155,9 +156,9 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.tv_lucky_participation.setText("My participation:" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
 
-            holder.rl_lucky_continue.setOnClickListener(new MyOnClickListener());
-            holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener());
-            holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener());
+            holder.rl_lucky_continue.setOnClickListener(new MyOnClickListener(position));
+            holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
         }else if(type == 3) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -167,24 +168,24 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 }
             });
 
-//            String status = list.get(position).getDelivery().getStatus();
-//            if ("pending".equals(status)) {
-//                holder.tv_lucky_go.setText("Please confirm shipping address");
-//            } else if ("processing".equals(status)) {
-//                holder.tv_lucky_go.setText("Waiting for shippment");
-//            } else if ("shipping".equals(status)) {
-//                holder.tv_lucky_go.setText("Shipped, out for delivery");
-//            } else if ("finished".equals(status)) {
-//                holder.tv_lucky_go.setText("Delivered and show to win awards");
-//            }
+            String status = list.get(position).getDelivery().getStatus();
+            if ("pending".equals(status)) {
+                holder.tv_lucky_go.setText("Please confirm shipping address");
+            } else if ("processing".equals(status)) {
+                holder.tv_lucky_go.setText("Waiting for shippment");
+            } else if ("shipping".equals(status)) {
+                holder.tv_lucky_go.setText("Shipped, out for delivery");
+            } else if ("finished".equals(status)) {
+                holder.tv_lucky_go.setText("Delivered and show to win awards");
+            }
             holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
             holder.tv_lucky_participation.setText("My participation:" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
 
-            holder.rl_lucky_address.setOnClickListener(new MyOnClickListener());
-            holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener());
-            holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener());
+            holder.rl_lucky_address.setOnClickListener(new MyOnClickListener(position));
+            holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
         }
     }
 
@@ -195,6 +196,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
     //设置监听
     class MyOnClickListener implements View.OnClickListener{
+        int position = -1;
+        public MyOnClickListener(int position) {
+            this.position = position;
+        }
 
         @Override
         public void onClick(View view) {
@@ -238,6 +243,8 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 case R.id.rl_lucky_address:                     //我中奖了点击地址
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from","dispatchpager");
+                    intent.putExtra("alllist", (Serializable) list);
+                    intent.putExtra("position", position);
                     ((MainActivity)context).startActivity(intent);
                     break;
             }

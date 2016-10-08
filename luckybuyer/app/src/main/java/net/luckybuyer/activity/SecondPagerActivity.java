@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import net.luckybuyer.R;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
+import net.luckybuyer.secondpager.AddAddressPager;
 import net.luckybuyer.secondpager.BuyCoinPager;
 import net.luckybuyer.secondpager.CoinDetailPager;
 import net.luckybuyer.secondpager.DispatchPager;
@@ -33,6 +34,7 @@ import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
 import net.luckybuyer.secondpager.SetPager;
+import net.luckybuyer.secondpager.ShippingAddressPager;
 import net.luckybuyer.secondpager.WinnersSharingPager;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.StatusBarUtils;
@@ -53,6 +55,8 @@ public class SecondPagerActivity extends FragmentActivity {
     private List<Fragment> list;
     public int batch_id;
     public int game_id;
+    public List allList = new ArrayList();
+    public int position;
 
     //需要去哪
     public String from;
@@ -78,6 +82,8 @@ public class SecondPagerActivity extends FragmentActivity {
 
         batch_id = getIntent().getIntExtra("batch_id", -1);
         game_id = getIntent().getIntExtra("game_id", -1);
+        position = getIntent().getIntExtra("position", -1);
+        allList = (ArrayList) getIntent().getSerializableExtra("alllist");
         setData();
         //发现视图  设置监听
         findView();
@@ -104,6 +110,10 @@ public class SecondPagerActivity extends FragmentActivity {
         list.add(new BuyCoinPager());
         //物流分发界面                     7
         list.add(new DispatchPager());
+        //增加地址页面                     8
+        list.add(new AddAddressPager());
+        //选择地址页面                     9
+        list.add(new ShippingAddressPager());
     }
 
     //发现视图  设置监听

@@ -20,7 +20,7 @@
             android:gravity="center"
             android:text="Items confirm"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_20" />
+            android:textSize="@dimen/dimen_18" />
 
         <TextView
             android:id="@+id/tv_dispatch_share"
@@ -94,7 +94,7 @@
         android:textSize="@dimen/dimen_13" />
 
     <TextView
-        android:id="@+id/jtv_dispatch_issue"
+        android:id="@+id/tv_dispatch_issue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/jtv_dispatch_title"
@@ -107,10 +107,10 @@
         android:textSize="@dimen/dimen_13" />
 
     <TextView
-        android:id="@+id/jtv_dispatch_participate"
+        android:id="@+id/tv_dispatch_participate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/jtv_dispatch_issue"
+        android:layout_below="@+id/tv_dispatch_issue"
         android:layout_marginLeft="@dimen/dimen_14"
         android:layout_marginRight="@dimen/dimen_12"
         android:layout_marginTop="@dimen/dimen_3"
@@ -193,7 +193,7 @@
     <RelativeLayout
         android:id="@+id/rl_dispatch_address"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_55"
+        android:layout_height="wrap_content"
         android:layout_below="@id/rl_dispatch1"
         android:layout_marginTop="-5dp">
 
@@ -223,6 +223,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_disaptch_selector_address"
             android:layout_marginLeft="@dimen/dimen_9"
+            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_8"
             android:layout_toRightOf="@+id/iv_disaptch_selector_address">
 
         </RelativeLayout>
@@ -308,27 +310,28 @@
         android:background="#F2F2F4"></RelativeLayout>
 
     <RelativeLayout
-        android:background="#ffffff"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50"
-        android:layout_alignParentBottom="true">
+        android:layout_height="@dimen/dimen_44"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff">
 
         <TextView
             android:id="@+id/tv_dispatch_again"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_40"
-            android:gravity="center"
-            android:textSize="@dimen/dimen_14"
             android:layout_centerInParent="true"
+            android:gravity="center"
             android:text="Participate again"
-            android:textColor="#ff9c05"/>
+            android:textColor="#ff9c05"
+            android:textSize="@dimen/dimen_14" />
+
         <ImageView
-            android:layout_toRightOf="@+id/tv_dispatch_again"
-            android:layout_marginLeft="@dimen/dimen_5"
-            android:background="@drawable/go_yellow"
             android:layout_width="@dimen/dimen_6"
+            android:layout_height="@dimen/dimen_11"
             android:layout_centerVertical="true"
-            android:layout_height="@dimen/dimen_11" />
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:layout_toRightOf="@+id/tv_dispatch_again"
+            android:background="@drawable/go_yellow" />
     </RelativeLayout>
 
 </RelativeLayout>
