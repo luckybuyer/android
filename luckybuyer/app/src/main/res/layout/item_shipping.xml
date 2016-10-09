@@ -1,56 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#ffffff"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:background="#ffffff">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="#eeeeee"
+        android:layout_height="@dimen/dimen_14"></RelativeLayout>
     <TextView
+        android:id="@+id/tv_shipping_name"
         android:layout_width="wrap_content"
-        android:textSize="@dimen/dimen_14"
-        android:textColor="@color/text_black"
-        android:layout_marginTop="@dimen/dimen_16"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_28"
         android:text="name"
-        android:layout_height="wrap_content" />
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_14" />
 
     <ImageView
         android:id="@+id/iv_shipping_go"
         android:layout_width="@dimen/dimen_6"
-        android:background="@drawable/go_go"
-        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_height="@dimen/dimen_11"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/dimen_24"
-        android:layout_height="@dimen/dimen_11" />
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_36"
+        android:background="@drawable/go_go" />
+
     <TextView
+        android:id="@+id/tv_shipping_telnum"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_33"
         android:layout_toLeftOf="@+id/iv_shipping_go"
         android:text="13699140938"
-        android:textSize="@dimen/dimen_14"
         android:textColor="@color/text_black"
-        android:layout_marginTop="@dimen/dimen_22"
-        android:layout_marginRight="@dimen/dimen_10"
-        android:layout_height="wrap_content" />
+        android:textSize="@dimen/dimen_14" />
 
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:background="@color/bg_view"
+        android:layout_height="@dimen/dimen_1"
+        android:layout_below="@+id/iv_shipping_go"
         android:layout_marginLeft="@dimen/dimen_12"
         android:layout_marginRight="@dimen/dimen_12"
-        android:layout_below="@+id/iv_shipping_go"
         android:layout_marginTop="@dimen/dimen_10"
-        android:layout_height="@dimen/dimen_1"></View>
+        android:background="@color/bg_view"></View>
 
     <net.luckybuyer.view.JustifyTextView
-        android:text="yangshuyuyaohuanfangzile"
-        android:layout_marginTop="@dimen/dimen_5"
-        android:layout_below="@+id/view"
+        android:id="@+id/jtv_shipping_detailed"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_32"
+        android:layout_below="@+id/view"
         android:layout_marginLeft="@dimen/dimen_12"
         android:layout_marginRight="@dimen/dimen_12"
-        android:maxLines="2"
+        android:layout_marginTop="@dimen/dimen_5"
         android:ellipsize="end"
-        android:textSize="@dimen/dimen_12"
+        android:maxLines="2"
+        android:text="杨树宇在北京朝阳区上班，你在哪那 哟啊不要换一份工作 来找他一起上班啊"
         android:textColor="#666666"
-        android:layout_height="@dimen/dimen_34" />
+        android:textSize="@dimen/dimen_12" />
+
+    <CheckBox
+        android:id="@+id/cb_shipping_select"
+        android:layout_width="@dimen/dimen_13"
+        android:layout_height="@dimen/dimen_13"
+        android:layout_below="@+id/jtv_shipping_detailed"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:background="@drawable/selector_shipping_checkbox"
+        android:button="@null" />
+
+    <TextView
+        android:id="@+id/tv_shipping_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/jtv_shipping_detailed"
+        android:layout_marginLeft="@dimen/dimen_4"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:layout_toRightOf="@+id/cb_shipping_select"
+        android:text="Select"
+        android:textColor="@color/ff9c05"
+        android:textSize="@dimen/dimen_12" />
+
+    <TextView
+        android:id="@+id/tv_shipping_delete"
+        android:layout_alignTop="@+id/tv_shipping_select"
+        android:textColor="#999999"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:text="Delete"
+        android:drawableLeft="@drawable/default_delete"
+        android:drawablePadding="@dimen/dimen_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="@dimen/dimen_12" />
+
+    <View
+        android:layout_width="@dimen/dimen_1"
+        android:layout_marginRight="@dimen/dimen_18"
+        android:background="#999999"
+        android:layout_marginTop="-4dp"
+        android:layout_marginBottom="@dimen/dimen_15"
+        android:layout_alignTop="@+id/cb_shipping_select"
+        android:layout_toLeftOf="@+id/tv_shipping_delete"
+        android:layout_height="@dimen/dimen_16"></View>
+
+    <TextView
+        android:id="@+id/tv_shipping_edit"
+        android:layout_alignTop="@+id/tv_shipping_select"
+        android:textColor="#999999"
+        android:layout_marginRight="@dimen/dimen_36"
+        android:text="Edit"
+        android:drawableLeft="@drawable/default_edit"
+        android:drawablePadding="@dimen/dimen_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/tv_shipping_delete"
+        android:textSize="@dimen/dimen_12" />
+
 </RelativeLayout>

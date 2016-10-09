@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
+import net.luckybuyer.bean.ShippingAddressBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
 import net.luckybuyer.secondpager.AddAddressPager;
@@ -57,6 +58,7 @@ public class SecondPagerActivity extends FragmentActivity {
     public int game_id;
     public List allList = new ArrayList();
     public int position;
+    public ShippingAddressBean.ShippingBean shippingBean;
 
     //需要去哪
     public String from;
@@ -270,6 +272,10 @@ public class SecondPagerActivity extends FragmentActivity {
                 return false;
             } else if ("coindetailpager".equals(from)) {
                 switchPage(5);
+                from = "";
+                return false;
+            }else if ("dispatchpager".equals(from)) {
+                switchPage(7);
                 from = "";
                 return false;
             }

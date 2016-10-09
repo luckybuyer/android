@@ -2,6 +2,8 @@ package net.luckybuyer.secondpager;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +47,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_shipping, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
+        ((SecondPagerActivity) context).from= "dispatchpager";
         findView();
         setHeadMargin();
         return inflate;
@@ -96,9 +99,16 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     private void processData(String response){
         Gson gson = new Gson();
         response = "{\"shipping\":" + response + "}";
+        Log.e("TAG", response);
         ShippingAddressBean shippingAddressBean = gson.fromJson(response, ShippingAddressBean.class);
 
-        rv_shipping_address.setAdapter(new ShippingAdapter(context,shippingAddressBean.getShipping()));
+        rv_shipping_address.setAdapter(new ShippingAdapter(context, shippingAddressBean.getShipping()));
+        rv_shipping_address.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
     }
 
     class MyOnClickListener implements View.OnClickListener {

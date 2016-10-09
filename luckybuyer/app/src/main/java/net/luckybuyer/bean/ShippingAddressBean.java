@@ -30,7 +30,17 @@ public class ShippingAddressBean {
     }
 
     public static class ShippingBean {
+        private boolean isChecked;
         private String _resource;
+
+        public boolean isChecked() {
+            return isChecked;
+        }
+
+        public void setIsChecked(boolean isChecked) {
+            this.isChecked = isChecked;
+        }
+
         private String address;
         private String created_at;
         private int id;

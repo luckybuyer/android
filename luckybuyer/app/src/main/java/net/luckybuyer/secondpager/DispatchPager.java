@@ -165,7 +165,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
     //设置地址  包括有默认地址与无默认地址
     private void setAddress(List<AllOrderBean.AllorderBean> list, int position, View defaultaddress, TextView tv_dispatch_selector_address, TextView tv_dispatch_current_address, TextView tv_disaptch_name, TextView tv_disaptch_telnum, TextView tv_disaptch_add_detailed) {
-        if (list.get(position).getDelivery().getAddress() == null) {
+        if (list.get(position).getDelivery().getAddress() == null&&((SecondPagerActivity)context).shippingBean == null) {
             View view = inflate.findViewById(R.id.view_address);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context, 1), DensityUtil.dip2px(context, 85));
             lp.leftMargin = DensityUtil.dip2px(context, 20);
@@ -182,10 +182,16 @@ public class DispatchPager extends BaseNoTrackPager {
             lp.topMargin = DensityUtil.dip2px(context, 8);
             view.setLayoutParams(lp);
 
+            if(((SecondPagerActivity)context).shippingBean != null) {
+                tv_disaptch_name.setText(((SecondPagerActivity)context).shippingBean.getName() + "");
+                tv_disaptch_telnum.setText(((SecondPagerActivity)context).shippingBean.getPhone() + "");
+                tv_disaptch_add_detailed.setText(((SecondPagerActivity)context).shippingBean.getAddress() + "");
+            }else {
+                tv_disaptch_name.setText(list.get(position).getDelivery().getAddress().getName() + "");
+                tv_disaptch_telnum.setText(list.get(position).getDelivery().getAddress().getPhone() + "");
+                tv_disaptch_add_detailed.setText(list.get(position).getDelivery().getAddress().getAddress() + "");
+            }
 
-            tv_disaptch_name.setText(list.get(position).getDelivery().getAddress().getName() + "");
-            tv_disaptch_telnum.setText(list.get(position).getDelivery().getAddress().getPhone() + "");
-            tv_disaptch_add_detailed.setText(list.get(position).getDelivery().getAddress().getAddress() + "");
             rl_dispatch_address_content.addView(defaultaddress);
             tv_dispatch_selector_address.setOnClickListener(new MyOnClickListener());
             tv_dispatch_current_address.setOnClickListener(new MyOnClickListener());
@@ -206,6 +212,7 @@ public class DispatchPager extends BaseNoTrackPager {
                     break;
                 case R.id.rl_dispatch_address_content:
                     ((SecondPagerActivity) context).switchPage(8);
+                    ((SecondPagerActivity) context).from = "dispatchpager";
                     break;
                 case R.id.tv_dispatch_selector_address:
                     ((SecondPagerActivity) context).switchPage(9);
