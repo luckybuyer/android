@@ -213,6 +213,11 @@ public class SecondPagerActivity extends FragmentActivity {
                     Log.e("TAG", requestCode + "");
                     Log.e("TAG", message);
                 }
+
+                @Override
+                public void failure(Exception exception) {
+
+                }
             });
 
         }

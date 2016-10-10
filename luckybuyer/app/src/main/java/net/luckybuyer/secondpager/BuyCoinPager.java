@@ -1,6 +1,8 @@
 package net.luckybuyer.secondpager;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -8,11 +10,16 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import net.luckybuyer.R;
 import net.luckybuyer.activity.SecondPagerActivity;
+import net.luckybuyer.adapter.BuyCoinAdapter;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.base.BaseNoTrackPager;
-import net.luckybuyer.base.BasePager;
+import net.luckybuyer.bean.BuyCoinBean;
 import net.luckybuyer.utils.DensityUtil;
+import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 
 import java.lang.reflect.Field;
@@ -27,17 +34,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private TextView tv_buycoins_back;
     private TextView tv_buycoins_balance;
     private TextView tv_buycoins_rate;
-    private TextView tv_buyconis_1coins;
-    private TextView tv_buyconis_5coins;
-    private TextView tv_buyconis_10coins;
-    private TextView tv_buyconis_30coins;
-    private TextView tv_buyconis_50coins;
-    private TextView tv_buyconis_100coins;
     private TextView tv_buycoins_count;
     private TextView tv_buycoins_buy;
     private View inflate;
-
-    private int count;
+    private RecyclerView rv_buycoins;
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_buycoins, null);
@@ -45,12 +45,48 @@ public class BuyCoinPager extends BaseNoTrackPager {
         ((SecondPagerActivity)context).from = "coindetailpager";
         findView();
         setHeadMargin();
+        HttpUtils.getInstance().startNetworkWaiting(context);
         return inflate;
     }
 
     @Override
     public void initData() {
         super.initData();
+        String url = "https://api-staging.luckybuyer.net/v1/topup-options/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        processData(response);
+                    }
+                });
+            }
+
+            @Override
+            public void error(int requestCode, String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                    }
+                });
+
+            }
+
+        });
     }
 
     public void findView() {
@@ -59,25 +95,31 @@ public class BuyCoinPager extends BaseNoTrackPager {
         tv_buycoins_back = (TextView) inflate.findViewById(R.id.tv_buycoins_back);
         tv_buycoins_balance = (TextView) inflate.findViewById(R.id.tv_buycoins_balance);
         tv_buycoins_rate = (TextView) inflate.findViewById(R.id.tv_buycoins_rate);
-        tv_buyconis_1coins = (TextView) inflate.findViewById(R.id.tv_buyconis_1coins);
-        tv_buyconis_5coins = (TextView) inflate.findViewById(R.id.tv_buyconis_5coins);
-        tv_buyconis_10coins = (TextView) inflate.findViewById(R.id.tv_buyconis_10coins);
-        tv_buyconis_30coins = (TextView) inflate.findViewById(R.id.tv_buyconis_30coins);
-        tv_buyconis_50coins = (TextView) inflate.findViewById(R.id.tv_buyconis_50coins);
-        tv_buyconis_100coins = (TextView) inflate.findViewById(R.id.tv_buyconis_100coins);
         tv_buycoins_count = (TextView) inflate.findViewById(R.id.tv_buycoins_count);
         tv_buycoins_buy = (TextView) inflate.findViewById(R.id.tv_buycoins_buy);
-
+        rv_buycoins = (RecyclerView) inflate.findViewById(R.id.rv_buycoins);
         //设置监听
         iv_buycoins_back.setOnClickListener(new MyOnClickListener());
         tv_buycoins_back.setOnClickListener(new MyOnClickListener());
-        tv_buyconis_1coins.setOnClickListener(new MyOnClickListener());
-        tv_buyconis_5coins.setOnClickListener(new MyOnClickListener());
-        tv_buyconis_10coins.setOnClickListener(new MyOnClickListener());
-        tv_buyconis_30coins.setOnClickListener(new MyOnClickListener());
-        tv_buyconis_50coins.setOnClickListener(new MyOnClickListener());
-        tv_buyconis_100coins.setOnClickListener(new MyOnClickListener());
         tv_buycoins_buy.setOnClickListener(new MyOnClickListener());
+    }
+
+    //处理数据
+    private void processData(String response) {
+        Gson gson = new Gson();
+        response = "{\"buycoins\":" + response + "}";
+        final BuyCoinBean buyCoinBean = gson.fromJson(response, BuyCoinBean.class);
+        BuyCoinAdapter buyCoinAdapter = new BuyCoinAdapter(context,buyCoinBean.getBuycoins());
+        rv_buycoins.setAdapter(buyCoinAdapter);
+        rv_buycoins.setLayoutManager(new GridLayoutManager(context, 2));
+        buyCoinAdapter.setBuyCoinOnClickListener(new BuyCoinAdapter.BuyCoinOnClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                double coins = buyCoinBean.getBuycoins().get(position).getAmount()* 3.6726;
+                coins=((int)(coins*100))/100;
+                tv_buycoins_count.setText("Total:" + buyCoinBean.getBuycoins().get(position).getAmount() + "≈" + coins + "AED");
+            }
+        });
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -91,68 +133,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 case R.id.tv_buycoins_back:
                     ((SecondPagerActivity)context).switchPage(5);
                     break;
-                case R.id.tv_buyconis_1coins:
-                    count = 1;
-                    tv_buyconis_1coins.setHovered(true);
-                    tv_buyconis_5coins.setHovered(false);
-                    tv_buyconis_10coins.setHovered(false);
-                    tv_buyconis_30coins.setHovered(false);
-                    tv_buyconis_50coins.setHovered(false);
-                    tv_buyconis_100coins.setHovered(false);
-                    tv_buycoins_count.setText("1 coin");
-                    break;
-                case R.id.tv_buyconis_5coins:
-                    count = 5;
-                    tv_buyconis_1coins.setHovered(false);
-                    tv_buyconis_5coins.setHovered(true);
-                    tv_buyconis_10coins.setHovered(false);
-                    tv_buyconis_30coins.setHovered(false);
-                    tv_buyconis_50coins.setHovered(false);
-                    tv_buyconis_100coins.setHovered(false);
-                    tv_buycoins_count.setText("5 coins");
-                    break;
-                case R.id.tv_buyconis_10coins:
-                    count = 10;
-                    tv_buyconis_1coins.setHovered(false);
-                    tv_buyconis_5coins.setHovered(false);
-                    tv_buyconis_10coins.setHovered(true);
-                    tv_buyconis_30coins.setHovered(false);
-                    tv_buyconis_50coins.setHovered(false);
-                    tv_buyconis_100coins.setHovered(false);
-                    tv_buycoins_count.setText("10 coins");
-                    break;
-                case R.id.tv_buyconis_30coins:
-                    count = 30;
-                    tv_buyconis_1coins.setHovered(false);
-                    tv_buyconis_5coins.setHovered(false);
-                    tv_buyconis_10coins.setHovered(false);
-                    tv_buyconis_30coins.setHovered(true);
-                    tv_buyconis_50coins.setHovered(false);
-                    tv_buyconis_100coins.setHovered(false);
-                    tv_buycoins_count.setText("30 coins");
-                    break;
-                case R.id.tv_buyconis_50coins:
-                    count = 50;
-                    tv_buyconis_1coins.setHovered(false);
-                    tv_buyconis_5coins.setHovered(false);
-                    tv_buyconis_10coins.setHovered(false);
-                    tv_buyconis_30coins.setHovered(false);
-                    tv_buyconis_50coins.setHovered(true);
-                    tv_buyconis_100coins.setHovered(false);
-                    tv_buycoins_count.setText("50 coins");
-                    break;
-                case R.id.tv_buyconis_100coins:
-                    count = 100;
-                    tv_buyconis_1coins.setHovered(false);
-                    tv_buyconis_5coins.setHovered(false);
-                    tv_buyconis_10coins.setHovered(false);
-                    tv_buyconis_30coins.setHovered(false);
-                    tv_buyconis_50coins.setHovered(false);
-                    tv_buyconis_100coins.setHovered(true);
-                    tv_buycoins_count.setText("100 coins");
-                    break;
                 case R.id.tv_buycoins_buy:
-                    Utils.MyToast(context,"购买" + count + "个金币");
+                    
                     break;
             }
         }

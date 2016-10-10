@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -103,6 +104,7 @@ public class ProductDetailPager extends BasePager {
     private List imageList = new ArrayList();
     private PopupWindow popupWindow;
     private View PPW;
+    private SwipeRefreshLayout srl_productdetail_refresh;
 
     //请求数据   与请求失败时显示的页面
     private TextView tv_productdetail_data;                   //数据请求失败的时候需要更改
@@ -118,6 +120,12 @@ public class ProductDetailPager extends BasePager {
         inflate = View.inflate(context, R.layout.pager_productdetail, null);
         ((SecondPagerActivity) context).from = null;
         findView();
+        srl_productdetail_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
         return inflate;
     }
 
@@ -150,7 +158,25 @@ public class ProductDetailPager extends BasePager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tv_productdetail_data.setText("Network request failed...");
+                        if(isNeedNetWaiting) {
+                            tv_productdetail_data.setText("Network request failed...");
+                        }
+                        Utils.MyToast(context,"网络连接错误，请稍后重试");
+                        srl_productdetail_refresh.setRefreshing(false);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(isNeedNetWaiting) {
+                            tv_productdetail_data.setText("Network request failed...");
+                        }
+                        Utils.MyToast(context,"网络连接错误，请稍后重试");
+                        srl_productdetail_refresh.setRefreshing(false);
                     }
                 });
             }
@@ -180,6 +206,11 @@ public class ProductDetailPager extends BasePager {
                     public void error(int requestCode, String message) {
 
                     }
+
+                    @Override
+                    public void failure(Exception exception) {
+
+                    }
                 }
 
         );
@@ -200,6 +231,11 @@ public class ProductDetailPager extends BasePager {
 
             @Override
             public void error(int code, String message) {
+
+            }
+
+            @Override
+            public void failure(Exception exception) {
 
             }
         });
@@ -223,6 +259,7 @@ public class ProductDetailPager extends BasePager {
         rl_productdetail_mybuy = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_mybuy);
 
         tv_productdetail_data = (TextView) inflate.findViewById(R.id.tv_productdetail_data);
+        srl_productdetail_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_productdetail_refresh);
 
         //倒计时  開獎
         rl_productdetail_countdown = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_countdown);
@@ -241,7 +278,8 @@ public class ProductDetailPager extends BasePager {
 
     //解析数据
     private void processData(String s) {
-//        handler.sendEmptyMessageDelayed(WHAT, 5000);
+        //刷新完成
+        srl_productdetail_refresh.setRefreshing(false);
         Gson gson = new Gson();
         String game = "{\"productdetail\":" + s + "}";
         productDetailBean = gson.fromJson(s, ProductDetailBean.class);
@@ -521,6 +559,11 @@ public class ProductDetailPager extends BasePager {
                                     }
                                 }
                             });
+                        }
+
+                        @Override
+                        public void failure(Exception exception) {
+
                         }
                     });
                     break;

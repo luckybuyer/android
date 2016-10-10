@@ -79,6 +79,11 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                     public void error(int requestCode, String message) {
 
                     }
+
+                    @Override
+                    public void failure(Exception exception) {
+
+                    }
                 }
 
         );

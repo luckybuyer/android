@@ -111,6 +111,11 @@ public class MePager extends BasePager {
                             }
                         });
                     }
+
+                    @Override
+                    public void failure(Exception exception) {
+
+                    }
                 }
 
         );
@@ -130,7 +135,6 @@ public class MePager extends BasePager {
                                     public void run() {
                                         processData(res, response);
                                         HttpUtils.getInstance().stopNetWorkWaiting();
-
                                     }
                                 }
                         );
@@ -140,6 +144,17 @@ public class MePager extends BasePager {
                     public void error(int requestCode, String message) {
                         Log.e("TAG", requestCode + "");
                         Log.e("TAG", message);
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                HttpUtils.getInstance().stopNetWorkWaiting();
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void failure(Exception exception) {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

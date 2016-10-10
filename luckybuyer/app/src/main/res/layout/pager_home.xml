@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </ScrollView>
-
     <RelativeLayout
         android:id="@+id/rl_home_header"
         android:layout_width="match_parent"
@@ -39,105 +33,111 @@
             android:textColor="@color/text_black" />
     </RelativeLayout>
 
-    <ScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_home_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_home_header">
-
-        <RelativeLayout
+        android:layout_below="@+id/rl_home_header"
+        android:layout_height="match_parent">
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_home"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_117"
-                android:background="#ffffff"></android.support.v4.view.ViewPager>
-
-            <LinearLayout
-                android:id="@+id/ll_home_point"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_6"
-                android:layout_alignBottom="@+id/vp_home"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/dimen_17"
-                android:gravity="center"
-                android:orientation="horizontal"></LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@id/vp_home"
-                android:layout_marginLeft="@dimen/dimen_18"
-                android:layout_marginRight="@dimen/dimen_18"
-                android:background="@color/bg_view"></View>
+            android:layout_height="wrap_content">
 
             <RelativeLayout
-                android:id="@+id/rl_home_marquee"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_39"
-                android:layout_below="@id/vp_home"
-                android:background="#ffffff">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <net.luckybuyer.view.AutoTextView
-                    android:id="@+id/atv_home_marquee"
-                    android:layout_width="@dimen/dimen_271"
-                    android:layout_height="@dimen/dimen_18"
-                    android:layout_centerInParent="true"
-                    android:background="@color/bg_while"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_117"
+                    android:background="#ffffff"></android.support.v4.view.ViewPager>
+
+                <LinearLayout
+                    android:id="@+id/ll_home_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_6"
+                    android:layout_alignBottom="@+id/vp_home"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/dimen_17"
                     android:gravity="center"
-                    android:text="iphone plus"
-                    android:textColor="@color/text_buy"
-                    auto3d:textSize="@dimen/dimen_7" />
-
-                <ImageView
-                    android:layout_width="@dimen/dimen_6"
-                    android:layout_height="@dimen/dimen_12" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/rl_home_products"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_42"
-                android:layout_below="@+id/rl_home_marquee"
-                android:layout_marginTop="@dimen/dimen_14"
-                android:background="#ffffff">
-
-                <TextView
-                    android:id="@+id/tv_home_products"
-                    android:layout_width="@dimen/dimen_81"
-                    android:layout_height="@dimen/dimen_22"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:text="PRODUCTS"
-                    android:textColor="@color/text_buy"
-                    android:textSize="@dimen/dimen_16" />
+                    android:orientation="horizontal"></LinearLayout>
 
                 <View
-                    android:layout_width="@dimen/dimen_14"
-                    android:layout_height="@dimen/dimen_1"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/dimen_10"
-                    android:layout_toRightOf="@id/tv_home_products"
-                    android:background="#666666"></View>
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/vp_home"
+                    android:layout_marginLeft="@dimen/dimen_18"
+                    android:layout_marginRight="@dimen/dimen_18"
+                    android:background="@color/bg_view"></View>
 
-                <View
-                    android:layout_width="@dimen/dimen_14"
-                    android:layout_height="@dimen/dimen_1"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dimen_10"
-                    android:layout_toLeftOf="@id/tv_home_products"
-                    android:background="#666666"></View>
+                <RelativeLayout
+                    android:id="@+id/rl_home_marquee"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_39"
+                    android:layout_below="@id/vp_home"
+                    android:background="#ffffff">
+
+                    <net.luckybuyer.view.AutoTextView
+                        android:id="@+id/atv_home_marquee"
+                        android:layout_width="@dimen/dimen_271"
+                        android:layout_height="@dimen/dimen_18"
+                        android:layout_centerInParent="true"
+                        android:background="@color/bg_while"
+                        android:gravity="center"
+                        android:text="iphone plus"
+                        android:textColor="@color/text_buy"
+                        auto3d:textSize="@dimen/dimen_7" />
+
+                    <ImageView
+                        android:layout_width="@dimen/dimen_6"
+                        android:layout_height="@dimen/dimen_12" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_home_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_42"
+                    android:layout_below="@+id/rl_home_marquee"
+                    android:layout_marginTop="@dimen/dimen_14"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:id="@+id/tv_home_products"
+                        android:layout_width="@dimen/dimen_81"
+                        android:layout_height="@dimen/dimen_22"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="PRODUCTS"
+                        android:textColor="@color/text_buy"
+                        android:textSize="@dimen/dimen_16" />
+
+                    <View
+                        android:layout_width="@dimen/dimen_14"
+                        android:layout_height="@dimen/dimen_1"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dimen_10"
+                        android:layout_toRightOf="@id/tv_home_products"
+                        android:background="#666666"></View>
+
+                    <View
+                        android:layout_width="@dimen/dimen_14"
+                        android:layout_height="@dimen/dimen_1"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dimen_10"
+                        android:layout_toLeftOf="@id/tv_home_products"
+                        android:background="#666666"></View>
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_home_producer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/rl_home_products"></android.support.v7.widget.RecyclerView>
             </RelativeLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_home_producer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/rl_home_products"></android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
-    </ScrollView>
 
 
 </RelativeLayout>

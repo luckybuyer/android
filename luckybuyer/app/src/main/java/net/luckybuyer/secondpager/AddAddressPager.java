@@ -111,6 +111,11 @@ public class AddAddressPager extends BaseNoTrackPager {
                                     }
                                 });
                             }
+
+                            @Override
+                            public void failure(Exception exception) {
+
+                            }
                         });
                     }
                     break;
@@ -135,7 +140,6 @@ public class AddAddressPager extends BaseNoTrackPager {
             e1.printStackTrace();
 
         }
-        Log.e("TAG", sbar + "");
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
         lp.topMargin = sbar;
         rl_addaddress_header.setLayoutParams(lp);

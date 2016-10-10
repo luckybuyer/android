@@ -87,6 +87,11 @@ public class CoinDetailPager extends BasePager {
                             }
                         });
                     }
+
+                    @Override
+                    public void failure(Exception exception) {
+
+                    }
                 }
 
         );

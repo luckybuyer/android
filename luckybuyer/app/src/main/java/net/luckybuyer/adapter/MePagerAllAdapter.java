@@ -170,7 +170,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
             String status = list.get(position).getDelivery().getStatus();
             if ("pending".equals(status)) {
-                holder.tv_lucky_go.setText("Please confirm shipping address");
+                holder.tv_lucky_go.setText("Confirm shipping address");
             } else if ("processing".equals(status)) {
                 holder.tv_lucky_go.setText("Waiting for shippment");
             } else if ("shipping".equals(status)) {

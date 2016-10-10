@@ -74,6 +74,8 @@ public class HttpUtils {
         public void success(String response);
 
         public void error(int requestCode, String message);
+
+        public void failure(Exception exception);
     }
 
     public OnRequestListener onRequestListener;
@@ -135,6 +137,8 @@ public class HttpUtils {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+
+                onRequestListener.failure(e);
                 Log.e("TAG_Okhttp", e.toString());
                 Log.e("TAG..", e.getClass() +"");
                 Log.e("TAG..", e.getLocalizedMessage() +"");

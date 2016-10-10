@@ -1,9 +1,12 @@
 package net.luckybuyer.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.support.v4.util.LogWriter;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,6 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 
 import net.luckybuyer.R;
 import net.luckybuyer.bean.GameProductBean;
@@ -46,18 +52,27 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         int precent = (int) ((list.get(position).getShares()-list.get(position).getLeft_shares())*100/list.get(position).getShares());
         holder.tv_producet_discribe.setText(list.get(position).getProduct().getTitle());
         holder.tv_product_progress.setText("Participate Progress:" + precent + "%");
-        holder.pb_product_progress.setProgress((int) ((list.get(position).getShares()-list.get(position).getLeft_shares())*100/list.get(position).getShares()));
-        Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).into(holder.iv_product_icon);
+        holder.pb_product_progress.setProgress((int) ((list.get(position).getShares() - list.get(position).getLeft_shares()) * 100 / list.get(position).getShares()));
+        Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                holder.iv_product_icon.setImageBitmap(resource);
+            }
+        });
+        Log.e("TAG22", "http:" + list.get(position).getProduct().getDetail_image());
+//        Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).into(holder.iv_product_icon);
 //        holder.iv_product_icon.setBackgroundResource(R.drawable.mainavtivity_gift);
+
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onClickListener.onclick(view, position);
+                Log.e("TAG", "dianji");
             }
         });
 

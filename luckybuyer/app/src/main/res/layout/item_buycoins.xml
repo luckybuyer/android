@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_buyconis_coins"
+        android:layout_width="@dimen/dimen_140"
+        android:layout_height="@dimen/dimen_52"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginBottom="@dimen/dimen_12"
+        android:background="@drawable/selector_tv_buyconis_1coins"
+        android:gravity="center"
+        android:text="1coin＝1$"
+        android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
+        android:textSize="@dimen/dimen_13" />
+</LinearLayout>

@@ -75,6 +75,13 @@
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_15" />
 
+        <ImageView
+            android:background="@drawable/default_coin"
+            android:layout_width="@dimen/dimen_14"
+            android:layout_toRightOf="@id/tv_buycoins_balance"
+            android:layout_marginLeft="@dimen/dimen_3"
+            android:layout_marginTop="@dimen/dimen_16"
+            android:layout_height="@dimen/dimen_14" />
         <TextView
             android:id="@+id/tv_buycoins_rate"
             android:layout_width="wrap_content"
@@ -82,140 +89,35 @@
             android:layout_below="@+id/tv_buycoins_balance"
             android:layout_marginLeft="@dimen/dimen_12"
             android:layout_marginTop="@dimen/dimen_9"
-            android:text="Notes:1$＝3.6726AED"
+            android:text="1 Coins = 1 USD ≈ 3.6726 AED"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_15" />
-
-        <net.luckybuyer.view.JustifyTextView
-            android:gravity="center_vertical"
-            android:id="@+id/jtv_buycoins_ratediscribe"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_33"
-            android:layout_below="@+id/tv_buycoins_rate"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginRight="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_8"
-            android:text="Exchange rate qre for reference only, payment subject to the rate on the day"
-            android:textSize="@dimen/dimen_12" />
 
         <View
             android:id="@+id/view_buyconis"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@+id/jtv_buycoins_ratediscribe"
+            android:layout_height="@dimen/dimen_1"
+            android:layout_below="@+id/tv_buycoins_rate"
             android:layout_marginLeft="@dimen/dimen_12"
             android:layout_marginRight="@dimen/dimen_12"
             android:layout_marginTop="@dimen/dimen_13"
             android:background="@color/bg_view"></View>
 
-        <LinearLayout
-            android:id="@+id/ll_buycoins_1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_buycoins"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50"
             android:layout_below="@+id/view_buyconis"
             android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginRight="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_13">
+            android:layout_marginTop="@dimen/dimen_13"
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_buyconis_1coins"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/dimen_6"
-                android:layout_weight="1"
-                android:background="@drawable/selector_tv_buyconis_1coins"
-                android:gravity="center"
-                android:text="1coin＝1$"
-                android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:textSize="@dimen/dimen_13" />
-
-            <TextView
-                android:id="@+id/tv_buyconis_5coins"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_6"
-                android:layout_weight="1"
-                android:background="@drawable/selector_tv_buyconis_1coins"
-                android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:gravity="center"
-                android:text="5coin＝5$"
-                android:textSize="@dimen/dimen_13" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_buycoins_2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50"
-            android:layout_below="@+id/ll_buycoins_1"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginRight="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_9">
-
-            <TextView
-                android:id="@+id/tv_buyconis_10coins"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/dimen_6"
-                android:layout_weight="1"
-                android:background="@drawable/selector_tv_buyconis_1coins"
-                android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:gravity="center"
-                android:text="10coin＝10$"
-                android:textSize="@dimen/dimen_13" />
-
-            <TextView
-                android:id="@+id/tv_buyconis_30coins"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_6"
-                android:layout_weight="1"
-                android:background="@drawable/selector_tv_buyconis_1coins"
-                android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:gravity="center"
-                android:text="30coin＝30$"
-                android:textSize="@dimen/dimen_13" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ll_buycoins_3"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50"
-            android:layout_below="@+id/ll_buycoins_2"
-            android:layout_marginBottom="@dimen/dimen_12"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginRight="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_9">
-
-            <TextView
-                android:id="@+id/tv_buyconis_50coins"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/dimen_6"
-                android:layout_weight="1"
-                android:background="@drawable/selector_tv_buyconis_1coins"
-                android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:gravity="center"
-                android:text="50coin＝50$"
-                android:textSize="@dimen/dimen_13" />
-
-            <TextView
-                android:id="@+id/tv_buyconis_100coins"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dimen_6"
-                android:layout_weight="1"
-                android:background="@drawable/selector_tv_buyconis_1coins"
-                android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:gravity="center"
-                android:text="100coin＝100$"
-                android:textSize="@dimen/dimen_13" />
-        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
             android:id="@+id/ll_buycoins_method"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ll_buycoins_3"
+            android:layout_below="@+id/rv_buycoins"
             android:background="#F2F2F4">
 
             <TextView
@@ -253,7 +155,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_115"
+            android:layout_height="match_parent"
             android:layout_below="@+id/rl_buycoins_paypal"
             android:background="#F2F2F4"></RelativeLayout>
     </RelativeLayout>
@@ -282,7 +184,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:background="#ddff4f3c"
+            android:background="#ff0000"
             android:gravity="center"
             android:text="Buy coins"
             android:textColor="@color/bg_while"

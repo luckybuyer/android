@@ -47,6 +47,9 @@ public class MainActivity extends FragmentActivity {
     private List<Fragment> list;
     public Lock lock;
 
+    public String homeBanner;
+    public String homeProduct;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -184,6 +187,11 @@ public class MainActivity extends FragmentActivity {
                 public void error(int requestCode, String message) {
                     Log.e("TAG", requestCode + "");
                     Log.e("TAG", message);
+                }
+
+                @Override
+                public void failure(Exception exception) {
+
                 }
             });
 

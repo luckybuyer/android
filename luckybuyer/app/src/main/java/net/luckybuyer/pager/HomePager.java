@@ -3,15 +3,18 @@ package net.luckybuyer.pager;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,9 +23,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
+import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.adapter.HomeImagePageAdapter;
 import net.luckybuyer.adapter.HomeProductAdapter;
@@ -33,7 +40,10 @@ import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.AutoTextView;
+import net.luckybuyer.view.RefreshableHelper;
+import net.luckybuyer.view.RefreshableView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +55,12 @@ public class HomePager extends BasePager {
     private static final int WHAT = 1;
     private static final int WHAT_AUTO = 2;
     private RelativeLayout rl_home_header;
-    private TextView tv_home_share;
     private ViewPager vp_home;                //轮播图
     private LinearLayout ll_home_point;       //轮播图上面的标记点
     private RecyclerView rv_home_producer;    //产品
     private AutoTextView atv_home_marquee;    //跑马灯
     private View inflate;
+    private SwipeRefreshLayout srl_home_refresh;
 
     //轮播图集合
     public List imageList;
@@ -60,6 +70,8 @@ public class HomePager extends BasePager {
 
     private int batch_id;
     private int game_id;
+
+    boolean isWaiting = true;
 
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -85,7 +97,18 @@ public class HomePager extends BasePager {
         //发现视图  设置监听
         findView();
         setHeadMargin();
-
+        srl_home_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
+        if(((MainActivity)context).homeBanner!=null) {
+            processBannerData(((MainActivity)context).homeBanner);
+        }
+        if(((MainActivity)context).homeProduct!=null) {
+            processData(((MainActivity)context).homeProduct);
+        }
         return inflate;
     }
 
@@ -93,7 +116,10 @@ public class HomePager extends BasePager {
     @Override
     public void initData() {
         super.initData();
-        HttpUtils.getInstance().startNetworkWaiting(context);
+        if (isWaiting) {
+            HttpUtils.getInstance().startNetworkWaiting(context);
+            isWaiting = false;
+        }
         //请求接口
         startRequestGame();
 
@@ -114,7 +140,7 @@ public class HomePager extends BasePager {
         ll_home_point = (LinearLayout) inflate.findViewById(R.id.ll_home_point);
         rv_home_producer = (RecyclerView) inflate.findViewById(R.id.rv_home_producer);
         atv_home_marquee = (AutoTextView) inflate.findViewById(R.id.atv_home_marquee);
-
+        srl_home_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_home_refresh);
 
         //设置监听
 //        tv_home_share.setOnClickListener(new MyOnClickListener());
@@ -125,19 +151,25 @@ public class HomePager extends BasePager {
     private void startRequestGame() {
         //请求 产品轮播图
         String bannersUrl = "https://api-staging.luckybuyer.net/v1/banners/?per_page=20&page=1&timezone=utc";
-        HttpUtils.getInstance().getRequest(bannersUrl,null, new HttpUtils.OnRequestListener() {
+        HttpUtils.getInstance().getRequest(bannersUrl, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         processBannerData(response);
+                        ((MainActivity)context).homeBanner = response;
                     }
                 });
             }
 
             @Override
             public void error(int requestCode, String message) {
+
+            }
+
+            @Override
+            public void failure(Exception exception) {
 
             }
 
@@ -153,12 +185,31 @@ public class HomePager extends BasePager {
                     public void run() {
                         processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
+                        ((MainActivity)context).homeProduct = response;
                     }
                 });
             }
 
             @Override
             public void error(int requestCode, String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl_home_refresh.setRefreshing(false);
+                        Utils.MyToast(context,"网络连接错误，请检查网络");
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl_home_refresh.setRefreshing(false);
+                        Utils.MyToast(context, "网络连接错误，请检查网络");
+                    }
+                });
 
             }
 
@@ -172,11 +223,18 @@ public class HomePager extends BasePager {
 
         handler.sendEmptyMessageDelayed(WHAT, 5000);       //开始轮播
         imageList = new ArrayList();
-        for (int i = 0; i < bannersBean.getBanner().size()+4; i++) {
+        for (int i = 0; i < bannersBean.getBanner().size() + 4; i++) {
             String detail_image = "http:" + bannersBean.getBanner().get(0).getImage();
-            ImageView image_header = new ImageView(context);
-            Glide.with(context).load(detail_image).into(image_header);
+            final ImageView image_header = new ImageView(context);
+            Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    image_header.setImageBitmap(resource);
+                }
+            });
+//            Glide.with(context).load(detail_image).into(image_header);
             imageList.add(image_header);
+
             image_header.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -203,6 +261,7 @@ public class HomePager extends BasePager {
 
         }
 
+        ll_home_point.removeAllViews();
         ImageView imageView;
         for (int i = 0; i < imageList.size(); i++) {
             imageView = new ImageView(context);
@@ -215,7 +274,7 @@ public class HomePager extends BasePager {
                 imageView.setLayoutParams(lp);
             }
         }
-        if(ll_home_point.getChildCount() > 0) {
+        if (ll_home_point.getChildCount() > 0) {
             ll_home_point.getChildAt(0).setEnabled(false);
         }
 
@@ -227,6 +286,9 @@ public class HomePager extends BasePager {
 
     //解析数据
     private void processData(String s) {
+        //停止刷新
+        srl_home_refresh.setRefreshing(false);
+
         Gson gson = new Gson();
         String game = "{\"game\":" + s + "}";
         GameProductBean gameProductBean = gson.fromJson(game, GameProductBean.class);
@@ -249,6 +311,7 @@ public class HomePager extends BasePager {
         homeProductAdapter.setOnClickListener(new HomeProductAdapter.OnClickListener() {
             @Override
             public void onclick(View view, int position) {
+                Log.e("TAG", "点击");
                 batch_id = productList.get(position).getBatch_id();
                 game_id = productList.get(position).getId();
                 Intent intent = new Intent(context, SecondPagerActivity.class);
@@ -282,6 +345,7 @@ public class HomePager extends BasePager {
         @Override
         public void onPageSelected(int position) {
             position = position % imageList.size();
+            Log.e("TAG", ll_home_point.getChildAt(curPostion)+"");
             ll_home_point.getChildAt(curPostion).setEnabled(true);
             ll_home_point.getChildAt(position).setEnabled(false);
             curPostion = position;
@@ -304,13 +368,22 @@ public class HomePager extends BasePager {
     //根据版本判断是否 需要设置据顶部状态栏高度
     @TargetApi(19)
     private void setHeadMargin() {
-        Rect frame = new Rect();
-        //获取状态栏高度
-        ((Activity) context).getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
-        Log.e("TAhome", statusBarHeight + "");
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0, sbar = 0;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            sbar = getResources().getDimensionPixelSize(x);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+
+        }
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lp.topMargin = statusBarHeight;
+        lp.topMargin = sbar;
         rl_home_header.setLayoutParams(lp);
     }
 
