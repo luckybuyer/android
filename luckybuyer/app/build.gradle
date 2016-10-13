@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "net.luckybuyer"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -31,4 +31,5 @@ dependencies {
     //auth0登陆
     compile 'com.google.code.gson:gson:2.7'
     compile project(':FlycoTabLayout_Lib')
+    compile('com.paypal.sdk:paypal-android-sdk:2.15.0')                    //paypal支付
 }

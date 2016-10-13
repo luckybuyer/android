@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    tools:context="com.example.circleimageviewdemo_1.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_5"
+        android:background="#eeeeee" />
+
+    <TextView
+        android:id="@+id/tv_previous_issue"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_20"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:gravity="center"
+        android:text="[Issue:3]"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_13" />
+
+    <TextView
+        android:id="@+id/tv_previous_time"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_20"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_15"
+        android:gravity="center"
+        android:text="2016-10-10 09:53:52"
+        android:textColor="#999999"
+        android:textSize="@dimen/dimen_13" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/dimen_50"
+        android:background="@color/bg_view"></View>
+
+    <net.luckybuyer.view.CircleImageView
+        android:id="@+id/civ_provious_icon"
+        android:layout_width="@dimen/dimen_38"
+        android:layout_height="@dimen/dimen_38"
+        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_65"
+        android:src="@drawable/default_icon" />
+
+    <TextView
+        android:id="@+id/tv_previous_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_18"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_65"
+        android:layout_toRightOf="@+id/civ_provious_icon"
+        android:text="Winner:杨树宇"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_12" />
+
+    <TextView
+        android:id="@+id/tv_participation"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_18"
+        android:layout_below="@id/tv_previous_name"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_4"
+        android:layout_toRightOf="@id/civ_provious_icon"
+        android:text="Bumber of participation : "
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_11" />
+
+    <TextView
+        android:id="@+id/tv_previous_participation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_previous_name"
+        android:layout_marginTop="@dimen/dimen_4"
+        android:layout_toRightOf="@id/tv_participation"
+        android:text="159coins"
+        android:textColor="@color/ff9c05"
+        android:textSize="@dimen/dimen_11" />
+    <TextView
+        android:id="@+id/tv_luckynum"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_18"
+        android:layout_below="@id/tv_participation"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_4"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:layout_toRightOf="@id/civ_provious_icon"
+        android:text="Lucky number : "
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_11" />
+    <TextView
+        android:id="@+id/tv_previous_luckynum"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_18"
+        android:layout_below="@id/tv_participation"
+        android:layout_marginLeft="@dimen/dimen_10"
+        android:layout_marginTop="@dimen/dimen_4"
+        android:layout_marginBottom="@dimen/dimen_10"
+        android:layout_toRightOf="@id/tv_luckynum"
+        android:text="100050"
+        android:textColor="@color/ff9c05"
+        android:textSize="@dimen/dimen_11" />
+
+</RelativeLayout>

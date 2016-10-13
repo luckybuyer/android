@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.bean.ShippingAddressBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
@@ -191,7 +192,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, SecondPagerActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", SecondPagerActivity.this);
-            String url = "https://api-staging.luckybuyer.net/v1/users/me/?timezone=utc";
+            String url = MyApplication.url + "/v1/users/me/?timezone=utc";
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
             //请求登陆接口

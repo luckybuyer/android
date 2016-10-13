@@ -3,6 +3,7 @@ package net.luckybuyer.secondpager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -38,7 +40,9 @@ import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.activity.SecondPagerActivity;
+import net.luckybuyer.activity.ThirdPagerActivity;
 import net.luckybuyer.adapter.ProductDetailAdapter;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.bean.BuyStateBean;
 import net.luckybuyer.bean.MyBuyBean;
 import net.luckybuyer.bean.ProductOrderBean;
@@ -73,7 +77,6 @@ public class ProductDetailPager extends BasePager {
     private TextView tv_productdetail_totalicon;      //总数
     private TextView tv_productdetail_icon;           //剩余金币
     private ProgressBar pb_productdetail_progress;    //比率
-    private RelativeLayout rl_productdetail_iteminformation;     //商品详情介绍
     //    private RelativeLayout rl_productdetail_share;               //晒单分享
     private RelativeLayout rl_productdetail_announced;           //往期揭晓
     private RecyclerView rv_productdetail;                       //参与记录
@@ -81,6 +84,8 @@ public class ProductDetailPager extends BasePager {
     private RelativeLayout rl_productdetail_indsertcoins;
     private TextView tv_productdetail_inprogress;                 //无意义  描述  黄边
     private RelativeLayout rl_productdetail_mybuy;
+    private TextView tv_productdetail_discribe;                   //后加的  描述
+    private TextView tv_productdetal_again;                   //buy it now
     private View inflate;
 
     //倒計時  開獎
@@ -106,8 +111,6 @@ public class ProductDetailPager extends BasePager {
     private View PPW;
     private SwipeRefreshLayout srl_productdetail_refresh;
 
-    //请求数据   与请求失败时显示的页面
-    private TextView tv_productdetail_data;                   //数据请求失败的时候需要更改
 
     //产品  数据
     private ProductDetailBean productDetailBean;
@@ -135,10 +138,12 @@ public class ProductDetailPager extends BasePager {
         if (isNeedNetWaiting) {
             HttpUtils.getInstance().startNetworkWaiting(context);
             isNeedNetWaiting = false;
+        }else {
+            srl_productdetail_refresh.setRefreshing(true);
         }
 
         int batch_id = ((SecondPagerActivity) context).batch_id;
-        String url = "https://api-staging.luckybuyer.net/v1/games/"+ ((SecondPagerActivity) context).game_id  +"?timezone=utc";
+        String url = MyApplication.url + "/v1/games/"+ ((SecondPagerActivity) context).game_id  +"?timezone=utc";
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -148,7 +153,7 @@ public class ProductDetailPager extends BasePager {
                         processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         rl_productdetail_allview.setVisibility(View.VISIBLE);
-                        tv_productdetail_data.setText("Please wait...");
+                        srl_productdetail_refresh.setRefreshing(false);
                     }
                 });
             }
@@ -159,7 +164,6 @@ public class ProductDetailPager extends BasePager {
                     @Override
                     public void run() {
                         if(isNeedNetWaiting) {
-                            tv_productdetail_data.setText("Network request failed...");
                         }
                         Utils.MyToast(context,"网络连接错误，请稍后重试");
                         srl_productdetail_refresh.setRefreshing(false);
@@ -173,7 +177,6 @@ public class ProductDetailPager extends BasePager {
                     @Override
                     public void run() {
                         if(isNeedNetWaiting) {
-                            tv_productdetail_data.setText("Network request failed...");
                         }
                         Utils.MyToast(context,"网络连接错误，请稍后重试");
                         srl_productdetail_refresh.setRefreshing(false);
@@ -183,7 +186,7 @@ public class ProductDetailPager extends BasePager {
         });
 
         //我购买的期次号码列表
-        String MyBuyUrl = "https://api-staging.luckybuyer.net/v1/game-orders/?game_id="+((SecondPagerActivity) context).game_id+"&per_page=20&page=1&timezone=utc";
+        String MyBuyUrl = MyApplication.url + "/v1/game-orders/?game_id="+((SecondPagerActivity) context).game_id+"&per_page=20&page=1&timezone=utc";
         String token = Utils.getSpData("token", context);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
@@ -216,7 +219,7 @@ public class ProductDetailPager extends BasePager {
         );
 
 
-        String listUrl = "https://api-staging.luckybuyer.net/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page=1&timezone=utc";
+        String listUrl = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page=1&timezone=utc";
         HttpUtils.getInstance().getRequest(listUrl, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -250,15 +253,15 @@ public class ProductDetailPager extends BasePager {
         tv_productdetail_totalicon = (TextView) inflate.findViewById(R.id.tv_productdetail_totalicon);
         tv_productdetail_icon = (TextView) inflate.findViewById(R.id.tv_productdetail_icon);
         pb_productdetail_progress = (ProgressBar) inflate.findViewById(R.id.pb_productdetail_progress);
-        rl_productdetail_iteminformation = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_iteminformation);
         rl_productdetail_announced = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_announced);
         rv_productdetail = (RecyclerView) inflate.findViewById(R.id.rv_productdetail);
         iv_productdetail_image = (ImageView) inflate.findViewById(R.id.iv_productdetail_image);
         rl_productdetail_indsertcoins = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_indsertcoins);
         tv_productdetail_inprogress = (TextView) inflate.findViewById(R.id.tv_productdetail_inprogress);
         rl_productdetail_mybuy = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_mybuy);
+        tv_productdetail_discribe = (TextView) inflate.findViewById(R.id.tv_productdetail_discribe);
+        tv_productdetal_again = (TextView) inflate.findViewById(R.id.tv_productdetal_again);
 
-        tv_productdetail_data = (TextView) inflate.findViewById(R.id.tv_productdetail_data);
         srl_productdetail_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_productdetail_refresh);
 
         //倒计时  開獎
@@ -269,8 +272,7 @@ public class ProductDetailPager extends BasePager {
         rl_productdetail_lucky = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_lucky);
 
         rl_productdetail_indsertcoins.setOnClickListener(new MyOnClickListener());
-        rl_productdetail_iteminformation.setOnClickListener(new MyOnClickListener());
-//        rl_productdetail_share.setOnClickListener(new MyOnClickListener());
+        tv_productdetal_again.setOnClickListener(new MyOnClickListener());
         rl_productdetail_announced.setOnClickListener(new MyOnClickListener());
 
 //        vp_productdetail.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -290,6 +292,7 @@ public class ProductDetailPager extends BasePager {
             tv_productdetail_totalicon.setVisibility(View.VISIBLE);
             tv_productdetail_icon.setVisibility(View.VISIBLE);
             pb_productdetail_progress.setVisibility(View.VISIBLE);
+            rl_productdetail_indsertcoins.setVisibility(View.VISIBLE);
 
             //隐藏一些控件
             rl_productdetail_countdown.setVisibility(View.GONE);
@@ -299,6 +302,8 @@ public class ProductDetailPager extends BasePager {
             rl_productdetail_lucky.setVisibility(View.GONE);
 
         }else if("closed".equals(productDetailBean.getStatus())) {
+            //获取下一期 数据 判断是否有下一期 数据
+            NewData();
             String finishTime = productDetailBean.getFinished_at();
             //如果  是正数  说明需要倒计时  如果为负数  说明已经开奖
             long time = Utils.Iso8601ToLong(finishTime);
@@ -306,7 +311,6 @@ public class ProductDetailPager extends BasePager {
             rl_productdetail_countdown.setVisibility(View.VISIBLE);
             rl_productdetail_calculation.setVisibility(View.VISIBLE);
             tv_productdetail_currentround.setVisibility(View.VISIBLE);
-            ll_productdetail_buyit.setVisibility(View.VISIBLE);
             tv_productdetail_currentround.setText("Issue:" + productDetailBean.getIssue_id());
             ((SecondPagerActivity)context).countDownTimer = new MyCountDownTimer(time,1000).start();
 
@@ -316,6 +320,7 @@ public class ProductDetailPager extends BasePager {
                 }
             });
             //原先控件隐藏
+            rl_productdetail_indsertcoins.setVisibility(View.GONE);
             tv_productdetail_inprogress.setVisibility(View.GONE);
             tv_productdetail_issue.setVisibility(View.GONE);
             tv_productdetail_totalicon.setVisibility(View.GONE);
@@ -326,7 +331,6 @@ public class ProductDetailPager extends BasePager {
             //显示一些 控件
             rl_productdetail_lucky.setVisibility(View.VISIBLE);
             rl_productdetail_calculation.setVisibility(View.VISIBLE);
-            ll_productdetail_buyit.setVisibility(View.VISIBLE);
             tv_productdetail_inprogress.setVisibility(View.VISIBLE);
             tv_productdetail_issue.setVisibility(View.VISIBLE);
 
@@ -336,6 +340,7 @@ public class ProductDetailPager extends BasePager {
                 tv_productdetail_inprogress.setText("Lottery");
             }
             //隐藏一些控件
+            rl_productdetail_indsertcoins.setVisibility(View.GONE);
             rl_productdetail_countdown.setVisibility(View.GONE);
             tv_productdetail_totalicon.setVisibility(View.GONE);
             tv_productdetail_icon.setVisibility(View.GONE);
@@ -361,6 +366,9 @@ public class ProductDetailPager extends BasePager {
         tv_productdetail_totalicon.setText("Total demand:" + productDetailBean.getShares());
 
         tv_productdetail_icon.setText("Remaining:" + productDetailBean.getLeft_shares());
+
+        //后加的  产品描述
+        tv_productdetail_discribe.setText(productDetailBean.getProduct().getDetail()+"");
 
         pb_productdetail_progress.setMax(productDetailBean.getShares());
         pb_productdetail_progress.setProgress(productDetailBean.getShares() - productDetailBean.getLeft_shares());
@@ -420,13 +428,17 @@ public class ProductDetailPager extends BasePager {
         ((TextView)inflate.findViewById(R.id.tv_productdetail_luckyid)).setText("User ID:" + productDetailBean.getLucky_user().getId()+"");
         ((TextView)inflate.findViewById(R.id.tv_productdetail_luckytime)).setText("Lottery time:" + productDetailBean.getFinished_at().substring(0,19).replace("T","\t"));
         final CircleImageView civ_productdetail_lucky = ((CircleImageView) inflate.findViewById(R.id.civ_productdetail_lucky));
-        Glide.with((SecondPagerActivity)context).load(productDetailBean.getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                Log.e("TAG_bitmap", resource+"");
-                civ_productdetail_lucky.setImageBitmap(resource);
-            }
-        });
+        boolean flag = ((SecondPagerActivity)context).isDestroyed();
+        if(!flag) {
+            Glide.with((SecondPagerActivity)context).load(productDetailBean.getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    Log.e("TAG_bitmap", resource+"");
+                    civ_productdetail_lucky.setImageBitmap(resource);
+                }
+            });
+        }
+
     }
     //倒计时
     class MyCountDownTimer extends CountDownTimer {
@@ -462,13 +474,14 @@ public class ProductDetailPager extends BasePager {
         public void onClick(View view) {
             SecondPagerActivity activity = (SecondPagerActivity) context;
             switch (view.getId()) {
-                case R.id.rl_productdetail_iteminformation:   //商品详情介绍
-                    activity.from = "productdetail";
-                    activity.switchPage(1);
-                    break;
                 case R.id.rl_productdetail_announced:          //往期回顾
-                    activity.from = "productdetail";
-                    activity.switchPage(3);
+                    Intent intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from","previous");
+                    intent.putExtra("batch_id",((SecondPagerActivity)context).batch_id);
+                    startActivity(intent);
+                    break;
+                case R.id.tv_productdetal_again:      //buy  it  now
+                    processData(newData);
                     break;
                 case R.id.rl_productdetail_indsertcoins:
                     String token_s = Utils.getSpData("token_num", context);
@@ -493,11 +506,13 @@ public class ProductDetailPager extends BasePager {
                     if (count > 1) {
                         et_insert_count.setText(count - 1 + "");
                     }
+                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
                     break;
                 case R.id.rl_insert_add:
                     count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
                     if (count < productDetailBean.getLeft_shares()) {
                         et_insert_count.setText(count + 1 + "");
+                        tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
                     }
                     break;
                 case R.id.tv_insert_two:
@@ -506,6 +521,7 @@ public class ProductDetailPager extends BasePager {
                     } else if (productDetailBean.getLeft_shares() < 2) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
+                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
                     break;
                 case R.id.tv_insert_five:
                     if (productDetailBean.getLeft_shares() >= 5) {
@@ -513,6 +529,7 @@ public class ProductDetailPager extends BasePager {
                     } else if (productDetailBean.getLeft_shares() < 5) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
+                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
                     break;
                 case R.id.tv_insert_ten:
                     if (productDetailBean.getLeft_shares() >= 10) {
@@ -520,11 +537,14 @@ public class ProductDetailPager extends BasePager {
                     } else if (productDetailBean.getLeft_shares() < 10) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
+                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
                     break;
                 case R.id.tv_insert_all:
                     et_insert_count.setText(productDetailBean.getLeft_shares() + "");
+                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
                     break;
                 case R.id.tv_insert_buy:
+                    tv_insert_buy.setClickable(false);
                     if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0")) {
                         Utils.MyToast(context, "Please input wanted to buy the quantity");
                         return;
@@ -532,7 +552,7 @@ public class ProductDetailPager extends BasePager {
                     //购买商品接口
                     int shares = Integer.parseInt(et_insert_count.getText().toString());
 
-                    String url = "https://api-staging.luckybuyer.net/v1/game-orders/?timezone=utc";
+                    String url = MyApplication.url + "/v1/game-orders/?timezone=utc";
                     String json = "{\"game_id\": " + ((SecondPagerActivity) context).game_id + ",\"shares\": " + shares + "}";
                     Map map = new HashMap();
                     String mToken = Utils.getSpData("token", context);
@@ -544,6 +564,7 @@ public class ProductDetailPager extends BasePager {
                                 @Override
                                 public void run() {
                                     startPrompt(response, true);
+                                    tv_insert_buy.setClickable(true);
                                 }
                             });
 
@@ -556,6 +577,7 @@ public class ProductDetailPager extends BasePager {
                                 public void run() {
                                     if (code == 409) {
                                         startPrompt(message, false);
+                                        tv_insert_buy.setClickable(true);
                                     }
                                 }
                             });
@@ -563,7 +585,7 @@ public class ProductDetailPager extends BasePager {
 
                         @Override
                         public void failure(Exception exception) {
-
+                            tv_insert_buy.setClickable(true);
                         }
                     });
                     break;
@@ -680,7 +702,7 @@ public class ProductDetailPager extends BasePager {
 //            tv_insert_ten.setBackgroundResource(R.drawable.background_insert);
 //        }
 
-        tv_insert_buy.setText("Total" + et_insert_count.getText().toString());
+        tv_insert_buy.setText("Total" + et_insert_count.getText().toString() + "coins");
 
         tv_insert_two.setOnClickListener(new MyOnClickListener());
         tv_insert_five.setOnClickListener(new MyOnClickListener());
@@ -700,7 +722,9 @@ public class ProductDetailPager extends BasePager {
                     int count = Integer.parseInt(charSequence.toString());
                     if (count > productDetailBean.getLeft_shares()) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
+
                     }
+                    tv_insert_buy.setText("Total" + et_insert_count.getText().toString() + "coins");
                 }
             }
 
@@ -711,4 +735,47 @@ public class ProductDetailPager extends BasePager {
         });
     }
 
+    private String newData;
+    //请求最新数据
+    private void NewData(){
+        int batch_id = ((SecondPagerActivity) context).batch_id;
+        String url = MyApplication.url + "/v1/games/?status=running&batch_id="+batch_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
+        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(response.length() > 10) {
+                            ll_productdetail_buyit.setVisibility(View.VISIBLE);
+                            newData = response.replace("[", "");
+                            newData = newData.replace("]", "");
+
+                        }else{
+                            ll_productdetail_buyit.setVisibility(View.GONE);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void error(final int code, String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("TAG", code+"");
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
+            }
+        });
+    }
 }

@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import net.luckybuyer.R;
 import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.adapter.CoinDetailPagerAdapter;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.CoinDetailBean;
 import net.luckybuyer.utils.HttpUtils;
@@ -55,9 +56,8 @@ public class CoinDetailPager extends BasePager {
     public void initData() {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
-
         String token = Utils.getSpData("token", context);
-        String url = "https://api-staging.luckybuyer.net/v1/gold-records/?per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/gold-records/?per_page=20&page=1&timezone=utc";
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口

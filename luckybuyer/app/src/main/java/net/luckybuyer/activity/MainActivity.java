@@ -22,6 +22,7 @@ import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.bean.CourseBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
@@ -30,6 +31,7 @@ import net.luckybuyer.pager.HomePager;
 import net.luckybuyer.pager.MePager;
 import net.luckybuyer.pager.ShowPager;
 import net.luckybuyer.pager.WinningPager;
+import net.luckybuyer.secondpager.BuyCoinPager;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.StatusBarUtils;
 import net.luckybuyer.utils.Utils;
@@ -77,7 +79,7 @@ public class MainActivity extends FragmentActivity {
     private void setData() {
         list = new ArrayList<>();
         list.add(new HomePager());
-        list.add(new BuyChipsPager());
+        list.add(new BuyCoinPager());
         list.add(new WinningPager());
         list.add(new ShowPager());
         list.add(new MePager());
@@ -163,7 +165,7 @@ public class MainActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, MainActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", MainActivity.this);
-            String url = "https://api-staging.luckybuyer.net/v1/users/me/?timezone=utc";
+            String url = MyApplication.url + "/v1/users/me/?timezone=utc";
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
             //请求登陆接口

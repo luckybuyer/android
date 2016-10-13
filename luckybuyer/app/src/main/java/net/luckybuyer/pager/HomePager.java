@@ -33,6 +33,7 @@ import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.adapter.HomeImagePageAdapter;
 import net.luckybuyer.adapter.HomeProductAdapter;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.BannersBean;
 import net.luckybuyer.bean.GameProductBean;
@@ -150,7 +151,7 @@ public class HomePager extends BasePager {
 
     private void startRequestGame() {
         //请求 产品轮播图
-        String bannersUrl = "https://api-staging.luckybuyer.net/v1/banners/?per_page=20&page=1&timezone=utc";
+        String bannersUrl = MyApplication.url + "/v1/banners/?per_page=20&page=1&timezone=utc";
         HttpUtils.getInstance().getRequest(bannersUrl, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -176,7 +177,7 @@ public class HomePager extends BasePager {
         });
 
         //请求  产品  列表
-        String url = "https://api-staging.luckybuyer.net/v1/games/?status=running&per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=1&timezone=utc";
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -186,17 +187,19 @@ public class HomePager extends BasePager {
                         processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         ((MainActivity)context).homeProduct = response;
+                        srl_home_refresh.setRefreshing(false);
                     }
                 });
             }
 
             @Override
-            public void error(int requestCode, String message) {
+            public void error(final int requestCode, final String message) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
-                        Utils.MyToast(context,"网络连接错误，请检查网络");
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        Utils.MyToast(context, "网络连接错误，请检查网络");
                     }
                 });
             }
@@ -207,6 +210,7 @@ public class HomePager extends BasePager {
                     @Override
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
                         Utils.MyToast(context, "网络连接错误，请检查网络");
                     }
                 });
@@ -214,6 +218,7 @@ public class HomePager extends BasePager {
             }
 
         });
+
     }
 
     private void processBannerData(String response) {

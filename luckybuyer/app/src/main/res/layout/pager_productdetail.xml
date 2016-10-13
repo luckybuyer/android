@@ -4,41 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff">
-
-        <ImageView
-            android:id="@+id/iv_productdetail_nodata"
-            android:layout_width="@dimen/dimen_125"
-            android:layout_height="@dimen/dimen_150"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_50"
-            android:background="@drawable/default_nodata" />
-
-        <TextView
-            android:id="@+id/tv_productdetail_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_productdetail_nodata"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_25"
-            android:text="please wait..."
-            android:textColor="#999999"
-            android:textSize="@dimen/dimen_20" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_productdetail_allview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/srl_productdetail_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -52,24 +28,26 @@
                     <RelativeLayout
                         android:id="@+id/rl_productdetail_countdown"
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_50"
                         android:background="#ff9c05"
-                        android:visibility="gone"
-                        android:layout_height="@dimen/dimen_50">
+                        android:visibility="gone">
 
                         <TextView
-                            android:layout_centerHorizontal="true"
-                            android:text="Countdown announced"
                             android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/dimen_5"
-                            android:textSize="@dimen/dimen_12"
+                            android:text="Countdown announced"
                             android:textColor="#ffffff"
-                            android:layout_height="wrap_content" />
+                            android:textSize="@dimen/dimen_12" />
+
                         <LinearLayout
-                            android:layout_marginTop="@dimen/dimen_27"
                             android:layout_width="wrap_content"
-                            android:gravity="center_vertical"
+                            android:layout_height="@dimen/dimen_17"
                             android:layout_centerHorizontal="true"
-                            android:layout_height="@dimen/dimen_17">
+                            android:layout_marginTop="@dimen/dimen_27"
+                            android:gravity="center_vertical">
+
                             <RelativeLayout
                                 android:layout_width="@dimen/dimen_13"
                                 android:layout_height="@dimen/dimen_17"
@@ -201,6 +179,7 @@
                             </RelativeLayout>
                         </LinearLayout>
                     </RelativeLayout>
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -232,9 +211,9 @@
                             android:id="@+id/tv_productdetail_producttitle"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dimen_22"
+                            android:layout_below="@+id/view"
                             android:layout_marginLeft="@dimen/dimen_12"
                             android:layout_marginRight="@dimen/dimen_12"
-                            android:layout_below="@+id/view"
                             android:layout_marginTop="@dimen/dimen_15"
                             android:ellipsize="end"
                             android:singleLine="true"
@@ -243,28 +222,28 @@
                             android:textSize="@dimen/dimen_16" />
 
                         <TextView
-                            android:visibility="gone"
                             android:id="@+id/tv_productdetail_currentround"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_20"
                             android:layout_below="@+id/tv_productdetail_producttitle"
+                            android:layout_marginBottom="@dimen/dimen_16"
                             android:layout_marginLeft="@dimen/dimen_12"
                             android:layout_marginTop="@dimen/dimen_10"
                             android:gravity="center"
                             android:paddingLeft="@dimen/dimen_2"
                             android:text="current round:20160729"
                             android:textColor="#666666"
-                            android:layout_marginBottom="@dimen/dimen_16"
-                            android:textSize="@dimen/dimen_14" />
+                            android:textSize="@dimen/dimen_14"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_productdetail_inprogress"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_20"
                             android:layout_below="@+id/tv_productdetail_producttitle"
+                            android:layout_marginBottom="@dimen/dimen_10"
                             android:layout_marginLeft="@dimen/dimen_12"
                             android:layout_marginTop="@dimen/dimen_10"
-                            android:layout_marginBottom="@dimen/dimen_10"
                             android:background="@drawable/selector_tv_productdetail_inprogress"
                             android:gravity="center"
                             android:paddingLeft="@dimen/dimen_2"
@@ -278,9 +257,9 @@
                             android:layout_height="@dimen/dimen_20"
                             android:layout_alignParentRight="true"
                             android:layout_below="@+id/tv_productdetail_producttitle"
+                            android:layout_marginBottom="@dimen/dimen_10"
                             android:layout_marginRight="@dimen/dimen_12"
                             android:layout_marginTop="@dimen/dimen_10"
-                            android:layout_marginBottom="@dimen/dimen_10"
                             android:text="Issue：171754"
                             android:textColor="#666666"
                             android:textSize="@dimen/dimen_14" />
@@ -320,94 +299,79 @@
                             android:progressDrawable="@drawable/home_product_progress" />
                     </RelativeLayout>
 
-
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_10"
+                        android:background="#eeeeee"></RelativeLayout>
+                    <!-- 后加的 产品描述-->
+                    <TextView
+                        android:background="#ffffff"
+                        android:id="@+id/tv_productdetail_discribe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dimen_12"
+                        android:paddingRight="@dimen/dimen_12"
+                        android:paddingTop="@dimen/dimen_16"
+                        android:paddingBottom="@dimen/dimen_16"
+                        android:textSize="@dimen/dimen_12" />
 
                     <!--倒计时与开奖之后显示-->
                     <RelativeLayout
-                        android:visibility="gone"
                         android:id="@+id/rl_productdetail_calculation"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_56"
-                        android:background="@color/bg_while">
+                        android:background="@color/bg_while"
+                        android:visibility="gone">
                         <!--//防止使用 margintop出现空白区域-->
                         <RelativeLayout
                             android:id="@+id/rl_calculation"
                             android:layout_width="match_parent"
-                            android:background="#EEEEEE"
-                            android:layout_height="@dimen/dimen_6">
-                        </RelativeLayout>
+                            android:layout_height="@dimen/dimen_6"
+                            android:background="#EEEEEE"></RelativeLayout>
 
                         <ImageView
                             android:layout_width="@dimen/dimen_11"
                             android:layout_height="@dimen/dimen_14"
-                            android:layout_marginTop="@dimen/dimen_23"
                             android:layout_marginLeft="@dimen/dimen_12"
+                            android:layout_marginTop="@dimen/dimen_23"
                             android:background="@drawable/productdetail_calculation" />
 
                         <TextView
-                            android:layout_marginTop="@dimen/dimen_19"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_22"
                             android:layout_marginLeft="@dimen/dimen_34"
+                            android:layout_marginTop="@dimen/dimen_19"
                             android:text="Calculation Details"
                             android:textColor="#666666"
                             android:textSize="@dimen/dimen_16" />
 
                         <ImageView
-                            android:layout_marginTop="@dimen/dimen_25"
                             android:layout_width="@dimen/dimen_6"
                             android:layout_height="@dimen/dimen_11"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/dimen_12"
+                            android:layout_marginTop="@dimen/dimen_25"
                             android:background="@drawable/go_go" />
                     </RelativeLayout>
-                    <include layout="@layout/include" android:id="@+id/rl_productdetail_lucky"></include>
 
-                    <include layout="@layout/pager_productdetail_mybuy" android:id="@+id/rl_productdetail_mybuy"></include>
+                    <include
+                        android:id="@+id/rl_productdetail_lucky"
+                        layout="@layout/include"></include>
+
+                    <include
+                        android:id="@+id/rl_productdetail_mybuy"
+                        layout="@layout/pager_productdetail_mybuy"></include>
 
                     //防止使用 margintop出现空白区域
+
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:background="#EEEEEE"
-                        android:layout_height="@dimen/dimen_10">
+                        android:layout_height="@dimen/dimen_10"
+                        android:background="#EEEEEE">
 
                     </RelativeLayout>
-                    <RelativeLayout
-                        android:id="@+id/rl_productdetail_iteminformation"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_50"
-                        android:background="@color/bg_while">
 
-                        <ImageView
-                            android:layout_width="@dimen/dimen_12"
-                            android:layout_height="@dimen/dimen_11"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/dimen_12"
-                            android:background="@drawable/productdetail_iteminformation" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dimen_22"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/dimen_34"
-                            android:text="Item Information"
-                            android:textColor="#666666"
-                            android:textSize="@dimen/dimen_16" />
-
-                        <ImageView
-                            android:layout_width="@dimen/dimen_6"
-                            android:layout_height="@dimen/dimen_11"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/dimen_12"
-                            android:background="@drawable/go_go" />
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_1"
-                        android:background="@color/bg_view"></View>
 
                     <RelativeLayout
                         android:id="@+id/rl_productdetail_announced"
@@ -450,7 +414,6 @@
         </android.support.v4.widget.SwipeRefreshLayout>
 
 
-
         <RelativeLayout
             android:id="@+id/rl_productdetail_indsertcoins"
             android:layout_width="match_parent"
@@ -468,36 +431,36 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_productdetail_buyit"
-            android:background="#ffffff"
             android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_50"
             android:layout_alignParentBottom="true"
-            android:layout_height="@dimen/dimen_50">
+            android:background="#ffffff"
+            android:visibility="gone">
 
             <TextView
-                android:layout_marginLeft="@dimen/dimen_12"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_12"
                 android:layout_weight="3"
-                android:background="#ddffffff"
-                android:textSize="@dimen/dimen_16"
+                android:background="#ffffff"
                 android:gravity="center_vertical"
-                android:textColor="@color/text_black"
                 android:text="New is Hot"
-                android:layout_height="match_parent" />
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/dimen_16" />
 
             <TextView
-                android:layout_marginLeft="@dimen/dimen_12"
+                android:id="@+id/tv_productdetal_again"
                 android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dimen_12"
                 android:layout_weight="2"
-                android:background="#ddff4f3c"
-                android:textSize="@dimen/dimen_16"
+                android:background="#ff0000"
                 android:gravity="center"
-                android:textColor="@color/text_white"
                 android:text="Buy it now"
-                android:layout_height="match_parent" />
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/dimen_16" />
         </LinearLayout>
     </RelativeLayout>
-
 
 </RelativeLayout>

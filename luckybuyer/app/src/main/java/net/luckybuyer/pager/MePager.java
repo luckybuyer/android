@@ -30,6 +30,7 @@ import net.luckybuyer.adapter.MePagerAllAdapter;
 import net.luckybuyer.adapter.MePagerLuckyAdapter;
 import net.luckybuyer.adapter.MePagerShowAdapter;
 import net.luckybuyer.adapter.MePagerViewPagerAdapter;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.AllOrderBean;
 import net.luckybuyer.bean.User;
@@ -80,7 +81,7 @@ public class MePager extends BasePager {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
         final String token = Utils.getSpData("token", context);
-        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=utc";
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口

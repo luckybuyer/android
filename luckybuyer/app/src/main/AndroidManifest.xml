@@ -19,10 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SecondPagerActivity"></activity>
+        <activity android:name=".activity.SecondPagerActivity" />
+
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
 
         <activity
             android:name="com.auth0.android.lock.LockActivity"
@@ -42,10 +43,13 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.auth0.android.provider.WebAuthActivity"
             android:theme="@style/Lock.Theme" />
+        <activity
+            android:name="com.paypal.android.sdk.payments.PaymentActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".activity.ThirdPagerActivity"></activity>
     </application>
 
 </manifest>

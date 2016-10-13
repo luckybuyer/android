@@ -85,7 +85,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                         Utils.MyToast(context,"Please enter the full address");
                     }else {
 
-                        String url = "https://api-staging.luckybuyer.net/v1/addresses/?timezone=" + MyApplication.utc;
+                        String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
                         String json = "{\"address\": \"" +et_addaddress_detail.getText().toString() +"\",\"name\": \""+ et_addaddress_name.getText().toString() +"\",\"phone\": \""+et_addaddress_telnum.getText().toString()+"\",\"zipcode\": "+ "\"\"" +"}";
                         Map map = new HashMap();
                         String mToken = Utils.getSpData("token", context);

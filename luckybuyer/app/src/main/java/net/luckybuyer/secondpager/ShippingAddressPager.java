@@ -56,7 +56,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
-        String MyBuyUrl = "https://api-staging.luckybuyer.net/v1/addresses/?per_page=20&page=1&timezone=" + "utc";
+        String MyBuyUrl = MyApplication.url + "/v1/addresses/?per_page=20&page=1&timezone=" + "utc";
         String token = Utils.getSpData("token", context);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
