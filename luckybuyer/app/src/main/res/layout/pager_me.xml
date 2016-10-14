@@ -34,7 +34,7 @@
             android:layout_marginRight="@dimen/dimen_55"
             android:layout_marginTop="@dimen/dimen_55"
             android:layout_toLeftOf="@+id/civ_me_header"
-            android:background="@drawable/me_voice" />
+            android:background="@drawable/me_information" />
 
         <ImageView
             android:id="@+id/i_me_set"

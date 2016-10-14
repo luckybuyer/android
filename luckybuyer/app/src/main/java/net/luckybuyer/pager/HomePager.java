@@ -63,6 +63,11 @@ public class HomePager extends BasePager {
     private View inflate;
     private SwipeRefreshLayout srl_home_refresh;
 
+    //网络连接错误 与没有数据
+    private RelativeLayout rl_keepout;
+    private RelativeLayout rl_neterror;
+    private RelativeLayout rl_nodata;
+
     //轮播图集合
     public List imageList;
     public List<GameProductBean.GameBean> productList;
@@ -143,6 +148,11 @@ public class HomePager extends BasePager {
         atv_home_marquee = (AutoTextView) inflate.findViewById(R.id.atv_home_marquee);
         srl_home_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_home_refresh);
 
+
+        rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
+        rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
+        rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+
         //设置监听
 //        tv_home_share.setOnClickListener(new MyOnClickListener());
         vp_home.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -160,6 +170,7 @@ public class HomePager extends BasePager {
                     public void run() {
                         processBannerData(response);
                         ((MainActivity)context).homeBanner = response;
+
                     }
                 });
             }
@@ -188,6 +199,13 @@ public class HomePager extends BasePager {
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         ((MainActivity)context).homeProduct = response;
                         srl_home_refresh.setRefreshing(false);
+
+                        if(response.length() > 10) {
+                            rl_keepout.setVisibility(View.GONE);
+                        }else{
+                            rl_nodata.setVisibility(View.VISIBLE);
+                            rl_neterror.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
@@ -199,7 +217,8 @@ public class HomePager extends BasePager {
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
                         HttpUtils.getInstance().stopNetWorkWaiting();
-                        Utils.MyToast(context, "网络连接错误，请检查网络");
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -211,7 +230,8 @@ public class HomePager extends BasePager {
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
                         HttpUtils.getInstance().stopNetWorkWaiting();
-                        Utils.MyToast(context, "网络连接错误，请检查网络");
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -231,12 +251,15 @@ public class HomePager extends BasePager {
         for (int i = 0; i < bannersBean.getBanner().size() + 4; i++) {
             String detail_image = "http:" + bannersBean.getBanner().get(0).getImage();
             final ImageView image_header = new ImageView(context);
-            Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    image_header.setImageBitmap(resource);
-                }
-            });
+            if(!((MainActivity)context).isDestroyed()) {
+                Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        image_header.setImageBitmap(resource);
+                    }
+                });
+            }
+
 //            Glide.with(context).load(detail_image).into(image_header);
             imageList.add(image_header);
 
@@ -328,7 +351,6 @@ public class HomePager extends BasePager {
 
             @Override
             public void onLongClick(View view, int position) {
-                Utils.MyToast(context, position + "长按");
             }
         });
 

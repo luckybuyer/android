@@ -39,7 +39,7 @@
 
                 <data
                     android:host="yangshuyu.auth0.com"
-                    android:pathPrefix="/android/net.luckybuyer.yangshuyu/callback"
+                    android:pathPrefix="/android/net.luckybuyer/callback"
                     android:scheme="https" />
             </intent-filter>
         </activity>

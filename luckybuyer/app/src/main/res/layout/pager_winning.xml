@@ -23,22 +23,77 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
+            android:layout_height="@dimen/dimen_1"
+            android:layout_marginTop="@dimen/dimen_39"
             android:background="@color/bg_view"></View>
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
         android:id="@+id/srl_winning"
-        android:layout_height="wrap_content">
 
+        android:layout_below="@+id/rl_winning_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_winning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rl_winning_header"
             android:background="#ffffff"></android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
 
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <RelativeLayout
+        android:id="@+id/rl_keepout"
+        android:background="@color/f2f2f2"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/rl_home_header"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/rl_neterror"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_80"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/iv_neterror"
+                android:layout_width="@dimen/dimen_200"
+                android:background="@drawable/default_neterror"
+                android:layout_height="@dimen/dimen_210" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_below="@+id/iv_neterror"
+                android:textSize="@dimen/dimen_14"
+                android:textColor="#acabb4"
+                android:text="Network connection error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_nodata"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/dimen_120"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_marginLeft="@dimen/dimen_20"
+                android:id="@+id/iv_nodata"
+                android:layout_width="@dimen/dimen_125"
+                android:background="@drawable/default_nodata"
+                android:layout_height="@dimen/dimen_150" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_below="@+id/iv_nodata"
+                android:textSize="@dimen/dimen_14"
+                android:textColor="#acabb4"
+                android:text="No previous lottery data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
 </RelativeLayout>

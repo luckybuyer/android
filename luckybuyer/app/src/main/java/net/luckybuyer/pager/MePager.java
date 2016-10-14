@@ -80,11 +80,13 @@ public class MePager extends BasePager {
     public void initData() {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
-        final String token = Utils.getSpData("token", context);
+        String token = Utils.getSpData("token", context);
+//        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2x1Y2t5YnV5ZXIuYXV0aDAuY29tLyIsInN1YiI6InR3aXR0ZXJ8MTY5NTc1NzY3MCIsImF1ZCI6IjZmcmJUQTV0M28xZGpzUFlMcDBqUGlER3g3Y3ZJeVZjIiwiZXhwIjoxNDc3MTE4NTI3LCJpYXQiOjE0NzYyNTQ1Mjd9.1glK2sOfvIZ02iE5pD1bCtx7mDoEZWGdRtobbHUqxuM";
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=utc";
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
+        final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
                     public void success(final String response) {
@@ -94,7 +96,7 @@ public class MePager extends BasePager {
                                     @Override
                                     public void run() {
                                         //我的中奖  接口(lucky)
-                                        LuckyResponse(token, response);
+                                        LuckyResponse(finalToken, response);
                                     }
                                 }
                         );
@@ -229,11 +231,15 @@ public class MePager extends BasePager {
     }
 
     private void setView() {
+        Log.e("TAG_setview", "setview");
         String user_id = Utils.getSpData("user_id", context);
         String balance = Utils.getSpData("balance", context);
         String name = Utils.getSpData("name", context);
         final String picture = Utils.getSpData("picture", context);
 
+        Log.e("TAG", user_id+"");
+        Log.e("TAG", name+"");
+        Log.e("TAG", balance+"");
         tv_me_name.setText(name);
         tv_me_fbcode.setText(user_id);
         tv_me_gold.setText("Gold:$" + balance);

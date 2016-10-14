@@ -1,5 +1,6 @@
 package net.luckybuyer.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -38,8 +39,18 @@ public class PreviousWinnerBean {
         this.previous = previous;
     }
 
-    public static class PreviousBean {
+    public static class PreviousBean implements Serializable{
         private String _resource;
+
+        public int getBatch_id() {
+            return batch_id;
+        }
+
+        public void setBatch_id(int batch_id) {
+            this.batch_id = batch_id;
+        }
+
+        private int batch_id;
         private String closed_at;
         private String finished_at;
         private int id;
@@ -218,7 +229,7 @@ public class PreviousWinnerBean {
             this.url = url;
         }
 
-        public static class LuckyOrderBean {
+        public static class LuckyOrderBean implements Serializable{
             private String _resource;
             private String created_at;
             private int id;
@@ -289,7 +300,7 @@ public class PreviousWinnerBean {
                 this.numbers = numbers;
             }
 
-            public static class UserBean {
+            public static class UserBean implements Serializable{
                 private String _resource;
                 private int id;
                 /**
@@ -327,7 +338,7 @@ public class PreviousWinnerBean {
                     this.profile = profile;
                 }
 
-                public static class ProfileBean {
+                public static class ProfileBean implements Serializable{
                     private String locale;
                     private String name;
                     private String picture;
@@ -386,7 +397,7 @@ public class PreviousWinnerBean {
             }
         }
 
-        public static class LuckyUserBean {
+        public static class LuckyUserBean implements Serializable{
             private String _resource;
             private int id;
             /**
@@ -424,7 +435,7 @@ public class PreviousWinnerBean {
                 this.profile = profile;
             }
 
-            public static class ProfileBean {
+            public static class ProfileBean implements Serializable{
                 private String locale;
                 private String name;
                 private String picture;
@@ -482,7 +493,7 @@ public class PreviousWinnerBean {
             }
         }
 
-        public static class ProductBean {
+        public static class ProductBean implements Serializable{
             private String _resource;
             private String detail;
             private String detail_image;

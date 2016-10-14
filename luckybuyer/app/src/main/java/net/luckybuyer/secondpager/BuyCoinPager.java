@@ -150,6 +150,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
         BuyCoinAdapter buyCoinAdapter = new BuyCoinAdapter(context,buyCoinBean.getBuycoins());
         rv_buycoins.setAdapter(buyCoinAdapter);
         rv_buycoins.setLayoutManager(new GridLayoutManager(context, 2));
+
+        double coins = buyCoinBean.getBuycoins().get(0).getAmount() * 3.6726;
+        coins = ((int) (coins * 100)) / 100;
+        tv_buycoins_count.setText("Total:" + buyCoinBean.getBuycoins().get(0).getAmount() + "≈" + coins + "AED");
         buyCoinAdapter.setBuyCoinOnClickListener(new BuyCoinAdapter.BuyCoinOnClickListener() {
             @Override
             public void onClick(View view, int position) {

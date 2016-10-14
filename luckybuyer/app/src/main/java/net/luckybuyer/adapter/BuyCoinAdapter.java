@@ -40,6 +40,7 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
     public BuyCoinAdapter(Context context, List<BuyCoinBean.BuycoinsBean> list) {
         this.context = context;
         this.list = list;
+        list.get(0).setHovered(true);
     }
 
     @Override

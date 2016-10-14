@@ -1,6 +1,6 @@
 package net.luckybuyer.activity;
 
-import android.database.Cursor;
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -23,10 +23,8 @@ import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.app.MyApplication;
-import net.luckybuyer.bean.CourseBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
-import net.luckybuyer.pager.BuyChipsPager;
 import net.luckybuyer.pager.HomePager;
 import net.luckybuyer.pager.MePager;
 import net.luckybuyer.pager.ShowPager;
@@ -71,7 +69,7 @@ public class MainActivity extends FragmentActivity {
         //发现视图  设置监听
         findView();
 
-
+        switchPage(0);
     }
 
 
@@ -81,7 +79,6 @@ public class MainActivity extends FragmentActivity {
         list.add(new HomePager());
         list.add(new BuyCoinPager());
         list.add(new WinningPager());
-        list.add(new ShowPager());
         list.add(new MePager());
     }
 
@@ -107,10 +104,7 @@ public class MainActivity extends FragmentActivity {
             } else if (checkedId == rg_main.getChildAt(2).getId()) {
                 id = 2;
                 switchPage(id);
-            } else if (checkedId == rg_main.getChildAt(3).getId()) {
-                id = 3;
-                switchPage(id);
-            } else if (checkedId == rg_main.getChildAt(4).getId()) {
+            }  else if (checkedId == rg_main.getChildAt(3).getId()) {
 
                 String token_s = Utils.getSpData("token_num", MainActivity.this);
                 int token = 0;
@@ -120,7 +114,7 @@ public class MainActivity extends FragmentActivity {
 
                 //判断是否登陆  未登陆  先登录  登陆 进入me页面
                 if (token > System.currentTimeMillis() / 1000) {
-                    id = 4;
+                    id = 3;
                     switchPage(id);
                 } else {
                     MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
@@ -147,7 +141,7 @@ public class MainActivity extends FragmentActivity {
 
             // Base64 解码：
             String token = credentials.getIdToken();
-            Log.e("TAG_TOKEN", token);
+            Log.e("TAG_TOKEN--", token);
 
 
             byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
@@ -182,18 +176,33 @@ public class MainActivity extends FragmentActivity {
                     Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
                     //登陆成功  直接进入me页面
-                    switchPage(4);
+                    switchPage(3);
                 }
 
                 @Override
                 public void error(int requestCode, String message) {
                     Log.e("TAG", requestCode + "");
                     Log.e("TAG", message);
+                    Utils.setSpData("token", null, MainActivity.this);
+                    Utils.setSpData("token_num", null, MainActivity.this);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                        }
+                    });
                 }
 
                 @Override
                 public void failure(Exception exception) {
-
+                    Utils.setSpData("token", null,MainActivity.this);
+                    Utils.setSpData("token_num", null,MainActivity.this);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                        }
+                    });
                 }
             });
 

@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.app.MyApplication;
+import net.luckybuyer.bean.PreviousWinnerBean;
 import net.luckybuyer.bean.ShippingAddressBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
@@ -213,11 +214,26 @@ public class SecondPagerActivity extends FragmentActivity {
                 public void error(int requestCode, String message) {
                     Log.e("TAG", requestCode + "");
                     Log.e("TAG", message);
+                    Utils.setSpData("token", null, SecondPagerActivity.this);
+                    Utils.setSpData("token_num", null,SecondPagerActivity.this);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
+                        }
+                    });
                 }
 
                 @Override
                 public void failure(Exception exception) {
-
+                    Utils.setSpData("token", null,SecondPagerActivity.this);
+                    Utils.setSpData("token_num", null,SecondPagerActivity.this);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
+                        }
+                    });
                 }
             });
 
