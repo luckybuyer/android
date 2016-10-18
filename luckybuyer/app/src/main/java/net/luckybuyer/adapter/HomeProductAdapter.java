@@ -57,13 +57,12 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         holder.tv_producet_discribe.setText(list.get(position).getProduct().getTitle());
         holder.tv_product_progress.setText("Participate Progress:" + precent + "%");
         holder.pb_product_progress.setProgress((int) ((list.get(position).getShares() - list.get(position).getLeft_shares()) * 100 / list.get(position).getShares()));
-        Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+        Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 holder.iv_product_icon.setImageBitmap(resource);
             }
         });
-        Log.e("TAG22", "http:" + list.get(position).getProduct().getDetail_image());
 //        Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).into(holder.iv_product_icon);
 //        holder.iv_product_icon.setBackgroundResource(R.drawable.mainavtivity_gift);
 
@@ -72,7 +71,6 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             @Override
             public void onClick(View view) {
                 onClickListener.onclick(view, position);
-                Log.e("TAG", "dianji");
             }
         });
 

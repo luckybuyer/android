@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_ff4f3c"
+    tools:context="net.luckybuyer.activity.WelcomeActivity">
+
+    <ImageView
+        android:layout_width="@dimen/dimen_130"
+        android:layout_height="@dimen/dimen_150"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_130"
+        android:background="@drawable/welcome" />
+</RelativeLayout>

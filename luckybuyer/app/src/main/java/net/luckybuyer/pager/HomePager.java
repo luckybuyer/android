@@ -339,7 +339,6 @@ public class HomePager extends BasePager {
         homeProductAdapter.setOnClickListener(new HomeProductAdapter.OnClickListener() {
             @Override
             public void onclick(View view, int position) {
-                Log.e("TAG", "点击");
                 batch_id = productList.get(position).getBatch_id();
                 game_id = productList.get(position).getId();
                 Intent intent = new Intent(context, SecondPagerActivity.class);
@@ -372,7 +371,6 @@ public class HomePager extends BasePager {
         @Override
         public void onPageSelected(int position) {
             position = position % imageList.size();
-            Log.e("TAG", ll_home_point.getChildAt(curPostion)+"");
             ll_home_point.getChildAt(curPostion).setEnabled(true);
             ll_home_point.getChildAt(position).setEnabled(false);
             curPostion = position;

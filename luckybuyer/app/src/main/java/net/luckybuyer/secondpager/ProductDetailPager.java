@@ -34,6 +34,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.data.LocalUriFetcher;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
@@ -378,8 +379,15 @@ public class ProductDetailPager extends BasePager {
 
         boolean flag = ((SecondPagerActivity) context).isDestroyed();
         if (!flag) {
-
-            Glide.with(context).load(imgUrl).into(iv_productdetail_image);
+//            Log.e("TAG000", imgUrl);
+//            Glide.with(context).load(imgUrl).into(iv_productdetail_image);
+            Glide.with(context).load(imgUrl).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    Log.e("TAG000", resource+"");
+                    iv_productdetail_image.setImageBitmap(resource);
+                }
+            });
         }
 
         tv_productdetail_producttitle.setText(productDetailBean.getProduct().getTitle());

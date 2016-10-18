@@ -1,6 +1,7 @@
 package net.luckybuyer.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +21,7 @@ import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
+import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
 import net.luckybuyer.R;
 import net.luckybuyer.app.MyApplication;
@@ -235,5 +237,11 @@ public class MainActivity extends FragmentActivity {
             return true;
         }
         return super.onKeyUp(keyCode, event);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FBLikeView.onActivityResult(requestCode, resultCode, data);
     }
 }

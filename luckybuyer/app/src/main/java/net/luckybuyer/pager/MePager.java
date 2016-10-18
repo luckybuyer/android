@@ -20,8 +20,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.share.widget.LikeView;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
+import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
 import net.luckybuyer.R;
 import net.luckybuyer.activity.MainActivity;
@@ -62,6 +64,8 @@ public class MePager extends BasePager {
     private ViewPager vp_me;
     private SlidingTabLayout stl_me_vpcontrol;
     private View inflate;
+
+    private FBLikeView fb_shipping_facebook;
 
     private List vpList;
 
@@ -125,7 +129,7 @@ public class MePager extends BasePager {
     }
 
     private void LuckyResponse(String token, final String res) {
-        String url = "https://api-staging.luckybuyer.net/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=utc";
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -196,18 +200,6 @@ public class MePager extends BasePager {
         recyclerView.setAdapter(new MePagerLuckyAdapter(context, luckyOrderBean.getAllorder()));
         vpList.add(recyclerView);
 
-//        //加载Show界面
-//        recyclerView = new RecyclerView(context);
-//        linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//        recyclerView.setAdapter(new MePagerShowAdapter(context, allList));
-//        vpList.add(recyclerView);
-//
-//
-//        TextView textView = new TextView(context);
-//        textView.setText("这是第History个页面");
-//        vpList.add(textView);
-
 
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
         stl_me_vpcontrol.setViewPager(vp_me);
@@ -223,6 +215,7 @@ public class MePager extends BasePager {
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
         vp_me = (ViewPager) inflate.findViewById(R.id.vp_me);
         stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
+        fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
 
 
         i_me_set.setOnClickListener(new MyOnClickListener());
@@ -231,15 +224,11 @@ public class MePager extends BasePager {
     }
 
     private void setView() {
-        Log.e("TAG_setview", "setview");
         String user_id = Utils.getSpData("user_id", context);
         String balance = Utils.getSpData("balance", context);
         String name = Utils.getSpData("name", context);
         final String picture = Utils.getSpData("picture", context);
 
-        Log.e("TAG", user_id+"");
-        Log.e("TAG", name+"");
-        Log.e("TAG", balance+"");
         tv_me_name.setText(name);
         tv_me_fbcode.setText(user_id);
         tv_me_gold.setText("Gold:$" + balance);
@@ -249,6 +238,10 @@ public class MePager extends BasePager {
                 civ_me_header.setImageBitmap(resource);
             }
         });
+
+        fb_shipping_facebook.getLikeView().setObjectIdAndType(
+                "http://inthecheesefactory.com/blog/understand-android-activity-launchmode/en",
+                LikeView.ObjectType.OPEN_GRAPH);
     }
 
     //点击监听
@@ -278,9 +271,10 @@ public class MePager extends BasePager {
         //获取状态栏高度
         ((Activity) context).getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int statusBarHeight = frame.top;
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 218));
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 315));
         lp.topMargin = statusBarHeight;
         rl_me_title.setLayoutParams(lp);
     }
+
 
 }

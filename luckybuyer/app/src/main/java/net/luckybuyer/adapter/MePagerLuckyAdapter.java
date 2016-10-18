@@ -64,7 +64,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle() + "");
         holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id() + "");
-        holder.tv_lucky_participation.setText("My participation:" + list.get(position).getNumbers().size() + "");
+        holder.tv_lucky_participation.setText("My participation:" + list.get(position).getGame().getLucky_order().getTotal_shares() + "");
         holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName() + "");
         String picture = "http:" + list.get(position).getGame().getProduct().getTitle_image();
         Glide.with(context).load(picture).into(holder.iv_lucky_icon);
@@ -110,13 +110,23 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.tv_lucky_goview:
-                    Utils.MyToast(context,"goview");
+                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.iv_lucky_goview:
-                    Utils.MyToast(context,"goview");
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.rl_lucky_address:
-                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from","dispatchpager");
                     intent.putExtra("alllist", (Serializable) list);
                     intent.putExtra("position", position);

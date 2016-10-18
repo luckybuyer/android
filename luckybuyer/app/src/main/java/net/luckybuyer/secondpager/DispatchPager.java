@@ -153,7 +153,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
         jtv_dispatch_title.setText(list.get(position).getGame().getProduct().getTitle() + "");
         tv_dispatch_issue.setText("Issue:" + list.get(position).getGame().getIssue_id() + "");
-        tv_dispatch_participate.setText("I participation:" + list.get(position).getGame().getLucky_order().getNumbers().size() + "");
+        tv_dispatch_participate.setText("I participation:" + list.get(position).getGame().getLucky_order().getTotal_shares() + "");
         Glide.with(context).load("https:" + list.get(position).getGame().getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

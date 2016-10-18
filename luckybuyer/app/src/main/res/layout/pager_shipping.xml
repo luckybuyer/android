@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/tv_dispatch_share"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_18"
             android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_12"
@@ -46,9 +46,9 @@
         <TextView
             android:id="@+id/tv_shipping_back"
             android:layout_width="@dimen/dimen_39"
-            android:layout_height="@dimen/dimen_16"
+            android:layout_height="@dimen/dimen_18"
             android:layout_marginLeft="@dimen/dimen_6"
-            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_alignTop="@id/iv_shipping_back"
             android:layout_toRightOf="@+id/iv_shipping_back"
             android:text="Back"
             android:textColor="@color/text_black"

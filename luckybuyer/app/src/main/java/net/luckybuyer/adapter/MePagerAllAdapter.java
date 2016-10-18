@@ -205,22 +205,45 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.rl_all_continue:                    //还在进行中
-                    Utils.MyToast(context,"还在进行中");
+                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","productdetail");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
+                    ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.iv_all_goview:
-                    Utils.MyToast(context,"还在进行中 goview");
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.tv_all_goview:
-                    Utils.MyToast(context,"还在进行中 goview");
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from", "participation");
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    intent.putExtra("game_id",list.get(position).getGame().getId());
+                    ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.rl_lucky_continue:                   //别人中奖了
                     Utils.MyToast(context,"别人中奖了");
                     break;
                 case R.id.iv_countdown_goview:
-                    Utils.MyToast(context,"倒计时 goview");
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","participation");
+                    intent.putExtra("game_id",list.get(position).getGame().getId());
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.tv_countdown_goview:
-                    Utils.MyToast(context,"倒计时 goview");
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","participation");
+                    intent.putExtra("game_id",list.get(position).getGame().getId());
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.rl_countdown_continue:
                     Utils.MyToast(context,"倒计时");            //倒计时
@@ -228,20 +251,40 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 case R.id.iv_lucky_goview:
 
                     if(type == 2) {
-                        Utils.MyToast(context,"别人中奖了 goview");
+                        intent = new Intent(context, SecondPagerActivity.class);
+                        intent.putExtra("from","participation");
+                        intent.putExtra("game_id",list.get(position).getGame().getId());
+                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                        ((MainActivity)context).startActivity(intent);
                     }else{
-                        Utils.MyToast(context,"我中奖了 goview");
+                        intent = new Intent(context, SecondPagerActivity.class);
+                        intent.putExtra("from","participation");
+                        intent.putExtra("game_id",list.get(position).getGame().getId());
+                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                        ((MainActivity)context).startActivity(intent);
                     }
                     break;
                 case R.id.tv_lucky_goview:
                     if(type == 2) {
-                        Utils.MyToast(context,"别人中奖了 goview");
+                        intent = new Intent(context, SecondPagerActivity.class);
+                        intent.putExtra("from","participation");
+                        intent.putExtra("game_id",list.get(position).getGame().getId());
+                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                        ((MainActivity)context).startActivity(intent);
                     }else{
-                        Utils.MyToast(context, "我中奖了 goview");
+                        intent = new Intent(context, SecondPagerActivity.class);
+                        intent.putExtra("from","participation");
+                        intent.putExtra("game_id",list.get(position).getGame().getId());
+                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                        ((MainActivity)context).startActivity(intent);
                     }
                     break;
                 case R.id.rl_lucky_address:                     //我中奖了点击地址
-                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from","dispatchpager");
                     intent.putExtra("alllist", (Serializable) list);
                     intent.putExtra("position", position);

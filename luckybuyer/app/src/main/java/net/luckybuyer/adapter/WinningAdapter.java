@@ -69,8 +69,8 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.jtv_winning_title.setText(list.get(position).getProduct().getTitle());
-        holder.item_winning_issue.setText("Issue:" + list.get(position).getIssue_id());
-        Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+        holder.item_winning_issue.setText("Issue: " + list.get(position).getIssue_id());
+        Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 holder.iv_winning_icon.setImageBitmap(resource);
@@ -82,7 +82,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
         }else if(type == 1) {
             holder.tv_winning_luckynum.setText(list.get(position).getLucky_number());
             holder.tv_winning_winningname.setText(list.get(position).getLucky_user().getProfile().getName() + "");
-            holder.tv_winning_participations.setText(list.get(position).getLucky_order().getNumbers().size() + "");
+            holder.tv_winning_participations.setText(list.get(position).getLucky_order().getTotal_shares() + "");
             holder.tv_winning_announced.setText(list.get(position).getFinished_at().substring(0,19).replace("T"," ") + "");
         }
 
@@ -100,7 +100,6 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        Log.e("TAG", list.size()+"231");
         return list.size();
     }
 

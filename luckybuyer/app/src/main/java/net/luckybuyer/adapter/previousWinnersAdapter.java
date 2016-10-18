@@ -43,7 +43,7 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
         holder.tv_previous_issue.setText("[Issue:" + list.get(position).getIssue_id() + "]");
         holder.tv_previous_time.setText(list.get(position).getFinished_at().substring(0, 19).replace("T", " "));
         holder.tv_previous_name.setText(list.get(position).getLucky_user().getProfile().getName() + "");
-        holder.tv_previous_participation.setText(list.get(position).getLucky_order().getNumbers().size() + "");
+        holder.tv_previous_participation.setText(list.get(position).getLucky_order().getTotal_shares() + "");
         holder.tv_previous_luckynum.setText(list.get(position).getLucky_number() + "");
         Glide.with(context).load(list.get(position).getLucky_user().getProfile().getPicture()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override

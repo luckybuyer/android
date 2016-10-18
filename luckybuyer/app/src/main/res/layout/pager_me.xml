@@ -9,7 +9,7 @@
     <RelativeLayout
         android:id="@+id/rl_me_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_193"
+        android:layout_height="wrap_content"
         android:background="#E9E6E8">
 
         <net.luckybuyer.view.CircleImageView
@@ -71,13 +71,45 @@
             android:id="@+id/tv_me_gold"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/tv_me_fbcode"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_20"
             android:text="Gold:$998"
             android:textColor="#ff9c05"
             android:textSize="@dimen/dimen_13" />
+
+        <View
+            android:id="@+id/view_shipping"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_1"
+            android:layout_below="@+id/tv_me_gold"
+            android:layout_marginLeft="@dimen/dimen_35"
+            android:layout_marginRight="@dimen/dimen_35"
+            android:layout_marginTop="@dimen/dimen_10"
+            android:background="#cccccc"></View>
+
+        <net.luckybuyer.view.JustifyTextView
+            android:id="@+id/jtv_shipinng_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_48"
+            android:layout_below="@+id/view_shipping"
+            android:layout_marginLeft="@dimen/dimen_35"
+            android:layout_marginRight="@dimen/dimen_35"
+            android:layout_marginTop="@dimen/dimen_7"
+            android:text="Like Lucky Buyer page, we will send you real-time information on winning items and shipping conditions."
+            android:textColor="#666666"
+            android:textSize="@dimen/dimen_12" />
+
+        <com.inthecheesefactory.lib.fblike.widget.FBLikeView
+            android:id="@+id/fb_shipping_facebook"
+            android:layout_marginBottom="@dimen/dimen_12"
+            android:layout_below="@+id/jtv_shipinng_facebook"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_alignLeft="@id/jtv_shipinng_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_22"/>
+
     </RelativeLayout>
+
 
     <com.flyco.tablayout.SlidingTabLayout
         android:id="@+id/stl_me_vpcontrol"

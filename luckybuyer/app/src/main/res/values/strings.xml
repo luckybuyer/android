@@ -2,4 +2,7 @@
     <string name="app_name">luckybuyer</string>
     <string name="auth0_client_id">szkaPtfjwlvFuI8WToePdKMTanofgIsq</string>
     <string name="auth0_domain">staging-luckybuyer.auth0.com</string>
+
+    <!--facebook-->
+    <string name="app_id">258798961160938</string>
 </resources>

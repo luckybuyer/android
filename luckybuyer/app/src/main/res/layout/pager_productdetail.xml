@@ -188,14 +188,13 @@
 
                         <RelativeLayout
                             android:id="@+id/rl_productdetail_icon"
-
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dimen_280">
 
                             <ImageView
                                 android:id="@+id/iv_productdetail_image"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
 
                         </RelativeLayout>
 
@@ -247,6 +246,7 @@
                             android:background="@drawable/selector_tv_productdetail_inprogress"
                             android:gravity="center"
                             android:paddingLeft="@dimen/dimen_2"
+                            android:paddingRight="@dimen/dimen_2"
                             android:text="In Progress"
                             android:textColor="#ff9c05"
                             android:textSize="@dimen/dimen_13" />
