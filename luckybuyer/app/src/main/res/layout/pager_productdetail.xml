@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical">
 
 
@@ -20,8 +21,8 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <!--倒计时显示-->
@@ -304,16 +305,15 @@
                         android:layout_height="@dimen/dimen_10"
                         android:background="#eeeeee"></RelativeLayout>
                     <!-- 后加的 产品描述-->
-                    <TextView
+                    <WebView
                         android:background="#ffffff"
-                        android:id="@+id/tv_productdetail_discribe"
+                        android:id="@+id/wv_productdetail_discribe"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/dimen_12"
-                        android:paddingRight="@dimen/dimen_12"
-                        android:paddingTop="@dimen/dimen_16"
-                        android:paddingBottom="@dimen/dimen_16"
-                        android:textSize="@dimen/dimen_12" />
+                        android:layout_marginLeft="@dimen/dimen_10"
+                        android:layout_marginRight="@dimen/dimen_10"
+                        android:layout_marginTop="@dimen/dimen_14"
+                        android:layout_marginBottom="@dimen/dimen_14"/>
 
                     <!--倒计时与开奖之后显示-->
                     <RelativeLayout

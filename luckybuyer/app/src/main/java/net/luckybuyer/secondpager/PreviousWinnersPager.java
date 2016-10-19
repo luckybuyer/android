@@ -48,7 +48,7 @@ public class PreviousWinnersPager extends BasePager {
     public void initData() {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
-        String url = MyApplication.url + "/v1/games/?status=finished&batch_id="+ ((ThirdPagerActivity)context).batch_id+"&per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/games/?status=finished&batch_id="+ ((ThirdPagerActivity)context).batch_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {

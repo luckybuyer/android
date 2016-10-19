@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import net.luckybuyer.R;
 import net.luckybuyer.adapter.WinningAdapter;
 import net.luckybuyer.app.MyApplication;
+import net.luckybuyer.base.BaseNoTrackPager;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.PreviousWinnerBean;
 import net.luckybuyer.utils.HttpUtils;
@@ -23,7 +24,7 @@ import java.lang.reflect.Field;
 /**
  * Created by admin on 2016/9/13.
  */
-public class WinningPager extends BasePager {
+public class WinningPager extends BaseNoTrackPager {
 
     private View inflate;
     private RelativeLayout rl_winning_header;
@@ -47,6 +48,7 @@ public class WinningPager extends BasePager {
                 initData();
             }
         });
+        isNeedNetWaiting = true;
         return inflate;
     }
 
@@ -62,7 +64,7 @@ public class WinningPager extends BasePager {
             srl_winning.setRefreshing(true);
         }
 
-        String url = MyApplication.url + "/v1/games/?per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/games/?per_page=20&page=1&timezone=" + MyApplication.utc;
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -90,7 +92,7 @@ public class WinningPager extends BasePager {
                     @Override
                     public void run() {
                         srl_winning.setRefreshing(false);
-
+                        HttpUtils.getInstance().stopNetWorkWaiting();
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                     }
@@ -105,6 +107,7 @@ public class WinningPager extends BasePager {
                         srl_winning.setRefreshing(false);
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
                     }
                 });
             }

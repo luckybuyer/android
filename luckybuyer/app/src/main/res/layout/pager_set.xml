@@ -69,74 +69,69 @@
             android:background="@drawable/go_go" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_set_help"
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_set_help"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dimen_50"-->
+        <!--android:layout_below="@+id/rl_set_address"-->
+        <!--android:layout_marginTop="@dimen/dimen_15"-->
+        <!--android:background="#ffffff">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="@dimen/dimen_20"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="@dimen/dimen_12"-->
+            <!--android:text="Help"-->
+            <!--android:textColor="@color/text_black"-->
+            <!--android:textSize="@dimen/dimen_14" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="@dimen/dimen_6"-->
+            <!--android:layout_height="@dimen/dimen_11"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="@dimen/dimen_12"-->
+            <!--android:background="@drawable/go_go" />-->
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_set_us"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dimen_50"-->
+        <!--android:layout_below="@+id/rl_set_help"-->
+        <!--android:layout_marginTop="@dimen/dimen_15"-->
+        <!--android:background="#ffffff">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="@dimen/dimen_20"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="@dimen/dimen_12"-->
+            <!--android:text="About us"-->
+            <!--android:textColor="@color/text_black"-->
+            <!--android:textSize="@dimen/dimen_14" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="@dimen/dimen_6"-->
+            <!--android:layout_height="@dimen/dimen_11"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="@dimen/dimen_12"-->
+            <!--android:background="@drawable/go_go" />-->
+    <!--</RelativeLayout>-->
+
+    <TextView
+        android:id="@+id/tv_set_login"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_50"
         android:layout_below="@+id/rl_set_address"
-        android:layout_marginTop="@dimen/dimen_15"
-        android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_20"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:text="Help"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_14" />
-
-        <ImageView
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_11"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12"
-            android:background="@drawable/go_go" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_set_us"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50"
-        android:layout_below="@+id/rl_set_help"
-        android:layout_marginTop="@dimen/dimen_15"
-        android:background="#ffffff">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_20"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:text="About us"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_14" />
-
-        <ImageView
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_11"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12"
-            android:background="@drawable/go_go" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_set_login"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50"
-        android:layout_below="@+id/rl_set_us"
         android:layout_marginLeft="@dimen/dimen_30"
         android:layout_marginRight="@dimen/dimen_30"
         android:layout_marginTop="@dimen/dimen_40"
+        android:background="@drawable/selector_rl_set_login"
         android:gravity="center"
-        android:background="@drawable/selector_rl_set_login">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Quit"
-            android:textColor="@color/text_white"
-            android:textSize="@dimen/dimen_16" />
-    </RelativeLayout>
+        android:text="Log out"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/dimen_16" />
 </RelativeLayout>

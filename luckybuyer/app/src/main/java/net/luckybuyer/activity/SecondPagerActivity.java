@@ -1,6 +1,8 @@
 package net.luckybuyer.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -93,6 +95,7 @@ public class SecondPagerActivity extends FragmentActivity {
         title_image = getIntent().getStringExtra("title_image");
         title = getIntent().getStringExtra("title");
         allList = (ArrayList) getIntent().getSerializableExtra("alllist");
+        Log.e("TAG_second", game_id+"");
         setData();
         //发现视图  设置监听
         findView();
@@ -202,7 +205,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, SecondPagerActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", SecondPagerActivity.this);
-            String url = MyApplication.url + "/v1/users/me/?timezone=utc";
+            String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
             //请求登陆接口

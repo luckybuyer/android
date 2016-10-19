@@ -57,7 +57,7 @@ public class CoinDetailPager extends BasePager {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
         String token = Utils.getSpData("token", context);
-        String url = MyApplication.url + "/v1/gold-records/?per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/gold-records/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口

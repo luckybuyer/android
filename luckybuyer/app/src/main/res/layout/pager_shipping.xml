@@ -44,6 +44,7 @@
             android:background="@drawable/go_back" />
 
         <TextView
+            android:gravity="center"
             android:id="@+id/tv_shipping_back"
             android:layout_width="@dimen/dimen_39"
             android:layout_height="@dimen/dimen_18"

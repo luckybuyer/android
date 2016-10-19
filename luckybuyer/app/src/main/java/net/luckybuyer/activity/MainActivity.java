@@ -51,6 +51,7 @@ public class MainActivity extends FragmentActivity {
 
     public String homeBanner;
     public String homeProduct;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +97,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            int id = -1;
+            id = -1;
             if (checkedId == rg_main.getChildAt(0).getId()) {
                 id = 0;
                 switchPage(id);
@@ -133,7 +134,10 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_main, fragment);
+//        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
     }
 
     //auth0登陆回调
@@ -161,7 +165,7 @@ public class MainActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, MainActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", MainActivity.this);
-            String url = MyApplication.url + "/v1/users/me/?timezone=utc";
+            String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
             //请求登陆接口
@@ -242,6 +246,12 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        FBLikeView.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 0 && data != null && "homepager".equals(data.getStringExtra("go"))) {
+            rg_main.check(0);
+            switchPage(0);
+        }else {
+            FBLikeView.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 }

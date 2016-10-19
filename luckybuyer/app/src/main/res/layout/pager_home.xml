@@ -36,8 +36,9 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_home_refresh"
         android:layout_width="match_parent"
-        android:layout_below="@+id/rl_home_header"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_home_header">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -63,31 +64,49 @@
                     android:gravity="center"
                     android:orientation="horizontal"></LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/vp_home"
-                    android:layout_marginLeft="@dimen/dimen_18"
-                    android:layout_marginRight="@dimen/dimen_18"
-                    android:background="@color/bg_view"></View>
 
                 <RelativeLayout
                     android:id="@+id/rl_home_marquee"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_39"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/vp_home"
                     android:background="#ffffff">
 
+                    <View
+                        android:id="@+id/view_home"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="@dimen/dimen_28"
+                        android:layout_marginRight="@dimen/dimen_28"
+                        android:layout_marginTop="@dimen/dimen_15"
+                        android:background="@color/bg_view"></View>
+
+                    <ImageView
+                        android:id="@+id/iv_home_broadcast"
+                        android:layout_width="@dimen/dimen_16"
+                        android:layout_height="@dimen/dimen_16"
+                        android:layout_marginTop="@dimen/dimen_15"
+                        android:layout_below="@+id/view_home"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="@dimen/dimen_8"
+                        android:layout_marginLeft="@dimen/dimen_25"
+                        android:background="@drawable/home_broadcast" />
+
                     <net.luckybuyer.view.AutoTextView
+                        android:layout_marginTop="@dimen/dimen_15"
+                        android:layout_below="@+id/view_home"
                         android:id="@+id/atv_home_marquee"
-                        android:layout_width="@dimen/dimen_271"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_18"
-                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/dimen_8"
+                        android:layout_marginRight="@dimen/dimen_30"
+                        android:layout_toRightOf="@+id/iv_home_broadcast"
                         android:background="@color/bg_while"
                         android:gravity="center"
                         android:text="iphone plus"
                         android:textColor="@color/text_buy"
-                        auto3d:textSize="@dimen/dimen_7" />
+                        auto3d:textSize="@dimen/dimen_5" />
 
                     <ImageView
                         android:layout_width="@dimen/dimen_6"
@@ -140,57 +159,61 @@
 
     <RelativeLayout
         android:id="@+id/rl_keepout"
-        android:background="@color/f2f2f2"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/rl_home_header"
-        android:layout_height="match_parent">
+        android:background="@color/f2f2f2"
+        android:visibility="gone">
+
         <RelativeLayout
             android:id="@+id/rl_neterror"
-            android:visibility="gone"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_80"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/iv_neterror"
                 android:layout_width="@dimen/dimen_200"
-                android:background="@drawable/default_neterror"
-                android:layout_height="@dimen/dimen_210" />
+                android:layout_height="@dimen/dimen_210"
+                android:background="@drawable/default_neterror" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_neterror"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_8"
-                android:layout_below="@+id/iv_neterror"
-                android:textSize="@dimen/dimen_14"
-                android:textColor="#acabb4"
                 android:text="Network connection error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="#acabb4"
+                android:textSize="@dimen/dimen_14" />
         </RelativeLayout>
 
 
         <RelativeLayout
             android:id="@+id/rl_nodata"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/dimen_80"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_80">
+
             <ImageView
-                android:layout_marginLeft="@dimen/dimen_20"
                 android:id="@+id/iv_nodata"
                 android:layout_width="@dimen/dimen_125"
-                android:background="@drawable/default_nodata"
-                android:layout_height="@dimen/dimen_150" />
+                android:layout_height="@dimen/dimen_150"
+                android:layout_marginLeft="@dimen/dimen_20"
+                android:background="@drawable/default_nodata" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_nodata"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_8"
-                android:layout_below="@+id/iv_nodata"
-                android:textSize="@dimen/dimen_14"
-                android:textColor="#acabb4"
                 android:text="No previous lottery data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="#acabb4"
+                android:textSize="@dimen/dimen_14" />
         </RelativeLayout>
     </RelativeLayout>
 

@@ -47,7 +47,6 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_shipping, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
-        ((SecondPagerActivity) context).from= "dispatchpager";
         findView();
         setHeadMargin();
         return inflate;
@@ -56,7 +55,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
-        String MyBuyUrl = MyApplication.url + "/v1/addresses/?per_page=20&page=1&timezone=" + "utc";
+        String MyBuyUrl = MyApplication.url + "/v1/addresses/?per_page=20&page=1&timezone=" + MyApplication.utc;
         String token = Utils.getSpData("token", context);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
@@ -122,13 +121,21 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.iv_shipping_back:
-                    ((SecondPagerActivity)context).switchPage(7);
+                    if("setpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity)context).switchPage(4);
+                    }else if("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity)context).switchPage(7);
+                    }
                     break;
                 case R.id.tv_shipping_back:
-                    ((SecondPagerActivity)context).switchPage(7);
+                    if("setpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity)context).switchPage(4);
+                    }else if("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity)context).switchPage(7);
+                    }
                     break;
                 case R.id.tv_shipping_newadd:
-
+                    ((SecondPagerActivity)context).switchPage(8);
                     break;
             }
         }

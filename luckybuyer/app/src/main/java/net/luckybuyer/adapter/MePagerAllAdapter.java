@@ -1,5 +1,6 @@
 package net.luckybuyer.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,17 +19,22 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.util.Util;
+import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
+import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.bean.AllOrderBean;
+import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.JustifyTextView;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -36,7 +42,7 @@ import java.util.TimeZone;
  */
 public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.ViewHolder> {
     private Context context;
-    private List<AllOrderBean.AllorderBean> list;
+    public List<AllOrderBean.AllorderBean> list;
 
     public MePagerAllAdapter(Context context, List list) {
         this.context = context;
@@ -134,8 +140,46 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 @Override
                 public void onFinish() {
                     holder.tv_countdown_6.setText("0");
-//                    list.get(position).getGame().setStatus("finished");
-//                    notifyDataSetChanged();
+                    String token = Utils.getSpData("token", context);
+                    String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
+                    Map map = new HashMap<String, String>();
+                    map.put("Authorization", "Bearer " + token);
+                    //请求登陆接口
+                    final String finalToken = token;
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+                                @Override
+                                public void success(final String response) {
+
+                                    ((Activity) context).runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Gson gson = new Gson();
+                                                    String str = "{\"allorder\":" + response + "}";
+                                                    AllOrderBean allOrderBean = gson.fromJson(str, AllOrderBean.class);
+                                                    list = allOrderBean.getAllorder();
+
+                                                    notifyDataSetChanged();
+                                                }
+                                            }
+                                    );
+                                }
+
+                                @Override
+                                public void error(int requestCode, String message) {
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void failure(Exception exception) {
+                                }
+                            }
+
+                    );
 
                 }
             }.start();
@@ -227,7 +271,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.rl_lucky_continue:                   //别人中奖了
-                    Utils.MyToast(context,"别人中奖了");
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","productdetail");
+                    intent.putExtra("batch_id",list.get(position).getGame().getBatch_id());
+                    context.startActivity(intent);
                     break;
                 case R.id.iv_countdown_goview:
                     intent = new Intent(context, SecondPagerActivity.class);
@@ -246,7 +293,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.rl_countdown_continue:
-                    Utils.MyToast(context,"倒计时");            //倒计时
+                    intent = new Intent(context, SecondPagerActivity.class);   //倒计时
+                    intent.putExtra("from","productdetail");
+                    intent.putExtra("batch_id",list.get(position).getGame().getBatch_id());
+                    context.startActivity(intent);
                     break;
                 case R.id.iv_lucky_goview:
 

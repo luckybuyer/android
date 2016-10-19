@@ -1,137 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_while"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/rl_me_title"
+
+    <ScrollView
+        android:id="@+id/sv_me"
+        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#E9E6E8">
+        android:layout_height="wrap_content">
 
-        <net.luckybuyer.view.CircleImageView
-            android:layout_width="@dimen/dimen_64"
-            android:layout_height="@dimen/dimen_64"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_40"
-            android:background="@drawable/civ_shape" />
-
-        <net.luckybuyer.view.CircleImageView
-            android:id="@+id/civ_me_header"
-            android:layout_width="@dimen/dimen_60"
-            android:layout_height="@dimen/dimen_60"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_42"
-            android:src="@drawable/mainavtivity_gift" />
-
-        <ImageView
-            android:id="@+id/iv_me_voice"
-            android:layout_width="@dimen/dimen_31"
-            android:layout_height="@dimen/dimen_31"
-            android:layout_marginRight="@dimen/dimen_55"
-            android:layout_marginTop="@dimen/dimen_55"
-            android:layout_toLeftOf="@+id/civ_me_header"
-            android:background="@drawable/me_information" />
-
-        <ImageView
-            android:id="@+id/i_me_set"
-            android:layout_width="@dimen/dimen_31"
-            android:layout_height="@dimen/dimen_31"
-            android:layout_marginLeft="@dimen/dimen_55"
-            android:layout_marginTop="@dimen/dimen_55"
-            android:layout_toRightOf="@+id/civ_me_header"
-            android:background="@drawable/me_set" />
-
-        <TextView
-            android:id="@+id/tv_me_name"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_20"
-            android:layout_below="@+id/civ_me_header"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_10"
-            android:text="PILItong"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_15" />
-
-        <TextView
-            android:id="@+id/tv_me_fbcode"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_16"
-            android:layout_below="@+id/civ_me_header"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_30"
-            android:text="（887338）"
-            android:textColor="@color/text_gray"
-            android:textSize="@dimen/dimen_11" />
-
-        <TextView
-            android:id="@+id/tv_me_gold"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_below="@+id/tv_me_fbcode"
-            android:layout_centerHorizontal="true"
-            android:text="Gold:$998"
-            android:textColor="#ff9c05"
-            android:textSize="@dimen/dimen_13" />
-
-        <View
-            android:id="@+id/view_shipping"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_1"
-            android:layout_below="@+id/tv_me_gold"
-            android:layout_marginLeft="@dimen/dimen_35"
-            android:layout_marginRight="@dimen/dimen_35"
-            android:layout_marginTop="@dimen/dimen_10"
-            android:background="#cccccc"></View>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <net.luckybuyer.view.JustifyTextView
-            android:id="@+id/jtv_shipinng_facebook"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_48"
-            android:layout_below="@+id/view_shipping"
-            android:layout_marginLeft="@dimen/dimen_35"
-            android:layout_marginRight="@dimen/dimen_35"
-            android:layout_marginTop="@dimen/dimen_7"
-            android:text="Like Lucky Buyer page, we will send you real-time information on winning items and shipping conditions."
-            android:textColor="#666666"
-            android:textSize="@dimen/dimen_12" />
+            <RelativeLayout
+                android:id="@+id/rl_me_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#E9E6E8">
 
-        <com.inthecheesefactory.lib.fblike.widget.FBLikeView
-            android:id="@+id/fb_shipping_facebook"
-            android:layout_marginBottom="@dimen/dimen_12"
-            android:layout_below="@+id/jtv_shipinng_facebook"
-            android:layout_marginTop="@dimen/dimen_8"
-            android:layout_alignLeft="@id/jtv_shipinng_facebook"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_22"/>
+                <net.luckybuyer.view.CircleImageView
+                    android:layout_width="@dimen/dimen_64"
+                    android:layout_height="@dimen/dimen_64"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen_40"
+                    android:background="@drawable/civ_shape" />
 
-    </RelativeLayout>
+                <net.luckybuyer.view.CircleImageView
+                    android:id="@+id/civ_me_header"
+                    android:layout_width="@dimen/dimen_60"
+                    android:layout_height="@dimen/dimen_60"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen_42"
+                    android:src="@drawable/mainavtivity_gift" />
+
+                <ImageView
+                    android:id="@+id/iv_me_voice"
+                    android:layout_width="@dimen/dimen_31"
+                    android:layout_height="@dimen/dimen_31"
+                    android:layout_marginRight="@dimen/dimen_55"
+                    android:layout_marginTop="@dimen/dimen_55"
+                    android:layout_toLeftOf="@+id/civ_me_header"
+                    android:background="@drawable/me_information" />
+
+                <ImageView
+                    android:id="@+id/i_me_set"
+                    android:layout_width="@dimen/dimen_31"
+                    android:layout_height="@dimen/dimen_31"
+                    android:layout_marginLeft="@dimen/dimen_55"
+                    android:layout_marginTop="@dimen/dimen_55"
+                    android:layout_toRightOf="@+id/civ_me_header"
+                    android:background="@drawable/me_set" />
+
+                <TextView
+                    android:id="@+id/tv_me_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_20"
+                    android:layout_below="@+id/civ_me_header"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:text="PILItong"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_15" />
+
+                <TextView
+                    android:id="@+id/tv_me_fbcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_16"
+                    android:layout_below="@+id/civ_me_header"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen_30"
+                    android:text="（887338）"
+                    android:textColor="@color/text_gray"
+                    android:textSize="@dimen/dimen_11" />
+
+                <TextView
+                    android:id="@+id/tv_me_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_18"
+                    android:layout_below="@+id/tv_me_fbcode"
+                    android:layout_centerHorizontal="true"
+                    android:text="Gold:$998"
+                    android:textColor="#ff9c05"
+                    android:textSize="@dimen/dimen_13" />
+
+                <View
+                    android:id="@+id/view_shipping"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_1"
+                    android:layout_below="@+id/tv_me_gold"
+                    android:layout_marginLeft="@dimen/dimen_35"
+                    android:layout_marginRight="@dimen/dimen_35"
+                    android:layout_marginTop="@dimen/dimen_10"
+                    android:background="#cccccc"></View>
+
+                <net.luckybuyer.view.JustifyTextView
+                    android:id="@+id/jtv_shipinng_facebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_48"
+                    android:layout_below="@+id/view_shipping"
+                    android:layout_marginLeft="@dimen/dimen_42"
+                    android:layout_marginRight="@dimen/dimen_42"
+                    android:layout_marginTop="@dimen/dimen_7"
+                    android:text="Click 'like' on our Facebook page and you'll see a notification when you win items."
+                    android:textColor="#666666"
+                    android:textSize="@dimen/dimen_13" />
+
+                <com.inthecheesefactory.lib.fblike.widget.FBLikeView
+                    android:id="@+id/fb_shipping_facebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_22"
+                    android:layout_alignLeft="@id/jtv_shipinng_facebook"
+                    android:layout_below="@+id/jtv_shipinng_facebook"
+                    android:layout_marginBottom="@dimen/dimen_12"
+                    android:layout_marginTop="@dimen/dimen_8" />
+
+            </RelativeLayout>
 
 
-    <com.flyco.tablayout.SlidingTabLayout
-        android:id="@+id/stl_me_vpcontrol"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50"
-        android:background="#ffffff"
-        tl:tl_divider_color="@null"
+            <com.flyco.tablayout.SlidingTabLayout
+                android:id="@+id/stl_me_vpcontrol"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_50"
+                android:layout_below="@+id/rl_me_title"
+                android:background="#ffffff"
+                tl:tl_divider_color="@null"
 
-        tl:tl_indicator_color="#ff4f3c"
-        tl:tl_indicator_height="@dimen/dimen_2"
-        tl:tl_indicator_width_equal_title="true"
-        tl:tl_tab_padding="0dp"
-        tl:tl_tab_space_equal="true"
-        tl:tl_textSelectColor="#ff0000"
-        tl:tl_textUnselectColor="#999999"
-        tl:tl_underline_color="#ff0000"
-        tl:tl_underline_height="0dp" />
+                tl:tl_indicator_color="#ff4f3c"
+                tl:tl_indicator_height="@dimen/dimen_2"
+                tl:tl_indicator_width_equal_title="true"
+                tl:tl_tab_padding="0dp"
+                tl:tl_tab_space_equal="true"
+                tl:tl_textSelectColor="#ff0000"
+                tl:tl_textUnselectColor="#999999"
+                tl:tl_underline_color="#ff0000"
+                tl:tl_underline_height="0dp" />
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_me"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"></android.support.v4.view.ViewPager>
-</LinearLayout>
+            <net.luckybuyer.view.CustomViewPager
+                android:id="@+id/vp_me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/stl_me_vpcontrol"
+                android:background="#ffffff"></net.luckybuyer.view.CustomViewPager>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

@@ -1,8 +1,10 @@
 package net.luckybuyer.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.CountDownTimer;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,15 +17,24 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.activity.SecondPagerActivity;
+import net.luckybuyer.app.MyApplication;
+import net.luckybuyer.bean.AllOrderBean;
 import net.luckybuyer.bean.PreviousWinnerBean;
+import net.luckybuyer.utils.HttpUtils;
+import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.JustifyTextView;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.TimeZone;
 
 /**
  * Created by admin on 2016/10/13.
@@ -78,7 +89,75 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
         });
         int type = getItemViewType(position);
         if(type == 0) {
+            String finishTime = list.get(position).getFinished_at();
+            long time = Utils.Iso8601ToLong(finishTime);
+            new CountDownTimer(time, 1000) {
+                @Override
+                public void onTick(long l) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                    formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
+                    String time = formatter.format(l);
 
+                    holder.tv_winning_countdown1.setText(time.substring(0,1));
+                    holder.tv_winning_countdown2.setText(time.substring(1, 2));
+                    holder.tv_winning_countdown3.setText(time.substring(3, 4));
+                    holder.tv_winning_countdown4.setText(time.substring(4, 5));
+                    holder.tv_winning_countdown5.setText(time.substring(6, 7));
+                    holder.tv_winning_countdown6.setText(time.substring(7, 8));
+                }
+
+                @Override
+                public void onFinish() {
+                    holder.tv_winning_countdown6.setText("0");
+                    String token = Utils.getSpData("token", context);
+                    String url = MyApplication.url + "/v1/games/?per_page=20&page=1&timezone=" + MyApplication.utc;
+                    Map map = new HashMap<String, String>();
+                    map.put("Authorization", "Bearer " + token);
+                    //请求登陆接口
+                    final String finalToken = token;
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+                                @Override
+                                public void success(final String response) {
+
+                                    ((Activity) context).runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    String str = "{\"previous\":" + response + "}";
+                                                    Gson gson = new Gson();
+                                                    PreviousWinnerBean previousWinnerBean = gson.fromJson(str, PreviousWinnerBean.class);
+                                                    list = previousWinnerBean.getPrevious();
+                                                    for (int i = 0;i < list.size();i++){
+                                                        if("running".equals(list.get(i).getStatus())) {
+                                                            list.remove(i);
+                                                            i--;
+                                                        }
+                                                    }
+                                                    notifyDataSetChanged();
+
+                                                }
+                                            }
+                                    );
+                                }
+
+                                @Override
+                                public void error(int requestCode, String message) {
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void failure(Exception exception) {
+                                }
+                            }
+
+                    );
+
+                }
+            }.start();
         }else if(type == 1) {
             holder.tv_winning_luckynum.setText(list.get(position).getLucky_number());
             holder.tv_winning_winningname.setText(list.get(position).getLucky_user().getProfile().getName() + "");

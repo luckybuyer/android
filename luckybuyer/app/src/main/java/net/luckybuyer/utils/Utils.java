@@ -365,7 +365,7 @@ public class Utils {
         int se = Integer.parseInt(sec);
         Calendar calendar = Calendar.getInstance();
         calendar.set(yea,mont-1,da,hou,minut,se);
-        calendar.add(Calendar.HOUR, 8);
+//        calendar.add(Calendar.HOUR, 8);
 
 //        Log.e("TAG", yea+"");
 //        Log.e("TAG", mont+"");

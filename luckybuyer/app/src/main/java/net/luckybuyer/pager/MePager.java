@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -40,6 +41,7 @@ import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.CircleImageView;
+import net.luckybuyer.view.CustomViewPager;
 import net.luckybuyer.view.RecycleViewDivider;
 
 import java.sql.DataTruncation;
@@ -61,8 +63,9 @@ public class MePager extends BasePager {
     private TextView tv_me_name;
     private TextView tv_me_fbcode;
     private TextView tv_me_gold;
-    private ViewPager vp_me;
+    private CustomViewPager vp_me;
     private SlidingTabLayout stl_me_vpcontrol;
+    private ScrollView sv_me;
     private View inflate;
 
     private FBLikeView fb_shipping_facebook;
@@ -73,7 +76,7 @@ public class MePager extends BasePager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_me, null);
         findView();
-        setHeadMargin();
+//        setHeadMargin();
 
         setView();
         return inflate;
@@ -85,8 +88,7 @@ public class MePager extends BasePager {
         super.initData();
         HttpUtils.getInstance().startNetworkWaiting(context);
         String token = Utils.getSpData("token", context);
-//        token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2x1Y2t5YnV5ZXIuYXV0aDAuY29tLyIsInN1YiI6InR3aXR0ZXJ8MTY5NTc1NzY3MCIsImF1ZCI6IjZmcmJUQTV0M28xZGpzUFlMcDBqUGlER3g3Y3ZJeVZjIiwiZXhwIjoxNDc3MTE4NTI3LCJpYXQiOjE0NzYyNTQ1Mjd9.1glK2sOfvIZ02iE5pD1bCtx7mDoEZWGdRtobbHUqxuM";
-        String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -121,7 +123,7 @@ public class MePager extends BasePager {
 
                     @Override
                     public void failure(Exception exception) {
-
+                        HttpUtils.getInstance().stopNetWorkWaiting();
                     }
                 }
 
@@ -129,7 +131,7 @@ public class MePager extends BasePager {
     }
 
     private void LuckyResponse(String token, final String res) {
-        String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=utc";
+        String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -141,7 +143,12 @@ public class MePager extends BasePager {
                                     @Override
                                     public void run() {
                                         processData(res, response);
-                                        HttpUtils.getInstance().stopNetWorkWaiting();
+                                        try {
+                                            Thread.sleep(500);
+                                            HttpUtils.getInstance().stopNetWorkWaiting();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }
                         );
@@ -188,15 +195,23 @@ public class MePager extends BasePager {
         //加载All页面
         View view = View.inflate(context, R.layout.pager_me_recycle_all, null);
         RecyclerView rv_me_all = (RecyclerView) view.findViewById(R.id.rv_me_all);
-        LinearLayoutManager linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
-        rv_me_all.setLayoutManager(linearLayoutManager);
+        rv_me_all.setLayoutManager(new GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         rv_me_all.setAdapter(new MePagerAllAdapter(context, allOrderBean.getAllorder()));
         vpList.add(view);
 
         //加载lucky界面
         RecyclerView recyclerView = new RecyclerView(context);
-        linearLayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         recyclerView.setAdapter(new MePagerLuckyAdapter(context, luckyOrderBean.getAllorder()));
         vpList.add(recyclerView);
 
@@ -213,9 +228,10 @@ public class MePager extends BasePager {
         tv_me_name = (TextView) inflate.findViewById(R.id.tv_me_name);
         tv_me_fbcode = (TextView) inflate.findViewById(R.id.tv_me_fbcode);
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
-        vp_me = (ViewPager) inflate.findViewById(R.id.vp_me);
+        vp_me = (CustomViewPager) inflate.findViewById(R.id.vp_me);
         stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
         fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
+        sv_me = (ScrollView) inflate.findViewById(R.id.sv_me);
 
 
         i_me_set.setOnClickListener(new MyOnClickListener());
@@ -253,7 +269,7 @@ public class MePager extends BasePager {
                 case R.id.i_me_set:
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "setpager");
-                    startActivity(intent);
+                    startActivityForResult(intent,0);
                     break;
                 case R.id.tv_me_gold:
                     intent = new Intent(context, SecondPagerActivity.class);
@@ -271,9 +287,9 @@ public class MePager extends BasePager {
         //获取状态栏高度
         ((Activity) context).getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
         int statusBarHeight = frame.top;
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 315));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 315));
         lp.topMargin = statusBarHeight;
-        rl_me_title.setLayoutParams(lp);
+        sv_me.setLayoutParams(lp);
     }
 
 

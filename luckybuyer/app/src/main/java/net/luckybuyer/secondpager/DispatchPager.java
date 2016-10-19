@@ -3,6 +3,7 @@ package net.luckybuyer.secondpager;
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +40,7 @@ public class DispatchPager extends BaseNoTrackPager {
     private TextView tv_dispatch_back;
     private ImageView iv_dispatch_back;
     private RelativeLayout rl_dispatch_address;
+    private RelativeLayout rl_dispatch_participate;
     //商品信息
     private ImageView iv_dispatch_icon;
     private TextView jtv_dispatch_title;
@@ -48,6 +50,8 @@ public class DispatchPager extends BaseNoTrackPager {
     private TextView tv_dispatch_adddiscribe;
     private RelativeLayout rl_dispatch_address_content;
     private View inflate;
+    private List<AllOrderBean.AllorderBean> list;
+    private int position;
 
     @Override
     public View initView() {
@@ -56,6 +60,7 @@ public class DispatchPager extends BaseNoTrackPager {
         findView();
         setView();
         setHeadMargin();
+        ((SecondPagerActivity)context).from = "";
         return inflate;
     }
 
@@ -76,15 +81,17 @@ public class DispatchPager extends BaseNoTrackPager {
 
         rl_dispatch_address_content = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_address_content);
         rl_dispatch_address = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_address);
+        rl_dispatch_participate = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_participate);
 
         tv_dispatch_back.setOnClickListener(new MyOnClickListener());
         iv_dispatch_back.setOnClickListener(new MyOnClickListener());
+        rl_dispatch_participate.setOnClickListener(new MyOnClickListener());
     }
 
     //设置视图
     private void setView() {
-        List<AllOrderBean.AllorderBean> list = ((SecondPagerActivity) context).allList;
-        int position = ((SecondPagerActivity) context).position;
+        list = ((SecondPagerActivity) context).allList;
+        position = ((SecondPagerActivity) context).position;
 
 
         View defaultaddress = View.inflate(context, R.layout.pager_dispatch_address_default, null);
@@ -216,9 +223,16 @@ public class DispatchPager extends BaseNoTrackPager {
                     break;
                 case R.id.tv_dispatch_selector_address:
                     ((SecondPagerActivity) context).switchPage(9);
+                    ((SecondPagerActivity) context).from = "dispatchpager";
                     break;
                 case R.id.tv_dispatch_current_address:
                     Utils.MyToast(context, "确认地址");
+                    break;
+                case R.id.rl_dispatch_participate:
+                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from","productdetail");
+                    intent.putExtra("batch_id", list.get(position).getGame().getBatch_id());
+                    context.startActivity(intent);
                     break;
             }
         }
@@ -241,7 +255,6 @@ public class DispatchPager extends BaseNoTrackPager {
             e1.printStackTrace();
 
         }
-        Log.e("TAG", sbar + "");
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
         lp.topMargin = sbar;
         rl_dispatch_header.setLayoutParams(lp);

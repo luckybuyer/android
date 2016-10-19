@@ -236,7 +236,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
             e1.printStackTrace();
 
         }
-        Log.e("TAG", sbar + "");
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context,38));
         lp.topMargin = sbar;
         rl_buycoins_header.setLayoutParams(lp);

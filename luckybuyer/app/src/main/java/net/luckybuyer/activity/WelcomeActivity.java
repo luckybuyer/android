@@ -42,7 +42,7 @@ public class WelcomeActivity extends Activity {
 
         if(Utils.getSpData("token",WelcomeActivity.this)!= null) {
             String token = Utils.getSpData("token",WelcomeActivity.this);
-            String url = MyApplication.url + "/v1/users/me/?timezone=utc";
+            String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
             //请求登陆接口

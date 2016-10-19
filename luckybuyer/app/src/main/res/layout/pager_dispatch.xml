@@ -310,6 +310,7 @@
         android:background="#F2F2F4"></RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_dispatch_participate"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_44"
         android:layout_alignParentBottom="true"
@@ -322,7 +323,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="Participate again"
-            android:textColor="#ff9c05"
+            android:textColor="#eeff9c05"
             android:textSize="@dimen/dimen_14" />
 
         <ImageView

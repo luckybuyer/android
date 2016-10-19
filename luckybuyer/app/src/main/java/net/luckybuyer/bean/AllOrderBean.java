@@ -334,10 +334,20 @@ public class AllOrderBean implements Serializable{
 
         public static class GameBean implements Serializable{
             private String _resource;
+            private int batch_id;
             private String closed_at;
             private String finished_at;
             private int id;
             private int issue_id;
+
+            public int getBatch_id() {
+                return batch_id;
+            }
+
+            public void setBatch_id(int batch_id) {
+                this.batch_id = batch_id;
+            }
+
             private int left_shares;
             private String lucky_number;
             /**
