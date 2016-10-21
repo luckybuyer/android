@@ -34,6 +34,7 @@ import net.luckybuyer.adapter.MePagerLuckyAdapter;
 import net.luckybuyer.adapter.MePagerShowAdapter;
 import net.luckybuyer.adapter.MePagerViewPagerAdapter;
 import net.luckybuyer.app.MyApplication;
+import net.luckybuyer.base.BaseNoTrackPager;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.AllOrderBean;
 import net.luckybuyer.bean.User;
@@ -54,7 +55,7 @@ import java.util.Map;
 /**
  * Created by admin on 2016/9/13.
  */
-public class MePager extends BasePager {
+public class MePager extends BaseNoTrackPager {
 
     private RelativeLayout rl_me_title;
     private CircleImageView civ_me_header;

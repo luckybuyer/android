@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import net.luckybuyer.R;
 import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
+import net.luckybuyer.activity.ThirdPagerActivity;
 import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.bean.AllOrderBean;
 import net.luckybuyer.utils.HttpUtils;
@@ -52,13 +53,13 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
     @Override
     public int getItemViewType(int position) {
         String status = list.get(position).getGame().getStatus();
-        if("running".equals(status)) {
+        if ("running".equals(status)) {
             return 0;
-        }else if("closed".equals(status)) {
+        } else if ("closed".equals(status)) {
             return 1;
-        }else if("finished".equals(status)) {
+        } else if ("finished".equals(status)) {
             String id = list.get(position).getGame().getLucky_user().getId() + "";
-            if(list.get(position).getDelivery() != null) {
+            if (list.get(position).getDelivery() != null) {
                 return 3;
             }
             return 2;
@@ -69,28 +70,29 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder viewHolder = null;
-        if(viewType == 0) {
-            View inflate = View.inflate(context, R.layout.item_me_all,null);
-            viewHolder = new ViewHolder(inflate,viewType);
-        }else if(viewType == 1) {
-            View inflate = View.inflate(context, R.layout.item_me_all_countdown,null);
-            viewHolder = new ViewHolder(inflate,viewType);
-        }else if(viewType == 2) {
-            View inflate = View.inflate(context, R.layout.item_me_all_lucky,null);
-            viewHolder = new ViewHolder(inflate,viewType);
-        }else if(viewType == 3) {
-            View inflate = View.inflate(context, R.layout.item_me_all_lucky,null);
-            viewHolder = new ViewHolder(inflate,viewType);
+        if (viewType == 0) {
+            View inflate = View.inflate(context, R.layout.item_me_all, null);
+            viewHolder = new ViewHolder(inflate, viewType);
+        } else if (viewType == 1) {
+            View inflate = View.inflate(context, R.layout.item_me_all_countdown, null);
+            viewHolder = new ViewHolder(inflate, viewType);
+        } else if (viewType == 2) {
+            View inflate = View.inflate(context, R.layout.item_me_all_lucky, null);
+            viewHolder = new ViewHolder(inflate, viewType);
+        } else if (viewType == 3) {
+            View inflate = View.inflate(context, R.layout.item_me_all_lucky, null);
+            viewHolder = new ViewHolder(inflate, viewType);
         }
 
         return viewHolder;
     }
 
     int type;
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         type = getItemViewType(position);
-        if(type == 0) {
+        if (type == 0) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
@@ -109,7 +111,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.iv_all_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_all_goview.setOnClickListener(new MyOnClickListener(position));
 
-        }else if(type == 1) {
+        } else if (type == 1) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
@@ -129,7 +131,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
                     String time = formatter.format(l);
 
-                    holder.tv_countdown_1.setText(time.substring(0,1));
+                    holder.tv_countdown_1.setText(time.substring(0, 1));
                     holder.tv_countdown_2.setText(time.substring(1, 2));
                     holder.tv_countdown_3.setText(time.substring(3, 4));
                     holder.tv_countdown_4.setText(time.substring(4, 5));
@@ -187,7 +189,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.rl_countdown_continue.setOnClickListener(new MyOnClickListener(position));
             holder.iv_countdown_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_countdown_goview.setOnClickListener(new MyOnClickListener(position));
-        }else if(type == 2) {
+        } else if (type == 2) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
@@ -203,7 +205,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.rl_lucky_continue.setOnClickListener(new MyOnClickListener(position));
             holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
-        }else if(type == 3) {
+        } else if (type == 3) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
@@ -239,111 +241,101 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
     }
 
     //设置监听
-    class MyOnClickListener implements View.OnClickListener{
+    class MyOnClickListener implements View.OnClickListener {
         int position = -1;
+
         public MyOnClickListener(int position) {
             this.position = position;
         }
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.rl_all_continue:                    //还在进行中
                     Intent intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from","productdetail");
+                    intent.putExtra("from", "productdetail");
                     intent.putExtra("game_id", list.get(position).getGame().getId());
-                    ((MainActivity)context).startActivity(intent);
+                    ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.iv_all_goview:
-                    intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from","participation");
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "participation");
                     intent.putExtra("game_id", list.get(position).getGame().getId());
                     intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
                     intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                    ((MainActivity)context).startActivity(intent);
+                    intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
+                    ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.tv_all_goview:
-                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent = new Intent(context, ThirdPagerActivity.class);
                     intent.putExtra("from", "participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
                     intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
                     intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                    intent.putExtra("game_id",list.get(position).getGame().getId());
-                    ((MainActivity)context).startActivity(intent);
+                    intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
+                    ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.rl_lucky_continue:                   //别人中奖了
                     intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from","productdetail");
-                    intent.putExtra("batch_id",list.get(position).getGame().getBatch_id());
+                    intent.putExtra("from", "productdetail");
+                    intent.putExtra("batch_id", list.get(position).getGame().getBatch_id());
                     context.startActivity(intent);
                     break;
                 case R.id.iv_countdown_goview:
-                    intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from","participation");
-                    intent.putExtra("game_id",list.get(position).getGame().getId());
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
                     intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
                     intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                    ((MainActivity)context).startActivity(intent);
+                    intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
+                    ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.tv_countdown_goview:
-                    intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from","participation");
-                    intent.putExtra("game_id",list.get(position).getGame().getId());
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
                     intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
                     intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                    ((MainActivity)context).startActivity(intent);
+                    intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
+                    ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.rl_countdown_continue:
                     intent = new Intent(context, SecondPagerActivity.class);   //倒计时
-                    intent.putExtra("from","productdetail");
-                    intent.putExtra("batch_id",list.get(position).getGame().getBatch_id());
+                    intent.putExtra("from", "productdetail");
+                    intent.putExtra("batch_id", list.get(position).getGame().getBatch_id());
                     context.startActivity(intent);
                     break;
                 case R.id.iv_lucky_goview:
 
-                    if(type == 2) {
-                        intent = new Intent(context, SecondPagerActivity.class);
-                        intent.putExtra("from","participation");
-                        intent.putExtra("game_id",list.get(position).getGame().getId());
-                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
-                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                        ((MainActivity)context).startActivity(intent);
-                    }else{
-                        intent = new Intent(context, SecondPagerActivity.class);
-                        intent.putExtra("from","participation");
-                        intent.putExtra("game_id",list.get(position).getGame().getId());
-                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
-                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                        ((MainActivity)context).startActivity(intent);
-                    }
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
+                    ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.tv_lucky_goview:
-                    if(type == 2) {
-                        intent = new Intent(context, SecondPagerActivity.class);
-                        intent.putExtra("from","participation");
-                        intent.putExtra("game_id",list.get(position).getGame().getId());
-                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
-                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                        ((MainActivity)context).startActivity(intent);
-                    }else{
-                        intent = new Intent(context, SecondPagerActivity.class);
-                        intent.putExtra("from","participation");
-                        intent.putExtra("game_id",list.get(position).getGame().getId());
-                        intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
-                        intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                        ((MainActivity)context).startActivity(intent);
-                    }
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "participation");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
+                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
+                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
+                    intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
+                    ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.rl_lucky_address:                     //我中奖了点击地址
                     intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from","dispatchpager");
+                    intent.putExtra("from", "dispatchpager");
                     intent.putExtra("alllist", (Serializable) list);
                     intent.putExtra("position", position);
-                    ((MainActivity)context).startActivity(intent);
+                    ((MainActivity) context).startActivity(intent);
                     break;
             }
         }
     }
-    class ViewHolder extends RecyclerView.ViewHolder{
+
+    class ViewHolder extends RecyclerView.ViewHolder {
         //all
         private ImageView iv_all_icon;
         private JustifyTextView jtv_all_discribe;
@@ -382,9 +374,9 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private RelativeLayout rl_lucky_continue;
         private TextView tv_lucky_go;
 
-        public ViewHolder(View itemView,int type) {
+        public ViewHolder(View itemView, int type) {
             super(itemView);
-            if(type == 0) {
+            if (type == 0) {
                 iv_all_icon = (ImageView) itemView.findViewById(R.id.iv_all_icon);
                 jtv_all_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_all_discribe);
                 tv_all_issue = (TextView) itemView.findViewById(R.id.tv_all_issue);
@@ -395,7 +387,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_all_leftshares = (TextView) itemView.findViewById(R.id.tv_all_leftshares);
                 pb_all_progress = (ProgressBar) itemView.findViewById(R.id.pb_all_progress);
                 rl_all_continue = (RelativeLayout) itemView.findViewById(R.id.rl_all_continue);
-            }else if(type == 1) {
+            } else if (type == 1) {
                 iv_countdown_icon = (ImageView) itemView.findViewById(R.id.iv_countdown_icon);
                 jtv_countdown_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_countdown_discribe);
                 tv_countdown_issue = (TextView) itemView.findViewById(R.id.tv_countdown_issue);
@@ -409,7 +401,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_countdown_4 = (TextView) itemView.findViewById(R.id.tv_countdown_4);
                 tv_countdown_5 = (TextView) itemView.findViewById(R.id.tv_countdown_5);
                 tv_countdown_6 = (TextView) itemView.findViewById(R.id.tv_countdown_6);
-            }else if(type == 2) {
+            } else if (type == 2) {
                 iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
                 jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
                 tv_lucky_issue = (TextView) itemView.findViewById(R.id.tv_lucky_issue);
@@ -421,7 +413,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 rl_lucky_continue = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_continue);
                 rl_lucky_continue.setVisibility(View.VISIBLE);
                 rl_lucky_address.setVisibility(View.GONE);
-            }else if(type == 3) {
+            } else if (type == 3) {
                 iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
                 jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
                 tv_lucky_issue = (TextView) itemView.findViewById(R.id.tv_lucky_issue);

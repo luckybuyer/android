@@ -38,6 +38,7 @@ public class SetPager extends BasePager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_set, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
+        ((SecondPagerActivity) context).from = "setpager";
         findView();
         setHeadMargin();
         return inflate;
@@ -77,9 +78,6 @@ public class SetPager extends BasePager {
                     ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.tv_set_back:
-                    Intent intent = new Intent();
-                    intent.putExtra("go","homepager");
-                    ((SecondPagerActivity)context).setResult(0,intent);
                     ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.rl_set_address:
@@ -93,7 +91,7 @@ public class SetPager extends BasePager {
 //                    Utils.MyToast(context,"关于我们");
 //                    break;
                 case R.id.tv_set_login:
-                    intent = new Intent();
+                    Intent intent = new Intent();
                     intent.putExtra("go","homepager");
                     ((SecondPagerActivity)context).setResult(0,intent);
                     Utils.setSpData("token", null, context);

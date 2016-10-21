@@ -5,13 +5,13 @@
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/tv_buyconis_coins"
-        android:layout_width="@dimen/dimen_140"
-        android:layout_height="@dimen/dimen_52"
-        android:layout_marginRight="@dimen/dimen_12"
-        android:layout_marginBottom="@dimen/dimen_12"
+        android:layout_width="@dimen/dimen_300"
+        android:layout_height="@dimen/dimen_110"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginBottom="@dimen/dimen_24"
         android:background="@drawable/selector_tv_buyconis_1coins"
         android:gravity="center"
         android:text="1coin＝1$"
         android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-        android:textSize="@dimen/dimen_13" />
+        android:textSize="@dimen/dimen_28" />
 </LinearLayout>

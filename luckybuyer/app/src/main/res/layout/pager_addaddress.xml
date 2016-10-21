@@ -6,55 +6,55 @@
     <RelativeLayout
         android:id="@+id/rl_addaddress_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_39"
+        android:layout_height="@dimen/dimen_78"
         android:background="@color/bg_while">
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_30"
+            android:layout_height="@dimen/dimen_44"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_9"
-            android:layout_marginTop="@dimen/dimen_1"
+            android:layout_marginBottom="@dimen/dimen_18"
+            android:layout_marginTop="@dimen/dimen_2"
             android:gravity="center"
             android:text="Add Address"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_20" />
+            android:textSize="@dimen/dimen_42" />
 
         <TextView
             android:id="@+id/tv_dispatch_share"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_40"
             android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_12"
-            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_marginBottom="@dimen/dimen_24"
+            android:layout_marginRight="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_7"
             android:gravity="center"
             android:text="Save"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_32" />
 
         <ImageView
             android:id="@+id/iv_addaddress_back"
-            android:layout_width="@dimen/dimen_10"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_marginBottom="@dimen/dimen_12"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_marginBottom="@dimen/dimen_24"
+            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_16"
             android:background="@drawable/go_back" />
 
         <TextView
             android:id="@+id/tv_addaddress_back"
-            android:layout_width="@dimen/dimen_39"
-            android:layout_height="@dimen/dimen_18"
+            android:layout_width="@dimen/dimen_78"
+            android:layout_height="@dimen/dimen_36"
             android:layout_alignTop="@id/iv_addaddress_back"
-            android:layout_marginLeft="@dimen/dimen_6"
+            android:layout_marginLeft="@dimen/dimen_8"
             android:layout_toRightOf="@+id/iv_addaddress_back"
             android:gravity="center"
             android:text="Back"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_28" />
 
         <View
             android:layout_width="match_parent"
@@ -66,263 +66,263 @@
     <RelativeLayout
         android:id="@+id/rl_addaddress_name"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
+        android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_addaddress_header"
-        android:layout_marginTop="@dimen/dimen_12"
+        android:layout_marginTop="@dimen/dimen_24"
         android:background="@color/bg_while">
 
         <ImageView
             android:id="@+id/iv_addaddress_firstname"
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@drawable/addaddress_xing" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_4"
+            android:layout_marginLeft="@dimen/dimen_8"
             android:layout_toRightOf="@+id/iv_addaddress_firstname"
             android:text="FirstName"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <EditText
             android:id="@+id/et_addaddress_firstname"
-            android:layout_width="@dimen/dimen_140"
+            android:layout_width="@dimen/dimen_280"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_marginRight="@dimen/dimen_24"
             android:background="@null"
             android:gravity="center_vertical|right"
             android:hint="Type in first name"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@color/bg_view"></View>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_addaddress_lastname"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
+        android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_addaddress_name"
         android:background="@color/bg_while">
 
         <ImageView
             android:id="@+id/iv_addaddress_lastname"
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@drawable/addaddress_xing" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_4"
+            android:layout_marginLeft="@dimen/dimen_8"
             android:layout_toRightOf="@+id/iv_addaddress_lastname"
             android:text="LastName"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <EditText
             android:id="@+id/et_addaddress_lastname"
-            android:layout_width="@dimen/dimen_180"
+            android:layout_width="@dimen/dimen_360"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_marginRight="@dimen/dimen_24"
             android:background="@null"
             android:gravity="center_vertical|right"
             android:hint="Type in last name"
             android:inputType="number"
             android:maxEms="11"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_addaddress_country"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
+        android:layout_height="@dimen/dimen_90"
         android:layout_below="@+id/rl_addaddress_lastname"
         android:layout_marginTop="@dimen/dimen_5"
         android:background="@color/bg_while">
 
         <ImageView
             android:id="@+id/iv_country"
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@drawable/addaddress_xing" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_4"
+            android:layout_marginLeft="@dimen/dimen_8"
             android:layout_toRightOf="@+id/iv_country"
             android:text="Country"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <ImageView
             android:id="@+id/iv_addaddress_country"
-            android:layout_width="@dimen/dimen_11"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_22"
+            android:layout_height="@dimen/dimen_12"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12" />
+            android:layout_marginRight="@dimen/dimen_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_9"
+            android:layout_marginRight="@dimen/dimen_18"
             android:layout_toLeftOf="@+id/iv_addaddress_country"
             android:text="select"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@color/bg_view"></View>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_addaddress_city"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
+        android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_addaddress_country"
         android:background="@color/bg_while">
 
         <ImageView
             android:id="@+id/iv_city"
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@drawable/addaddress_xing" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_4"
+            android:layout_marginLeft="@dimen/dimen_8"
             android:layout_toRightOf="@+id/iv_city"
             android:text="City"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <ImageView
             android:id="@+id/iv_addaddress_city"
-            android:layout_width="@dimen/dimen_11"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_22"
+            android:layout_height="@dimen/dimen_12"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12" />
+            android:layout_marginRight="@dimen/dimen_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_9"
+            android:layout_marginRight="@dimen/dimen_18"
             android:layout_toLeftOf="@+id/iv_addaddress_city"
             android:text="select"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@color/bg_view"></View>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_addaddress_area"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_45"
+        android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_addaddress_city"
         android:background="@color/bg_while">
 
         <ImageView
             android:id="@+id/iv_area"
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_12"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@drawable/addaddress_xing" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_4"
+            android:layout_marginLeft="@dimen/dimen_8"
             android:layout_toRightOf="@+id/iv_area"
             android:text="Area"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <ImageView
             android:id="@+id/iv_addaddress_area"
-            android:layout_width="@dimen/dimen_11"
-            android:layout_height="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_22"
+            android:layout_height="@dimen/dimen_12"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12" />
+            android:layout_marginRight="@dimen/dimen_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_9"
+            android:layout_marginRight="@dimen/dimen_18"
             android:layout_toLeftOf="@+id/iv_addaddress_area"
             android:text="select"
-            android:textSize="@dimen/dimen_12" />
+            android:textSize="@dimen/dimen_24" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@color/bg_view"></View>
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_85"
+        android:layout_height="@dimen/dimen_180"
         android:layout_below="@+id/rl_addaddress_area"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_10"
         android:background="#ffffff">
 
         <TextView
             android:id="@+id/tv_addaddress_screet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_15"
-            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_marginLeft="@dimen/dimen_40"
             android:text="Street Name/No."
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_13" />
+            android:textSize="@dimen/dimen_26" />
         
         <TextView
-            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginLeft="@dimen/dimen_40"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_25" />
+            android:layout_height="@dimen/dimen_50" />
     </RelativeLayout>
 </RelativeLayout>

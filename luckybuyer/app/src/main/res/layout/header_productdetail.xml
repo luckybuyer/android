@@ -6,33 +6,33 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:background="#EEEEEE"
-        android:layout_height="@dimen/dimen_15"></RelativeLayout>
+        android:layout_height="@dimen/dimen_30"></RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50"
+        android:layout_height="@dimen/dimen_100"
         android:background="@color/bg_while">
 
         <ImageView
-            android:layout_width="@dimen/dimen_12"
-            android:layout_height="@dimen/dimen_11"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_22"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:background="@drawable/productdetail_previous_winners" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_22"
+            android:layout_height="@dimen/dimen_44"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_34"
+            android:layout_marginLeft="@dimen/dimen_64"
             android:text="participation Record"
             android:textColor="#666666"
-            android:textSize="@dimen/dimen_16" />
+            android:textSize="@dimen/dimen_32" />
 
         <ImageView
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_11"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_22"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12" />
+            android:layout_marginRight="@dimen/dimen_24" />
     </RelativeLayout>
 </LinearLayout>

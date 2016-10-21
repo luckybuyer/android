@@ -6,66 +6,66 @@
     <RelativeLayout
         android:id="@+id/rl_set_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_39"
+        android:layout_height="@dimen/dimen_78"
         android:background="@color/bg_while">
 
         <TextView
             android:id="@+id/tv_set_title"
-            android:layout_width="@dimen/dimen_113"
-            android:layout_height="@dimen/dimen_30"
+            android:layout_width="@dimen/dimen_226"
+            android:layout_height="@dimen/dimen_60"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_8"
-            android:layout_marginTop="@dimen/dimen_1"
+            android:layout_marginBottom="@dimen/dimen_16"
+            android:layout_marginTop="@dimen/dimen_2"
             android:gravity="center"
             android:text="Set"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_19" />
+            android:textSize="@dimen/dimen_38" />
 
 
         <ImageView
             android:id="@+id/iv_set_back"
-            android:layout_width="@dimen/dimen_12"
-            android:layout_height="@dimen/dimen_21"
-            android:layout_marginBottom="@dimen/dimen_12"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_6"
+            android:layout_width="@dimen/dimen_24"
+            android:layout_height="@dimen/dimen_42"
+            android:layout_marginBottom="@dimen/dimen_24"
+            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_12"
             android:background="@drawable/go_back" />
 
         <TextView
             android:id="@+id/tv_set_back"
-            android:layout_width="@dimen/dimen_39"
-            android:layout_height="@dimen/dimen_16"
-            android:layout_marginLeft="@dimen/dimen_6"
-            android:layout_marginTop="@dimen/dimen_9"
+            android:layout_width="@dimen/dimen_78"
+            android:layout_height="@dimen/dimen_32"
+            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginTop="@dimen/dimen_18"
             android:layout_toRightOf="@+id/iv_set_back"
             android:text="Back"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_28" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_set_address"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50"
+        android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_set_header"
-        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_marginTop="@dimen/dimen_30"
         android:background="#ffffff">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_40"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_12"
+            android:layout_marginLeft="@dimen/dimen_24"
             android:text="Shipping address"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_28" />
 
         <ImageView
-            android:layout_width="@dimen/dimen_6"
-            android:layout_height="@dimen/dimen_11"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_22"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_12"
+            android:layout_marginRight="@dimen/dimen_24"
             android:background="@drawable/go_go" />
     </RelativeLayout>
 
@@ -124,14 +124,14 @@
     <TextView
         android:id="@+id/tv_set_login"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50"
+        android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_set_address"
-        android:layout_marginLeft="@dimen/dimen_30"
-        android:layout_marginRight="@dimen/dimen_30"
-        android:layout_marginTop="@dimen/dimen_40"
+        android:layout_marginLeft="@dimen/dimen_60"
+        android:layout_marginRight="@dimen/dimen_60"
+        android:layout_marginTop="@dimen/dimen_80"
         android:background="@drawable/selector_rl_set_login"
         android:gravity="center"
         android:text="Log out"
         android:textColor="@color/text_white"
-        android:textSize="@dimen/dimen_16" />
+        android:textSize="@dimen/dimen_32" />
 </RelativeLayout>

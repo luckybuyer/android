@@ -28,10 +28,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_3"
+            android:drawablePadding="@dimen/dimen_6"
             android:drawableTop="@drawable/mainavtivity_me"
             android:gravity="center"
-            android:paddingTop="@dimen/dimen_4"
+            android:paddingTop="@dimen/dimen_8"
             android:text="首页" />
 
         <RadioButton
@@ -40,10 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_3"
+            android:drawablePadding="@dimen/dimen_6"
             android:drawableTop="@drawable/mainavtivity_recharge"
             android:gravity="center"
-            android:paddingTop="@dimen/dimen_4"
+            android:paddingTop="@dimen/dimen_8"
             android:text="Buy chips" />
 
         <RadioButton
@@ -52,10 +52,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_3"
+            android:drawablePadding="@dimen/dimen_6"
             android:drawableTop="@drawable/mainavtivity_gift"
             android:gravity="center"
-            android:paddingTop="@dimen/dimen_4"
+            android:paddingTop="@dimen/dimen_8"
             android:text="Winning" />
 
 
@@ -65,10 +65,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_3"
+            android:drawablePadding="@dimen/dimen_6"
             android:drawableTop="@drawable/mainavtivity_me"
             android:gravity="center"
-            android:paddingTop="@dimen/dimen_4"
+            android:paddingTop="@dimen/dimen_8"
             android:text="Me" />
 
     </RadioGroup>

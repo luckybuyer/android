@@ -6,126 +6,126 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_5"
+        android:layout_height="@dimen/dimen_10"
         android:background="@drawable/shape_rl_all">
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_all"
-        android:layout_width="@dimen/dimen_77"
-        android:layout_height="@dimen/dimen_77"
-        android:layout_marginLeft="@dimen/dimen_12"
+        android:layout_width="@dimen/dimen_160"
+        android:layout_height="@dimen/dimen_160"
+        android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_25"
-        android:background="#ffffff"
+        android:background="@drawable/shape_rl_all"
         android:gravity="center">
 
         <ImageView
             android:id="@+id/iv_all_icon"
-            android:layout_width="@dimen/dimen_60"
-            android:layout_height="@dimen/dimen_60"
+            android:layout_width="@dimen/dimen_130"
+            android:layout_height="@dimen/dimen_130"
             android:background="@drawable/me_voice" />
     </RelativeLayout>
 
     <net.luckybuyer.view.JustifyTextView
         android:id="@+id/jtv_all_discribe"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_38"
-        android:layout_marginLeft="@dimen/dimen_15"
-        android:layout_marginRight="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_27"
+        android:layout_height="@dimen/dimen_72"
+        android:layout_marginLeft="@dimen/dimen_30"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_54"
         android:layout_toRightOf="@id/rl_all"
         android:ellipsize="end"
         android:maxEms="10"
         android:maxLines="2"
         android:text="Magic sound headphones second"
         android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_14" />
+        android:textSize="@dimen/dimen_28" />
 
     <TextView
         android:id="@+id/tv_all_issue"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_19"
+        android:layout_height="@dimen/dimen_36"
         android:layout_below="@id/jtv_all_discribe"
-        android:layout_marginLeft="@dimen/dimen_15"
+        android:layout_marginLeft="@dimen/dimen_30"
         android:layout_toRightOf="@+id/rl_all"
         android:text="Issue：171754"
         android:textColor="#666666"
-        android:textSize="@dimen/dimen_14" />
+        android:textSize="@dimen/dimen_28" />
 
     <TextView
         android:id="@+id/tv_all_participation"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_19"
+        android:layout_height="@dimen/dimen_38"
         android:layout_below="@id/tv_all_issue"
-        android:layout_marginLeft="@dimen/dimen_15"
+        android:layout_marginLeft="@dimen/dimen_30"
         android:layout_toRightOf="@+id/rl_all"
         android:text="My participation: 1"
         android:textColor="#666666"
-        android:textSize="@dimen/dimen_14" />
+        android:textSize="@dimen/dimen_28" />
 
     <ImageView
         android:id="@+id/iv_all_goview"
-        android:layout_width="@dimen/dimen_6"
-        android:layout_height="@dimen/dimen_11"
+        android:layout_width="@dimen/dimen_12"
+        android:layout_height="@dimen/dimen_22"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_all_issue"
-        android:layout_marginRight="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_2"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_4"
         android:background="@drawable/go_go"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_12" />
+        android:textColor="@color/text_black" />
 
     <TextView
         android:id="@+id/tv_all_goview"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_16"
+        android:layout_height="@dimen/dimen_32"
         android:layout_below="@+id/tv_all_issue"
-        android:layout_marginRight="@dimen/dimen_4"
+        android:layout_marginRight="@dimen/dimen_8"
         android:layout_toLeftOf="@id/iv_all_goview"
         android:text="view all"
         android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_12" />
+        android:textSize="@dimen/dimen_24" />
 
 
     <TextView
         android:id="@+id/tv_all_shares"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_16"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_137"
+        android:layout_height="@dimen/dimen_32"
+        android:layout_marginLeft="@dimen/dimen_28"
+        android:layout_marginTop="@dimen/dimen_274"
         android:text="Total demand:8888"
         android:textColor="@color/text_gray"
-        android:textSize="@dimen/dimen_12" />
+        android:textSize="@dimen/dimen_24" />
 
     <ProgressBar
         android:id="@+id/pb_all_progress"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="@dimen/dimen_203"
-        android:layout_height="@dimen/dimen_7"
+        android:layout_width="@dimen/dimen_450"
+        android:layout_height="@dimen/dimen_14"
         android:layout_below="@id/tv_all_shares"
-        android:layout_marginBottom="@dimen/dimen_12"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_3"
-        android:progressDrawable="@drawable/home_product_progress" />
+        android:layout_marginBottom="@dimen/dimen_24"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_6"
+        android:progressDrawable="@drawable/home_product_progress"
+        android:indeterminate="false" />
 
     <TextView
         android:id="@+id/tv_all_leftshares"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_16"
+        android:layout_height="@dimen/dimen_32"
         android:layout_alignRight="@id/pb_all_progress"
-        android:layout_marginTop="@dimen/dimen_137"
+        android:layout_marginTop="@dimen/dimen_274"
         android:text="Remaining:88"
         android:textColor="@color/text_gray"
-        android:textSize="@dimen/dimen_12" />
+        android:textSize="@dimen/dimen_24" />
 
     <RelativeLayout
         android:id="@+id/rl_all_continue"
-        android:layout_width="@dimen/dimen_76"
-        android:layout_height="@dimen/dimen_27"
+        android:layout_width="@dimen/dimen_152"
+        android:layout_height="@dimen/dimen_54"
         android:layout_alignBottom="@id/pb_all_progress"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginRight="@dimen/dimen_24"
         android:background="#ff311a"
         android:gravity="center">
 
@@ -134,15 +134,15 @@
             android:layout_height="wrap_content"
             android:text="Continue"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_28" />
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/rl_all"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginRight="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_40"
         android:background="@color/bg_view"></View>
 </RelativeLayout>

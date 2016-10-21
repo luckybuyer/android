@@ -64,7 +64,8 @@ public class SystemBarTintManager {
      * the host activity is recreated.  
      *  
      * @param activity The host activity.  
-     */  
+     */
+    @SuppressWarnings("ResourceType")
     @TargetApi(19)
     public SystemBarTintManager(Activity activity) {
   

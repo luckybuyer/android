@@ -12,23 +12,23 @@
         android:background="@color/bg_while">
 
         <TextView
-            android:layout_width="@dimen/dimen_134"
-            android:layout_height="@dimen/dimen_23"
+            android:layout_width="@dimen/dimen_268"
+            android:layout_height="@dimen/dimen_46"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_10"
-            android:layout_marginTop="@dimen/dimen_5"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_10"
             android:text="LUCKYBUYER"
-            android:textSize="@dimen/dimen_18" />
+            android:textSize="@dimen/dimen_38" />
 
         <TextView
             android:id="@+id/tv_home_share"
-            android:layout_width="@dimen/dimen_36"
-            android:layout_height="@dimen/dimen_21"
+            android:layout_width="@dimen/dimen_72"
+            android:layout_height="@dimen/dimen_42"
             android:layout_alignParentRight="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_12"
-            android:layout_marginRight="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_7"
+            android:layout_marginBottom="@dimen/dimen_24"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_14"
             android:gravity="center"
             android:textColor="@color/text_black" />
     </RelativeLayout>
@@ -51,16 +51,16 @@
                 <android.support.v4.view.ViewPager
                     android:id="@+id/vp_home"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_117"
+                    android:layout_height="@dimen/dimen_234"
                     android:background="#ffffff"></android.support.v4.view.ViewPager>
 
                 <LinearLayout
                     android:id="@+id/ll_home_point"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_6"
+                    android:layout_height="@dimen/dimen_12"
                     android:layout_alignBottom="@+id/vp_home"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dimen_17"
+                    android:layout_marginBottom="@dimen/dimen_34"
                     android:gravity="center"
                     android:orientation="horizontal"></LinearLayout>
 
@@ -76,74 +76,74 @@
                         android:id="@+id/view_home"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginLeft="@dimen/dimen_28"
-                        android:layout_marginRight="@dimen/dimen_28"
-                        android:layout_marginTop="@dimen/dimen_15"
+                        android:layout_marginLeft="@dimen/dimen_56"
+                        android:layout_marginRight="@dimen/dimen_56"
+                        android:layout_marginTop="@dimen/dimen_30"
                         android:background="@color/bg_view"></View>
 
                     <ImageView
                         android:id="@+id/iv_home_broadcast"
-                        android:layout_width="@dimen/dimen_16"
-                        android:layout_height="@dimen/dimen_16"
-                        android:layout_marginTop="@dimen/dimen_15"
+                        android:layout_width="@dimen/dimen_32"
+                        android:layout_height="@dimen/dimen_32"
+                        android:layout_marginTop="@dimen/dimen_30"
                         android:layout_below="@+id/view_home"
                         android:layout_centerVertical="true"
-                        android:layout_marginBottom="@dimen/dimen_8"
-                        android:layout_marginLeft="@dimen/dimen_25"
+                        android:layout_marginBottom="@dimen/dimen_16"
+                        android:layout_marginLeft="@dimen/dimen_50"
                         android:background="@drawable/home_broadcast" />
 
                     <net.luckybuyer.view.AutoTextView
-                        android:layout_marginTop="@dimen/dimen_15"
+                        android:layout_marginTop="@dimen/dimen_30"
                         android:layout_below="@+id/view_home"
                         android:id="@+id/atv_home_marquee"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_18"
+                        android:layout_height="@dimen/dimen_36"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dimen_8"
-                        android:layout_marginRight="@dimen/dimen_30"
+                        android:layout_marginLeft="@dimen/dimen_16"
+                        android:layout_marginRight="@dimen/dimen_80"
                         android:layout_toRightOf="@+id/iv_home_broadcast"
                         android:background="@color/bg_while"
                         android:gravity="center"
                         android:text="iphone plus"
                         android:textColor="@color/text_buy"
-                        auto3d:textSize="@dimen/dimen_5" />
+                        auto3d:textSize="@dimen/dimen_12" />
 
                     <ImageView
-                        android:layout_width="@dimen/dimen_6"
-                        android:layout_height="@dimen/dimen_12" />
+                        android:layout_width="@dimen/dimen_12"
+                        android:layout_height="@dimen/dimen_24" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_home_products"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_42"
+                    android:layout_height="@dimen/dimen_84"
                     android:layout_below="@+id/rl_home_marquee"
-                    android:layout_marginTop="@dimen/dimen_14"
+                    android:layout_marginTop="@dimen/dimen_28"
                     android:background="#ffffff">
 
                     <TextView
                         android:id="@+id/tv_home_products"
-                        android:layout_width="@dimen/dimen_81"
-                        android:layout_height="@dimen/dimen_22"
+                        android:layout_width="@dimen/dimen_162"
+                        android:layout_height="@dimen/dimen_44"
                         android:layout_centerInParent="true"
                         android:gravity="center"
                         android:text="PRODUCTS"
                         android:textColor="@color/text_buy"
-                        android:textSize="@dimen/dimen_16" />
+                        android:textSize="@dimen/dimen_34" />
 
                     <View
-                        android:layout_width="@dimen/dimen_14"
-                        android:layout_height="@dimen/dimen_1"
+                        android:layout_width="@dimen/dimen_28"
+                        android:layout_height="@dimen/dimen_2"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dimen_10"
+                        android:layout_marginLeft="@dimen/dimen_20"
                         android:layout_toRightOf="@id/tv_home_products"
                         android:background="#666666"></View>
 
                     <View
-                        android:layout_width="@dimen/dimen_14"
-                        android:layout_height="@dimen/dimen_1"
+                        android:layout_width="@dimen/dimen_28"
+                        android:layout_height="@dimen/dimen_2"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/dimen_10"
+                        android:layout_marginRight="@dimen/dimen_20"
                         android:layout_toLeftOf="@id/tv_home_products"
                         android:background="#666666"></View>
                 </RelativeLayout>
@@ -162,21 +162,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_home_header"
-        android:background="@color/f2f2f2"
-        android:visibility="gone">
+        android:background="@color/f2f2f2">
 
         <RelativeLayout
             android:id="@+id/rl_neterror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_80"
+            android:layout_marginTop="@dimen/dimen_160"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_neterror"
-                android:layout_width="@dimen/dimen_200"
-                android:layout_height="@dimen/dimen_210"
+                android:layout_width="@dimen/dimen_400"
+                android:layout_height="@dimen/dimen_420"
                 android:background="@drawable/default_neterror" />
 
             <TextView
@@ -184,10 +183,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_neterror"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_marginTop="@dimen/dimen_16"
                 android:text="Network connection error"
                 android:textColor="#acabb4"
-                android:textSize="@dimen/dimen_14" />
+                android:textSize="@dimen/dimen_28" />
         </RelativeLayout>
 
 
@@ -196,13 +195,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_80">
+            android:layout_marginTop="@dimen/dimen_160">
 
             <ImageView
                 android:id="@+id/iv_nodata"
-                android:layout_width="@dimen/dimen_125"
-                android:layout_height="@dimen/dimen_150"
-                android:layout_marginLeft="@dimen/dimen_20"
+                android:layout_width="@dimen/dimen_250"
+                android:layout_height="@dimen/dimen_300"
+                android:layout_marginLeft="@dimen/dimen_40"
                 android:background="@drawable/default_nodata" />
 
             <TextView
@@ -210,10 +209,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/iv_nodata"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/dimen_8"
+                android:layout_marginTop="@dimen/dimen_16"
                 android:text="No previous lottery data"
                 android:textColor="#acabb4"
-                android:textSize="@dimen/dimen_14" />
+                android:textSize="@dimen/dimen_28" />
         </RelativeLayout>
     </RelativeLayout>
 

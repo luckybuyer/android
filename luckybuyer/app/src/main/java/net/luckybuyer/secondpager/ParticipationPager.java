@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import net.luckybuyer.R;
 import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
+import net.luckybuyer.activity.ThirdPagerActivity;
 import net.luckybuyer.adapter.ParticipationAdapter;
 import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.base.BasePager;
@@ -43,10 +44,15 @@ public class ParticipationPager extends BasePager{
     private RecyclerView rv_participation;
     private View inflate;
 
+    //网络连接错误 与没有数据
+    private RelativeLayout rl_keepout;
+    private RelativeLayout rl_neterror;
+    private RelativeLayout rl_nodata;
+
+
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_participation, null);
-        ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         findView();
         setHeadMargin();
         return inflate;
@@ -55,8 +61,15 @@ public class ParticipationPager extends BasePager{
     @Override
     public void initData() {
         super.initData();
-
-        String url = MyApplication.url + "/v1/games/"+((SecondPagerActivity)context).game_id+"/public-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        HttpUtils.getInstance().startNetworkWaiting(context);
+        int user_id = ((ThirdPagerActivity)context).user_id;
+        String url = null;
+        if(user_id == -1) {
+            url = MyApplication.url + "/v1/games/"+((ThirdPagerActivity)context).game_id+"/public-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        }else {
+            url = MyApplication.url + "/v1/games/"+((ThirdPagerActivity)context).game_id+"/public-orders/?user_id="+user_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
+        }
+        Log.e("TAG", url);
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -64,6 +77,14 @@ public class ParticipationPager extends BasePager{
                     @Override
                     public void run() {
                         processData(response);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+
+                        if (response.length() > 10) {
+                            rl_keepout.setVisibility(View.GONE);
+                        } else {
+                            rl_nodata.setVisibility(View.VISIBLE);
+                            rl_neterror.setVisibility(View.GONE);
+                        }
                     }
                 });
             }
@@ -73,15 +94,26 @@ public class ParticipationPager extends BasePager{
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        Log.e("TAG_request", requestCode + message);
                     }
                 });
             }
 
+
             @Override
-            public void failure(Exception exception) {
+            public void failure(final Exception exception) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        Log.e("TAG_request", exception.toString());
                     }
                 });
 
@@ -98,10 +130,10 @@ public class ParticipationPager extends BasePager{
         rv_participation.setLayoutManager(new GridLayoutManager(context, 1));
 
 
-        tv_participation_discribe.setText(((SecondPagerActivity) context).title + "");
+        tv_participation_discribe.setText(((ThirdPagerActivity) context).title + "");
         tv_participation_period.setText("Participation period:" + productOrderBean.getProductorder().size());
-        if(!((SecondPagerActivity) context).isDestroyed()) {
-            Glide.with(context).load("http:" + ((SecondPagerActivity) context).title_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+        if(!((ThirdPagerActivity) context).isDestroyed()) {
+            Glide.with(context).load("http:" + ((ThirdPagerActivity) context).title_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     iv_participation_icon.setImageBitmap(resource);
@@ -120,6 +152,10 @@ public class ParticipationPager extends BasePager{
         tv_participation_period = (TextView) inflate.findViewById(R.id.tv_participation_period);
         rv_participation = (RecyclerView) inflate.findViewById(R.id.rv_participation);
 
+        rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
+        rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
+        rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+
         iv_participation_back.setOnClickListener(new MyOnClickListener());
         tv_participation_back.setOnClickListener(new MyOnClickListener());
     }
@@ -129,10 +165,10 @@ public class ParticipationPager extends BasePager{
         public void onClick(View view) {
             switch (view.getId()){
                 case R.id.iv_participation_back:
-                    ((SecondPagerActivity)context).finish();
+                    ((ThirdPagerActivity)context).finish();
                     break;
                 case R.id.tv_participation_back:
-                    ((SecondPagerActivity)context).finish();
+                    ((ThirdPagerActivity)context).finish();
                     break;
             }
         }

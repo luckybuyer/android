@@ -7,27 +7,27 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_22"
+        android:layout_height="@dimen/dimen_44"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_13"
+        android:layout_marginTop="@dimen/dimen_26"
         android:text="Please select the quantity"
         android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_16" />
+        android:textSize="@dimen/dimen_32" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginRight="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_50"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_100"
         android:background="#d8d8d8"></View>
 
     <RelativeLayout
         android:id="@+id/rl_insert_num"
-        android:layout_width="@dimen/dimen_175"
-        android:layout_height="@dimen/dimen_44"
+        android:layout_width="@dimen/dimen_350"
+        android:layout_height="@dimen/dimen_88"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_75"
+        android:layout_marginTop="@dimen/dimen_150"
         android:background="#f6f6f7">
 
         <EditText
@@ -36,43 +36,43 @@
             android:gravity="center"
             android:inputType="number"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_25"
+            android:layout_height="@dimen/dimen_50"
             android:layout_centerInParent="true"
             android:text="1"
             android:textColor="#ff4f3c"
-            android:textSize="@dimen/dimen_18" />
+            android:textSize="@dimen/dimen_36" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_insert_delete"
-        android:layout_width="@dimen/dimen_44"
-        android:layout_height="@dimen/dimen_44"
+        android:layout_width="@dimen/dimen_88"
+        android:layout_height="@dimen/dimen_88"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="@dimen/dimen_10"
-        android:layout_marginTop="@dimen/dimen_75"
+        android:layout_marginRight="@dimen/dimen_20"
+        android:layout_marginTop="@dimen/dimen_150"
         android:layout_toLeftOf="@+id/rl_insert_num"
         android:background="#f6f6f7">
 
         <ImageView
-            android:layout_width="@dimen/dimen_18"
-            android:layout_height="@dimen/dimen_2"
+            android:layout_width="@dimen/dimen_36"
+            android:layout_height="@dimen/dimen_4"
             android:layout_centerInParent="true"
             android:background="@drawable/icons_delete" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_insert_add"
-        android:layout_width="@dimen/dimen_44"
-        android:layout_height="@dimen/dimen_44"
+        android:layout_width="@dimen/dimen_88"
+        android:layout_height="@dimen/dimen_88"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/dimen_10"
-        android:layout_marginTop="@dimen/dimen_75"
+        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginTop="@dimen/dimen_150"
         android:layout_toRightOf="@+id/rl_insert_num"
         android:background="#f6f6f7">
 
         <ImageView
-            android:layout_width="@dimen/dimen_18"
-            android:layout_height="@dimen/dimen_18"
+            android:layout_width="@dimen/dimen_36"
+            android:layout_height="@dimen/dimen_36"
             android:layout_centerInParent="true"
             android:background="@drawable/icons_add" />
     </RelativeLayout>
@@ -80,12 +80,12 @@
     <LinearLayout
         android:id="@+id/ll_insert_selector"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_32"
+        android:layout_height="@dimen/dimen_64"
         android:layout_alignLeft="@+id/rl_insert_delete"
         android:layout_alignRight="@id/rl_insert_add"
         android:layout_below="@+id/rl_insert_delete"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_marginTop="@dimen/dimen_30"
         android:orientation="horizontal">
 
         <TextView
@@ -97,54 +97,54 @@
             android:textColor="@drawable/selector_tc_insert_textcolor"
             android:gravity="center"
             android:text="2"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_28" />
 
         <TextView
             android:id="@+id/tv_insert_five"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginLeft="@dimen/dimen_20"
             android:layout_weight="1"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
             android:text="5"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_28" />
 
         <TextView
             android:id="@+id/tv_insert_ten"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginLeft="@dimen/dimen_20"
             android:layout_weight="1"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
             android:text="10"
-            android:textSize="@dimen/dimen_14" />
+            android:textSize="@dimen/dimen_28" />
 
         <TextView
             android:id="@+id/tv_insert_all"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_10"
+            android:layout_marginLeft="@dimen/dimen_20"
             android:layout_weight="1"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
             android:text="all remain"
-            android:textSize="@dimen/dimen_13" />
+            android:textSize="@dimen/dimen_28" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_insert_buy"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24"
         android:background="@color/all_orange"
-        android:layout_marginTop="@dimen/dimen_25"
+        android:layout_marginTop="@dimen/dimen_50"
         android:layout_below="@+id/ll_insert_selector"
         android:layout_width="match_parent"
         android:gravity="center"
         android:textColor="@color/text_white"
-        android:textSize="@dimen/dimen_16"
+        android:textSize="@dimen/dimen_32"
         android:text="Total 108 coins"
-        android:layout_marginBottom="@dimen/dimen_27"
-        android:layout_height="@dimen/dimen_50" />
+        android:layout_marginBottom="@dimen/dimen_54"
+        android:layout_height="@dimen/dimen_100" />
 </RelativeLayout>

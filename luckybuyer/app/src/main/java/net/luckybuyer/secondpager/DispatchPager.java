@@ -57,6 +57,7 @@ public class DispatchPager extends BaseNoTrackPager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_dispatch, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
+        ((SecondPagerActivity)context).from = "dispatchpager";
         findView();
         setView();
         setHeadMargin();

@@ -13,22 +13,22 @@
         android:gravity="center"
         android:text="Item expired"
         android:textColor="@color/text_black"
-        android:layout_marginTop="@dimen/dimen_20"
-        android:textSize="@dimen/dimen_16" />
+        android:layout_marginTop="@dimen/dimen_40"
+        android:textSize="@dimen/dimen_36" />
 
     <net.luckybuyer.view.JustifyTextView
         android:id="@+id/jtv_insertcoins_discribe"
-        android:layout_marginLeft="@dimen/dimen_22"
-        android:layout_marginRight="@dimen/dimen_22"
-        android:layout_marginTop="@dimen/dimen_15"
-        android:text="This issue is  closed, please participate again."
+        android:layout_marginLeft="@dimen/dimen_44"
+        android:layout_marginRight="@dimen/dimen_44"
+        android:layout_marginTop="@dimen/dimen_30"
+        android:text="The item you selected has sold out. Please choose another item."
         android:layout_width="match_parent"
-        android:textSize="@dimen/dimen_15"
+        android:textSize="@dimen/dimen_30"
         android:textColor="#999999"
         android:layout_height="wrap_content" />
     <View
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/dimen_15"
+        android:layout_marginTop="@dimen/dimen_30"
         android:background="#d8d8d8"
         android:layout_height="1px"></View>
     <RelativeLayout
@@ -37,9 +37,9 @@
         android:layout_height="wrap_content">
         <TextView
             android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/dimen_12"
-            android:layout_marginBottom="@dimen/dimen_12"
-            android:textSize="@dimen/dimen_17"
+            android:layout_marginTop="@dimen/dimen_25"
+            android:layout_marginBottom="@dimen/dimen_25"
+            android:textSize="@dimen/dimen_34"
             android:textColor="#ff9c06"
             android:text="OK"
             android:layout_width="wrap_content"

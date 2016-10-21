@@ -7,9 +7,9 @@
     tools:context="net.luckybuyer.activity.WelcomeActivity">
 
     <ImageView
-        android:layout_width="@dimen/dimen_130"
-        android:layout_height="@dimen/dimen_150"
+        android:layout_width="@dimen/dimen_260"
+        android:layout_height="@dimen/dimen_300"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_130"
+        android:layout_marginTop="@dimen/dimen_260"
         android:background="@drawable/welcome" />
 </RelativeLayout>

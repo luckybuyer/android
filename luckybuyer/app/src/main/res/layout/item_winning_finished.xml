@@ -8,21 +8,21 @@
     <RelativeLayout
         android:id="@+id/rl_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_14"
+        android:layout_height="@dimen/dimen_28"
         android:background="#eeeeee"></RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_winning_icon"
-        android:layout_width="@dimen/dimen_75"
-        android:layout_height="@dimen/dimen_75"
+        android:layout_width="@dimen/dimen_160"
+        android:layout_height="@dimen/dimen_160"
         android:layout_below="@+id/rl_header"
-        android:layout_marginTop="@dimen/dimen_18"
+        android:layout_marginTop="@dimen/dimen_36"
         android:background="@drawable/shape_black_border">
 
         <ImageView
             android:id="@+id/iv_winning_icon"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_70"
+            android:layout_width="@dimen/dimen_150"
+            android:layout_height="@dimen/dimen_150"
             android:layout_centerInParent="true"
             android:background="@drawable/default_icon" />
     </RelativeLayout>
@@ -30,35 +30,35 @@
     <net.luckybuyer.view.JustifyTextView
         android:id="@+id/jtv_winning_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_35"
+        android:layout_height="@dimen/dimen_70"
         android:layout_alignTop="@+id/rl_winning_icon"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24"
         android:layout_toRightOf="@+id/rl_winning_icon"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="Magic sound headphones second generation"
         android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_13" />
+        android:textSize="@dimen/dimen_28" />
 
     <TextView
         android:id="@+id/item_winning_issue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_buycoins_header"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_74"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_148"
         android:layout_toRightOf="@id/rl_winning_icon"
         android:text="Issue:10020"
         android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_13" />
+        android:textSize="@dimen/dimen_28" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_1"
+        android:layout_height="@dimen/dimen_2"
         android:layout_alignBottom="@+id/rl_winning_icon"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginRight="@dimen/dimen_12"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24"
         android:layout_toRightOf="@+id/rl_winning_icon"
         android:background="@color/bg_view"></View>
 
@@ -68,91 +68,91 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_winning_icon"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/rl_winning_icon"
         android:text="Lucky Number : "
         android:textColor="#999999"
-        android:textSize="@dimen/dimen_11" />
+        android:textSize="@dimen/dimen_22" />
 
     <TextView
         android:id="@+id/tv_winning_luckynum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_winning_icon"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/tv_winning_lucky"
         android:text="10987390"
         android:textColor="@color/ff9c05"
-        android:textSize="@dimen/dimen_11"/>
+        android:textSize="@dimen/dimen_22"/>
 
     <TextView
         android:id="@+id/tv_winning_winning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_winning_lucky"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/rl_winning_icon"
         android:text="Winner : "
         android:textColor="#999999"
-        android:textSize="@dimen/dimen_11" />
+        android:textSize="@dimen/dimen_22" />
 
     <TextView
         android:id="@+id/tv_winning_winningname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_winning_lucky"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/tv_winning_winning"
         android:text="yangshuyu"
         android:textColor="@color/ff9c05"
-        android:textSize="@dimen/dimen_11"/>
+        android:textSize="@dimen/dimen_22"/>
 
     <TextView
         android:id="@+id/tv_winning_period"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_winning_winning"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/rl_winning_icon"
         android:text="Number of participations : "
         android:textColor="#999999"
-        android:textSize="@dimen/dimen_11" />
+        android:textSize="@dimen/dimen_22" />
 
     <TextView
         android:id="@+id/tv_winning_participations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_winning_winning"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/tv_winning_period"
         android:text="yangshuyu"
         android:textColor="#999999"
-        android:textSize="@dimen/dimen_11"/>
+        android:textSize="@dimen/dimen_22"/>
 
     <TextView
         android:id="@+id/tv_winning_announc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_winning_period"
-        android:layout_marginLeft="@dimen/dimen_12"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/rl_winning_icon"
         android:text="Winner announced : "
         android:textColor="#999999"
-        android:textSize="@dimen/dimen_11" />
+        android:textSize="@dimen/dimen_22" />
 
     <TextView
         android:id="@+id/tv_winning_announced"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_winning_period"
-        android:layout_marginTop="@dimen/dimen_5"
+        android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/tv_winning_announc"
         android:text="yangshuyu"
         android:textColor="#999999"
-        android:layout_marginBottom="@dimen/dimen_20"
-        android:textSize="@dimen/dimen_11"/>
+        android:layout_marginBottom="@dimen/dimen_40"
+        android:textSize="@dimen/dimen_22"/>
 </RelativeLayout>

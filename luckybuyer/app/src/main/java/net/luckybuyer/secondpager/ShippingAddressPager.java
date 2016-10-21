@@ -103,7 +103,6 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     private void processData(String response){
         Gson gson = new Gson();
         response = "{\"shipping\":" + response + "}";
-        Log.e("TAG", response);
         ShippingAddressBean shippingAddressBean = gson.fromJson(response, ShippingAddressBean.class);
 
         rv_shipping_address.setAdapter(new ShippingAdapter(context, shippingAddressBean.getShipping()));
