@@ -58,6 +58,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private TextView tv_buycoins_buy;
     private View inflate;
     private RecyclerView rv_buycoins;
+
+    private ImageView iv_buycoins_paypal;
+    private ImageView iv_buycoins_cashu;
     private boolean flag;
 
     @Override
@@ -79,7 +82,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Intent intent = new Intent(context, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         context.startService(intent);
-
+        iv_buycoins_paypal.setHovered(true);
         return inflate;
     }
 
@@ -132,10 +135,17 @@ public class BuyCoinPager extends BaseNoTrackPager {
         tv_buycoins_count = (TextView) inflate.findViewById(R.id.tv_buycoins_count);
         tv_buycoins_buy = (TextView) inflate.findViewById(R.id.tv_buycoins_buy);
         rv_buycoins = (RecyclerView) inflate.findViewById(R.id.rv_buycoins);
+
+        iv_buycoins_paypal = (ImageView) inflate.findViewById(R.id.iv_buycoins_paypal);
+        iv_buycoins_cashu = (ImageView) inflate.findViewById(R.id.iv_buycoins_cashu);
+
         //设置监听
         iv_buycoins_back.setOnClickListener(new MyOnClickListener());
         tv_buycoins_back.setOnClickListener(new MyOnClickListener());
         tv_buycoins_buy.setOnClickListener(new MyOnClickListener());
+        iv_buycoins_paypal.setOnClickListener(new MyOnClickListener());
+        iv_buycoins_cashu.setOnClickListener(new MyOnClickListener());
+
         if(!flag) {
             iv_buycoins_back.setVisibility(View.GONE);
             tv_buycoins_back.setVisibility(View.GONE);
@@ -185,6 +195,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     Intent intent = new Intent(context,PaymentActivity.class);
                     intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payment);
                     startActivityForResult(intent,0);
+                    break;
+                case R.id.iv_buycoins_cashu:
+                    iv_buycoins_cashu.setHovered(true);
+                    iv_buycoins_paypal.setHovered(false);
+                    break;
+                case R.id.iv_buycoins_paypal:
+                    iv_buycoins_cashu.setHovered(false);
+                    iv_buycoins_paypal.setHovered(true);
                     break;
             }
         }

@@ -146,10 +146,10 @@ public class MePager extends BaseNoTrackPager {
                                         processData(res, response);
                                         try {
                                             Thread.sleep(500);
-                                            HttpUtils.getInstance().stopNetWorkWaiting();
                                         } catch (InterruptedException e) {
                                             e.printStackTrace();
                                         }
+                                        HttpUtils.getInstance().stopNetWorkWaiting();
                                     }
                                 }
                         );

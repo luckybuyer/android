@@ -61,10 +61,8 @@ public class SecondPagerActivity extends FragmentActivity {
     private List<Fragment> list;
     public int batch_id;
     public int game_id;
-    public List allList = new ArrayList();
-    public int position;
-    public ShippingAddressBean.ShippingBean shippingBean;
 
+    public int dispatch_game_id;
 
     //需要去哪
     public String from;
@@ -90,8 +88,9 @@ public class SecondPagerActivity extends FragmentActivity {
 
         batch_id = getIntent().getIntExtra("batch_id", -1);
         game_id = getIntent().getIntExtra("game_id", -1);
-        position = getIntent().getIntExtra("position", -1);
-        allList = (ArrayList) getIntent().getSerializableExtra("alllist");
+
+        dispatch_game_id = getIntent().getIntExtra("dispatch_game_id", -1);
+
         setData();
         //发现视图  设置监听
         findView();
@@ -308,6 +307,10 @@ public class SecondPagerActivity extends FragmentActivity {
                 return false;
             } else if ("setpager".equals(from)) {
                 switchPage(4);
+                from = "";
+                return false;
+            } else if ("shippingaddress".equals(from)) {
+                switchPage(9);
                 from = "";
                 return false;
             }

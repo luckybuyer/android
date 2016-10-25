@@ -3,10 +3,10 @@ package net.luckybuyer.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,7 +16,7 @@ import com.bumptech.glide.request.target.Target;
 
 import net.luckybuyer.R;
 import net.luckybuyer.bean.ProductOrderBean;
-import net.luckybuyer.view.CircleImageView;
+import net.luckybuyer.view.RoundCornerImageView;
 
 import java.util.List;
 
@@ -114,7 +114,7 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView civ_productdetail;
+        private RoundCornerImageView civ_productdetail;
         private TextView tv_productdetail_time;
         private TextView tv_productdetail_winnermoney;
         private TextView tv_productdetail_name;
@@ -122,7 +122,7 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
         public ViewHolder(View view, int type) {
             super(view);
             if (type == 0) {
-                civ_productdetail = (CircleImageView) view.findViewById(R.id.civ_productdetail);
+                civ_productdetail = (RoundCornerImageView ) view.findViewById(R.id.civ_productdetail);
                 tv_productdetail_time = (TextView) view.findViewById(R.id.tv_productdetail_time);
                 tv_productdetail_winnermoney = (TextView) view.findViewById(R.id.tv_productdetail_winnermoney);
                 tv_productdetail_name = (TextView) view.findViewById(R.id.tv_productdetail_name);

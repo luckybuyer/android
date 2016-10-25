@@ -26,52 +26,52 @@
         android:textSize="@dimen/dimen_26" />
 
     <TextView
-        android:layout_below="@+id/tv_disaptch_name"
         android:id="@+id/tv_disaptch_add_detailed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_24"
+        android:layout_below="@+id/tv_disaptch_name"
         android:layout_marginBottom="@dimen/dimen_20"
-        android:text="name"
+        android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginRight="@dimen/dimen_24"
-        android:maxLines="2"
+        android:layout_marginTop="@dimen/dimen_24"
         android:ellipsize="end"
+        android:maxLines="2"
+        android:text="name"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_26" />
 
     <RelativeLayout
         android:id="@+id/rl_dispatch_selector_address"
-        android:layout_below="@+id/tv_disaptch_add_detailed"
-        android:paddingTop="@dimen/dimen_12"
-        android:background="@color/bg_while"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_disaptch_add_detailed"
+        android:background="@color/bg_while"
+        android:paddingTop="@dimen/dimen_12">
 
         <TextView
             android:id="@+id/tv_dispatch_selector_address"
             android:layout_width="wrap_content"
-            android:textSize="@dimen/dimen_22"
-            android:paddingTop="@dimen/dimen_6"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_black_border"
             android:paddingBottom="@dimen/dimen_6"
             android:paddingLeft="@dimen/dimen_8"
             android:paddingRight="@dimen/dimen_8"
-            android:background="@drawable/shape_black_border"
+            android:paddingTop="@dimen/dimen_6"
             android:text="Alternative address"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/dimen_22" />
 
         <TextView
             android:id="@+id/tv_dispatch_current_address"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:textSize="@dimen/dimen_22"
-            android:paddingTop="@dimen/dimen_6"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/shape_red_radius"
             android:paddingBottom="@dimen/dimen_6"
             android:paddingLeft="@dimen/dimen_8"
             android:paddingRight="@dimen/dimen_8"
-            android:background="@drawable/shape_red_radius"
-            android:textColor="#ffffff"
+            android:paddingTop="@dimen/dimen_6"
             android:text="Current address"
-            android:layout_height="wrap_content" />
+            android:textColor="#ffffff"
+            android:textSize="@dimen/dimen_22" />
     </RelativeLayout>
 </RelativeLayout>

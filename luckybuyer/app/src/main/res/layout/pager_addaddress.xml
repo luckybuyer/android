@@ -3,326 +3,537 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/rl_addaddress_header"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_78"
-        android:background="@color/bg_while">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_44"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_18"
-            android:layout_marginTop="@dimen/dimen_2"
-            android:gravity="center"
-            android:text="Add Address"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_42" />
-
-        <TextView
-            android:id="@+id/tv_dispatch_share"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_40"
-            android:layout_alignParentRight="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_7"
-            android:gravity="center"
-            android:text="Save"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
-
-        <ImageView
-            android:id="@+id/iv_addaddress_back"
-            android:layout_width="@dimen/dimen_20"
-            android:layout_height="@dimen/dimen_36"
-            android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_16"
-            android:background="@drawable/go_back" />
-
-        <TextView
-            android:id="@+id/tv_addaddress_back"
-            android:layout_width="@dimen/dimen_78"
-            android:layout_height="@dimen/dimen_36"
-            android:layout_alignTop="@id/iv_addaddress_back"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/iv_addaddress_back"
-            android:gravity="center"
-            android:text="Back"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_28" />
-
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:background="@color/bg_view"></View>
-    </RelativeLayout>
+            android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/rl_addaddress_name"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_addaddress_header"
-        android:layout_marginTop="@dimen/dimen_24"
-        android:background="@color/bg_while">
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_header"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_78"
+                android:background="@color/bg_while">
 
-        <ImageView
-            android:id="@+id/iv_addaddress_firstname"
-            android:layout_width="@dimen/dimen_12"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@drawable/addaddress_xing" />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_46"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/dimen_18"
+                    android:layout_marginTop="@dimen/dimen_2"
+                    android:gravity="center"
+                    android:text="Add Address"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_42" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/iv_addaddress_firstname"
-            android:text="FirstName"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
+                <TextView
+                    android:id="@+id/tv_addaddress_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_40"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/dimen_24"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:layout_marginTop="@dimen/dimen_7"
+                    android:gravity="center"
+                    android:text="Save"
+                    android:textColor="@color/selecotr_addaddress_save_textcolor"
+                    android:textSize="@dimen/dimen_32" />
 
-        <EditText
-            android:id="@+id/et_addaddress_firstname"
-            android:layout_width="@dimen/dimen_280"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@null"
-            android:gravity="center_vertical|right"
-            android:hint="Type in first name"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
+                <ImageView
+                    android:id="@+id/iv_addaddress_back"
+                    android:layout_width="@dimen/dimen_20"
+                    android:layout_height="@dimen/dimen_36"
+                    android:layout_marginBottom="@dimen/dimen_24"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:layout_marginTop="@dimen/dimen_16"
+                    android:background="@drawable/go_back" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@color/bg_view"></View>
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_addaddress_back"
+                    android:layout_width="@dimen/dimen_78"
+                    android:layout_height="@dimen/dimen_36"
+                    android:layout_alignTop="@id/iv_addaddress_back"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_addaddress_back"
+                    android:gravity="center"
+                    android:text="Back"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
 
-    <RelativeLayout
-        android:id="@+id/rl_addaddress_lastname"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_addaddress_name"
-        android:background="@color/bg_while">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/bg_view"></View>
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_addaddress_lastname"
-            android:layout_width="@dimen/dimen_12"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@drawable/addaddress_xing" />
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/rl_addaddress_header"
+                android:layout_marginTop="@dimen/dimen_24"
+                android:background="@color/bg_while">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/iv_addaddress_lastname"
-            android:text="LastName"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
+                <ImageView
+                    android:id="@+id/iv_addaddress_firstname"
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_xing" />
 
-        <EditText
-            android:id="@+id/et_addaddress_lastname"
-            android:layout_width="@dimen/dimen_360"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@null"
-            android:gravity="center_vertical|right"
-            android:hint="Type in last name"
-            android:inputType="number"
-            android:maxEms="11"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_addaddress_firstname"
+                    android:text="FirstName"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
 
-    </RelativeLayout>
+                <EditText
+                    android:id="@+id/et_addaddress_firstname"
+                    android:layout_width="@dimen/dimen_280"
+                    android:layout_height="@dimen/dimen_80"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|right"
+                    android:hint="Type in first name"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_26" />
 
-    <RelativeLayout
-        android:id="@+id/rl_addaddress_country"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_90"
-        android:layout_below="@+id/rl_addaddress_lastname"
-        android:layout_marginTop="@dimen/dimen_5"
-        android:background="@color/bg_while">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@color/bg_view"></View>
+            </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_country"
-            android:layout_width="@dimen/dimen_12"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@drawable/addaddress_xing" />
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/rl_addaddress_name"
+                android:background="@color/bg_while">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/iv_country"
-            android:text="Country"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
+                <ImageView
+                    android:id="@+id/iv_addaddress_lastname"
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_xing" />
 
-        <ImageView
-            android:id="@+id/iv_addaddress_country"
-            android:layout_width="@dimen/dimen_22"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_addaddress_lastname"
+                    android:text="LastName"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_18"
-            android:layout_toLeftOf="@+id/iv_addaddress_country"
-            android:text="select"
-            android:textSize="@dimen/dimen_24" />
+                <EditText
+                    android:id="@+id/et_addaddress_lastname"
+                    android:layout_width="@dimen/dimen_360"
+                    android:layout_height="@dimen/dimen_80"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="@null"
+                    android:gravity="center_vertical|right"
+                    android:hint="Type in last name"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_26" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@color/bg_view"></View>
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_addaddress_city"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_addaddress_country"
-        android:background="@color/bg_while">
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_country"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_90"
+                android:layout_below="@+id/rl_addaddress_lastname"
+                android:layout_marginTop="@dimen/dimen_5"
+                android:background="@color/bg_while">
 
-        <ImageView
-            android:id="@+id/iv_city"
-            android:layout_width="@dimen/dimen_12"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@drawable/addaddress_xing" />
+                <ImageView
+                    android:id="@+id/iv_country"
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_xing" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/iv_city"
-            android:text="City"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_country"
+                    android:text="Country"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
 
-        <ImageView
-            android:id="@+id/iv_addaddress_city"
-            android:layout_width="@dimen/dimen_22"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24" />
+                <ImageView
+                    android:id="@+id/iv_addaddress_country"
+                    android:layout_width="@dimen/dimen_22"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_selector" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_18"
-            android:layout_toLeftOf="@+id/iv_addaddress_city"
-            android:text="select"
-            android:textSize="@dimen/dimen_24" />
+                <TextView
+                    android:id="@+id/tv_addaddress_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_15"
+                    android:layout_toLeftOf="@+id/iv_addaddress_country"
+                    android:hint="select"
+                    android:textSize="@dimen/dimen_26" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@color/bg_view"></View>
-    </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@color/bg_view"></View>
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_addaddress_area"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_addaddress_city"
-        android:background="@color/bg_while">
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_city"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/rl_addaddress_country"
+                android:background="@color/bg_while">
 
-        <ImageView
-            android:id="@+id/iv_area"
-            android:layout_width="@dimen/dimen_12"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@drawable/addaddress_xing" />
+                <ImageView
+                    android:id="@+id/iv_city"
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_xing" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/iv_area"
-            android:text="Area"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_city"
+                    android:text="City"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
 
-        <ImageView
-            android:id="@+id/iv_addaddress_area"
-            android:layout_width="@dimen/dimen_22"
-            android:layout_height="@dimen/dimen_12"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24" />
+                <ImageView
+                    android:id="@+id/iv_addaddress_city"
+                    android:layout_width="@dimen/dimen_22"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_selector" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_18"
-            android:layout_toLeftOf="@+id/iv_addaddress_area"
-            android:text="select"
-            android:textSize="@dimen/dimen_24" />
+                <TextView
+                    android:id="@+id/tv_addaddress_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_15"
+                    android:layout_toLeftOf="@+id/iv_addaddress_city"
+                    android:hint="select"
+                    android:textSize="@dimen/dimen_26" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:background="@color/bg_view"></View>
-    </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@color/bg_view"></View>
+            </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_180"
-        android:layout_below="@+id/rl_addaddress_area"
-        android:layout_marginTop="@dimen/dimen_10"
-        android:background="#ffffff">
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_area"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/rl_addaddress_city"
+                android:background="@color/bg_while">
 
-        <TextView
-            android:id="@+id/tv_addaddress_screet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dimen_30"
-            android:layout_marginLeft="@dimen/dimen_40"
-            android:text="Street Name/No."
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_26" />
-        
-        <TextView
-            android:layout_marginLeft="@dimen/dimen_40"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_50" />
-    </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_area"
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_xing" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_area"
+                    android:text="Area"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
+
+                <ImageView
+                    android:id="@+id/iv_addaddress_area"
+                    android:layout_width="@dimen/dimen_22"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_selector" />
+
+                <TextView
+                    android:id="@+id/tv_addaddress_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_15"
+                    android:layout_toLeftOf="@+id/iv_addaddress_area"
+                    android:text="select"
+                    android:hint="select"
+                    android:textSize="@dimen/dimen_26" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@color/bg_view"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_street"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_160"
+                android:layout_below="@+id/rl_addaddress_area"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:background="#ffffff">
+
+                <TextView
+                    android:id="@+id/tv_addaddress_screet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_46"
+                    android:layout_marginTop="@dimen/dimen_30"
+                    android:text="Street Name/No."
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_26" />
+
+                <EditText
+                    android:id="@+id/et_addaddress_street"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50"
+                    android:layout_marginLeft="@dimen/dimen_40"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:layout_marginTop="@dimen/dimen_90"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="Type in Street Name/No."
+                    android:maxLines="1"
+                    android:textSize="@dimen/dimen_26" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="#cccccc"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_adddaddress_builder"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_160"
+                android:layout_below="@+id/rl_addaddress_street"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:layout_marginTop="@dimen/dimen_40"
+                    android:background="@drawable/addaddress_xing" />
+
+                <TextView
+                    android:id="@+id/tv_addaddress_builder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_40"
+                    android:layout_marginTop="@dimen/dimen_30"
+                    android:text="Building Name/No."
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_26" />
+
+                <EditText
+                    android:id="@+id/et_addaddress_build"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_50"
+                    android:layout_marginLeft="@dimen/dimen_40"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:layout_marginTop="@dimen/dimen_90"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:hint="Required! please type it!"
+                    android:maxLines="1"
+                    android:textSize="@dimen/dimen_26" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_locationtype"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/rl_adddaddress_builder"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:background="@color/bg_while">
+
+                <ImageView
+                    android:id="@+id/iv_addaddress_locationtype"
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_xing" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_addaddress_locationtype"
+                    android:text="Location Type"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
+
+                <TextView
+                    android:id="@+id/tv_addaddress_business"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:drawableLeft="@drawable/selector_addaddress_home_business"
+                    android:drawablePadding="@dimen/dimen_9"
+                    android:text="Business"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/dimen_26" />
+
+                <TextView
+                    android:id="@+id/tv_addaddress_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:layout_toLeftOf="@+id/tv_addaddress_business"
+                    android:drawableLeft="@drawable/selector_addaddress_home_business"
+                    android:drawablePadding="@dimen/dimen_9"
+                    android:text="home"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/dimen_26" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="#cccccc"></View>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_addaddress_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/rl_addaddress_locationtype"
+                android:background="@color/bg_while">
+
+                <ImageView
+                    android:id="@+id/iv_addaddress_mobile"
+                    android:layout_width="@dimen/dimen_12"
+                    android:layout_height="@dimen/dimen_12"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_24"
+                    android:background="@drawable/addaddress_xing" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dimen_8"
+                    android:layout_toRightOf="@+id/iv_addaddress_mobile"
+                    android:text="Location Type"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/dimen_28" />
+
+                <EditText
+                    android:id="@+id/et_addaddress_telnum"
+                    android:layout_width="@dimen/dimen_200"
+                    android:layout_height="@dimen/dimen_50"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_24"
+                    android:background="@drawable/shape_black_noradius"
+                    android:inputType="number"
+                    android:textSize="@dimen/dimen_26" />
+
+                <EditText
+                    android:id="@+id/et_addaddress_areacode"
+                    android:layout_width="@dimen/dimen_60"
+                    android:layout_height="@dimen/dimen_50"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_12"
+                    android:layout_toLeftOf="@+id/et_addaddress_telnum"
+                    android:background="@drawable/shape_black_noradius"
+                    android:inputType="number"
+                    android:maxEms="3"
+                    android:textSize="@dimen/dimen_26" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dimen_12"
+                    android:layout_toLeftOf="@+id/et_addaddress_areacode"
+                    android:text="+"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/dimen_26" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/et_addaddress_shippingnote"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_160"
+                android:layout_below="@+id/rl_addaddress_mobile"
+                android:layout_marginBottom="@dimen/dimen_40"
+                android:layout_marginTop="@dimen/dimen_10"
+                android:background="#ffffff"
+                android:hint="Shipping Note"
+                android:paddingLeft="@dimen/dimen_48"
+                android:textColor="#cccccc"
+                android:textSize="@dimen/dimen_26" />
+        </RelativeLayout>
+
+    </ScrollView>
+
+
 </RelativeLayout>

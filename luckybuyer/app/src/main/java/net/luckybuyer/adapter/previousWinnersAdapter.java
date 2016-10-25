@@ -16,6 +16,7 @@ import com.bumptech.glide.request.target.Target;
 import net.luckybuyer.R;
 import net.luckybuyer.bean.PreviousWinnerBean;
 import net.luckybuyer.view.CircleImageView;
+import net.luckybuyer.view.RoundCornerImageView;
 
 import java.util.List;
 
@@ -64,7 +65,7 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
         private TextView tv_previous_name;
         private TextView tv_previous_participation;
         private TextView tv_previous_luckynum;
-        private CircleImageView civ_provious_icon;
+        private RoundCornerImageView civ_provious_icon;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -73,7 +74,7 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
             tv_previous_name = (TextView) itemView.findViewById(R.id.tv_previous_name);
             tv_previous_participation = (TextView) itemView.findViewById(R.id.tv_previous_participation);
             tv_previous_luckynum = (TextView) itemView.findViewById(R.id.tv_previous_luckynum);
-            civ_provious_icon = (CircleImageView) itemView.findViewById(R.id.civ_provious_icon);
+            civ_provious_icon = (RoundCornerImageView) itemView.findViewById(R.id.civ_provious_icon);
         }
     }
 }

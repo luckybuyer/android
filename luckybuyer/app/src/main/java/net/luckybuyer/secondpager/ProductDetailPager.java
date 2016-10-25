@@ -13,10 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,15 +31,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.data.LocalUriFetcher;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
-import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.activity.ThirdPagerActivity;
 import net.luckybuyer.adapter.ProductDetailAdapter;
@@ -52,14 +46,12 @@ import net.luckybuyer.bean.MyBuyBean;
 import net.luckybuyer.bean.ProductOrderBean;
 import net.luckybuyer.base.BasePager;
 import net.luckybuyer.bean.ProductDetailBean;
-import net.luckybuyer.bean.User;
 import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.CircleImageView;
 import net.luckybuyer.view.JustifyTextView;
 
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -118,6 +110,7 @@ public class ProductDetailPager extends BasePager {
     private TextView tv_insert_all;
     private TextView tv_insert_buy;
     private EditText et_insert_count;
+    private TextView tv_productdetail_percentage;
 
     private List imageList = new ArrayList();
     private PopupWindow popupWindow;
@@ -310,6 +303,7 @@ public class ProductDetailPager extends BasePager {
         tv_productdetal_again = (TextView) inflate.findViewById(R.id.tv_productdetal_again);
         rl_productdetail_participation_me = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_participation_me);
         rl_productdetail_participation_lucky = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_participation_lucky);
+        tv_productdetail_percentage = (TextView) inflate.findViewById(R.id.tv_productdetail_percentage);
 
         srl_productdetail_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_productdetail_refresh);
 
@@ -392,7 +386,7 @@ public class ProductDetailPager extends BasePager {
             if (isMyBuy) {
                 tv_productdetail_inprogress.setText("Announced");
             } else {
-                tv_productdetail_inprogress.setText("Lottery");
+                tv_productdetail_inprogress.setText("Announced");
             }
             //隐藏一些控件
             rl_productdetail_indsertcoins.setVisibility(View.GONE);
@@ -432,9 +426,11 @@ public class ProductDetailPager extends BasePager {
 
         tv_productdetail_issue.setText("Issue:" + productDetailBean.getIssue_id());
 
-        tv_productdetail_totalicon.setText("Total demand:" + productDetailBean.getShares());
+        tv_productdetail_totalicon.setText(productDetailBean.getShares()+"");
 
-        tv_productdetail_icon.setText("Remaining:" + productDetailBean.getLeft_shares());
+        tv_productdetail_icon.setText(productDetailBean.getLeft_shares()+"");
+        int precentage = (int) (productDetailBean.getShares() - productDetailBean.getLeft_shares()) * 100 / productDetailBean.getShares();
+        tv_productdetail_percentage.setText(precentage + "%");
 
         //后加的  产品描述
 

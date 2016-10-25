@@ -128,8 +128,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
                 case R.id.rl_lucky_address:
                     intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from","dispatchpager");
-                    intent.putExtra("alllist", (Serializable) list);
-                    intent.putExtra("position", position);
+                    intent.putExtra("dispatch_game_id", list.get(position).getGame().getId());
                     ((MainActivity)context).startActivity(intent);
                     break;
             }

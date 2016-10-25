@@ -31,19 +31,19 @@
         android:layout_height="@dimen/dimen_74" />
 
     <TextView
-        android:id="@+id/tv_product_progress"
+        android:id="@+id/tv_product_count"
         android:layout_width="wrap_content"
         android:textSize="@dimen/dimen_24"
         android:textColor="#999999"
         android:layout_marginTop="@dimen/dimen_19"
-        android:text="Participate Progress:46%"
+        android:text="Total 1250"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_height="@dimen/dimen_33" />
 
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_marginBottom="@dimen/dimen_32"
+        android:layout_marginBottom="@dimen/dimen_8"
         android:id="@+id/pb_product_progress"
         android:layout_marginTop="@dimen/dimen_7"
         android:layout_marginLeft="@dimen/dimen_24"
@@ -51,4 +51,26 @@
         android:progressDrawable="@drawable/home_product_progress"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_14" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_20"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_home_claim"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_24"
+            android:textColor="#999999"
+            android:text="Claimed: "
+            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_home_percentage"
+            android:layout_toRightOf="@+id/tv_home_claim"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/dimen_24"
+            android:text="30%"
+            android:textColor="@color/ff9c05"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 </LinearLayout>

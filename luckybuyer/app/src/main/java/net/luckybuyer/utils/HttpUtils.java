@@ -194,6 +194,42 @@ public class HttpUtils {
         });
     }
 
+    //delete
+    public void deleteResponse(String url, Map<String, String> header, final OnRequestListener onRequestListener) {
+
+        Set<String> key = header.keySet();
+        Request.Builder builder = new Request.Builder();
+        builder.url(url).delete();
+
+        if (header != null) {
+            for (Iterator it = key.iterator(); it.hasNext(); ) {
+                String s = (String) it.next();
+                builder.addHeader(s, header.get(s));
+            }
+        }
+
+        Request request = builder.build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e("TAG_Okhttp", e.toString());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (onRequestListener != null) {
+                    if (response.code() == 200) {
+                        onRequestListener.success(response.body().string());
+                    } else {
+                        onRequestListener.error(response.code(), response.body().string());
+
+                    }
+                }
+            }
+        });
+    }
+
     //Post JSON
     public void postJson(String url, String json, Map<String, String> header, final OnRequestListener onRequestListener) {
 
@@ -273,7 +309,7 @@ public class HttpUtils {
         Set<String> key = header.keySet();
         Request.Builder builder = new Request.Builder();
         builder.url(url)
-                .put(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json));
+                .patch(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json));
 
         if (header != null) {
             for (Iterator it = key.iterator(); it.hasNext(); ) {

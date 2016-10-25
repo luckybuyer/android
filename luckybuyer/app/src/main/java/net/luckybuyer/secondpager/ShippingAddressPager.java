@@ -135,6 +135,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                     break;
                 case R.id.tv_shipping_newadd:
                     ((SecondPagerActivity)context).switchPage(8);
+                    ((SecondPagerActivity)context).from = "shippingaddress";
                     break;
             }
         }

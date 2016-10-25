@@ -32,7 +32,7 @@
             android:drawableTop="@drawable/mainavtivity_me"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
-            android:text="首页" />
+            android:text="Home" />
 
         <RadioButton
             android:id="@+id/rb_main_recharge"
@@ -44,7 +44,7 @@
             android:drawableTop="@drawable/mainavtivity_recharge"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
-            android:text="Buy chips" />
+            android:text="Buy Coins" />
 
         <RadioButton
             android:id="@+id/rb_main_gift"
@@ -56,7 +56,7 @@
             android:drawableTop="@drawable/mainavtivity_gift"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
-            android:text="Winning" />
+            android:text="New Result" />
 
 
         <RadioButton
@@ -69,7 +69,7 @@
             android:drawableTop="@drawable/mainavtivity_me"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
-            android:text="Me" />
+            android:text="My Account" />
 
     </RadioGroup>
 </LinearLayout>

@@ -76,6 +76,5 @@ public class HomeImagePageAdapter extends PagerAdapter {
         });
 
         return list.get(position % list.size());
-
     }
 }

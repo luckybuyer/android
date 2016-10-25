@@ -146,13 +146,13 @@
 
     <RelativeLayout
         android:id="@+id/rl_lucky_continue"
-        android:layout_width="@dimen/dimen_142"
+        android:layout_width="@dimen/dimen_180"
         android:layout_height="@dimen/dimen_54"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_270"
         android:background="#ff311a"
-        android:visibility="gone"
+        android:visibility="visible"
         android:gravity="center">
 
         <TextView

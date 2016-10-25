@@ -55,8 +55,9 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         int precent = (int) ((list.get(position).getShares()-list.get(position).getLeft_shares())*100/list.get(position).getShares());
         holder.tv_producet_discribe.setText(list.get(position).getProduct().getTitle());
-        holder.tv_product_progress.setText("Participate Progress:" + precent + "%");
+        holder.tv_product_count.setText("Total " + list.get(position).getShares());
         holder.pb_product_progress.setProgress((int) ((list.get(position).getShares() - list.get(position).getLeft_shares()) * 100 / list.get(position).getShares()));
+        holder.tv_home_percentage.setText(precent+"%");
         Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -91,17 +92,19 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
     class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_producet_discribe;
-        private TextView tv_product_progress;
+        private TextView tv_product_count;
         private ProgressBar pb_product_progress;
         private ImageView iv_product_icon;
+        private TextView tv_home_percentage;
         private View view;
         public ViewHolder(View view) {
             super(view);
             this.view = view;
             tv_producet_discribe = (TextView) view.findViewById(R.id.tv_producet_discribe);
-            tv_product_progress = (TextView) view.findViewById(R.id.tv_product_progress);
+            tv_product_count = (TextView) view.findViewById(R.id.tv_product_count);
             pb_product_progress = (ProgressBar) view.findViewById(R.id.pb_product_progress);
             iv_product_icon = (ImageView) view.findViewById(R.id.iv_product_icon);
+            tv_home_percentage = (TextView) view.findViewById(R.id.tv_home_percentage);
         }
     }
 }

@@ -240,26 +240,25 @@
                             android:id="@+id/tv_productdetail_inprogress"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_40"
+                            android:layout_alignParentRight="true"
                             android:layout_below="@+id/tv_productdetail_producttitle"
                             android:layout_marginBottom="@dimen/dimen_20"
-                            android:layout_marginLeft="@dimen/dimen_24"
+                            android:layout_marginRight="@dimen/dimen_24"
                             android:layout_marginTop="@dimen/dimen_20"
-                            android:background="@drawable/selector_tv_productdetail_inprogress"
                             android:gravity="center"
                             android:paddingLeft="@dimen/dimen_4"
                             android:paddingRight="@dimen/dimen_4"
                             android:text="In Progress"
-                            android:textColor="#ff9c05"
+                            android:textColor="#666666"
                             android:textSize="@dimen/dimen_26" />
 
                         <TextView
                             android:id="@+id/tv_productdetail_issue"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_40"
-                            android:layout_alignParentRight="true"
                             android:layout_below="@+id/tv_productdetail_producttitle"
                             android:layout_marginBottom="@dimen/dimen_20"
-                            android:layout_marginRight="@dimen/dimen_24"
+                            android:layout_marginLeft="@dimen/dimen_24"
                             android:layout_marginTop="@dimen/dimen_20"
                             android:text="Issue：171754"
                             android:textColor="#666666"
@@ -279,14 +278,46 @@
                             android:progressDrawable="@drawable/homenew_product_progress" />
 
                         <TextView
-                            android:id="@+id/tv_productdetail_totalicon"
+                            android:id="@+id/tv_productdetail_total"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_32"
                             android:layout_below="@+id/pb_productdetail_progress"
                             android:layout_marginBottom="@dimen/dimen_40"
                             android:layout_marginLeft="@dimen/dimen_24"
-                            android:text="Total demand:1280 coins"
+                            android:text="Total: "
                             android:textColor="#999999"
+                            android:textSize="@dimen/dimen_24" />
+
+                        <TextView
+                            android:id="@+id/tv_productdetail_totalicon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_32"
+                            android:layout_below="@+id/pb_productdetail_progress"
+                            android:layout_marginBottom="@dimen/dimen_40"
+                            android:layout_toRightOf="@+id/tv_productdetail_total"
+                            android:text="1280"
+                            android:textColor="@color/ff9c05"
+                            android:textSize="@dimen/dimen_24" />
+
+                        <TextView
+                            android:layout_marginLeft="@dimen/dimen_280"
+                            android:id="@+id/tv_productdetail_percent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_32"
+                            android:layout_below="@+id/pb_productdetail_progress"
+                            android:layout_marginBottom="@dimen/dimen_40"
+                            android:text="Claimed: "
+                            android:textColor="#999999"
+                            android:textSize="@dimen/dimen_24" />
+                        <TextView
+                            android:id="@+id/tv_productdetail_percentage"
+                            android:layout_toRightOf="@+id/tv_productdetail_percent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_32"
+                            android:layout_below="@+id/pb_productdetail_progress"
+                            android:layout_marginBottom="@dimen/dimen_40"
+                            android:text="50%"
+                            android:textColor="@color/ff9c05"
                             android:textSize="@dimen/dimen_24" />
 
                         <TextView
@@ -296,7 +327,17 @@
                             android:layout_alignParentRight="true"
                             android:layout_below="@+id/pb_productdetail_progress"
                             android:layout_marginRight="@dimen/dimen_24"
-                            android:text="Remaining:8822"
+                            android:text="8822"
+                            android:textColor="@color/ff9c05"
+                            android:textSize="@dimen/dimen_24" />
+
+                        <TextView
+                            android:id="@+id/tv_productdetail_remain"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_32"
+                            android:layout_below="@+id/pb_productdetail_progress"
+                            android:layout_toLeftOf="@id/tv_productdetail_icon"
+                            android:text="remain: "
                             android:textColor="#999999"
                             android:textSize="@dimen/dimen_24" />
 

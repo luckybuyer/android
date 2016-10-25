@@ -327,8 +327,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 case R.id.rl_lucky_address:                     //我中奖了点击地址
                     intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "dispatchpager");
-                    intent.putExtra("alllist", (Serializable) list);
-                    intent.putExtra("position", position);
+                    intent.putExtra("dispatch_game_id", list.get(position).getGame().getLucky_order().getId());
                     ((MainActivity) context).startActivity(intent);
                     break;
             }
