@@ -221,4 +221,11 @@
             android:textColor="@color/bg_while"
             android:textSize="@dimen/dimen_30" />
     </LinearLayout>
+
+    <WebView
+        android:layout_below="@+id/rl_buycoins_header"
+        android:visibility="gone"
+        android:id="@+id/wv_payssion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
 </RelativeLayout>

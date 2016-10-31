@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +39,7 @@ import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
+import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.activity.ThirdPagerActivity;
 import net.luckybuyer.adapter.ProductDetailAdapter;
@@ -72,6 +75,7 @@ public class ProductDetailPager extends BasePager {
     private TextView tv_productdetail_producttitle;
     private TextView tv_productdetail_issue;           //当前轮
     private TextView tv_productdetail_totalicon;      //总数
+    private TextView tv_productdetail_total;      //总数
     private TextView tv_productdetail_icon;           //剩余金币
     private ProgressBar pb_productdetail_progress;    //比率
     //    private RelativeLayout rl_productdetail_share;               //晒单分享
@@ -100,6 +104,7 @@ public class ProductDetailPager extends BasePager {
     private RelativeLayout rl_keepout;
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
+    private Button bt_net_again;
 
     //popupWindow中空间
     private RelativeLayout rl_insert_delete;
@@ -111,6 +116,8 @@ public class ProductDetailPager extends BasePager {
     private TextView tv_insert_buy;
     private EditText et_insert_count;
     private TextView tv_productdetail_percentage;
+    private TextView tv_productdetail_percent;
+    private TextView tv_productdetail_remain;
 
     private List imageList = new ArrayList();
     private PopupWindow popupWindow;
@@ -134,9 +141,11 @@ public class ProductDetailPager extends BasePager {
             public void onRefresh() {
                 if (newData == null) {
                     initData();
-                } else {
-                    processData(newData);
                 }
+
+//                else {
+//                    processData(newData);
+//                }
             }
         });
         return inflate;
@@ -145,7 +154,6 @@ public class ProductDetailPager extends BasePager {
     @Override
     public void initData() {
         super.initData();
-
         if(((SecondPagerActivity) context).game_id == -1) {
             if(((SecondPagerActivity) context).batch_id != -1) {
                 NewData();
@@ -181,12 +189,12 @@ public class ProductDetailPager extends BasePager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         rl_productdetail_allview.setVisibility(View.VISIBLE);
                         srl_productdetail_refresh.setRefreshing(false);
 
                         if (response.length() > 10) {
+                            processData(response);
                             rl_keepout.setVisibility(View.GONE);
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
@@ -271,7 +279,6 @@ public class ProductDetailPager extends BasePager {
                     }
                 });
             }
-
             @Override
             public void error(int code, String message) {
 
@@ -304,6 +311,10 @@ public class ProductDetailPager extends BasePager {
         rl_productdetail_participation_me = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_participation_me);
         rl_productdetail_participation_lucky = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_participation_lucky);
         tv_productdetail_percentage = (TextView) inflate.findViewById(R.id.tv_productdetail_percentage);
+        tv_productdetail_total = (TextView) inflate.findViewById(R.id.tv_productdetail_total);
+        tv_productdetail_percent = (TextView) inflate.findViewById(R.id.tv_productdetail_percent);
+        tv_productdetail_remain = (TextView) inflate.findViewById(R.id.tv_productdetail_remain);
+
 
         srl_productdetail_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_productdetail_refresh);
 
@@ -318,12 +329,14 @@ public class ProductDetailPager extends BasePager {
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        bt_net_again = (Button) inflate.findViewById(R.id.bt_net_again);
 
         rl_productdetail_indsertcoins.setOnClickListener(new MyOnClickListener());
         tv_productdetal_again.setOnClickListener(new MyOnClickListener());
         rl_productdetail_announced.setOnClickListener(new MyOnClickListener());
         rl_productdetail_participation_me.setOnClickListener(new MyOnClickListener());
         rl_productdetail_participation_lucky.setOnClickListener(new MyOnClickListener());
+        bt_net_again.setOnClickListener(new MyOnClickListener());
 
 //        vp_productdetail.setOnPageChangeListener(new MyOnPageChangeListener());
     }
@@ -334,14 +347,21 @@ public class ProductDetailPager extends BasePager {
         srl_productdetail_refresh.setRefreshing(false);
         Gson gson = new Gson();
         productDetailBean = gson.fromJson(s, ProductDetailBean.class);
+        ((SecondPagerActivity)context).game_id = productDetailBean.getId();
 
+        Log.e("TAG_状态", productDetailBean.getStatus());
         if ("running".equals(productDetailBean.getStatus())) {
             tv_productdetail_inprogress.setVisibility(View.VISIBLE);
             tv_productdetail_issue.setVisibility(View.VISIBLE);
-            tv_productdetail_totalicon.setVisibility(View.VISIBLE);
-            tv_productdetail_icon.setVisibility(View.VISIBLE);
             pb_productdetail_progress.setVisibility(View.VISIBLE);
             rl_productdetail_indsertcoins.setVisibility(View.VISIBLE);
+
+            tv_productdetail_totalicon.setVisibility(View.VISIBLE);
+            tv_productdetail_total.setVisibility(View.VISIBLE);
+            tv_productdetail_icon.setVisibility(View.VISIBLE);
+            tv_productdetail_percent.setVisibility(View.VISIBLE);
+            tv_productdetail_percentage.setVisibility(View.VISIBLE);
+            tv_productdetail_remain.setVisibility(View.VISIBLE);
 
             //隐藏一些控件
             rl_productdetail_countdown.setVisibility(View.GONE);
@@ -372,9 +392,13 @@ public class ProductDetailPager extends BasePager {
             rl_productdetail_indsertcoins.setVisibility(View.GONE);
             tv_productdetail_inprogress.setVisibility(View.GONE);
             tv_productdetail_issue.setVisibility(View.GONE);
-            tv_productdetail_totalicon.setVisibility(View.GONE);
-            tv_productdetail_icon.setVisibility(View.GONE);
             pb_productdetail_progress.setVisibility(View.GONE);
+            tv_productdetail_totalicon.setVisibility(View.GONE);
+            tv_productdetail_total.setVisibility(View.GONE);
+            tv_productdetail_icon.setVisibility(View.GONE);
+            tv_productdetail_percent.setVisibility(View.GONE);
+            tv_productdetail_percentage.setVisibility(View.GONE);
+            tv_productdetail_remain.setVisibility(View.GONE);
         } else if ("finished".equals(productDetailBean.getStatus())) {
             NewData();
             //显示一些 控件
@@ -391,10 +415,14 @@ public class ProductDetailPager extends BasePager {
             //隐藏一些控件
             rl_productdetail_indsertcoins.setVisibility(View.GONE);
             rl_productdetail_countdown.setVisibility(View.GONE);
-            tv_productdetail_totalicon.setVisibility(View.GONE);
-            tv_productdetail_icon.setVisibility(View.GONE);
             pb_productdetail_progress.setVisibility(View.GONE);
             tv_productdetail_currentround.setVisibility(View.GONE);
+            tv_productdetail_totalicon.setVisibility(View.GONE);
+            tv_productdetail_total.setVisibility(View.GONE);
+            tv_productdetail_icon.setVisibility(View.GONE);
+            tv_productdetail_percent.setVisibility(View.GONE);
+            tv_productdetail_percentage.setVisibility(View.GONE);
+            tv_productdetail_remain.setVisibility(View.GONE);
 
             setLucky();
         }
@@ -550,7 +578,12 @@ public class ProductDetailPager extends BasePager {
                     startActivity(intent);
                     break;
                 case R.id.tv_productdetal_again:      //buy  it  now
+                    Log.e("TAG", "buy it now");
                     processData(newData);
+                    break;
+                case R.id.bt_net_again:
+                    isNeedNetWaiting = true;
+                    initData();
                     break;
                 case R.id.rl_productdetail_indsertcoins:
                     String token_s = Utils.getSpData("token_num", context);
@@ -842,6 +875,7 @@ public class ProductDetailPager extends BasePager {
                     @Override
                     public void run() {
                         if (response.length() > 10) {
+                            Log.e("TAG", ((SecondPagerActivity)context).batch_id + "进来了");
                             ll_productdetail_buyit.setVisibility(View.VISIBLE);
                             newData = response.replace("[", "");
                             newData = newData.replace("]", "");
@@ -854,7 +888,8 @@ public class ProductDetailPager extends BasePager {
                             if(((SecondPagerActivity) context).batch_id != -1) {
                                 ll_productdetail_buyit.setVisibility(View.GONE);
                                 rl_productdetail_indsertcoins.setVisibility(View.VISIBLE);
-                                setView(newData);
+                                Log.e("TAG_状态", newData);
+                                processData(newData);
                             }
                         }
                         HttpUtils.getInstance().stopNetWorkWaiting();

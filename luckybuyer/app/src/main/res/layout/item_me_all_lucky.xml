@@ -152,7 +152,7 @@
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_270"
         android:background="#ff311a"
-        android:visibility="visible"
+        android:visibility="gone"
         android:gravity="center">
 
         <TextView

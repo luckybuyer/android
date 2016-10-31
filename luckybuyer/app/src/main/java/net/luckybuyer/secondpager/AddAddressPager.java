@@ -168,7 +168,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                     }
                     break;
                 case R.id.tv_addaddress_save:
-                    Utils.MyToast(context, "save");
+                    startSave();
                     break;
                 case R.id.tv_addaddress_business:
                     tv_addaddress_business.setHovered(true);
@@ -222,6 +222,51 @@ public class AddAddressPager extends BaseNoTrackPager {
                     break;
             }
         }
+    }
+
+    //保存地址
+    private void startSave() {
+        HttpUtils.getInstance().startNetworkWaiting(context);
+        String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
+        String json = "{\"address\": \""+tv_addaddress_country.getText() + tv_addaddress_city.getText() + tv_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \""+et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText()+"\",\"phone\": \""+"+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText()+"\",\"zipcode\": \""+"123456"+"\"}";
+        Map map = new HashMap();
+        String mToken = Utils.getSpData("token", context);
+        map.put("Authorization", "Bearer " + mToken);
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+                            ((SecondPagerActivity) context).switchPage(7);
+                        } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {
+                            ((SecondPagerActivity) context).switchPage(9);
+                        }
+                        Utils.MyToast(context,"Saved successfully");
+                    }
+                });
+
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        Utils.MyToast(context,"Failed to save. Please try again");
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                HttpUtils.getInstance().stopNetWorkWaiting();
+                Utils.MyToast(context,"Failed to save. Please try again");
+            }
+        });
     }
 
 

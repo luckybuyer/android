@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -53,6 +54,12 @@ public class MainActivity extends FragmentActivity {
     public String homeProduct;
     private int id;
 
+    private FragmentManager fragmentManager;
+    private HomePager homePager;
+    private BuyCoinPager buyCoinPager;
+    private WinningPager winningPager;
+    private MePager mePager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,22 +74,52 @@ public class MainActivity extends FragmentActivity {
                 .build();
         this.lock.onCreate(this);
 
+        fragmentManager = getSupportFragmentManager();
+        if (savedInstanceState != null) { // “内存重启”时调用
+
+            //从fragmentManager里面找到fragment
+            homePager = (HomePager) fragmentManager.findFragmentByTag(HomePager.class.getName());
+            buyCoinPager = (BuyCoinPager) fragmentManager.findFragmentByTag(BuyCoinPager.class.getName());
+            winningPager = (WinningPager) fragmentManager.findFragmentByTag(WinningPager.class.getName());
+            mePager = (MePager) fragmentManager.findFragmentByTag(MePager.class.getName());
+
+            //解决重叠问题show里面可以指定恢复的页面
+            fragmentManager.beginTransaction()
+                    .show(homePager)
+                    .hide(buyCoinPager)
+                    .hide(winningPager)
+                    .hide(mePager)
+                    .commit();
+
+            //把当前显示的fragment记录下来
+            currentFragment = homePager;
+
+        }else{ //正常启动时调用
+
+            homePager = new HomePager();
+            buyCoinPager = new BuyCoinPager();
+            winningPager = new WinningPager();
+            mePager = new MePager();
+
+            showFragment(homePager);
+        }
+
         //设置数据
         setData();
         //发现视图  设置监听
         findView();
 
-        switchPage(0);
+//        switchPage(0);
     }
 
 
     //设置数据
     private void setData() {
         list = new ArrayList<>();
-        list.add(new HomePager());
-        list.add(new BuyCoinPager());
-        list.add(new WinningPager());
-        list.add(new MePager());
+        list.add(homePager);
+        list.add(buyCoinPager);
+        list.add(winningPager);
+        list.add(mePager);
     }
 
     //试图初始化 与设置监听
@@ -100,13 +137,16 @@ public class MainActivity extends FragmentActivity {
             id = -1;
             if (checkedId == rg_main.getChildAt(0).getId()) {
                 id = 0;
-                switchPage(id);
+//                switchPage(id);
+                showFragment(list.get(id));
             } else if (checkedId == rg_main.getChildAt(1).getId()) {
                 id = 1;
-                switchPage(id);
+//                switchPage(id);
+                showFragment(list.get(id));
             } else if (checkedId == rg_main.getChildAt(2).getId()) {
                 id = 2;
-                switchPage(id);
+//                switchPage(id);
+                showFragment(list.get(id));
             }  else if (checkedId == rg_main.getChildAt(3).getId()) {
 
                 String token_s = Utils.getSpData("token_num", MainActivity.this);
@@ -118,27 +158,61 @@ public class MainActivity extends FragmentActivity {
                 //判断是否登陆  未登陆  先登录  登陆 进入me页面
                 if (token > System.currentTimeMillis() / 1000) {
                     id = 3;
-                    switchPage(id);
+//                    switchPage(id);
+                    showFragment(list.get(id));
                 } else {
                     MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
                 }
 
             }
+
         }
     }
 
+    private Fragment currentFragment;
+    private boolean flag = true;
+    private void showFragment(Fragment fg) {
 
-    //选择哪个界面
-    public void switchPage(int checkedId) {
-        Fragment fragment = list.get(checkedId);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fl_main, fragment);
-//        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commitAllowingStateLoss();
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(flag) {
+            transaction.add(R.id.fl_main, fg);
+            flag = false;
+        }else {
+            //如果之前没有添加过
+            if (!fg.isAdded()) {
+                transaction
+                        .hide(currentFragment)
+                        .add(R.id.fl_main, fg,fg.getClass().getName());
+            } else {
+                if(fg == homePager) {
+                    homePager.initData();
+                }else if(fg == mePager) {
+//                    mePager.initData();
+                }
+                transaction.hide(currentFragment).show(fg);
+
+            }
+        }
+
+
+
+        //全局变量，记录当前显示的fragment
+        currentFragment = fg;
+        transaction.commit();
     }
+
+
+//    //选择哪个界面
+//    public void switchPage(int checkedId) {
+//        Fragment fragment = list.get(checkedId);
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.fl_main, fragment);
+////        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commitAllowingStateLoss();
+////        fragmentTransaction.addToBackStack(null);
+////        fragmentTransaction.commit();
+//    }
 
     //auth0登陆回调
     private LockCallback callback = new AuthenticationCallback() {
@@ -147,7 +221,6 @@ public class MainActivity extends FragmentActivity {
 
             // Base64 解码：
             String token = credentials.getIdToken();
-            Log.e("TAG_TOKEN--", token);
 
 
             byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
@@ -182,7 +255,11 @@ public class MainActivity extends FragmentActivity {
                     Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
                     //登陆成功  直接进入me页面
-                    switchPage(3);
+//                    switchPage(3);
+                    if(id == 3) {
+                        showFragment(list.get(id));
+                    }
+
                 }
 
                 @Override
@@ -231,12 +308,19 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
-                mExitTime = System.currentTimeMillis();
+            if(buyCoinPager.wv_payssion != null &&buyCoinPager.wv_payssion.getVisibility() == View.VISIBLE && id == 1) {
+                if(buyCoinPager!= null && buyCoinPager.wv_payssion != null) {
+                    buyCoinPager.wv_payssion.setVisibility(View.GONE);
+                }
 
-            } else {
-                finish();
+            }else{
+                if ((System.currentTimeMillis() - mExitTime) > 3000) {
+                    Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
+                    mExitTime = System.currentTimeMillis();
+
+                } else {
+                    finish();
+                }
             }
             return true;
         }
@@ -248,7 +332,8 @@ public class MainActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 0 && data != null && "homepager".equals(data.getStringExtra("go"))) {
             rg_main.check(0);
-            switchPage(0);
+//            switchPage(0);
+            showFragment(list.get(0));
         }else {
             FBLikeView.onActivityResult(requestCode, resultCode, data);
         }

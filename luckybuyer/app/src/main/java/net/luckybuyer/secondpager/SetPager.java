@@ -38,6 +38,7 @@ public class SetPager extends BasePager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_set, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
+        ((SecondPagerActivity) context).from = "";
         findView();
         setHeadMargin();
         return inflate;

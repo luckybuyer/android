@@ -4,29 +4,37 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.auth0.android.lock.errors.LoginErrorMessageBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.internal.BoltsMeasurementEventListener;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
@@ -65,6 +73,7 @@ public class HomePager extends BaseNoTrackPager {
     private AutoTextView atv_home_marquee;    //跑马灯
     private View inflate;
     private SwipeRefreshLayout srl_home_refresh;
+    private Button bt_net_again;
 
     //网络连接错误 与没有数据
     private RelativeLayout rl_keepout;
@@ -74,13 +83,14 @@ public class HomePager extends BaseNoTrackPager {
     //轮播图集合
     public List imageList;
     public List<GameProductBean.GameBean> productList;
-    private List mStringArray;
+    private List<SpannableStringBuilder> mStringArray;
     int mLoopCount = 1;
 
     private int batch_id;
     private int game_id;
 
     boolean isWaiting = true;
+    boolean isFirst = true;
 
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -90,11 +100,13 @@ public class HomePager extends BaseNoTrackPager {
                     handler.sendEmptyMessageDelayed(WHAT, 5000);
                     break;
                 case WHAT_AUTO:
-                    int i = mLoopCount % mStringArray.size();
-                    atv_home_marquee.next();
-                    atv_home_marquee.setText(mStringArray.get(i) + "");
-                    mLoopCount++;
-                    handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+                    if(mStringArray != null) {
+                        int i = mLoopCount % mStringArray.size();
+                        atv_home_marquee.next();
+                        atv_home_marquee.setText(mStringArray.get(i));
+                        mLoopCount++;
+                        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+                    }
                     break;
             }
         }
@@ -110,7 +122,6 @@ public class HomePager extends BaseNoTrackPager {
         srl_home_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isWaiting = false;
                 initData();
             }
         });
@@ -131,9 +142,11 @@ public class HomePager extends BaseNoTrackPager {
         handler.removeCallbacksAndMessages(null);
         if (isWaiting) {
             HttpUtils.getInstance().startNetworkWaiting(context);
-//            isWaiting = false;
+            isWaiting = false;
+        } else {
+            srl_home_refresh.setRefreshing(true);
+            rv_home_producer.setFocusable(false);            //让recycleview时区焦点 不然show fragment的时候recycleview会顶在顶部
         }
-        isWaiting = true;
         //请求接口
         startRequestGame();
 
@@ -149,6 +162,7 @@ public class HomePager extends BaseNoTrackPager {
         rv_home_producer = (RecyclerView) inflate.findViewById(R.id.rv_home_producer);
         atv_home_marquee = (AutoTextView) inflate.findViewById(R.id.atv_home_marquee);
         srl_home_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_home_refresh);
+        bt_net_again = (Button) inflate.findViewById(R.id.bt_net_again);
 
 
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
@@ -162,10 +176,17 @@ public class HomePager extends BaseNoTrackPager {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, SecondPagerActivity.class);
-                intent.putExtra("from","productdetail");
+                intent.putExtra("from", "productdetail");
                 intent.putExtra("game_id", broadcastBean.getBroad().get(mLoopCount % mStringArray.size()).getGame_id());
                 context.startActivity(intent);
 
+            }
+        });
+        bt_net_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isWaiting = true;
+                initData();
             }
         });
     }
@@ -235,17 +256,21 @@ public class HomePager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         ((MainActivity) context).homeProduct = response;
                         srl_home_refresh.setRefreshing(false);
 
-                        if (response.length() > 10) {
-                            rl_keepout.setVisibility(View.GONE);
-                        } else {
-                            rl_nodata.setVisibility(View.VISIBLE);
-                            rl_neterror.setVisibility(View.GONE);
+                        if (isFirst) {
+                            if (response.length() > 10) {
+                                rl_keepout.setVisibility(View.GONE);
+                                processData(response);
+                            } else {
+                                rl_nodata.setVisibility(View.VISIBLE);
+                                rl_neterror.setVisibility(View.GONE);
+                            }
+                            isFirst = false;
                         }
+
                     }
                 });
             }
@@ -257,8 +282,11 @@ public class HomePager extends BaseNoTrackPager {
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
                         HttpUtils.getInstance().stopNetWorkWaiting();
-                        rl_nodata.setVisibility(View.GONE);
-                        rl_neterror.setVisibility(View.VISIBLE);
+                        if (isFirst) {
+                            rl_nodata.setVisibility(View.GONE);
+                            rl_neterror.setVisibility(View.VISIBLE);
+                        }
+
                     }
                 });
             }
@@ -270,8 +298,10 @@ public class HomePager extends BaseNoTrackPager {
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
                         HttpUtils.getInstance().stopNetWorkWaiting();
-                        rl_nodata.setVisibility(View.GONE);
-                        rl_neterror.setVisibility(View.VISIBLE);
+                        if (isFirst) {
+                            rl_nodata.setVisibility(View.GONE);
+                            rl_neterror.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
 
@@ -287,13 +317,36 @@ public class HomePager extends BaseNoTrackPager {
         Gson gson = new Gson();
         broadcastBean = gson.fromJson(response, BroadcastBean.class);
 
+        SpannableStringBuilder builder = null;
+        //需要变颜色的字符串
         //跑马灯数据
-        mStringArray = new ArrayList<String>();
-        for (int i = 0;i < broadcastBean.getBroad().size();i++){
-            mStringArray.add(broadcastBean.getBroad().get(i).getContent());
+        mStringArray = new ArrayList();
+        for (int i = 0; i < broadcastBean.getBroad().size(); i++) {
+            String str = broadcastBean.getBroad().get(i).getTemplate();
+            //获取内容字符串
+            String content = broadcastBean.getBroad().get(i).getContent();
+            builder = new SpannableStringBuilder(content);
+            ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.ff9c05));
+            ForegroundColorSpan blackSpan = null;
+            builder.setSpan(redSpan, 0, content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            String[] st = str.split("\\}");
+            for (int j = 0; j < st.length; j++) {
+                int begin = 0;
+                int end = 0;
+                if (st[j].contains("{")) {
+                    String[] s = st[j].split("\\{");
+                    //ForegroundColorSpan 为文字前景色，BackgroundColorSpan为文字背景色
+                    begin = content.indexOf(s[0]);
+                    end = begin + s[0].length();
+
+                }
+                blackSpan = new ForegroundColorSpan(Color.BLACK);
+                builder.setSpan(blackSpan, begin, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            mStringArray.add(builder);
         }
 
-        atv_home_marquee.setText(mStringArray.get(0) + "");
+        atv_home_marquee.setText(mStringArray.get(0));
         handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
     }
 
@@ -460,5 +513,12 @@ public class HomePager extends BaseNoTrackPager {
     public void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.sendEmptyMessageDelayed(WHAT, 5000);
+        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
     }
 }

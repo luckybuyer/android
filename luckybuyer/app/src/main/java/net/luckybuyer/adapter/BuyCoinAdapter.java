@@ -52,7 +52,13 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.tv_buyconis_coins.setText(list.get(position).getAmount() + "Coins");
+        int amount = list.get(position).getAmount();
+        if(amount == 1) {
+            holder.tv_buyconis_coins.setText(list.get(position).getAmount() + "Coin");
+        }else {
+            holder.tv_buyconis_coins.setText(list.get(position).getAmount() + "Coins");
+        }
+
         if(list.get(position).isHovered()) {
             holder.tv_buyconis_coins.setHovered(true);
         }else {

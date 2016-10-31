@@ -308,7 +308,7 @@ public class DispatchPager extends BaseNoTrackPager {
                 case R.id.rl_dispatch_participate:
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "productdetail");
-//                    intent.putExtra("batch_id", dispatchGameBean.getGame().getBatch_id());
+                    intent.putExtra("batch_id", dispatchGameBean.getGame().getBatch_id());
                     context.startActivity(intent);
                     break;
                 case R.id.tv_address_ok:

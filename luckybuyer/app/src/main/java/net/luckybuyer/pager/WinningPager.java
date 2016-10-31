@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -36,6 +37,7 @@ public class WinningPager extends BaseNoTrackPager {
     private RelativeLayout rl_keepout;
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
+    private Button bt_net_again;
 
     @Override
     public View initView() {
@@ -71,12 +73,12 @@ public class WinningPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         srl_winning.setRefreshing(false);
 
 
                         if (response.length() > 10) {
+                            processData(response);
                             rl_keepout.setVisibility(View.GONE);
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
@@ -118,10 +120,18 @@ public class WinningPager extends BaseNoTrackPager {
         rl_winning_header = (RelativeLayout) inflate.findViewById(R.id.rl_winning_header);
         rv_winning = (RecyclerView) inflate.findViewById(R.id.rv_winning);
         srl_winning = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_winning);
+        bt_net_again = (Button) inflate.findViewById(R.id.bt_net_again);
 
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        bt_net_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isNeedNetWaiting = true;
+                initData();
+            }
+        });
     }
 
     private void processData(String response) {

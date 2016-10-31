@@ -11,11 +11,11 @@
         android:id="@+id/sv_me"
         android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -37,7 +37,7 @@
                     android:layout_height="@dimen/dimen_120"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dimen_84"
-                    android:src="@drawable/mainavtivity_gift" />
+                    android:src="@drawable/default_icon" />
 
                 <ImageView
                     android:id="@+id/iv_me_voice"
@@ -148,6 +148,68 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stl_me_vpcontrol"
                 android:background="#ffffff"></net.luckybuyer.view.CustomViewPager>
+
+            <RelativeLayout
+                android:id="@+id/rl_keepout"
+                android:background="@color/f2f2f2"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/rl_me_title"
+                android:layout_alignParentBottom="true"
+                android:layout_height="match_parent">
+                <RelativeLayout
+                    android:id="@+id/rl_neterror"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/dimen_50"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_neterror"
+                        android:layout_width="@dimen/dimen_400"
+                        android:background="@drawable/default_neterror"
+                        android:layout_height="@dimen/dimen_420" />
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dimen_16"
+                        android:layout_below="@+id/iv_neterror"
+                        android:textSize="@dimen/dimen_28"
+                        android:textColor="#acabb4"
+                        android:text="Network connection error"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/bt_net_again"
+                        android:text="To request data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_nodata"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/dimen_50"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_marginLeft="@dimen/dimen_40"
+                        android:id="@+id/iv_nodata"
+                        android:layout_width="@dimen/dimen_250"
+                        android:background="@drawable/default_nodata"
+                        android:layout_height="@dimen/dimen_300" />
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/dimen_16"
+                        android:layout_below="@+id/iv_nodata"
+                        android:textSize="@dimen/dimen_28"
+                        android:textColor="#acabb4"
+                        android:text="No previous lottery data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

@@ -300,22 +300,24 @@
                             android:textSize="@dimen/dimen_24" />
 
                         <TextView
-                            android:layout_marginLeft="@dimen/dimen_280"
+
                             android:id="@+id/tv_productdetail_percent"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_32"
                             android:layout_below="@+id/pb_productdetail_progress"
                             android:layout_marginBottom="@dimen/dimen_40"
+                            android:layout_marginLeft="@dimen/dimen_280"
                             android:text="Claimed: "
                             android:textColor="#999999"
                             android:textSize="@dimen/dimen_24" />
+
                         <TextView
                             android:id="@+id/tv_productdetail_percentage"
-                            android:layout_toRightOf="@+id/tv_productdetail_percent"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_32"
                             android:layout_below="@+id/pb_productdetail_progress"
                             android:layout_marginBottom="@dimen/dimen_40"
+                            android:layout_toRightOf="@+id/tv_productdetail_percent"
                             android:text="50%"
                             android:textColor="@color/ff9c05"
                             android:textSize="@dimen/dimen_24" />
@@ -514,8 +516,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_home_header"
-        android:background="@color/f2f2f2"
-        android:visibility="gone">
+        android:background="@color/f2f2f2">
 
         <RelativeLayout
             android:id="@+id/rl_neterror"
@@ -540,6 +541,11 @@
                 android:text="Network connection error"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
+            <Button
+                android:id="@+id/bt_net_again"
+                android:text="To request data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
 
@@ -568,4 +574,6 @@
                 android:textSize="@dimen/dimen_28" />
         </RelativeLayout>
     </RelativeLayout>
+
+
 </RelativeLayout>

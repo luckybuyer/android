@@ -27,6 +27,7 @@
         android:maxLines="2"
         android:maxEms="7"
         android:ellipsize="end"
+        android:textColor="#333333"
         android:text="Magic sound headphones"
         android:layout_height="@dimen/dimen_74" />
 

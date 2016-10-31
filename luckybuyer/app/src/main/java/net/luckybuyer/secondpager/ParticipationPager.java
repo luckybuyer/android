@@ -76,10 +76,10 @@ public class ParticipationPager extends BasePager{
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        processData(response);
                         HttpUtils.getInstance().stopNetWorkWaiting();
 
                         if (response.length() > 10) {
+                            processData(response);
                             rl_keepout.setVisibility(View.GONE);
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);

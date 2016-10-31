@@ -11,12 +11,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.auth0.android.lock.errors.LoginErrorMessageBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -57,21 +59,26 @@ import java.util.Map;
  */
 public class MePager extends BaseNoTrackPager {
 
-    private RelativeLayout rl_me_title;
+    public RelativeLayout rl_me_title;
     private CircleImageView civ_me_header;
     private ImageView iv_me_voice;
     private ImageView i_me_set;                  //设置
     private TextView tv_me_name;
     private TextView tv_me_fbcode;
     private TextView tv_me_gold;
-    private CustomViewPager vp_me;
+    public CustomViewPager vp_me;
     private SlidingTabLayout stl_me_vpcontrol;
     private ScrollView sv_me;
     private View inflate;
+    private RelativeLayout rl_keepout;
+    private RelativeLayout rl_neterror;
+    private RelativeLayout rl_nodata;
+    private Button bt_net_again;
 
     private FBLikeView fb_shipping_facebook;
 
     private List vpList;
+    public RecyclerView recyclerView;
 
     @Override
     public View initView() {
@@ -87,6 +94,7 @@ public class MePager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
+
         HttpUtils.getInstance().startNetworkWaiting(context);
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
@@ -103,7 +111,14 @@ public class MePager extends BaseNoTrackPager {
                                     @Override
                                     public void run() {
                                         //我的中奖  接口(lucky)
-                                        LuckyResponse(finalToken, response);
+
+                                        if (response.length() > 10) {
+                                            rl_keepout.setVisibility(View.GONE);
+                                            LuckyResponse(finalToken, response);
+                                        } else {
+                                            rl_nodata.setVisibility(View.VISIBLE);
+                                            rl_neterror.setVisibility(View.GONE);
+                                        }
                                     }
                                 }
                         );
@@ -117,7 +132,8 @@ public class MePager extends BaseNoTrackPager {
                             @Override
                             public void run() {
                                 HttpUtils.getInstance().stopNetWorkWaiting();
-
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
                             }
                         });
                     }
@@ -125,6 +141,8 @@ public class MePager extends BaseNoTrackPager {
                     @Override
                     public void failure(Exception exception) {
                         HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
                     }
                 }
 
@@ -143,13 +161,15 @@ public class MePager extends BaseNoTrackPager {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        processData(res, response);
-                                        try {
-                                            Thread.sleep(500);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
                                         HttpUtils.getInstance().stopNetWorkWaiting();
+                                        if (response.length() > 10) {
+                                            rl_keepout.setVisibility(View.GONE);
+                                            processData(res, response);
+                                        } else {
+                                            rl_nodata.setVisibility(View.VISIBLE);
+                                            rl_neterror.setVisibility(View.GONE);
+                                        }
+
                                     }
                                 }
                         );
@@ -163,6 +183,8 @@ public class MePager extends BaseNoTrackPager {
                             @Override
                             public void run() {
                                 HttpUtils.getInstance().stopNetWorkWaiting();
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
 
                             }
                         });
@@ -174,6 +196,8 @@ public class MePager extends BaseNoTrackPager {
                             @Override
                             public void run() {
                                 HttpUtils.getInstance().stopNetWorkWaiting();
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
 
                             }
                         });
@@ -206,7 +230,7 @@ public class MePager extends BaseNoTrackPager {
         vpList.add(view);
 
         //加载lucky界面
-        RecyclerView recyclerView = new RecyclerView(context);
+        recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
@@ -233,11 +257,16 @@ public class MePager extends BaseNoTrackPager {
         stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
         fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
         sv_me = (ScrollView) inflate.findViewById(R.id.sv_me);
+        rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
+        rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
+        rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        bt_net_again = (Button) inflate.findViewById(R.id.bt_net_again);
 
 
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
         tv_me_gold.setOnClickListener(new MyOnClickListener());
+        bt_net_again.setOnClickListener(new MyOnClickListener());
     }
 
     private void setView() {
@@ -276,6 +305,9 @@ public class MePager extends BaseNoTrackPager {
                     intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "coindetailpager");
                     startActivity(intent);
+                    break;
+                case R.id.bt_net_again:
+                    initData();
                     break;
             }
         }

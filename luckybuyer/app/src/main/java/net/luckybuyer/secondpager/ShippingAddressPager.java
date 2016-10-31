@@ -120,6 +120,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.iv_shipping_back:
+                    Log.e("TAG", ((SecondPagerActivity) context).from + "");
                     if("setpager".equals(((SecondPagerActivity) context).from)) {
                         ((SecondPagerActivity)context).switchPage(4);
                     }else if("dispatchpager".equals(((SecondPagerActivity) context).from)) {

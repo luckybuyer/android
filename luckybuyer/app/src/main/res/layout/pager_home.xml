@@ -11,13 +11,13 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_while">
 
-        <TextView
-            android:layout_width="@dimen/dimen_268"
-            android:layout_height="@dimen/dimen_46"
+        <ImageView
+            android:layout_width="@dimen/dimen_250"
+            android:layout_height="@dimen/dimen_30"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_20"
-            android:layout_marginTop="@dimen/dimen_10"
-            android:text="LUCKYBUYER"
+            android:layout_marginTop="@dimen/dimen_25"
+            android:background="@drawable/home_luckybuy"
             android:textSize="@dimen/dimen_38" />
 
         <TextView
@@ -105,7 +105,7 @@
                         android:background="@color/bg_while"
                         android:gravity="center"
                         android:text="iphone plus"
-                        android:textColor="@color/text_buy"
+                        android:textColor="@color/ff9c05"
                         auto3d:textSize="@dimen/dimen_12" />
 
                     <ImageView
@@ -170,12 +170,14 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_160"
-            android:visibility="gone">
+            android:visibility="gone"
+            >
 
             <ImageView
                 android:id="@+id/iv_neterror"
                 android:layout_width="@dimen/dimen_400"
                 android:layout_height="@dimen/dimen_420"
+                android:visibility="gone"
                 android:background="@drawable/default_neterror" />
 
             <TextView
@@ -187,10 +189,16 @@
                 android:text="Network connection error"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
+            <Button
+                android:id="@+id/bt_net_again"
+                android:text="To request data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
 
         <RelativeLayout
+
             android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

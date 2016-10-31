@@ -140,6 +140,7 @@ public class SecondPagerActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_secondpager, fragment);
+//        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
