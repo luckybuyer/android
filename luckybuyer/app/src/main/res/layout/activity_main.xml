@@ -12,11 +12,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:background="@drawable/default_shadow_top"
+        android:layout_height="3px" />
 
     <RadioGroup
         android:id="@+id/rg_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_98"
         android:layout_alignParentBottom="true"
         android:background="#eeffffff"
         android:gravity="center"
@@ -28,45 +32,53 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_6"
-            android:drawableTop="@drawable/mainavtivity_me"
+            android:drawablePadding="@dimen/dimen_2"
+            android:drawableTop="@drawable/selector_home"
             android:gravity="center"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:textSize="@dimen/dimen_22"
             android:paddingTop="@dimen/dimen_8"
             android:text="Home" />
 
         <RadioButton
-            android:id="@+id/rb_main_recharge"
+            android:textSize="@dimen/dimen_22"
+            android:id="@+id/rb_main_buycoins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_6"
-            android:drawableTop="@drawable/mainavtivity_recharge"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:drawablePadding="@dimen/dimen_2"
+            android:drawableTop="@drawable/selector_buycoins"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
             android:text="Buy Coins" />
 
         <RadioButton
-            android:id="@+id/rb_main_gift"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:textSize="@dimen/dimen_22"
+            android:id="@+id/rb_main_newresult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_6"
-            android:drawableTop="@drawable/mainavtivity_gift"
+            android:drawablePadding="@dimen/dimen_2"
+            android:drawableTop="@drawable/selector__newresult"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
             android:text="New Result" />
 
 
         <RadioButton
-            android:id="@+id/rb_main_live"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:textSize="@dimen/dimen_22"
+            android:id="@+id/rb_main_me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawablePadding="@dimen/dimen_6"
-            android:drawableTop="@drawable/mainavtivity_me"
+            android:drawablePadding="@dimen/dimen_2"
+            android:drawableTop="@drawable/selector_me"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
             android:text="My Account" />

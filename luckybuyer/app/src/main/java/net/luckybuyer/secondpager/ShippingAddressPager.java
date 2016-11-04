@@ -40,6 +40,12 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     private TextView tv_shipping_back;
     private TextView tv_shipping_newadd;
     private RecyclerView rv_shipping_address;
+
+    private RelativeLayout rl_keepout;                     //联网
+    private RelativeLayout rl_neterror;
+    private RelativeLayout rl_nodata;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
     private View inflate;
 
 
@@ -48,13 +54,17 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         inflate = View.inflate(context, R.layout.pager_shipping, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         findView();
-        setHeadMargin();
         return inflate;
     }
 
     @Override
     public void initData() {
         super.initData();
+        rl_keepout.setVisibility(View.VISIBLE);
+        rl_nodata.setVisibility(View.GONE);
+        rl_neterror.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.VISIBLE);
+
         String MyBuyUrl = MyApplication.url + "/v1/addresses/?per_page=20&page=1&timezone=" + MyApplication.utc;
         String token = Utils.getSpData("token", context);
         Map map = new HashMap<String, String>();
@@ -68,6 +78,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                                 new Runnable() {
                                     @Override
                                     public void run() {
+                                        rl_keepout.setVisibility(View.GONE);
                                         processData(response);
                                     }
                                 }
@@ -76,12 +87,16 @@ public class ShippingAddressPager extends BaseNoTrackPager {
 
                     @Override
                     public void error(int requestCode, String message) {
-
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void failure(Exception exception) {
-
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 }
 
@@ -95,12 +110,18 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         tv_shipping_newadd = (TextView) inflate.findViewById(R.id.tv_shipping_newadd);
         rv_shipping_address = (RecyclerView) inflate.findViewById(R.id.rv_shipping_address);
 
+        rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
+        rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
+        rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+
         iv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_newadd.setOnClickListener(new MyOnClickListener());
     }
 
-    private void processData(String response){
+    private void processData(String response) {
         Gson gson = new Gson();
         response = "{\"shipping\":" + response + "}";
         ShippingAddressBean shippingAddressBean = gson.fromJson(response, ShippingAddressBean.class);
@@ -121,48 +142,25 @@ public class ShippingAddressPager extends BaseNoTrackPager {
             switch (view.getId()) {
                 case R.id.iv_shipping_back:
                     Log.e("TAG", ((SecondPagerActivity) context).from + "");
-                    if("setpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity)context).switchPage(4);
-                    }else if("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity)context).switchPage(7);
+                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).switchPage(4);
+                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).switchPage(7);
                     }
                     break;
                 case R.id.tv_shipping_back:
-                    if("setpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity)context).switchPage(4);
-                    }else if("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity)context).switchPage(7);
+                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).switchPage(4);
+                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).switchPage(7);
                     }
                     break;
                 case R.id.tv_shipping_newadd:
-                    ((SecondPagerActivity)context).switchPage(8);
-                    ((SecondPagerActivity)context).from = "shippingaddress";
+                    ((SecondPagerActivity) context).switchPage(8);
+                    ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
             }
         }
     }
 
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        Log.e("TAG", sbar + "");
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
-        lp.topMargin = sbar;
-        rl_shipping_header.setLayoutParams(lp);
-
-    }
 }

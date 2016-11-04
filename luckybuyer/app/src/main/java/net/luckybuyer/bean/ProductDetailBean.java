@@ -27,6 +27,16 @@ public class ProductDetailBean {
      * url : string
      */
 
+    private int shares_increment;
+
+    public int getShares_increment() {
+        return shares_increment;
+    }
+
+    public void setShares_increment(int shares_increment) {
+        this.shares_increment = shares_increment;
+    }
+
     private String _resource;
     private String closed_at;
     private String finished_at;

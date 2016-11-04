@@ -1,8 +1,6 @@
 package net.luckybuyer.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +11,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,20 +21,16 @@ import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.app.MyApplication;
-import net.luckybuyer.bean.PreviousWinnerBean;
-import net.luckybuyer.bean.ShippingAddressBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
 import net.luckybuyer.secondpager.AddAddressPager;
 import net.luckybuyer.secondpager.BuyCoinPager;
 import net.luckybuyer.secondpager.CoinDetailPager;
 import net.luckybuyer.secondpager.DispatchPager;
-import net.luckybuyer.secondpager.ParticipationPager;
 import net.luckybuyer.secondpager.PreviousWinnersPager;
 import net.luckybuyer.secondpager.ProductDetailPager;
 import net.luckybuyer.secondpager.ProductInformationPager;
@@ -64,6 +59,8 @@ public class SecondPagerActivity extends FragmentActivity {
 
     public int dispatch_game_id;
 
+    public int address_id;                 //进入addaddresspager页面   标记表明是增加地址还是修改
+
     //需要去哪
     public String from;
 
@@ -75,12 +72,16 @@ public class SecondPagerActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //沉浸式状态栏
-        new StatusBarUtils(this).statusBar();
+//        new StatusBarUtils(this).statusBar();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //透明导航栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_second_pager);
 
         //auth0登陆
         Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
+                .closable(true)
                 // Add parameters to the Lock Builder
                 .build();
         this.lock.onCreate(this);
@@ -88,6 +89,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
         batch_id = getIntent().getIntExtra("batch_id", -1);
         game_id = getIntent().getIntExtra("game_id", -1);
+        address_id = getIntent().getIntExtra("address_id",-1);
 
         dispatch_game_id = getIntent().getIntExtra("dispatch_game_id", -1);
 

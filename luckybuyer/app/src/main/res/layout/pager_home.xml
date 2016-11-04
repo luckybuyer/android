@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/rl_home_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_128"
         android:background="@color/bg_while">
 
         <ImageView
@@ -16,7 +16,7 @@
             android:layout_height="@dimen/dimen_30"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_20"
-            android:layout_marginTop="@dimen/dimen_25"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/home_luckybuy"
             android:textSize="@dimen/dimen_38" />
 
@@ -31,6 +31,11 @@
             android:layout_marginTop="@dimen/dimen_14"
             android:gravity="center"
             android:textColor="@color/text_black" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/default_shadow_top"
+            android:layout_height="3px" />
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -85,22 +90,22 @@
                         android:id="@+id/iv_home_broadcast"
                         android:layout_width="@dimen/dimen_32"
                         android:layout_height="@dimen/dimen_32"
-                        android:layout_marginTop="@dimen/dimen_30"
                         android:layout_below="@+id/view_home"
                         android:layout_centerVertical="true"
                         android:layout_marginBottom="@dimen/dimen_16"
                         android:layout_marginLeft="@dimen/dimen_50"
+                        android:layout_marginTop="@dimen/dimen_30"
                         android:background="@drawable/home_broadcast" />
 
-                    <net.luckybuyer.view.AutoTextView
-                        android:layout_marginTop="@dimen/dimen_30"
-                        android:layout_below="@+id/view_home"
+                    <net.luckybuyer.view.AutoTextHomeView
                         android:id="@+id/atv_home_marquee"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_36"
+                        android:layout_below="@+id/view_home"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dimen_16"
                         android:layout_marginRight="@dimen/dimen_80"
+                        android:layout_marginTop="@dimen/dimen_30"
                         android:layout_toRightOf="@+id/iv_home_broadcast"
                         android:background="@color/bg_while"
                         android:gravity="center"
@@ -165,6 +170,27 @@
         android:background="@color/f2f2f2">
 
         <RelativeLayout
+            android:id="@+id/rl_loading"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content">
+            <ProgressBar
+                android:id="@+id/pb_loading"
+                android:layout_width="@dimen/dimen_60"
+                android:layout_height="@dimen/dimen_60" />
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dimen_8"
+                android:layout_toRightOf="@+id/pb_loading"
+                android:layout_width="wrap_content"
+                android:textColor="#000000"
+                android:text="Wait..."
+                android:textSize="@dimen/dimen_32"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/rl_neterror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -177,7 +203,6 @@
                 android:id="@+id/iv_neterror"
                 android:layout_width="@dimen/dimen_400"
                 android:layout_height="@dimen/dimen_420"
-                android:visibility="gone"
                 android:background="@drawable/default_neterror" />
 
             <TextView
@@ -189,16 +214,27 @@
                 android:text="Network connection error"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
-            <Button
-                android:id="@+id/bt_net_again"
-                android:text="To request data"
+
+            <TextView
+                android:id="@+id/tv_net_again"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_neterror"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_80"
+                android:background="@drawable/shape_radius_4pxoragne"
+                android:paddingBottom="@dimen/dimen_12"
+                android:paddingLeft="@dimen/dimen_18"
+                android:paddingRight="@dimen/dimen_18"
+                android:paddingTop="@dimen/dimen_12"
+                android:text="To request data"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
 
 
         <RelativeLayout
-
+            android:visibility="gone"
             android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

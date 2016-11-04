@@ -2,17 +2,24 @@ package net.luckybuyer.secondpager;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewDebug;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -55,7 +62,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private static PayPalConfiguration config = new PayPalConfiguration()
             // 沙盒测试(ENVIRONMENT_SANDBOX)，生产环境(ENVIRONMENT_PRODUCTION)
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
-            .merchantName("Example Merchant")
+            .merchantName("nihao")
             //你创建的测试应用Client ID  
             .clientId("AfRWBJE7IMMtA0PeZ-fNA4VNKHQ96OzEi8zQhWiU62isFIK7u839fulj1HlwC1xQrl0PB3S4Sxfv-v_v");
 
@@ -64,7 +71,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private ImageView iv_buycoins_back;
     private TextView tv_buycoins_back;
     private TextView tv_buycoins_balance;
-    private TextView tv_buycoins_rate;
     private TextView tv_buycoins_count;
     private TextView tv_buycoins_buy;
     private View inflate;
@@ -73,7 +79,16 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     private ImageView iv_buycoins_paypal;
     private ImageView iv_buycoins_cashu;
+    private RelativeLayout rl_buycoins_cashu;
+    private RelativeLayout rl_buycoins_paypal;
     private boolean flag;
+    private RelativeLayout rl_buycoins_ok;
+
+    private RelativeLayout rl_keepout;                     //联网
+    private RelativeLayout rl_neterror;
+    private RelativeLayout rl_nodata;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
 
     @Override
     public View initView() {
@@ -87,13 +102,12 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
 
         findView();
-        setHeadMargin();
-        HttpUtils.getInstance().startNetworkWaiting(context);
 
         //paypal支付
         Intent intent = new Intent(context, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         context.startService(intent);
+        iv_buycoins_paypal.setVisibility(View.VISIBLE);
         iv_buycoins_paypal.setHovered(true);
         return inflate;
     }
@@ -101,6 +115,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
+        rl_keepout.setVisibility(View.VISIBLE);
+        rl_nodata.setVisibility(View.GONE);
+        rl_neterror.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.VISIBLE);
+
         String url = MyApplication.url + "/v1/topup-options/?per_page=20&page=1&timezone=" + MyApplication.utc;
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
@@ -108,8 +127,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
                         processData(response);
+                        rl_keepout.setVisibility(View.GONE);
+                        StartAlertDialog();
                     }
                 });
             }
@@ -119,7 +139,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 });
             }
@@ -129,7 +151,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 });
 
@@ -143,21 +167,31 @@ public class BuyCoinPager extends BaseNoTrackPager {
         iv_buycoins_back = (ImageView) inflate.findViewById(R.id.iv_buycoins_back);
         tv_buycoins_back = (TextView) inflate.findViewById(R.id.tv_buycoins_back);
         tv_buycoins_balance = (TextView) inflate.findViewById(R.id.tv_buycoins_balance);
-        tv_buycoins_rate = (TextView) inflate.findViewById(R.id.tv_buycoins_rate);
         tv_buycoins_count = (TextView) inflate.findViewById(R.id.tv_buycoins_count);
         tv_buycoins_buy = (TextView) inflate.findViewById(R.id.tv_buycoins_buy);
         rv_buycoins = (RecyclerView) inflate.findViewById(R.id.rv_buycoins);
 
         iv_buycoins_paypal = (ImageView) inflate.findViewById(R.id.iv_buycoins_paypal);
         iv_buycoins_cashu = (ImageView) inflate.findViewById(R.id.iv_buycoins_cashu);
+        rl_buycoins_cashu = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_cashu);
+        rl_buycoins_paypal = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_paypal);
+
         wv_payssion = (WebView) inflate.findViewById(R.id.wv_payssion);
+
+        rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
+        rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
+        rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+
 
         //设置监听
         iv_buycoins_back.setOnClickListener(new MyOnClickListener());
         tv_buycoins_back.setOnClickListener(new MyOnClickListener());
         tv_buycoins_buy.setOnClickListener(new MyOnClickListener());
-        iv_buycoins_paypal.setOnClickListener(new MyOnClickListener());
-        iv_buycoins_cashu.setOnClickListener(new MyOnClickListener());
+        rl_buycoins_cashu.setOnClickListener(new MyOnClickListener());
+        rl_buycoins_paypal.setOnClickListener(new MyOnClickListener());
+        tv_net_again.setOnClickListener(new MyOnClickListener());
 
         if (!flag) {
             iv_buycoins_back.setVisibility(View.GONE);
@@ -186,10 +220,15 @@ public class BuyCoinPager extends BaseNoTrackPager {
         rv_buycoins.setAdapter(buyCoinAdapter);
         rv_buycoins.setLayoutManager(new GridLayoutManager(context, 2));
 
-        double coins = buyCoinBean.getBuycoins().get(0).getAmount() * 3.6726;
-        coins = ((int) (coins * 100)) / 100;
-        tv_buycoins_balance.setText("Coins balance: " + Utils.getSpData("balance", context));
-        tv_buycoins_count.setText("Total:" + buyCoinBean.getBuycoins().get(0).getAmount() + "≈" + coins + "AED");
+//        double coins = buyCoinBean.getBuycoins().get(0).getAmount() * 3.6726;                                汇率
+//        coins = ((int) (coins * 100)) / 100;
+        tv_buycoins_balance.setText(Utils.getSpData("balance", context));
+        if(buyCoinBean.getBuycoins().get(0).getAmount() == 1) {
+            tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(0).getAmount() + " coin = " +buyCoinBean.getBuycoins().get(0).getPrice()+ " USD");
+        }else {
+            tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(0).getAmount() + " coins = " +buyCoinBean.getBuycoins().get(0).getPrice()+ " USD");
+        }
+
         money = buyCoinBean.getBuycoins().get(0).getPrice();
         topup_option_id = buyCoinBean.getBuycoins().get(0).getId();
         buyCoinAdapter.setBuyCoinOnClickListener(new BuyCoinAdapter.BuyCoinOnClickListener() {
@@ -197,7 +236,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
             public void onClick(View view, int position) {
                 double coins = buyCoinBean.getBuycoins().get(position).getAmount() * 3.6726;
                 coins = ((int) (coins * 100)) / 100;
-                tv_buycoins_count.setText("Total:" + buyCoinBean.getBuycoins().get(position).getAmount() + "≈" + coins + "AED");
+                if(buyCoinBean.getBuycoins().get(position).getAmount() == 1) {
+                    tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(position).getAmount() + " coin = " +buyCoinBean.getBuycoins().get(position).getPrice()+ " USD");
+                }else {
+                    tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(position).getAmount() + " coins = " +buyCoinBean.getBuycoins().get(position).getPrice()+ " USD");
+                }
                 money = buyCoinBean.getBuycoins().get(position).getPrice();
                 topup_option_id = buyCoinBean.getBuycoins().get(position).getId();
             }
@@ -243,13 +286,25 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         }
                     }
                     break;
-                case R.id.iv_buycoins_cashu:
+                case R.id.rl_buycoins_cashu:
+                    iv_buycoins_cashu.setVisibility(View.VISIBLE);
+                    iv_buycoins_paypal.setVisibility(View.GONE);
                     iv_buycoins_cashu.setHovered(true);
                     iv_buycoins_paypal.setHovered(false);
                     break;
-                case R.id.iv_buycoins_paypal:
+                case R.id.rl_buycoins_paypal:
                     iv_buycoins_cashu.setHovered(false);
                     iv_buycoins_paypal.setHovered(true);
+                    iv_buycoins_cashu.setVisibility(View.GONE);
+                    iv_buycoins_paypal.setVisibility(View.VISIBLE);
+                    break;
+                case R.id.rl_buycoins_ok:
+                    if(show.isShowing()) {
+                        show.dismiss();
+                    }
+                    break;
+                case R.id.tv_net_again:
+                    initData();
                     break;
             }
         }
@@ -322,6 +377,28 @@ public class BuyCoinPager extends BaseNoTrackPager {
     }
 
 
+    public AlertDialog show;
+    private void StartAlertDialog() {
+        //得到屏幕的 尺寸 动态设置
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        int screenHeight = wm.getDefaultDisplay().getHeight();
+        View view = View.inflate(context,R.layout.alertdialog_buycoins,null);
+        rl_buycoins_ok = (RelativeLayout) view.findViewById(R.id.rl_buycoins_ok);
+        rl_buycoins_ok.setOnClickListener(new MyOnClickListener());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+        show = builder.show();
+        show.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = show.getWindow();
+        window.setGravity(Gravity.CENTER);
+        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
@@ -350,28 +427,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
     public void onDestroy() {
         super.onDestroy();
         context.stopService(new Intent(context, PayPalService.class));
-    }
-
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
-        lp.topMargin = sbar;
-        rl_buycoins_header.setLayoutParams(lp);
     }
 
 }

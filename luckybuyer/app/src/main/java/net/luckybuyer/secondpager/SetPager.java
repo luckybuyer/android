@@ -40,7 +40,6 @@ public class SetPager extends BasePager {
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         ((SecondPagerActivity) context).from = "";
         findView();
-        setHeadMargin();
         return inflate;
     }
 
@@ -102,26 +101,4 @@ public class SetPager extends BasePager {
         }
     }
 
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        Log.e("TAG", sbar + "");
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lp.topMargin = sbar;
-        rl_set_header.setLayoutParams(lp);
-    }
 }

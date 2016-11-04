@@ -44,24 +44,28 @@ public class ParticipationPager extends BasePager{
     private RecyclerView rv_participation;
     private View inflate;
 
-    //网络连接错误 与没有数据
-    private RelativeLayout rl_keepout;
+    private RelativeLayout rl_keepout;                     //联网
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
 
 
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_participation, null);
         findView();
-        setHeadMargin();
         return inflate;
     }
 
     @Override
     public void initData() {
         super.initData();
-        HttpUtils.getInstance().startNetworkWaiting(context);
+        rl_keepout.setVisibility(View.VISIBLE);
+        rl_nodata.setVisibility(View.GONE);
+        rl_neterror.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.VISIBLE);
+
         int user_id = ((ThirdPagerActivity)context).user_id;
         String url = null;
         if(user_id == -1) {
@@ -77,14 +81,8 @@ public class ParticipationPager extends BasePager{
                     @Override
                     public void run() {
                         HttpUtils.getInstance().stopNetWorkWaiting();
-
-                        if (response.length() > 10) {
+                        rl_keepout.setVisibility(View.GONE);
                             processData(response);
-                            rl_keepout.setVisibility(View.GONE);
-                        } else {
-                            rl_nodata.setVisibility(View.VISIBLE);
-                            rl_neterror.setVisibility(View.GONE);
-                        }
                     }
                 });
             }
@@ -94,11 +92,9 @@ public class ParticipationPager extends BasePager{
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
-                        Log.e("TAG_request", requestCode + message);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 });
             }
@@ -109,11 +105,9 @@ public class ParticipationPager extends BasePager{
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
-                        Log.e("TAG_request", exception.toString());
+                        rl_loading.setVisibility(View.GONE);
                     }
                 });
 
@@ -152,12 +146,15 @@ public class ParticipationPager extends BasePager{
         tv_participation_period = (TextView) inflate.findViewById(R.id.tv_participation_period);
         rv_participation = (RecyclerView) inflate.findViewById(R.id.rv_participation);
 
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        rl_loading= (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
 
         iv_participation_back.setOnClickListener(new MyOnClickListener());
         tv_participation_back.setOnClickListener(new MyOnClickListener());
+        tv_net_again.setOnClickListener(new MyOnClickListener());
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -170,29 +167,10 @@ public class ParticipationPager extends BasePager{
                 case R.id.tv_participation_back:
                     ((ThirdPagerActivity)context).finish();
                     break;
+                case R.id.tv_net_again:
+                    initData();
+                    break;
             }
         }
-    }
-
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
-        lp.topMargin = sbar;
-        rl_paricipation_header.setLayoutParams(lp);
     }
 }

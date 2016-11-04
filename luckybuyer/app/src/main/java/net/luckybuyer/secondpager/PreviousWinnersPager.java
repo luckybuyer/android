@@ -37,17 +37,25 @@ public class PreviousWinnersPager extends BasePager {
     private RecyclerView rv_previous;
     private View inflate;
 
+    private RelativeLayout rl_keepout;                     //联网
+    private RelativeLayout rl_neterror;
+    private RelativeLayout rl_nodata;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
+
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_previouswinner, null);
         findView();
-        setHeadMargin();
         return inflate;
     }
     @Override
     public void initData() {
         super.initData();
-        HttpUtils.getInstance().startNetworkWaiting(context);
+        rl_keepout.setVisibility(View.VISIBLE);
+        rl_nodata.setVisibility(View.GONE);
+        rl_neterror.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.VISIBLE);
         String url = MyApplication.url + "/v1/games/?status=finished&batch_id="+ ((ThirdPagerActivity)context).batch_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
@@ -56,9 +64,7 @@ public class PreviousWinnersPager extends BasePager {
                     @Override
                     public void run() {
                         processData(response);
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-//                        ((MainActivity) context).homeProduct = response;
-//                        srl_home_refresh.setRefreshing(false);
+                        rl_keepout.setVisibility(View.GONE);
                     }
                 });
             }
@@ -68,8 +74,9 @@ public class PreviousWinnersPager extends BasePager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-                        Utils.MyToast(context, "网络连接错误，请检查网络");
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);;
                     }
                 });
             }
@@ -79,8 +86,9 @@ public class PreviousWinnersPager extends BasePager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-                        Utils.MyToast(context, "网络连接错误，请检查网络");
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 });
 
@@ -109,6 +117,20 @@ public class PreviousWinnersPager extends BasePager {
         tv_previous_back = (TextView) inflate.findViewById(R.id.tv_previous_back);
         rv_previous = (RecyclerView) inflate.findViewById(R.id.rv_previous);
         rl_previous_header = (RelativeLayout) inflate.findViewById(R.id.rl_previous_header);
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        rl_loading= (RelativeLayout) inflate.findViewById(R.id.rl_loading);
+        rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
+        rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
+        rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+
+        tv_net_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initData();
+            }
+        });
 
         iv_previous_back.setOnClickListener(new MyOnClickListener());
         tv_previous_back.setOnClickListener(new MyOnClickListener());
@@ -129,26 +151,4 @@ public class PreviousWinnersPager extends BasePager {
         }
     }
 
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        Log.e("TAG", sbar + "");
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
-        lp.topMargin = sbar;
-        rl_previous_header.setLayoutParams(lp);
-    }
 }

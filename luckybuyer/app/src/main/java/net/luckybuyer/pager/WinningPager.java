@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -37,13 +38,13 @@ public class WinningPager extends BaseNoTrackPager {
     private RelativeLayout rl_keepout;
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
-    private Button bt_net_again;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
 
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_winning, null);
         findView();
-        setHeadMargin();
         srl_winning.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -60,7 +61,10 @@ public class WinningPager extends BaseNoTrackPager {
         super.initData();
 
         if (isNeedNetWaiting) {
-            HttpUtils.getInstance().startNetworkWaiting(context);
+            rl_keepout.setVisibility(View.VISIBLE);
+            rl_neterror.setVisibility(View.GONE);
+            rl_nodata.setVisibility(View.GONE);
+            rl_loading.setVisibility(View.VISIBLE);
             isNeedNetWaiting = false;
         } else {
             srl_winning.setRefreshing(true);
@@ -73,7 +77,6 @@ public class WinningPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
                         srl_winning.setRefreshing(false);
 
 
@@ -94,9 +97,9 @@ public class WinningPager extends BaseNoTrackPager {
                     @Override
                     public void run() {
                         srl_winning.setRefreshing(false);
-                        HttpUtils.getInstance().stopNetWorkWaiting();
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 });
             }
@@ -109,7 +112,7 @@ public class WinningPager extends BaseNoTrackPager {
                         srl_winning.setRefreshing(false);
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
-                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_loading.setVisibility(View.GONE);
                     }
                 });
             }
@@ -120,12 +123,13 @@ public class WinningPager extends BaseNoTrackPager {
         rl_winning_header = (RelativeLayout) inflate.findViewById(R.id.rl_winning_header);
         rv_winning = (RecyclerView) inflate.findViewById(R.id.rv_winning);
         srl_winning = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_winning);
-        bt_net_again = (Button) inflate.findViewById(R.id.bt_net_again);
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
 
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
-        bt_net_again.setOnClickListener(new View.OnClickListener() {
+        rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
+        tv_net_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isNeedNetWaiting = true;
@@ -142,25 +146,4 @@ public class WinningPager extends BaseNoTrackPager {
         rv_winning.setLayoutManager(new GridLayoutManager(context, 1));
     }
 
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lp.topMargin = sbar;
-        rl_winning_header.setLayoutParams(lp);
-    }
 }

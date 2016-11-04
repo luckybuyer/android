@@ -14,7 +14,7 @@
             <RelativeLayout
                 android:id="@+id/rl_addaddress_header"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_78"
+                android:layout_height="@dimen/dimen_128"
                 android:background="@color/bg_while">
 
                 <TextView
@@ -23,7 +23,7 @@
                     android:layout_height="@dimen/dimen_46"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/dimen_18"
-                    android:layout_marginTop="@dimen/dimen_2"
+                    android:layout_marginTop="@dimen/dimen_52"
                     android:gravity="center"
                     android:text="Add Address"
                     android:textColor="@color/text_black"
@@ -37,7 +37,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/dimen_24"
                     android:layout_marginRight="@dimen/dimen_24"
-                    android:layout_marginTop="@dimen/dimen_7"
+                    android:layout_marginTop="@dimen/dimen_57"
                     android:gravity="center"
                     android:text="Save"
                     android:textColor="@color/selecotr_addaddress_save_textcolor"
@@ -49,7 +49,7 @@
                     android:layout_height="@dimen/dimen_36"
                     android:layout_marginBottom="@dimen/dimen_24"
                     android:layout_marginLeft="@dimen/dimen_24"
-                    android:layout_marginTop="@dimen/dimen_16"
+                    android:layout_marginTop="@dimen/dimen_66"
                     android:background="@drawable/go_back" />
 
                 <TextView
@@ -64,11 +64,11 @@
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/dimen_28" />
 
-                <View
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
+                    android:layout_height="3px"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/bg_view"></View>
+                    android:background="@drawable/default_shadow_top"></ImageView>
             </RelativeLayout>
 
             <RelativeLayout

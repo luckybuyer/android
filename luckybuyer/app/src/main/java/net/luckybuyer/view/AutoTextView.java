@@ -3,7 +3,9 @@ package net.luckybuyer.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Camera;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -35,7 +37,7 @@ public class AutoTextView extends TextSwitcher implements ViewFactory {
     public AutoTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.auto3d);
-        mHeight = a.getDimension(R.styleable.auto3d_textSize, 36);
+        mHeight = a.getDimension(R.styleable.auto3d_textSize, 18);
         a.recycle();
         mContext = context;
         init();
@@ -69,6 +71,9 @@ public class AutoTextView extends TextSwitcher implements ViewFactory {
         t.setGravity(Gravity.CENTER);
         t.setTextSize(mHeight);
         t.setSingleLine(true);
+        t.setEllipsize(TextUtils.TruncateAt.END);
+        t.setBackgroundResource(R.drawable.shape_radius_40a);
+        t.setPadding(10,0,5,8);
         return t;
     }
 

@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.Target;
 import net.luckybuyer.R;
 import net.luckybuyer.bean.GameProductBean;
 
+import java.util.IdentityHashMap;
 import java.util.List;
 
 /**
@@ -64,10 +65,12 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
                 holder.iv_product_icon.setImageBitmap(resource);
             }
         });
-//        Glide.with(context).load("http:" + list.get(position).getProduct().getDetail_image()).into(holder.iv_product_icon);
-//        holder.iv_product_icon.setBackgroundResource(R.drawable.mainavtivity_gift);
 
-
+        if(list.get(position).getShares_increment() == 5) {
+            holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_5);
+        }else if(list.get(position).getShares_increment() == 10) {
+            holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_10);
+        }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +100,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         private ImageView iv_product_icon;
         private TextView tv_home_percentage;
         private View view;
+        private ImageView iv_product_increment;
         public ViewHolder(View view) {
             super(view);
             this.view = view;
@@ -105,6 +109,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             pb_product_progress = (ProgressBar) view.findViewById(R.id.pb_product_progress);
             iv_product_icon = (ImageView) view.findViewById(R.id.iv_product_icon);
             tv_home_percentage = (TextView) view.findViewById(R.id.tv_home_percentage);
+            iv_product_increment = (ImageView) view.findViewById(R.id.iv_product_increment);
         }
     }
 }

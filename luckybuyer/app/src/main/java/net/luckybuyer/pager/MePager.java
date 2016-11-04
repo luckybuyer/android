@@ -70,10 +70,13 @@ public class MePager extends BaseNoTrackPager {
     private SlidingTabLayout stl_me_vpcontrol;
     private ScrollView sv_me;
     private View inflate;
+
+
     private RelativeLayout rl_keepout;
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
-    private Button bt_net_again;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
 
     private FBLikeView fb_shipping_facebook;
 
@@ -94,8 +97,11 @@ public class MePager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
+        rl_keepout.setVisibility(View.VISIBLE);
+        rl_nodata.setVisibility(View.GONE);
+        rl_neterror.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.VISIBLE);
 
-        HttpUtils.getInstance().startNetworkWaiting(context);
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
@@ -113,11 +119,7 @@ public class MePager extends BaseNoTrackPager {
                                         //我的中奖  接口(lucky)
 
                                         if (response.length() > 10) {
-                                            rl_keepout.setVisibility(View.GONE);
                                             LuckyResponse(finalToken, response);
-                                        } else {
-                                            rl_nodata.setVisibility(View.VISIBLE);
-                                            rl_neterror.setVisibility(View.GONE);
                                         }
                                     }
                                 }
@@ -131,18 +133,18 @@ public class MePager extends BaseNoTrackPager {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpUtils.getInstance().stopNetWorkWaiting();
-                                rl_nodata.setVisibility(View.GONE);
-                                rl_neterror.setVisibility(View.VISIBLE);
+                                rl_nodata.setVisibility(View.VISIBLE);
+                                rl_neterror.setVisibility(View.GONE);
+                                rl_loading.setVisibility(View.GONE);
                             }
                         });
                     }
 
                     @Override
                     public void failure(Exception exception) {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-                        rl_nodata.setVisibility(View.GONE);
-                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_nodata.setVisibility(View.VISIBLE);
+                        rl_neterror.setVisibility(View.GONE);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 }
 
@@ -161,13 +163,13 @@ public class MePager extends BaseNoTrackPager {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        HttpUtils.getInstance().stopNetWorkWaiting();
                                         if (response.length() > 10) {
                                             rl_keepout.setVisibility(View.GONE);
                                             processData(res, response);
                                         } else {
                                             rl_nodata.setVisibility(View.VISIBLE);
                                             rl_neterror.setVisibility(View.GONE);
+                                            rl_loading.setVisibility(View.GONE);
                                         }
 
                                     }
@@ -185,6 +187,7 @@ public class MePager extends BaseNoTrackPager {
                                 HttpUtils.getInstance().stopNetWorkWaiting();
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
+                                rl_loading.setVisibility(View.GONE);
 
                             }
                         });
@@ -198,6 +201,7 @@ public class MePager extends BaseNoTrackPager {
                                 HttpUtils.getInstance().stopNetWorkWaiting();
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
+                                rl_loading.setVisibility(View.GONE);
 
                             }
                         });
@@ -260,13 +264,14 @@ public class MePager extends BaseNoTrackPager {
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
-        bt_net_again = (Button) inflate.findViewById(R.id.bt_net_again);
+        rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
 
 
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
         tv_me_gold.setOnClickListener(new MyOnClickListener());
-        bt_net_again.setOnClickListener(new MyOnClickListener());
+        tv_net_again.setOnClickListener(new MyOnClickListener());
     }
 
     private void setView() {
@@ -286,7 +291,7 @@ public class MePager extends BaseNoTrackPager {
         });
 
         fb_shipping_facebook.getLikeView().setObjectIdAndType(
-                "http://inthecheesefactory.com/blog/understand-android-activity-launchmode/en",
+                "https://www.facebook.com/ae.luckybuyer.net",
                 LikeView.ObjectType.OPEN_GRAPH);
     }
 
@@ -306,7 +311,7 @@ public class MePager extends BaseNoTrackPager {
                     intent.putExtra("from", "coindetailpager");
                     startActivity(intent);
                     break;
-                case R.id.bt_net_again:
+                case R.id.tv_net_again:
                     initData();
                     break;
             }
@@ -324,6 +329,5 @@ public class MePager extends BaseNoTrackPager {
         lp.topMargin = statusBarHeight;
         sv_me.setLayoutParams(lp);
     }
-
 
 }

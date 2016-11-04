@@ -44,7 +44,7 @@
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_40"
         android:text="+50"
-        android:textColor="#ff9c05"
+        android:textColor="@drawable/selector_ff9c05_black"
         android:textSize="@dimen/dimen_30" />
 
     <View

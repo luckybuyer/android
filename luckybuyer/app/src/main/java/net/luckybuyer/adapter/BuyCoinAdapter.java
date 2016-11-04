@@ -1,12 +1,15 @@
 package net.luckybuyer.adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.luckybuyer.R;
@@ -54,15 +57,32 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         int amount = list.get(position).getAmount();
         if(amount == 1) {
-            holder.tv_buyconis_coins.setText(list.get(position).getAmount() + "Coin");
+            holder.tv_buyconis_coins.setText(list.get(position).getAmount() + " Coin");
+            holder.tv_buyconis_free.setVisibility(View.GONE);
         }else {
-            holder.tv_buyconis_coins.setText(list.get(position).getAmount() + "Coins");
+            holder.tv_buyconis_coins.setText(list.get(position).getAmount() + " Coins");
+            int free = list.get(position).getAmount()-list.get(position).getPrice();
+            if(free > 0) {
+                holder.tv_buyconis_free.setText(" + " + free + "free");
+            }else {
+                holder.tv_buyconis_free.setVisibility(View.GONE);
+            }
+
         }
+        holder.tv_buyconis_usd.setText(list.get(position).getPrice() + " USD");
 
         if(list.get(position).isHovered()) {
             holder.tv_buyconis_coins.setHovered(true);
+            holder.rl_buycoins_coins.setHovered(true);
+            holder.iv_buycoins_jiao.setVisibility(View.VISIBLE);
+            holder.tv_buyconis_usd.setHovered(true);
+            holder.tv_buyconis_free.setHovered(true);
         }else {
             holder.tv_buyconis_coins.setHovered(false);
+            holder.rl_buycoins_coins.setHovered(false);
+            holder.iv_buycoins_jiao.setVisibility(View.GONE);
+            holder.tv_buyconis_usd.setHovered(false);
+            holder.tv_buyconis_free.setHovered(false);
         }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,10 +108,18 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
     class ViewHolder extends RecyclerView.ViewHolder{
 
         private TextView tv_buyconis_coins;
+        private TextView tv_buyconis_free;
+        private RelativeLayout rl_buycoins_coins;
+        private ImageView iv_buycoins_jiao;
+        private TextView tv_buyconis_usd;
         private View view;
         public ViewHolder(View itemView) {
             super(itemView);
             tv_buyconis_coins = (TextView) itemView.findViewById(R.id.tv_buyconis_coins);
+            tv_buyconis_free = (TextView) itemView.findViewById(R.id.tv_buyconis_free);
+            rl_buycoins_coins = (RelativeLayout) itemView.findViewById(R.id.rl_buycoins_coins);
+            iv_buycoins_jiao = (ImageView) itemView.findViewById(R.id.iv_buycoins_jiao);
+            tv_buyconis_usd = (TextView) itemView.findViewById(R.id.tv_buyconis_usd);
             view = itemView;
         }
     }

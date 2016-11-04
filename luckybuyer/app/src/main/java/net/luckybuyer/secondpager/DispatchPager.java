@@ -64,10 +64,12 @@ public class DispatchPager extends BaseNoTrackPager {
     private View inflate;
     private int dispatch_game_id;
 
-    //网络连接错误 与没有数据
-    private RelativeLayout rl_keepout;
+    private RelativeLayout rl_keepout;                     //联网
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
+    
     private View defaultaddress;
 
     @Override
@@ -76,7 +78,6 @@ public class DispatchPager extends BaseNoTrackPager {
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         ((SecondPagerActivity) context).from = "dispatchpager";
         findView();
-        setHeadMargin();
         ((SecondPagerActivity) context).from = "";
         return inflate;
     }
@@ -85,7 +86,12 @@ public class DispatchPager extends BaseNoTrackPager {
     public void initData() {
         super.initData();
         dispatch_game_id = ((SecondPagerActivity) context).dispatch_game_id;
-        HttpUtils.getInstance().startNetworkWaiting(context);
+        
+        rl_keepout.setVisibility(View.VISIBLE);
+        rl_nodata.setVisibility(View.GONE);
+        rl_neterror.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.VISIBLE);
+        
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/game-orders/" + dispatch_game_id + "?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
@@ -100,16 +106,8 @@ public class DispatchPager extends BaseNoTrackPager {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.e("TAG_dispatch", response);
-                                        if (response.length() > 10) {
-                                            rl_keepout.setVisibility(View.GONE);
-                                        } else {
-                                            rl_nodata.setVisibility(View.VISIBLE);
-                                            rl_neterror.setVisibility(View.GONE);
-                                        }
-
+                                        rl_keepout.setVisibility(View.GONE);
                                         setView(response);
-                                        HttpUtils.getInstance().stopNetWorkWaiting();
                                     }
                                 }
                         );
@@ -120,19 +118,18 @@ public class DispatchPager extends BaseNoTrackPager {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpUtils.getInstance().stopNetWorkWaiting();
-                                Log.e("TAG", requestCode + message);
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
+                                rl_loading.setVisibility(View.GONE);
                             }
                         });
                     }
 
                     @Override
                     public void failure(Exception exception) {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
                     }
                 }
 
@@ -155,6 +152,8 @@ public class DispatchPager extends BaseNoTrackPager {
 
         defaultaddress = View.inflate(context, R.layout.pager_dispatch_address_default, null);
 
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        rl_loading= (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
@@ -163,6 +162,7 @@ public class DispatchPager extends BaseNoTrackPager {
         tv_dispatch_back.setOnClickListener(new MyOnClickListener());
         iv_dispatch_back.setOnClickListener(new MyOnClickListener());
         rl_dispatch_participate.setOnClickListener(new MyOnClickListener());
+        tv_net_again.setOnClickListener(new MyOnClickListener());
     }
 
     DispatchGameBean dispatchGameBean;
@@ -186,11 +186,11 @@ public class DispatchPager extends BaseNoTrackPager {
             setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed,status);
 
             //设置线的长度
-            View view = inflate.findViewById(R.id.view_address);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context, 1), DensityUtil.dip2px(context, 150));
-            lp.leftMargin = DensityUtil.dip2px(context, 17);
-            lp.topMargin = DensityUtil.dip2px(context, 8);
-            view.setLayoutParams(lp);
+//            View view = inflate.findViewById(R.id.view_address);
+//            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context, 1), DensityUtil.dip2px(context, 150));
+//            lp.leftMargin = DensityUtil.dip2px(context, 17);
+//            lp.topMargin = DensityUtil.dip2px(context, 8);
+//            view.setLayoutParams(lp);
         } else if ("processing".equals(status)) {
             //设置地址
             setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed,status);
@@ -294,7 +294,7 @@ public class DispatchPager extends BaseNoTrackPager {
                     ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.rl_dispatch_address_content:
-                    ((SecondPagerActivity) context).switchPage(8);
+                    ((SecondPagerActivity) context).switchPage(9);
                     ((SecondPagerActivity) context).from = "dispatchpager";
                     break;
                 case R.id.tv_dispatch_selector_address:
@@ -321,6 +321,9 @@ public class DispatchPager extends BaseNoTrackPager {
                     if (show.isShowing()) {
                         show.dismiss();
                     }
+                    break;
+                case R.id.tv_net_again:
+                    initData();
                     break;
             }
         }
@@ -399,26 +402,5 @@ public class DispatchPager extends BaseNoTrackPager {
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
-        lp.topMargin = sbar;
-        rl_dispatch_header.setLayoutParams(lp);
-    }
 }
 

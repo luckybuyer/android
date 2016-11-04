@@ -11,7 +11,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -19,6 +21,9 @@ import com.auth0.android.Auth0;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
+import com.auth0.android.lock.Theme;
+import com.auth0.android.lock.enums.SocialButtonStyle;
+import com.auth0.android.lock.errors.LoginErrorMessageBuilder;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
@@ -50,9 +55,11 @@ public class MainActivity extends FragmentActivity {
     private List<Fragment> list;
     public Lock lock;
 
-    public String homeBanner;
-    public String homeProduct;
-    private int id;
+    private RadioButton rb_main_homepager;
+    private RadioButton rb_main_buycoins;
+    private RadioButton rb_main_newresult;
+    private RadioButton rb_main_me;
+
 
     private FragmentManager fragmentManager;
     private HomePager homePager;
@@ -63,17 +70,20 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //沉浸式状态栏
-        new StatusBarUtils(this).statusBar();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        //透明导航栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
         //auth0登陆
         Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
+                .closable(true)
+                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.bg_ff4f3c).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_white).withPrimaryColor(R.color.bg_ff4f3c).build())
+                .withSocialButtonStyle(SocialButtonStyle.BIG)
                 // Add parameters to the Lock Builder
                 .build();
         this.lock.onCreate(this);
-
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) { // “内存重启”时调用
 
@@ -94,7 +104,7 @@ public class MainActivity extends FragmentActivity {
             //把当前显示的fragment记录下来
             currentFragment = homePager;
 
-        }else{ //正常启动时调用
+        } else { //正常启动时调用
 
             homePager = new HomePager();
             buyCoinPager = new BuyCoinPager();
@@ -109,7 +119,7 @@ public class MainActivity extends FragmentActivity {
         //发现视图  设置监听
         findView();
 
-//        switchPage(0);
+        rb_main_homepager.setChecked(true);
     }
 
 
@@ -126,68 +136,104 @@ public class MainActivity extends FragmentActivity {
     private void findView() {
         fl_main = (FrameLayout) findViewById(R.id.fl_main);
         rg_main = (RadioGroup) findViewById(R.id.rg_main);
+        rb_main_homepager = (RadioButton) findViewById(R.id.rb_main_homepager);
+        rb_main_buycoins = (RadioButton) findViewById(R.id.rb_main_buycoins);
+        rb_main_newresult = (RadioButton) findViewById(R.id.rb_main_newresult);
+        rb_main_me = (RadioButton) findViewById(R.id.rb_main_me);
+
+        rb_main_homepager.setOnClickListener(new MyOnclickListener());
+        rb_main_buycoins.setOnClickListener(new MyOnclickListener());
+        rb_main_newresult.setOnClickListener(new MyOnclickListener());
+        rb_main_me.setOnClickListener(new MyOnclickListener());
+
         //设置监听
-        rg_main.setOnCheckedChangeListener(new MyOnCheckedChangeListener());
+        rb_main_homepager.setOnClickListener(new MyOnclickListener());
+        rb_main_buycoins.setOnClickListener(new MyOnclickListener());
+        rb_main_newresult.setOnClickListener(new MyOnclickListener());
+        rb_main_me.setOnClickListener(new MyOnclickListener());
+
     }
 
-    class MyOnCheckedChangeListener implements RadioGroup.OnCheckedChangeListener {
+    class MyOnclickListener implements View.OnClickListener {
 
         @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            id = -1;
-            if (checkedId == rg_main.getChildAt(0).getId()) {
-                id = 0;
-//                switchPage(id);
-                showFragment(list.get(id));
-            } else if (checkedId == rg_main.getChildAt(1).getId()) {
-                id = 1;
-//                switchPage(id);
-                showFragment(list.get(id));
-            } else if (checkedId == rg_main.getChildAt(2).getId()) {
-                id = 2;
-//                switchPage(id);
-                showFragment(list.get(id));
-            }  else if (checkedId == rg_main.getChildAt(3).getId()) {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.rb_main_homepager:
+                    showFragment(list.get(0));
+                    rb_main_homepager.setChecked(true);
+                    rb_main_buycoins.setChecked(false);
+                    rb_main_newresult.setChecked(false);
+                    rb_main_me.setChecked(false);
+                    break;
+                case R.id.rb_main_buycoins:
+                    showFragment(list.get(1));
+                    rb_main_homepager.setChecked(false);
+                    rb_main_buycoins.setChecked(true);
+                    rb_main_newresult.setChecked(false);
+                    rb_main_me.setChecked(false);
+                    break;
+                case R.id.rb_main_newresult:
+                    showFragment(list.get(2));
+                    rb_main_homepager.setChecked(false);
+                    rb_main_buycoins.setChecked(false);
+                    rb_main_newresult.setChecked(true);
+                    rb_main_me.setChecked(false);
+                    break;
+                case R.id.rb_main_me:
+                    String token_s = Utils.getSpData("token_num", MainActivity.this);
+                    int token = 0;
+                    if (token_s != null) {
+                        token = Integer.parseInt(token_s);
+                    }
 
-                String token_s = Utils.getSpData("token_num", MainActivity.this);
-                int token = 0;
-                if (token_s != null) {
-                    token = Integer.parseInt(token_s);
-                }
-
-                //判断是否登陆  未登陆  先登录  登陆 进入me页面
-                if (token > System.currentTimeMillis() / 1000) {
-                    id = 3;
-//                    switchPage(id);
-                    showFragment(list.get(id));
-                } else {
-                    MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
-                }
-
+                    //判断是否登陆  未登陆  先登录  登陆 进入me页面
+                    if (token > System.currentTimeMillis() / 1000) {
+                        showFragment(list.get(3));
+                        rb_main_homepager.setChecked(false);
+                        rb_main_buycoins.setChecked(false);
+                        rb_main_newresult.setChecked(false);
+                        rb_main_me.setChecked(true);
+                    } else {
+                        MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
+                    }
+                    break;
             }
-
         }
     }
 
     private Fragment currentFragment;
     private boolean flag = true;
+
     private void showFragment(Fragment fg) {
 
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if(flag) {
+        if (flag) {
             transaction.add(R.id.fl_main, fg);
             flag = false;
-        }else {
+        } else {
             //如果之前没有添加过
             if (!fg.isAdded()) {
                 transaction
                         .hide(currentFragment)
-                        .add(R.id.fl_main, fg,fg.getClass().getName());
+                        .add(R.id.fl_main, fg, fg.getClass().getName());
             } else {
-                if(fg == homePager) {
+                if (fg == homePager) {
                     homePager.initData();
-                }else if(fg == mePager) {
+                    if(buyCoinPager != null &&buyCoinPager.show != null&& buyCoinPager.show.isShowing()) {
+                        buyCoinPager.show.dismiss();
+                    }
+                } else if (fg == mePager) {
 //                    mePager.initData();
+                    if(buyCoinPager != null &&buyCoinPager.show != null&& buyCoinPager.show.isShowing()) {
+                        buyCoinPager.show.dismiss();
+                    }
+                }else if(fg == buyCoinPager) {
+
+                }else if(fg == winningPager) {
+                    if(buyCoinPager != null &&buyCoinPager.show != null&& buyCoinPager.show.isShowing()) {
+                        buyCoinPager.show.dismiss();
+                    }
                 }
                 transaction.hide(currentFragment).show(fg);
 
@@ -195,10 +241,10 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-
         //全局变量，记录当前显示的fragment
         currentFragment = fg;
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
+
     }
 
 
@@ -247,7 +293,7 @@ public class MainActivity extends FragmentActivity {
                 public void success(String response) {
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
-                    Utils.setSpData("id", user.getId()+"", MainActivity.this);
+                    Utils.setSpData("id", user.getId() + "", MainActivity.this);
                     Utils.setSpData("user_id", user.getAuth0_user_id(), MainActivity.this);
                     Utils.setSpData("balance", user.getBalance() + "", MainActivity.this);
                     Utils.setSpData("name", user.getProfile().getName(), MainActivity.this);
@@ -255,10 +301,11 @@ public class MainActivity extends FragmentActivity {
                     Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
                     //登陆成功  直接进入me页面
-//                    switchPage(3);
-                    if(id == 3) {
-                        showFragment(list.get(id));
-                    }
+                    showFragment(list.get(3));
+                    rb_main_homepager.setChecked(false);
+                    rb_main_buycoins.setChecked(false);
+                    rb_main_newresult.setChecked(false);
+                    rb_main_me.setChecked(true);
 
                 }
 
@@ -278,8 +325,8 @@ public class MainActivity extends FragmentActivity {
 
                 @Override
                 public void failure(Exception exception) {
-                    Utils.setSpData("token", null,MainActivity.this);
-                    Utils.setSpData("token_num", null,MainActivity.this);
+                    Utils.setSpData("token", null, MainActivity.this);
+                    Utils.setSpData("token_num", null, MainActivity.this);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -293,12 +340,21 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onCanceled() {
-            // Login Cancelled response
+            showFragment(list.get(1));
+            rb_main_homepager.setChecked(true);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(false);
+            rb_main_me.setChecked(false);
         }
 
         @Override
         public void onError(LockException error) {
             Log.e("TAG", error.toString());
+            showFragment(list.get(1));
+            rb_main_homepager.setChecked(true);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(false);
+            rb_main_me.setChecked(false);
         }
     };
 
@@ -308,12 +364,12 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(buyCoinPager.wv_payssion != null &&buyCoinPager.wv_payssion.getVisibility() == View.VISIBLE && id == 1) {
-                if(buyCoinPager!= null && buyCoinPager.wv_payssion != null) {
+            if (buyCoinPager.wv_payssion != null && buyCoinPager.wv_payssion.getVisibility() == View.VISIBLE) {
+                if (buyCoinPager != null && buyCoinPager.wv_payssion != null) {
                     buyCoinPager.wv_payssion.setVisibility(View.GONE);
                 }
 
-            }else{
+            } else {
                 if ((System.currentTimeMillis() - mExitTime) > 3000) {
                     Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
@@ -328,13 +384,19 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        showFragment(currentFragment);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 0 && data != null && "homepager".equals(data.getStringExtra("go"))) {
+        if (resultCode == 0 && data != null && "homepager".equals(data.getStringExtra("go"))) {
             rg_main.check(0);
 //            switchPage(0);
             showFragment(list.get(0));
-        }else {
+        } else {
             FBLikeView.onActivityResult(requestCode, resultCode, data);
         }
 

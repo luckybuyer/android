@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/rl_productdetail_ppw"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_while">
 
@@ -32,15 +32,16 @@
 
         <EditText
             android:id="@+id/et_insert_count"
-            android:background="@null"
-            android:gravity="center"
-            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50"
             android:layout_centerInParent="true"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="number"
             android:text="1"
-            android:textColor="#ff4f3c"
-            android:textSize="@dimen/dimen_36" />
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_36"
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -77,13 +78,44 @@
             android:background="@drawable/icons_add" />
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/rl_insert_warn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_insert_num"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_25">
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv_insert_warn"
+            android:layout_width="@dimen/dimen_25"
+            android:layout_height="@dimen/dimen_25"
+            android:layout_marginRight="@dimen/dimen_6"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:background="@drawable/default_warn" />
+
+        <TextView
+            android:id="@+id/tv_insert_warn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_insert_warn"
+            android:enabled="false"
+            android:text="Quantity of purchased items must be a multiple of 5"
+            android:textColor="@drawable/selector_ff0000_999999"
+            android:textSize="@dimen/dimen_23" />
+
+    </RelativeLayout>
+
+
     <LinearLayout
         android:id="@+id/ll_insert_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_64"
         android:layout_alignLeft="@+id/rl_insert_delete"
         android:layout_alignRight="@id/rl_insert_add"
-        android:layout_below="@+id/rl_insert_delete"
+        android:layout_below="@+id/rl_insert_warn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_30"
         android:orientation="horizontal">
@@ -92,11 +124,11 @@
             android:id="@+id/tv_insert_two"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:background="@drawable/selector_tv_insert"
-            android:textColor="@drawable/selector_tc_insert_textcolor"
             android:gravity="center"
             android:text="2"
+            android:textColor="@drawable/selector_tc_insert_textcolor"
             android:textSize="@dimen/dimen_28" />
 
         <TextView
@@ -104,7 +136,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dimen_20"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
             android:text="5"
@@ -115,7 +147,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dimen_20"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
             android:text="10"
@@ -126,7 +158,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/dimen_20"
-            android:layout_weight="1"
+            android:layout_weight="4"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
             android:text="all remain"
@@ -135,16 +167,16 @@
 
     <TextView
         android:id="@+id/tv_insert_buy"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_100"
+        android:layout_below="@+id/ll_insert_selector"
+        android:layout_marginBottom="@dimen/dimen_54"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginRight="@dimen/dimen_24"
-        android:background="@color/all_orange"
         android:layout_marginTop="@dimen/dimen_50"
-        android:layout_below="@+id/ll_insert_selector"
-        android:layout_width="match_parent"
+        android:background="@color/all_orange"
         android:gravity="center"
-        android:textColor="@color/text_white"
-        android:textSize="@dimen/dimen_32"
         android:text="Total 108 coins"
-        android:layout_marginBottom="@dimen/dimen_54"
-        android:layout_height="@dimen/dimen_100" />
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/dimen_32" />
 </RelativeLayout>

@@ -41,13 +41,19 @@ public class CoinDetailPager extends BasePager {
     private RecyclerView rv_coindetail;
     private View inflate;
 
+    private RelativeLayout rl_keepout;                     //联网
+    private RelativeLayout rl_neterror;
+    private RelativeLayout rl_nodata;
+    private RelativeLayout rl_loading;
+    private TextView tv_net_again;
+
     private List list = new ArrayList();
+
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_coindetail, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         findView();
-        setHeadMargin();
         return inflate;
     }
 
@@ -55,7 +61,11 @@ public class CoinDetailPager extends BasePager {
     @Override
     public void initData() {
         super.initData();
-        HttpUtils.getInstance().startNetworkWaiting(context);
+        rl_keepout.setVisibility(View.VISIBLE);
+        rl_nodata.setVisibility(View.GONE);
+        rl_neterror.setVisibility(View.GONE);
+        rl_loading.setVisibility(View.VISIBLE);
+
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/gold-records/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
@@ -69,7 +79,7 @@ public class CoinDetailPager extends BasePager {
                                     @Override
                                     public void run() {
                                         processData(response);
-                                        HttpUtils.getInstance().stopNetWorkWaiting();
+                                        rl_keepout.setVisibility(View.GONE);
                                     }
                                 }
                         );
@@ -82,7 +92,9 @@ public class CoinDetailPager extends BasePager {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpUtils.getInstance().stopNetWorkWaiting();
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
+                                rl_loading.setVisibility(View.GONE);
 
                             }
                         });
@@ -90,7 +102,15 @@ public class CoinDetailPager extends BasePager {
 
                     @Override
                     public void failure(Exception exception) {
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
+                                rl_loading.setVisibility(View.GONE);
 
+                            }
+                        });
                     }
                 }
 
@@ -104,7 +124,7 @@ public class CoinDetailPager extends BasePager {
         CoinDetailBean coinDetailBean = gson.fromJson(str, CoinDetailBean.class);
 
         rv_coindetail.setAdapter(new CoinDetailPagerAdapter(context, coinDetailBean.getCoin()));
-        GridLayoutManager gridlayoutManager = new GridLayoutManager(context,1,GridLayoutManager.VERTICAL,false){
+        GridLayoutManager gridlayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
@@ -122,6 +142,18 @@ public class CoinDetailPager extends BasePager {
         rv_coindetail = (RecyclerView) inflate.findViewById(R.id.rv_coindetail);
 
         tv_coindetail_balance.setText("$" + Utils.getSpData("balance", context));
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        rl_loading= (RelativeLayout) inflate.findViewById(R.id.rl_loading);
+
+        rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
+        rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
+        rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        tv_net_again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initData();
+            }
+        });
         //设置监听
         tv_coindetail_back.setOnClickListener(new MyOnClickListener());
         iv_coindetail_back.setOnClickListener(new MyOnClickListener());
@@ -129,44 +161,21 @@ public class CoinDetailPager extends BasePager {
     }
 
 
-
     class MyOnClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()){
+            switch (view.getId()) {
                 case R.id.tv_coindetail_back:
-                    ((SecondPagerActivity)context).finish();
+                    ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.iv_coindetail_back:
-                    ((SecondPagerActivity)context).finish();
+                    ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.tv_coindetail_buycoins:
-                    ((SecondPagerActivity)context).switchPage(6);
+                    ((SecondPagerActivity) context).switchPage(6);
                     break;
             }
         }
-    }
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        Log.e("TAG", sbar + "");
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lp.topMargin = sbar;
-        rl_coindetail_header.setLayoutParams(lp);
     }
 }

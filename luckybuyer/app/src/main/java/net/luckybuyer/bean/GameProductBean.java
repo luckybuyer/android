@@ -34,6 +34,16 @@ public class GameProductBean {
     }
 
     public static class GameBean {
+        private int shares_increment;
+
+        public int getShares_increment() {
+            return shares_increment;
+        }
+
+        public void setShares_increment(int shares_increment) {
+            this.shares_increment = shares_increment;
+        }
+
         private String _resource;
         private int batch_id;
         private int id;

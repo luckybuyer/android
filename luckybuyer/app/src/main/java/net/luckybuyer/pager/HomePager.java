@@ -51,6 +51,7 @@ import net.luckybuyer.bean.GameProductBean;
 import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
+import net.luckybuyer.view.AutoTextHomeView;
 import net.luckybuyer.view.AutoTextView;
 import net.luckybuyer.view.RefreshableHelper;
 import net.luckybuyer.view.RefreshableView;
@@ -70,15 +71,16 @@ public class HomePager extends BaseNoTrackPager {
     private ViewPager vp_home;                //轮播图
     private LinearLayout ll_home_point;       //轮播图上面的标记点
     private RecyclerView rv_home_producer;    //产品
-    private AutoTextView atv_home_marquee;    //跑马灯
+    private AutoTextHomeView atv_home_marquee;    //跑马灯
     private View inflate;
     private SwipeRefreshLayout srl_home_refresh;
-    private Button bt_net_again;
+    private TextView tv_net_again;
 
     //网络连接错误 与没有数据
     private RelativeLayout rl_keepout;
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
+    private RelativeLayout rl_loading;
 
     //轮播图集合
     public List imageList;
@@ -100,12 +102,13 @@ public class HomePager extends BaseNoTrackPager {
                     handler.sendEmptyMessageDelayed(WHAT, 5000);
                     break;
                 case WHAT_AUTO:
+                    handler.removeMessages(WHAT_AUTO);
                     if(mStringArray != null) {
                         int i = mLoopCount % mStringArray.size();
                         atv_home_marquee.next();
                         atv_home_marquee.setText(mStringArray.get(i));
                         mLoopCount++;
-                        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+                        handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
                     }
                     break;
             }
@@ -118,19 +121,12 @@ public class HomePager extends BaseNoTrackPager {
         inflate = View.inflate(context, R.layout.pager_home, null);
         //发现视图  设置监听
         findView();
-        setHeadMargin();
         srl_home_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 initData();
             }
         });
-//        if (((MainActivity) context).homeBanner != null) {
-//            processBannerData(((MainActivity) context).homeBanner);
-//        }
-//        if (((MainActivity) context).homeProduct != null) {
-//            processData(((MainActivity) context).homeProduct);
-//        }
 
         return inflate;
     }
@@ -141,7 +137,10 @@ public class HomePager extends BaseNoTrackPager {
         super.initData();
         handler.removeCallbacksAndMessages(null);
         if (isWaiting) {
-            HttpUtils.getInstance().startNetworkWaiting(context);
+            rl_keepout.setVisibility(View.VISIBLE);
+            rl_nodata.setVisibility(View.GONE);
+            rl_neterror.setVisibility(View.GONE);
+            rl_loading.setVisibility(View.VISIBLE);
             isWaiting = false;
         } else {
             srl_home_refresh.setRefreshing(true);
@@ -160,14 +159,15 @@ public class HomePager extends BaseNoTrackPager {
         vp_home = (ViewPager) inflate.findViewById(R.id.vp_home);
         ll_home_point = (LinearLayout) inflate.findViewById(R.id.ll_home_point);
         rv_home_producer = (RecyclerView) inflate.findViewById(R.id.rv_home_producer);
-        atv_home_marquee = (AutoTextView) inflate.findViewById(R.id.atv_home_marquee);
+        atv_home_marquee = (AutoTextHomeView) inflate.findViewById(R.id.atv_home_marquee);
         srl_home_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_home_refresh);
-        bt_net_again = (Button) inflate.findViewById(R.id.bt_net_again);
+        tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
 
 
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
 
         //设置监听
         vp_home.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -182,7 +182,7 @@ public class HomePager extends BaseNoTrackPager {
 
             }
         });
-        bt_net_again.setOnClickListener(new View.OnClickListener() {
+        tv_net_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isWaiting = true;
@@ -202,7 +202,6 @@ public class HomePager extends BaseNoTrackPager {
                     @Override
                     public void run() {
                         processbroadcastData(response);
-                        ((MainActivity) context).homeBanner = response;
 
                     }
                 });
@@ -230,7 +229,6 @@ public class HomePager extends BaseNoTrackPager {
                     @Override
                     public void run() {
                         processBannerData(response);
-                        ((MainActivity) context).homeBanner = response;
 
                     }
                 });
@@ -257,18 +255,17 @@ public class HomePager extends BaseNoTrackPager {
                     @Override
                     public void run() {
                         HttpUtils.getInstance().stopNetWorkWaiting();
-                        ((MainActivity) context).homeProduct = response;
                         srl_home_refresh.setRefreshing(false);
 
-                        if (isFirst) {
                             if (response.length() > 10) {
                                 rl_keepout.setVisibility(View.GONE);
                                 processData(response);
+                                Log.e("TAG", response.length()+"");
                             } else {
                                 rl_nodata.setVisibility(View.VISIBLE);
                                 rl_neterror.setVisibility(View.GONE);
-                            }
-                            isFirst = false;
+                                rl_loading.setVisibility(View.GONE);
+//                            }
                         }
 
                     }
@@ -285,6 +282,7 @@ public class HomePager extends BaseNoTrackPager {
                         if (isFirst) {
                             rl_nodata.setVisibility(View.GONE);
                             rl_neterror.setVisibility(View.VISIBLE);
+                            rl_loading.setVisibility(View.GONE);
                         }
 
                     }
@@ -301,6 +299,7 @@ public class HomePager extends BaseNoTrackPager {
                         if (isFirst) {
                             rl_nodata.setVisibility(View.GONE);
                             rl_neterror.setVisibility(View.VISIBLE);
+                            rl_loading.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -347,7 +346,7 @@ public class HomePager extends BaseNoTrackPager {
         }
 
         atv_home_marquee.setText(mStringArray.get(0));
-        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+        handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
     }
 
     private void processBannerData(String response) {
@@ -410,7 +409,6 @@ public class HomePager extends BaseNoTrackPager {
         Gson gson = new Gson();
         String game = "{\"game\":" + s + "}";
         GameProductBean gameProductBean = gson.fromJson(game, GameProductBean.class);
-        //设置视图
 
         //产品列表数据
         productList = gameProductBean.getGame();
@@ -440,6 +438,7 @@ public class HomePager extends BaseNoTrackPager {
 
             @Override
             public void onLongClick(View view, int position) {
+
             }
         });
 
@@ -519,6 +518,6 @@ public class HomePager extends BaseNoTrackPager {
     public void onResume() {
         super.onResume();
         handler.sendEmptyMessageDelayed(WHAT, 5000);
-        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+        handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
     }
 }

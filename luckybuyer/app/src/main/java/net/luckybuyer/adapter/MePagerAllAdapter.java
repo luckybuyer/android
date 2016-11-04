@@ -124,10 +124,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.tv_countdown_participation.setText("My participation:" + list.get(position).getShares());
             String finishTime = list.get(position).getGame().getFinished_at();
             long time = Utils.Iso8601ToLong(finishTime);
-            new CountDownTimer(time, 1000) {
+            new CountDownTimer(time, 10) {
                 @Override
                 public void onTick(long l) {
-                    SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                    SimpleDateFormat formatter = new SimpleDateFormat("mm:ss:SSS");
                     formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
                     String time = formatter.format(l);
 

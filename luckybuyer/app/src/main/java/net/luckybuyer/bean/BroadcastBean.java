@@ -9,11 +9,11 @@ public class BroadcastBean {
 
 
     /**
-     * content : string
-     * created_at : 2016-10-19T07:36:17.101Z
-     * data : {}
-     * game_id : 0
-     * template : string
+     * content : Omar paid 200 coins for 2017 Google new work package number is limited to the first
+     * created_at : 2016-11-02T03:51:35.087667+00:00
+     * data : {"coins":"200","product":"2017 Google new work package number is limited to the first","user_icon":"https://s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/b-icons/d9ce8638944a4823adf76950a7ea4ea1.png","username":"Omar"}
+     * game_id : 2816
+     * template : {username} paid {coins} coins for {product}
      * type : purchase
      */
 
@@ -30,6 +30,13 @@ public class BroadcastBean {
     public static class BroadBean {
         private String content;
         private String created_at;
+        /**
+         * coins : 200
+         * product : 2017 Google new work package number is limited to the first
+         * user_icon : https://s3-ap-southeast-1.amazonaws.com/static-staging-lucky/images/b-icons/d9ce8638944a4823adf76950a7ea4ea1.png
+         * username : Omar
+         */
+
         private DataBean data;
         private int game_id;
         private String template;
@@ -84,6 +91,42 @@ public class BroadcastBean {
         }
 
         public static class DataBean {
+            private String coins;
+            private String product;
+            private String user_icon;
+            private String username;
+
+            public String getCoins() {
+                return coins;
+            }
+
+            public void setCoins(String coins) {
+                this.coins = coins;
+            }
+
+            public String getProduct() {
+                return product;
+            }
+
+            public void setProduct(String product) {
+                this.product = product;
+            }
+
+            public String getUser_icon() {
+                return user_icon;
+            }
+
+            public void setUser_icon(String user_icon) {
+                this.user_icon = user_icon;
+            }
+
+            public String getUsername() {
+                return username;
+            }
+
+            public void setUsername(String username) {
+                this.username = username;
+            }
         }
     }
 }

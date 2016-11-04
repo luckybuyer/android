@@ -30,11 +30,15 @@ import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.security.auth.login.LoginException;
 
 /**
  * Created by admin on 2016/10/8.
@@ -63,7 +67,10 @@ public class AddAddressPager extends BaseNoTrackPager {
 
     private EditText et_addaddress_shippingnote;                 //装运通知单
 
+    private TextView tv_title;
+
     private View inflate;
+    private int address_id;
 
 
     private TextWatcher watcher = new TextWatcher() {
@@ -91,8 +98,9 @@ public class AddAddressPager extends BaseNoTrackPager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_addaddress, null);
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
+        address_id = ((SecondPagerActivity) context).address_id;
         findView();
-        setHeadMargin();
+//        setHeadMargin();
         tv_addaddress_save.setEnabled(false);
         tv_addaddress_home.setHovered(true);
         return inflate;
@@ -123,6 +131,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_areacode = (EditText) inflate.findViewById(R.id.et_addaddress_areacode);
         et_addaddress_telnum = (EditText) inflate.findViewById(R.id.et_addaddress_telnum);
         et_addaddress_shippingnote = (EditText) inflate.findViewById(R.id.et_addaddress_shippingnote);
+        tv_title = (TextView) inflate.findViewById(R.id.tv_title);
 
         iv_addaddress_back.setOnClickListener(new MyOnClickListener());
         tv_addaddress_back.setOnClickListener(new MyOnClickListener());
@@ -144,6 +153,11 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_build.addTextChangedListener(watcher);
         et_addaddress_areacode.addTextChangedListener(watcher);
         et_addaddress_telnum.addTextChangedListener(watcher);
+        if (address_id != -1) {
+            tv_title.setText("Edit Address");
+        } else {
+            tv_title.setText("Add Address");
+        }
 
     }
 
@@ -168,7 +182,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                     }
                     break;
                 case R.id.tv_addaddress_save:
-                    startSave();
+                    startSaveOrEdit();
                     break;
                 case R.id.tv_addaddress_business:
                     tv_addaddress_business.setHovered(true);
@@ -225,48 +239,88 @@ public class AddAddressPager extends BaseNoTrackPager {
     }
 
     //保存地址
-    private void startSave() {
-        HttpUtils.getInstance().startNetworkWaiting(context);
-        String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
-        String json = "{\"address\": \""+tv_addaddress_country.getText() + tv_addaddress_city.getText() + tv_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \""+et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText()+"\",\"phone\": \""+"+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText()+"\",\"zipcode\": \""+"123456"+"\"}";
-        Map map = new HashMap();
-        String mToken = Utils.getSpData("token", context);
-        map.put("Authorization", "Bearer " + mToken);
-        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
-            @Override
-            public void success(final String response) {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-                        if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                            ((SecondPagerActivity) context).switchPage(7);
-                        } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {
+    private void startSaveOrEdit() {
+        if (address_id != -1) {
+            HttpUtils.getInstance().startNetworkWaiting(context);
+            String url = MyApplication.url + "/v1/addresses/" + address_id + "?timezone=" + MyApplication.utc;
+            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + tv_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            Map map = new HashMap();
+            String mToken = Utils.getSpData("token", context);
+            map.put("Authorization", "Bearer " + mToken);
+            HttpUtils.getInstance().putJson(url, json, map, new HttpUtils.OnRequestListener() {
+                @Override
+                public void success(final String response) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HttpUtils.getInstance().stopNetWorkWaiting();
                             ((SecondPagerActivity) context).switchPage(9);
+                            Utils.MyToast(context, "Successfully modified");
                         }
-                        Utils.MyToast(context,"Saved successfully");
-                    }
-                });
+                    });
 
-            }
+                }
 
-            @Override
-            public void error(final int code, final String message) {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        HttpUtils.getInstance().stopNetWorkWaiting();
-                        Utils.MyToast(context,"Failed to save. Please try again");
-                    }
-                });
-            }
+                @Override
+                public void error(final int code, final String message) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HttpUtils.getInstance().stopNetWorkWaiting();
+                            Utils.MyToast(context, "Fail to edit");
+                        }
+                    });
+                }
 
-            @Override
-            public void failure(Exception exception) {
-                HttpUtils.getInstance().stopNetWorkWaiting();
-                Utils.MyToast(context,"Failed to save. Please try again");
-            }
-        });
+                @Override
+                public void failure(Exception exception) {
+                    HttpUtils.getInstance().stopNetWorkWaiting();
+                    Utils.MyToast(context, "Fail to edit");
+                }
+            });
+        } else {
+            HttpUtils.getInstance().startNetworkWaiting(context);
+            String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
+            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + tv_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            Map map = new HashMap();
+            String mToken = Utils.getSpData("token", context);
+            map.put("Authorization", "Bearer " + mToken);
+            HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+                @Override
+                public void success(final String response) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HttpUtils.getInstance().stopNetWorkWaiting();
+                            if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+                                ((SecondPagerActivity) context).switchPage(7);
+                            } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {
+                                ((SecondPagerActivity) context).switchPage(9);
+                            }
+                            Utils.MyToast(context, "Saved successfully");
+                        }
+                    });
+
+                }
+
+                @Override
+                public void error(final int code, final String message) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            HttpUtils.getInstance().stopNetWorkWaiting();
+                            Utils.MyToast(context, "Failed to save. Please try again");
+                        }
+                    });
+                }
+
+                @Override
+                public void failure(Exception exception) {
+                    HttpUtils.getInstance().stopNetWorkWaiting();
+                    Utils.MyToast(context, "Failed to save. Please try again");
+                }
+            });
+        }
     }
 
 
@@ -326,31 +380,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             tv_addaddress_save.setEnabled(true);
 
-        }else {
+        } else {
             tv_addaddress_save.setEnabled(false);
         }
     }
 
-    //根据版本判断是否 需要设置据顶部状态栏高度
-    @TargetApi(19)
-    private void setHeadMargin() {
-        Class<?> c = null;
-        Object obj = null;
-        Field field = null;
-        int x = 0, sbar = 0;
-        try {
-            c = Class.forName("com.android.internal.R$dimen");
-            obj = c.newInstance();
-            field = c.getField("status_bar_height");
-            x = Integer.parseInt(field.get(obj).toString());
-            sbar = getResources().getDimensionPixelSize(x);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-
-        }
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, DensityUtil.dip2px(context, 38));
-        lp.topMargin = sbar;
-        rl_addaddress_header.setLayoutParams(lp);
-
-    }
 }

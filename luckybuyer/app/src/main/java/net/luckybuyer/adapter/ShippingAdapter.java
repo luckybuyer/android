@@ -137,6 +137,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     break;
                 case R.id.tv_shipping_edit:
                     ((SecondPagerActivity) context).switchPage(8);
+                    ((SecondPagerActivity) context).address_id = list.get(position).getId();
                     ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
                 case R.id.tv_shipping_delete:

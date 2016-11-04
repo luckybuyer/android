@@ -1,77 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@drawable/product_background"
-    android:layout_margin="@dimen/dimen_2"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dimen_360"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dimen_2"
+    android:background="@drawable/product_background"
+    android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:id="@+id/rl_product_icon"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_264" >
+        android:layout_height="@dimen/dimen_264"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24">
+
         <ImageView
-            android:layout_centerInParent="true"
             android:id="@+id/iv_product_icon"
             android:layout_width="@dimen/dimen_192"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
     </RelativeLayout>
 
     <net.luckybuyer.view.JustifyTextView
         android:id="@+id/tv_producet_discribe"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_74"
+        android:layout_below="@+id/rl_product_icon"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginRight="@dimen/dimen_24"
-        android:layout_width="match_parent"
-        android:textSize="@dimen/dimen_26"
-        android:maxLines="2"
-        android:maxEms="7"
         android:ellipsize="end"
-        android:textColor="#333333"
+        android:maxEms="7"
+        android:maxLines="2"
         android:text="Magic sound headphones"
-        android:layout_height="@dimen/dimen_74" />
+        android:textColor="#333333"
+        android:textSize="@dimen/dimen_26" />
 
     <TextView
+        android:layout_below="@+id/tv_producet_discribe"
         android:id="@+id/tv_product_count"
         android:layout_width="wrap_content"
-        android:textSize="@dimen/dimen_24"
-        android:textColor="#999999"
-        android:layout_marginTop="@dimen/dimen_19"
-        android:text="Total 1250"
+        android:layout_height="@dimen/dimen_33"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginRight="@dimen/dimen_24"
-        android:layout_height="@dimen/dimen_33" />
+        android:layout_marginTop="@dimen/dimen_12"
+        android:text="Total 1250"
+        android:textColor="#999999"
+        android:textSize="@dimen/dimen_24" />
 
     <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_marginBottom="@dimen/dimen_8"
+        android:layout_below="@+id/tv_product_count"
         android:id="@+id/pb_product_progress"
-        android:layout_marginTop="@dimen/dimen_7"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_14"
+        android:layout_marginBottom="@dimen/dimen_8"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginRight="@dimen/dimen_24"
-        android:progressDrawable="@drawable/home_product_progress"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_14" />
+        android:layout_marginTop="@dimen/dimen_7"
+        android:progressDrawable="@drawable/home_product_progress" />
 
     <RelativeLayout
+        android:layout_below="@+id/pb_product_progress"
         android:layout_width="wrap_content"
-        android:layout_marginBottom="@dimen/dimen_20"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_20">
+
         <TextView
             android:id="@+id/tv_home_claim"
             android:layout_width="wrap_content"
-            android:textSize="@dimen/dimen_24"
-            android:textColor="#999999"
-            android:text="Claimed: "
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_24"
-            android:layout_height="wrap_content" />
+            android:text="Claimed: "
+            android:textColor="#999999"
+            android:textSize="@dimen/dimen_24" />
+
         <TextView
             android:id="@+id/tv_home_percentage"
-            android:layout_toRightOf="@+id/tv_home_claim"
             android:layout_width="wrap_content"
-            android:textSize="@dimen/dimen_24"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_home_claim"
             android:text="30%"
             android:textColor="@color/ff9c05"
-            android:layout_height="wrap_content" />
+            android:textSize="@dimen/dimen_24" />
     </RelativeLayout>
-</LinearLayout>
+    
+    <ImageView
+        android:id="@+id/iv_product_increment"
+        android:layout_marginTop="@dimen/dimen_10"
+        android:layout_width="@dimen/dimen_140"
+        android:layout_height="@dimen/dimen_40" />
+</RelativeLayout>

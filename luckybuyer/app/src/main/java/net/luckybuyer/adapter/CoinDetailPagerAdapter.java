@@ -34,7 +34,13 @@ public class CoinDetailPagerAdapter extends RecyclerView.Adapter<CoinDetailPager
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tv_icondetail_from.setText(list.get(position).getType());
         holder.tv_coindetail_time.setText(list.get(position).getCreated_at().substring(0, 20).replace("T", "\t"));
-        holder.tv_ciondetail_many.setText(list.get(position).getAmount()+"");
+        int amount = list.get(position).getAmount();
+        if(amount > 0) {
+            holder.tv_ciondetail_many.setEnabled(true);
+        }else if(amount < 0) {
+            holder.tv_ciondetail_many.setEnabled(false);
+        }
+        holder.tv_ciondetail_many.setText(amount+"");
     }
 
     @Override

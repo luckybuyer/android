@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dimen_250"
+        android:background="@drawable/rounded_corners_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <net.luckybuyer.view.CenterTextView
+            android:id="@+id/jtv_insertcoins_discribe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/dimen_44"
+            android:layout_marginRight="@dimen/dimen_44"
+            android:layout_marginTop="@dimen/dimen_80"
+            android:text="Wow, special offer today only! 110 coins only $100！ "
+            android:textColor="#333333"
+            android:textSize="@dimen/dimen_32" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_below="@+id/jtv_insertcoins_discribe"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="@dimen/dimen_30"
+            android:background="#d8d8d8"></View>
+
+        <RelativeLayout
+            android:layout_below="@+id/view"
+            android:id="@+id/rl_buycoins_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="@dimen/dimen_25"
+                android:layout_marginTop="@dimen/dimen_25"
+                android:text="OK"
+                android:textColor="#ff9c06"
+                android:textSize="@dimen/dimen_34" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/dimen_450"
+        android:layout_height="@dimen/dimen_280"
+        android:background="@drawable/buycoins_balloon" />
+</RelativeLayout>
