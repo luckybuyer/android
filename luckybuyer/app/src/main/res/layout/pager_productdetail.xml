@@ -37,8 +37,9 @@
                             android:id="@+id/iv_productdetail_image"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:scaleType="fitXY"
-                            android:background="@drawable/default_icon" />
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/productdetail_defaulticon"
+                            android:scaleType="fitXY" />
 
                         <View
                             android:id="@+id/view"
@@ -64,7 +65,7 @@
                             android:foregroundGravity="center"
                             android:padding="@dimen/dimen_10"
                             android:visibility="gone"
-                            auto3d:textSize="@dimen/dimen_13" />
+                            auto3d:textSize="@dimen/dimen_11" />
 
                         <TextView
                             android:id="@+id/tv_productdetail_producttitle"
@@ -94,7 +95,7 @@
                             android:textColor="#999999"
                             android:textSize="@dimen/dimen_28" />
 
-                         <!--倒计时-->
+                        <!--倒计时-->
                         <RelativeLayout
                             android:id="@+id/rl_productdetail_countdown"
                             android:layout_width="match_parent"
@@ -500,33 +501,32 @@
     </RelativeLayout>
 
 
-
     <RelativeLayout
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_home_header"
         android:background="@color/f2f2f2">
-
         <RelativeLayout
             android:id="@+id/rl_loading"
             android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
             <ProgressBar
                 android:id="@+id/pb_loading"
                 android:layout_width="@dimen/dimen_60"
                 android:layout_height="@dimen/dimen_60" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_8"
                 android:layout_toRightOf="@+id/pb_loading"
-                android:layout_width="wrap_content"
-                android:textColor="#000000"
                 android:text="Wait..."
-                android:textSize="@dimen/dimen_32"
-                android:layout_height="wrap_content" />
+                android:textColor="#000000"
+                android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -572,12 +572,12 @@
 
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_240">
+            android:layout_marginTop="@dimen/dimen_240"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_nodata"

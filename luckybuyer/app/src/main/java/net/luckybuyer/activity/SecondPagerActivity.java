@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ import java.util.Map;
 public class SecondPagerActivity extends FragmentActivity {
 
     public RelativeLayout rl_secondpager_header;
+    private RelativeLayout rl_secondpager;
     //    private TextView tv_second_share;
     private TextView tv_second_back;
     private List<Fragment> list;
@@ -98,6 +100,11 @@ public class SecondPagerActivity extends FragmentActivity {
         findView();
         setHeadMargin();
         selectPager();
+
+        if(Utils.checkDeviceHasNavigationBar(SecondPagerActivity.this)) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(SecondPagerActivity.this));
+            rl_secondpager.setLayoutParams(lp);
+        }
     }
 
     //设置数据
@@ -128,6 +135,7 @@ public class SecondPagerActivity extends FragmentActivity {
     //发现视图  设置监听
     private void findView() {
         rl_secondpager_header = (RelativeLayout) findViewById(R.id.rl_secondpager_header);
+        rl_secondpager = (RelativeLayout) findViewById(R.id.rl_secondpager);
 //        tv_second_share = (TextView) findViewById(R.id.tv_second_share);
         tv_second_back = (TextView) findViewById(R.id.tv_second_back);
 

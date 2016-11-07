@@ -82,6 +82,12 @@
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
             android:text="My Account" />
-
     </RadioGroup>
+
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:background="#000000"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </RelativeLayout>
 </LinearLayout>

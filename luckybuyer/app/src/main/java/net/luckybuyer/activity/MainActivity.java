@@ -13,8 +13,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.auth0.android.Auth0;
@@ -59,6 +61,7 @@ public class MainActivity extends FragmentActivity {
     private RadioButton rb_main_buycoins;
     private RadioButton rb_main_newresult;
     private RadioButton rb_main_me;
+    private RelativeLayout rl_main;
 
 
     private FragmentManager fragmentManager;
@@ -75,6 +78,7 @@ public class MainActivity extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
+        Log.e("TAG_dimen",  getResources().getDimension(R.dimen.dimen_10)+"");
         //auth0登陆
         Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
@@ -120,6 +124,10 @@ public class MainActivity extends FragmentActivity {
         findView();
 
         rb_main_homepager.setChecked(true);
+        if(Utils.checkDeviceHasNavigationBar(MainActivity.this)) {
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(MainActivity.this));
+            rl_main.setLayoutParams(lp);
+        }
     }
 
 
@@ -140,6 +148,7 @@ public class MainActivity extends FragmentActivity {
         rb_main_buycoins = (RadioButton) findViewById(R.id.rb_main_buycoins);
         rb_main_newresult = (RadioButton) findViewById(R.id.rb_main_newresult);
         rb_main_me = (RadioButton) findViewById(R.id.rb_main_me);
+        rl_main = (RelativeLayout) findViewById(R.id.rl_main);
 
         rb_main_homepager.setOnClickListener(new MyOnclickListener());
         rb_main_buycoins.setOnClickListener(new MyOnclickListener());
@@ -340,7 +349,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onCanceled() {
-            showFragment(list.get(1));
+            showFragment(list.get(0));
             rb_main_homepager.setChecked(true);
             rb_main_buycoins.setChecked(false);
             rb_main_newresult.setChecked(false);
@@ -350,7 +359,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onError(LockException error) {
             Log.e("TAG", error.toString());
-            showFragment(list.get(1));
+            showFragment(list.get(0));
             rb_main_homepager.setChecked(true);
             rb_main_buycoins.setChecked(false);
             rb_main_newresult.setChecked(false);

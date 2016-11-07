@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -37,6 +38,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -348,7 +350,7 @@ public class Utils {
     /**
      * ISO8601与现在时间对比
      */
-    public static Long Iso8601ToLong(String time){
+    public static Long Iso8601ToLong(String time) {
         String year = time.substring(0, 4);
         String month = time.substring(5, 7);
         String day = time.substring(8, 10);
@@ -364,7 +366,7 @@ public class Utils {
         int minut = Integer.parseInt(minute);
         int se = Integer.parseInt(sec);
         Calendar calendar = Calendar.getInstance();
-        calendar.set(yea,mont-1,da,hou,minut,se);
+        calendar.set(yea, mont - 1, da, hou, minut, se);
 //        calendar.add(Calendar.HOUR, 8);
 
 //        Log.e("TAG", yea+"");
@@ -382,7 +384,46 @@ public class Utils {
         return mm;
     }
 
+    /**
+     * 获取是否存在NavigationBar
+     * @param context
+     * @return
+     */
+    public static boolean checkDeviceHasNavigationBar(Context context) {
+        boolean hasNavigationBar = false;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("config_showNavigationBar", "bool", "android");
+        if (id > 0) {
+            hasNavigationBar = rs.getBoolean(id);
+        }
+        try {
+            Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
+            Method m = systemPropertiesClass.getMethod("get", String.class);
+            String navBarOverride = (String) m.invoke(systemPropertiesClass, "qemu.hw.mainkeys");
+            if ("1".equals(navBarOverride)) {
+                hasNavigationBar = false;
+            } else if ("0".equals(navBarOverride)) {
+                hasNavigationBar = true;
+            }
+        } catch (Exception e) {
+        }
+        return hasNavigationBar;
+    }
 
+    /**
+     * 获取NavigationBar的高度
+     * @param context
+     * @return
+     */
+    public static int getNavigationBarHeight(Context context) {
+        int navigationBarHeight = 0;
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (id > 0 && checkDeviceHasNavigationBar(context)) {
+            navigationBarHeight = rs.getDimensionPixelSize(id);
+        }
+        return navigationBarHeight;
+    }
 }
 
 

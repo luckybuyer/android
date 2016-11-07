@@ -127,7 +127,6 @@ public class HomePager extends BaseNoTrackPager {
                 initData();
             }
         });
-
         return inflate;
     }
 
