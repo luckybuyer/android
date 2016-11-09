@@ -16,6 +16,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
@@ -107,7 +108,7 @@ public class ProductDetailPager extends BasePager {
 
     //倒計時  開獎
     private RelativeLayout rl_productdetail_countdown;
-    private RelativeLayout rl_productdetail_calculation;
+//    private RelativeLayout rl_productdetail_calculation;
     private TextView tv_productdetail_countdownissue;
     private LinearLayout ll_productdetail_buyit;
 
@@ -200,7 +201,7 @@ public class ProductDetailPager extends BasePager {
 
                 //隐藏一些控件
                 rl_productdetail_countdown.setVisibility(View.GONE);
-                rl_productdetail_calculation.setVisibility(View.GONE);
+//                rl_productdetail_calculation.setVisibility(View.GONE);
                 ll_productdetail_buyit.setVisibility(View.GONE);
                 rl_productdetail_lucky.setVisibility(View.GONE);
                 additionRequest();
@@ -449,7 +450,7 @@ public class ProductDetailPager extends BasePager {
 
         //倒计时  開獎
         rl_productdetail_countdown = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_countdown);
-        rl_productdetail_calculation = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_calculation);
+//        rl_productdetail_calculation = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_calculation);
         tv_productdetail_countdownissue = (TextView) inflate.findViewById(R.id.tv_productdetail_countdownissue);
         ll_productdetail_buyit = (LinearLayout) inflate.findViewById(R.id.ll_productdetail_buyit);
         rl_productdetail_lucky = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_lucky);
@@ -507,7 +508,7 @@ public class ProductDetailPager extends BasePager {
 
             //隐藏一些控件
             rl_productdetail_countdown.setVisibility(View.GONE);
-            rl_productdetail_calculation.setVisibility(View.GONE);
+//            rl_productdetail_calculation.setVisibility(View.GONE);
             ll_productdetail_buyit.setVisibility(View.GONE);
             rl_productdetail_lucky.setVisibility(View.GONE);
 
@@ -519,7 +520,7 @@ public class ProductDetailPager extends BasePager {
             //如果  是正数  说明需要倒计时  如果为负数  说明已经开奖
             long time = Utils.Iso8601ToLong(finishTime);
             rl_productdetail_countdown.setVisibility(View.VISIBLE);
-            rl_productdetail_calculation.setVisibility(View.VISIBLE);
+//            rl_productdetail_calculation.setVisibility(View.VISIBLE);
             tv_productdetail_countdownissue.setText("Issue:" + productDetailBean.getIssue_id());
             ((SecondPagerActivity) context).countDownTimer = new MyCountDownTimer(time, 10).start();
 
@@ -543,7 +544,7 @@ public class ProductDetailPager extends BasePager {
             NewData();
             //显示一些 控件
             rl_productdetail_lucky.setVisibility(View.VISIBLE);
-            rl_productdetail_calculation.setVisibility(View.VISIBLE);
+//            rl_productdetail_calculation.setVisibility(View.VISIBLE);
             tv_productdetail_inprogress.setVisibility(View.VISIBLE);
             tv_productdetail_issue.setVisibility(View.VISIBLE);
 
@@ -824,6 +825,9 @@ public class ProductDetailPager extends BasePager {
                     break;
                 case R.id.tv_insert_buy:
                     tv_insert_buy.setClickable(false);
+                    if(popupWindow.isShowing()) {
+                        popupWindow.dismiss();
+                    }
                     int money = Integer.parseInt(et_insert_count.getText().toString());
 
                     if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0")||money%productDetailBean.getShares_increment() != 0) {
@@ -831,6 +835,7 @@ public class ProductDetailPager extends BasePager {
                         iv_insert_warn.setVisibility(View.VISIBLE);
                         tv_insert_warn.setEnabled(true);
                         Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);//加载动画资源文件
+                        shake.setDuration(200);
                         rl_insert_warn.startAnimation(shake); //给组件播放动画效果
                         tv_insert_buy.setClickable(true);
                         return;
@@ -992,6 +997,11 @@ public class ProductDetailPager extends BasePager {
         }else {
             rl_insert_warn.setVisibility(View.GONE);
         }
+
+        //光标放在数字后面
+        Editable ea = et_insert_count.getText();
+
+        et_insert_count.setSelection(ea.length());
 
         et_insert_count.setText(productDetailBean.getShares_increment() + "");
         tv_insert_two.setText(productDetailBean.getShares_increment()*2 + "");

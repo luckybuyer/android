@@ -3,29 +3,25 @@ package net.luckybuyer.bean;
 /**
  * Created by admin on 2016/10/28.
  */
-public class PayssionBean {
+public class HaloPayBean {
 
     /**
-     * _resource : PayssionPayment
-     * amount : 1
-     * currency : CNY
-     * failure_url : http://net.luckybuyer
-     * id : 44
-     * method : onecard
-     * payment_url : https://www.payssion.com/pay/GA28412034381108
+     * _resource : type of the resource
+     * amount : 0
+     * currency : string
+     * id : 0
+     * method : string
      * status : pending
-     * success_url : http://net.luckybuyer
+     * transaction_id : string
      */
 
     private String _resource;
     private int amount;
     private String currency;
-    private String failure_url;
     private int id;
     private String method;
-    private String payment_url;
     private String status;
-    private String success_url;
+    private String transaction_id;
 
     public String get_resource() {
         return _resource;
@@ -51,14 +47,6 @@ public class PayssionBean {
         this.currency = currency;
     }
 
-    public String getFailure_url() {
-        return failure_url;
-    }
-
-    public void setFailure_url(String failure_url) {
-        this.failure_url = failure_url;
-    }
-
     public int getId() {
         return id;
     }
@@ -75,14 +63,6 @@ public class PayssionBean {
         this.method = method;
     }
 
-    public String getPayment_url() {
-        return payment_url;
-    }
-
-    public void setPayment_url(String payment_url) {
-        this.payment_url = payment_url;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -91,11 +71,11 @@ public class PayssionBean {
         this.status = status;
     }
 
-    public String getSuccess_url() {
-        return success_url;
+    public String getTransaction_id() {
+        return transaction_id;
     }
 
-    public void setSuccess_url(String success_url) {
-        this.success_url = success_url;
+    public void setTransaction_id(String transaction_id) {
+        this.transaction_id = transaction_id;
     }
 }

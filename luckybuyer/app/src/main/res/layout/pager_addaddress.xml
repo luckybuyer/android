@@ -3,80 +3,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <RelativeLayout
+        android:id="@+id/rl_addaddress_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/dimen_138"
+        android:background="@color/bg_while">
+
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_46"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dimen_18"
+            android:layout_marginTop="@dimen/dimen_52"
+            android:gravity="center"
+            android:text="Add Address"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_42" />
+
+        <TextView
+            android:id="@+id/tv_addaddress_save"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dimen_24"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_57"
+            android:gravity="center"
+            android:text="Save"
+            android:textColor="@color/selecotr_addaddress_save_textcolor"
+            android:textSize="@dimen/dimen_32" />
+
+        <ImageView
+            android:id="@+id/iv_addaddress_back"
+            android:layout_width="@dimen/dimen_20"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_marginBottom="@dimen/dimen_24"
+            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_66"
+            android:background="@drawable/go_back" />
+
+        <TextView
+            android:id="@+id/tv_addaddress_back"
+            android:layout_width="@dimen/dimen_78"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_alignTop="@id/iv_addaddress_back"
+            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_toRightOf="@+id/iv_addaddress_back"
+            android:gravity="center"
+            android:text="Back"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_28" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="3px"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/default_shadow_top"></ImageView>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_addaddress_f5f5f5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_10"
+        android:layout_below="@+id/rl_addaddress_header"
+        android:background="#e5e5e5"></RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/sv_addaddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_addaddress_f5f5f5">
 
         <RelativeLayout
+            android:id="@+id/rl_addaddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/rl_addaddress_header"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_128"
-                android:background="@color/bg_while">
-
-                <TextView
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_46"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dimen_18"
-                    android:layout_marginTop="@dimen/dimen_52"
-                    android:gravity="center"
-                    android:text="Add Address"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/dimen_42" />
-
-                <TextView
-                    android:id="@+id/tv_addaddress_save"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_40"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/dimen_24"
-                    android:layout_marginRight="@dimen/dimen_24"
-                    android:layout_marginTop="@dimen/dimen_57"
-                    android:gravity="center"
-                    android:text="Save"
-                    android:textColor="@color/selecotr_addaddress_save_textcolor"
-                    android:textSize="@dimen/dimen_32" />
-
-                <ImageView
-                    android:id="@+id/iv_addaddress_back"
-                    android:layout_width="@dimen/dimen_20"
-                    android:layout_height="@dimen/dimen_36"
-                    android:layout_marginBottom="@dimen/dimen_24"
-                    android:layout_marginLeft="@dimen/dimen_24"
-                    android:layout_marginTop="@dimen/dimen_66"
-                    android:background="@drawable/go_back" />
-
-                <TextView
-                    android:id="@+id/tv_addaddress_back"
-                    android:layout_width="@dimen/dimen_78"
-                    android:layout_height="@dimen/dimen_36"
-                    android:layout_alignTop="@id/iv_addaddress_back"
-                    android:layout_marginLeft="@dimen/dimen_8"
-                    android:layout_toRightOf="@+id/iv_addaddress_back"
-                    android:gravity="center"
-                    android:text="Back"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/dimen_28" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="3px"
-                    android:layout_alignParentBottom="true"
-                    android:background="@drawable/default_shadow_top"></ImageView>
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_addaddress_name"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_100"
-                android:layout_below="@+id/rl_addaddress_header"
-                android:layout_marginTop="@dimen/dimen_24"
                 android:background="@color/bg_while">
 
                 <ImageView
@@ -105,10 +115,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_24"
                     android:background="@null"
-                    android:maxLines="1"
                     android:ellipsize="end"
                     android:gravity="center_vertical|right"
                     android:hint="Type in first name"
+                    android:maxLines="1"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/dimen_26" />
 
@@ -119,6 +129,7 @@
                     android:layout_marginLeft="@dimen/dimen_24"
                     android:background="@color/bg_view"></View>
             </RelativeLayout>
+
 
             <RelativeLayout
                 android:id="@+id/rl_addaddress_lastname"
@@ -153,10 +164,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_24"
                     android:background="@null"
+                    android:ellipsize="end"
                     android:gravity="center_vertical|right"
                     android:hint="Type in last name"
                     android:maxLines="1"
-                    android:ellipsize="end"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/dimen_26" />
 
@@ -199,11 +210,12 @@
 
                 <TextView
                     android:id="@+id/tv_addaddress_country"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/dimen_280"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_15"
                     android:layout_toLeftOf="@+id/iv_addaddress_country"
+                    android:gravity="right"
                     android:hint="select"
                     android:textSize="@dimen/dimen_26" />
 
@@ -251,8 +263,9 @@
 
                 <TextView
                     android:id="@+id/tv_addaddress_city"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/dimen_280"
                     android:layout_height="wrap_content"
+                    android:gravity="right"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_15"
                     android:layout_toLeftOf="@+id/iv_addaddress_city"
@@ -303,13 +316,14 @@
 
                 <TextView
                     android:id="@+id/tv_addaddress_area"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/dimen_280"
+                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_15"
                     android:layout_toLeftOf="@+id/iv_addaddress_area"
-                    android:text="select"
                     android:hint="select"
+                    android:text="select"
                     android:textSize="@dimen/dimen_26" />
 
                 <View

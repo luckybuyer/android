@@ -70,13 +70,13 @@
                         <TextView
                             android:id="@+id/tv_productdetail_producttitle"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_44"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/view"
                             android:layout_marginLeft="@dimen/dimen_24"
                             android:layout_marginRight="@dimen/dimen_24"
                             android:layout_marginTop="@dimen/dimen_30"
                             android:ellipsize="end"
-                            android:singleLine="true"
+                            android:maxLines="2"
                             android:text="Magic sound headphones second generation"
                             android:textColor="@color/text_black"
                             android:textSize="@dimen/dimen_32" />
@@ -352,45 +352,45 @@
                         android:background="#eeeeee"></RelativeLayout>
 
 
-                    <!--倒计时与开奖之后显示-->
-                    <RelativeLayout
-                        android:id="@+id/rl_productdetail_calculation"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_112"
-                        android:background="@color/bg_while"
-                        android:visibility="gone">
-                        <!--//防止使用 margintop出现空白区域-->
-                        <RelativeLayout
-                            android:id="@+id/rl_calculation"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_12"
-                            android:background="#EEEEEE"></RelativeLayout>
+                    <!--&lt;!&ndash;倒计时与开奖之后显示&ndash;&gt;-->
+                    <!--<RelativeLayout-->
+                        <!--android:id="@+id/rl_productdetail_calculation"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="@dimen/dimen_112"-->
+                        <!--android:background="@color/bg_while"-->
+                        <!--android:visibility="gone">-->
+                        <!--&lt;!&ndash;//防止使用 margintop出现空白区域&ndash;&gt;-->
+                        <!--<RelativeLayout-->
+                            <!--android:id="@+id/rl_calculation"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="@dimen/dimen_12"-->
+                            <!--android:background="#EEEEEE"></RelativeLayout>-->
 
-                        <ImageView
-                            android:layout_width="@dimen/dimen_22"
-                            android:layout_height="@dimen/dimen_28"
-                            android:layout_marginLeft="@dimen/dimen_24"
-                            android:layout_marginTop="@dimen/dimen_46"
-                            android:background="@drawable/productdetail_calculation" />
+                        <!--<ImageView-->
+                            <!--android:layout_width="@dimen/dimen_22"-->
+                            <!--android:layout_height="@dimen/dimen_28"-->
+                            <!--android:layout_marginLeft="@dimen/dimen_24"-->
+                            <!--android:layout_marginTop="@dimen/dimen_46"-->
+                            <!--android:background="@drawable/productdetail_calculation" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/dimen_44"
-                            android:layout_marginLeft="@dimen/dimen_68"
-                            android:layout_marginTop="@dimen/dimen_38"
-                            android:text="Calculation Details"
-                            android:textColor="#666666"
-                            android:textSize="@dimen/dimen_32" />
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="@dimen/dimen_44"-->
+                            <!--android:layout_marginLeft="@dimen/dimen_68"-->
+                            <!--android:layout_marginTop="@dimen/dimen_38"-->
+                            <!--android:text="Calculation Details"-->
+                            <!--android:textColor="#666666"-->
+                            <!--android:textSize="@dimen/dimen_32" />-->
 
-                        <ImageView
-                            android:layout_width="@dimen/dimen_12"
-                            android:layout_height="@dimen/dimen_22"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/dimen_24"
-                            android:layout_marginTop="@dimen/dimen_50"
-                            android:background="@drawable/go_go" />
-                    </RelativeLayout>
+                        <!--<ImageView-->
+                            <!--android:layout_width="@dimen/dimen_12"-->
+                            <!--android:layout_height="@dimen/dimen_22"-->
+                            <!--android:layout_alignParentRight="true"-->
+                            <!--android:layout_centerVertical="true"-->
+                            <!--android:layout_marginRight="@dimen/dimen_24"-->
+                            <!--android:layout_marginTop="@dimen/dimen_50"-->
+                            <!--android:background="@drawable/go_go" />-->
+                    <!--</RelativeLayout>-->
 
                     <include
                         android:id="@+id/rl_productdetail_lucky"
@@ -502,6 +502,7 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

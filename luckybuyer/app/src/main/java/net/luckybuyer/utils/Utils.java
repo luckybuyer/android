@@ -26,6 +26,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
@@ -386,6 +387,7 @@ public class Utils {
 
     /**
      * 获取是否存在NavigationBar
+     *
      * @param context
      * @return
      */
@@ -412,6 +414,7 @@ public class Utils {
 
     /**
      * 获取NavigationBar的高度
+     *
      * @param context
      * @return
      */
@@ -423,6 +426,18 @@ public class Utils {
             navigationBarHeight = rs.getDimensionPixelSize(id);
         }
         return navigationBarHeight;
+    }
+
+    public static void hideInputWindow(Context context) {
+        if (context == null) {
+            return;
+        }
+        final View v = ((Activity) context).getWindow().peekDecorView();
+        if (v != null && v.getWindowToken() != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+            Log.e("TAG", imm.isActive()+"");
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 }
 

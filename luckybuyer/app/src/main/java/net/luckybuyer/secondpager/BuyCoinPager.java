@@ -1,27 +1,20 @@
 package net.luckybuyer.secondpager;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewDebug;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -42,15 +35,12 @@ import net.luckybuyer.adapter.BuyCoinAdapter;
 import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.base.BaseNoTrackPager;
 import net.luckybuyer.bean.BuyCoinBean;
-import net.luckybuyer.bean.PayssionBean;
-import net.luckybuyer.utils.DensityUtil;
+import net.luckybuyer.bean.HaloPayBean;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -270,13 +260,13 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     }
                     if (token > System.currentTimeMillis() / 1000) {
                         if (iv_buycoins_paypal.isHovered()) {
-                            PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), "USD", "hipster jeans",
+                            PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), "USD", "Luckybuyer",
                                     PayPalPayment.PAYMENT_INTENT_SALE);
                             Intent intent = new Intent(context, PaymentActivity.class);
                             intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
                             startActivityForResult(intent, 0);
                         } else if (iv_buycoins_cashu.isHovered()) {
-                            StartPayssion();
+                            StartHalopay();
                         }
                     } else {
                         if (context instanceof SecondPagerActivity) {
@@ -311,9 +301,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
     }
 
     //paysession 支付
-    private void StartPayssion() {
-        String url = MyApplication.url + "/v1/payments/payssion/?timezone=" + MyApplication.utc;
-        String json = "{\"failure_url\": \"http://net.luckybuyer.failure\",\"method\": \"alipay_cn\",\"success_url\": \"http://net.luckybuyer.success\",\"topup_option_id\": " + topup_option_id + "}";
+    private void StartHalopay() {
+        String url = MyApplication.url+"/v1/payments/halopay/?timezone=" + MyApplication.utc;
+//        String json = "{\"failure_url\": \"http://net.luckybuyer.failure\",\"method\": \"alipay_cn\",\"success_url\": \"http://net.luckybuyer.success\",\"topup_option_id\": " + topup_option_id + "}";
+        String json = "{ \"topup_option_id\": "+topup_option_id+"}";
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
@@ -323,7 +314,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        processPayssion(response);
+                        processHalopay(response);
                     }
                 });
 
@@ -346,34 +337,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         });
     }
 
-    private void processPayssion(String response) {
+    private void processHalopay(String response) {
         Gson gson = new Gson();
-        PayssionBean payssionBean = gson.fromJson(response, PayssionBean.class);
-        String payment_url = payssionBean.getPayment_url();
-        wv_payssion.setVisibility(View.VISIBLE);
-        wv_payssion.getSettings().setJavaScriptEnabled(true);
-        wv_payssion.loadUrl(payment_url);
-
-        wv_payssion.setWebViewClient(new WebViewClient() {
-            public boolean shouldOverrideUrlLoading(WebView view, String url){
-                Log.e("TAG", url);
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                Log.e("TAG_finished", url);
-            }
-        });
-
-        wv_payssion.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                Log.e("TAG", newProgress + "  ");
-            }
-        });
+        HaloPayBean haloPayBean = gson.fromJson(response, HaloPayBean.class);
     }
 
 

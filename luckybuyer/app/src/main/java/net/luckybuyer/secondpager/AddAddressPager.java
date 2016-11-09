@@ -13,21 +13,27 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import net.luckybuyer.R;
+import net.luckybuyer.activity.MainActivity;
 import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.adapter.AddAddressAdapter;
 import net.luckybuyer.app.MyApplication;
 import net.luckybuyer.base.BaseNoTrackPager;
 import net.luckybuyer.utils.DensityUtil;
 import net.luckybuyer.utils.HttpUtils;
+import net.luckybuyer.utils.SoftKeyboardUtil;
 import net.luckybuyer.utils.Utils;
 
 import org.w3c.dom.Text;
@@ -67,7 +73,12 @@ public class AddAddressPager extends BaseNoTrackPager {
 
     private EditText et_addaddress_shippingnote;                 //装运通知单
 
+    private RelativeLayout rl_addaddress_name;
+    private RelativeLayout rl_addaddress_lastname;
+
     private TextView tv_title;
+    private ScrollView sv_addaddress;
+    private RelativeLayout rl_addaddress;
 
     private View inflate;
     private int address_id;
@@ -132,6 +143,10 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_telnum = (EditText) inflate.findViewById(R.id.et_addaddress_telnum);
         et_addaddress_shippingnote = (EditText) inflate.findViewById(R.id.et_addaddress_shippingnote);
         tv_title = (TextView) inflate.findViewById(R.id.tv_title);
+        sv_addaddress = (ScrollView) inflate.findViewById(R.id.sv_addaddress);
+        rl_addaddress = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress);
+        rl_addaddress_name = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress_name);
+        rl_addaddress_lastname = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress_lastname);
 
         iv_addaddress_back.setOnClickListener(new MyOnClickListener());
         tv_addaddress_back.setOnClickListener(new MyOnClickListener());
@@ -145,6 +160,8 @@ public class AddAddressPager extends BaseNoTrackPager {
         tv_addaddress_city.setOnClickListener(new MyOnClickListener());
         iv_addaddress_area.setOnClickListener(new MyOnClickListener());
         tv_addaddress_area.setOnClickListener(new MyOnClickListener());
+        rl_addaddress_name.setOnClickListener(new MyOnClickListener());
+        rl_addaddress_lastname.setOnClickListener(new MyOnClickListener());
 
 
         et_addaddress_firstname.addTextChangedListener(watcher);
@@ -153,13 +170,62 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_build.addTextChangedListener(watcher);
         et_addaddress_areacode.addTextChangedListener(watcher);
         et_addaddress_telnum.addTextChangedListener(watcher);
+
+        et_addaddress_firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    et_addaddress_firstname.setHint("Type in first name");
+                }else {
+                    et_addaddress_firstname.setHint("");
+                }
+            }
+        });
+        et_addaddress_lastname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    et_addaddress_lastname.setHint("Type in last name");
+                }else {
+                    et_addaddress_lastname.setHint("");
+                }
+            }
+        });
         if (address_id != -1) {
             tv_title.setText("Edit Address");
         } else {
             tv_title.setText("Add Address");
         }
 
+        //软键盘的监听
+        SoftKeyboardUtil.observeSoftKeyboard((SecondPagerActivity) context, new SoftKeyboardUtil.OnSoftKeyboardChangeListener() {
+            @Override
+            public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
+                if(visible) {
+                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    lp.bottomMargin = softKeybardHeight - 200;
+                    lp.topMargin = DensityUtil.dip2px(context,73);
+                    sv_addaddress.setLayoutParams(lp);
+                    if(et_addaddress_firstname.isFocused()) {
+                        et_addaddress_firstname.setHint("");
+                    }
+                }else {
+                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    lp.bottomMargin = 0;
+                    lp.topMargin = DensityUtil.dip2px(context,73);
+                    sv_addaddress.setLayoutParams(lp);
+
+                    et_addaddress_firstname.clearFocus();
+                    et_addaddress_lastname.clearFocus();
+                    et_addaddress_firstname.setHint("Type in first name");
+                    et_addaddress_lastname.setHint("Type in last name");
+                }
+
+            }
+        });
+
     }
+
 
     class MyOnClickListener implements View.OnClickListener {
 
@@ -233,6 +299,16 @@ public class AddAddressPager extends BaseNoTrackPager {
                         list.add("nihao" + i);
                     }
                     AreaSelector(list, tv_addaddress_area);
+                    break;
+                case R.id.rl_addaddress_name:
+                    et_addaddress_firstname.requestFocus();
+                    InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    break;
+                case R.id.rl_addaddress_lastname:
+                    et_addaddress_lastname.requestFocus();
+                    imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                     break;
             }
         }
@@ -309,7 +385,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                         @Override
                         public void run() {
                             HttpUtils.getInstance().stopNetWorkWaiting();
-                            Utils.MyToast(context, "Failed to save. Please try again");
+                            Utils.MyToast(context, "The network connection failed. Please try again");
                         }
                     });
                 }
@@ -317,7 +393,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                 @Override
                 public void failure(Exception exception) {
                     HttpUtils.getInstance().stopNetWorkWaiting();
-                    Utils.MyToast(context, "Failed to save. Please try again");
+                    Utils.MyToast(context, "The network connection failed. Please try again");
                 }
             });
         }
