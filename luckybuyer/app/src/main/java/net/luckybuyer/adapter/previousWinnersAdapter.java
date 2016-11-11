@@ -1,6 +1,7 @@
 package net.luckybuyer.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
 import net.luckybuyer.R;
+import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.bean.PreviousWinnerBean;
 import net.luckybuyer.view.CircleImageView;
 import net.luckybuyer.view.RoundCornerImageView;
@@ -40,7 +42,7 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.tv_previous_issue.setText("[Issue:" + list.get(position).getIssue_id() + "]");
         holder.tv_previous_time.setText(list.get(position).getFinished_at().substring(0, 19).replace("T", " "));
         holder.tv_previous_name.setText(list.get(position).getLucky_user().getProfile().getName() + "");
@@ -52,6 +54,16 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
                 holder.civ_provious_icon.setImageBitmap(resource);
             }
         });
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SecondPagerActivity.class);
+                intent.putExtra("game_id",list.get(position).getId());
+                intent.putExtra("batch_id",list.get(position).getBatch_id());
+                intent.putExtra("from","productdetail");
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -60,6 +72,7 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        private View view;
         private TextView tv_previous_issue;
         private TextView tv_previous_time;
         private TextView tv_previous_name;
@@ -69,6 +82,7 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
 
         public ViewHolder(View itemView) {
             super(itemView);
+            view = itemView;
             tv_previous_issue = (TextView) itemView.findViewById(R.id.tv_previous_issue);
             tv_previous_time = (TextView) itemView.findViewById(R.id.tv_previous_time);
             tv_previous_name = (TextView) itemView.findViewById(R.id.tv_previous_name);

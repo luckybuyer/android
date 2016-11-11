@@ -37,7 +37,7 @@ public class AutoTextView extends TextSwitcher implements ViewFactory {
     public AutoTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.auto3d);
-        mHeight = a.getDimension(R.styleable.auto3d_textSize, 18);
+        mHeight = a.getDimension(R.styleable.auto3d_textSize, 15);
         a.recycle();
         mContext = context;
         init();

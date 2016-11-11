@@ -5,13 +5,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,21 +17,16 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.auth0.android.lock.errors.LoginErrorMessageBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.facebook.internal.BoltsMeasurementEventListener;
 import com.google.gson.Gson;
 
 import net.luckybuyer.R;
@@ -344,8 +336,11 @@ public class HomePager extends BaseNoTrackPager {
             mStringArray.add(builder);
         }
 
-        atv_home_marquee.setText(mStringArray.get(0));
-        handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
+        if(mStringArray.size() > 0) {
+            atv_home_marquee.setText(mStringArray.get(0));
+            handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
+        }
+
     }
 
     private void processBannerData(String response) {
@@ -517,6 +512,8 @@ public class HomePager extends BaseNoTrackPager {
     public void onResume() {
         super.onResume();
         handler.sendEmptyMessageDelayed(WHAT, 5000);
-        handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
+        if(mStringArray != null && mStringArray.size() > 0) {
+            handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
+        }
     }
 }

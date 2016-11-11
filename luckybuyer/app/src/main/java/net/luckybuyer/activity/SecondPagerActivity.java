@@ -20,6 +20,8 @@ import com.auth0.android.Auth0;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
+import com.auth0.android.lock.Theme;
+import com.auth0.android.lock.enums.SocialButtonStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
@@ -39,6 +41,7 @@ import net.luckybuyer.secondpager.SetPager;
 import net.luckybuyer.secondpager.ShippingAddressPager;
 import net.luckybuyer.secondpager.WinnersSharingPager;
 import net.luckybuyer.utils.HttpUtils;
+import net.luckybuyer.utils.MyBase64;
 import net.luckybuyer.utils.StatusBarUtils;
 import net.luckybuyer.utils.Utils;
 
@@ -84,6 +87,8 @@ public class SecondPagerActivity extends FragmentActivity {
         Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
+                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.bg_ff4f3c).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_white).withPrimaryColor(R.color.bg_ff4f3c).build())
+                .withSocialButtonStyle(SocialButtonStyle.BIG)
                 // Add parameters to the Lock Builder
                 .build();
         this.lock.onCreate(this);
@@ -194,7 +199,8 @@ public class SecondPagerActivity extends FragmentActivity {
             Log.e("TAG_TOKEN", token);
 
 
-            byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
+//            byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
+            byte[] mmmm = MyBase64.decode(token.getBytes());
             String str = null;
             try {
                 str = new String(mmmm, "UTF-8");
@@ -212,6 +218,8 @@ public class SecondPagerActivity extends FragmentActivity {
             String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
+
+            Log.e("TAG", "登陆成功");
             //请求登陆接口
             HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                 @Override

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,7 @@ public class SetPager extends BasePager {
     private ImageView iv_set_back;
     private TextView tv_set_back;
     private RelativeLayout rl_set_address;
-    //    private RelativeLayout rl_set_help;
+        private RelativeLayout rl_set_email;
 //    private RelativeLayout rl_set_us;
     private TextView tv_set_login;
     private View inflate;
@@ -53,14 +54,14 @@ public class SetPager extends BasePager {
         iv_set_back = (ImageView) inflate.findViewById(R.id.iv_set_back);
         tv_set_back = (TextView) inflate.findViewById(R.id.tv_set_back);
         rl_set_address = (RelativeLayout) inflate.findViewById(R.id.rl_set_address);
-//        rl_set_help = (RelativeLayout) inflate.findViewById(R.id.rl_set_help);
+        rl_set_email = (RelativeLayout) inflate.findViewById(R.id.rl_set_email);
 //        rl_set_us = (RelativeLayout) inflate.findViewById(R.id.rl_set_us);
         tv_set_login = (TextView) inflate.findViewById(R.id.tv_set_login);
 
         iv_set_back.setOnClickListener(new MyOnClickListener());
         tv_set_back.setOnClickListener(new MyOnClickListener());
         rl_set_address.setOnClickListener(new MyOnClickListener());
-//        rl_set_help.setOnClickListener(new MyOnClickListener());
+        rl_set_email.setOnClickListener(new MyOnClickListener());
 //        rl_set_us.setOnClickListener(new MyOnClickListener());
         tv_set_login.setOnClickListener(new MyOnClickListener());
 
@@ -83,9 +84,11 @@ public class SetPager extends BasePager {
                     ((SecondPagerActivity) context).switchPage(9);
                     ((SecondPagerActivity) context).from = "setpager";
                     break;
-//                case R.id.rl_set_help:
-//                    Utils.MyToast(context,"帮助");
-//                    break;
+                case R.id.rl_set_email:
+                    Intent data=new Intent(Intent.ACTION_SENDTO);
+                    data.setData(Uri.parse("mailto:contact@luckybuyer.net"));
+                    startActivity(data);
+                    break;
 //                case R.id.rl_set_us:
 //                    Utils.MyToast(context,"关于我们");
 //                    break;

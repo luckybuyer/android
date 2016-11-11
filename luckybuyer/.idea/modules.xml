@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FlycoTabLayout_Lib/FlycoTabLayout_Lib.iml" filepath="$PROJECT_DIR$/FlycoTabLayout_Lib/FlycoTabLayout_Lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/halopay_res/halopay_res.iml" filepath="$PROJECT_DIR$/halopay_res/halopay_res.iml" />
       <module fileurl="file://$PROJECT_DIR$/luckybuyer.iml" filepath="$PROJECT_DIR$/luckybuyer.iml" />
     </modules>
   </component>

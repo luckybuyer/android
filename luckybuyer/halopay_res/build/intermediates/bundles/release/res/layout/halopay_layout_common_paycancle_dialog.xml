@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/halopay_color_1" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+<!-- titleBar -->
+	<RelativeLayout
+	    android:id="@+id/linear_title"
+	    android:layout_width="fill_parent"
+	    android:layout_height="45dip">
+
+	    <TextView
+	        android:id="@+id/titlebar_notice"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_marginLeft="@dimen/haolopay_margin_15"
+	        android:gravity="left|center_vertical"
+	        android:textColor="@color/halopay_color_7"
+	        android:textSize="@dimen/haolopay_text_size_16" />
+
+	    <LinearLayout
+	        android:id="@+id/titlebar_right_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="fill_parent"
+	        android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true">
+
+	        <ImageView
+	            android:id="@+id/iv_right_activity_msg"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:layout_marginLeft="@dimen/haolopay_margin_15"
+	            android:layout_marginRight="@dimen/haolopay_margin_15"
+	            android:contentDescription="@null"
+	            android:src="@drawable/halopay_btn_clear" />
+	    </LinearLayout>
+</RelativeLayout>
+
+ <View
+     android:layout_width="match_parent"
+     android:layout_height="@dimen/halopay_title_line_heigth"
+     android:background="@color/halopay_color_7" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" 
+                android:background="@color/halopay_color_1">
+	         <!-- 调查内容部分 -->
+
+	         <TextView
+	             android:id="@+id/paycancle_tips"
+	             android:layout_width="match_parent"
+	             android:layout_height="match_parent"
+	             android:gravity="left|center_vertical"
+	             android:layout_marginTop="@dimen/haolopay_margin_5"
+	             android:textColor="@color/halopay_color_6"
+	              android:layout_marginLeft="@dimen/haolopay_margin_15"
+                 android:layout_marginRight="@dimen/haolopay_margin_15"
+	             android:textSize="@dimen/haolopay_text_size_14" />
+
+	           <RadioGroup
+                    android:id="@+id/paycancle_radiogroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/haolopay_margin_15"
+                    android:layout_marginTop="@dimen/haolopay_margin_10"
+                    android:orientation="vertical" >
+                </RadioGroup>
+             
+                 <!-- <EditText
+                    android:id="@+id/paycancle_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/margin_3"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:background="@drawable/halopay_ll_bg"
+                    android:minHeight="50dp" 
+                    android:textSize="@dimen/text_size_14"
+                    android:gravity="top" /> -->
+                 <TextView
+                    android:id="@+id/paycancle_moreFeedBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/haolopay_margin_10"
+                    android:layout_marginTop="@dimen/haolopay_margin_5"
+                    android:paddingLeft="@dimen/haolopay_margin_5"
+                    android:paddingTop="@dimen/haolopay_margin_5"
+                    android:paddingBottom="@dimen/haolopay_margin_10"
+                    android:paddingRight="@dimen/haolopay_margin_15"
+                    android:textColor="@color/halopay_color_7_5"
+                    android:textSize="@dimen/haolopay_text_size_14"
+                    android:text="更多反馈>>" />
+
+				<CheckBox 
+				    android:id="@+id/paycancle_checkbox"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_marginLeft="@dimen/haolopay_margin_15"
+				    android:layout_marginBottom="@dimen/haolopay_margin_10"
+				    android:textColor="@color/halopay_color_4"
+                    android:textSize="@dimen/haolopay_text_size_14" 
+                    android:button="@drawable/halopay_checkbox_bg"/>
+                <!--  调查内容与按钮的分割线-->
+                <View
+                    android:id="@+id/btn_splitor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/haolopay_divid_line_h"
+                    android:background="#d2dbe6"
+                    android:visibility="visible" />
+                  <!--  最底下的按钮-->
+                <LinearLayout
+                    android:id="@+id/ll_button_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/b_negative_button"
+                        android:layout_width="0.0dp"
+                        android:layout_height="40dip"
+                        android:layout_marginRight="10dip"
+                        android:layout_weight="1"
+                        android:background="@color/halopay_transparent"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@android:string/cancel"
+                        android:textColor="@color/halopay_color_4"
+                        android:textSize="@dimen/haolopay_text_size_14" />
+
+                    <View
+                        android:id="@+id/btn_splitor_between_neg_and_neu"
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#d2dbe6"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/b_neutral_button"
+                        android:layout_width="0.0dp"
+                        android:layout_height="40dip"
+                        android:layout_marginRight="10dip"
+                        android:layout_weight="1"
+                        android:background="@color/halopay_transparent"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:textColor="@color/halopay_color_7_2"
+                        android:textSize="@dimen/haolopay_text_size_14" />
+
+                    <View
+                        android:id="@+id/btn_splitor_between_neu_and_pos"
+                        android:layout_width="1dp"
+                        android:layout_height="40dip"
+                        android:background="#d2dbe6"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/b_positive_button"
+                        android:layout_width="0.0dp"
+                        android:layout_height="40dip"
+                        android:layout_weight="1"
+                        android:background="@color/halopay_transparent"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@android:string/ok"
+                        android:textColor="@color/halopay_color_7_2"
+                        android:textSize="@dimen/haolopay_text_size_14" >
+                    </Button>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>

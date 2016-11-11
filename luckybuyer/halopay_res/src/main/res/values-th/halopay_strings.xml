@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 全局变量 -->
+    <string name="halo_common_dialog_title"> การเตือน</string>
+    <string name="halo_network_unconnent">การเชื่อมต่ออินเตอร์เน็ตล้มเหลว กรุณาตรวจสอบเครือข่ายอินเตอร์เน็ต !</string>
+    
+    <!-- dialog tip -->
+    <string name="halopay_ui_dialog_positive">ตกลง</string>
+    <string name="halopay_ui_dialog_cancel">ยกเลิก</string>
+    <string name="halopay_ui_dialog_msg_to_continue_query">ตรวจสอบต่อไป</string>
+    <string name="halopay_ui_dialog_msg_cancel_query">ยกเลิกการตรวจสอบ</string>
+    <string name="halopay_ui_dialog_message_exit">ยกเลิกการสั่งซื้อสินค้า</string>
+    <string name="halo_uisdk_giveup">ยกเลิกขั้นตอนการชำระเงินหรือไม่</string>
+    <string name="halopay_ui_dialog_msg_to_pay_again">ชำระอีกครั้ง</string>
+    
+    <!-- callback message -->
+    <string name="halopay_ui_callback_cancel_pay">ยกเลิกการชำระเงิน</string>
+    <string name="halopay_ui_callback_system_error">ระบบผิดพลาด</string>
+ 
+    <!-- toast message -->
+    <string name="halopay_ui_toast_msg_recharge_success">เติมเงินสำเร็จ</string>
+    <!-- 输入充值虚拟币界面 -->
+    <string name="halopay_ui_input_amount_goto_pay">ชำระต่อไป</string>
+    <string name="halopay_ui_input_amount_other_paymethod">ชำระเงินโดยวิธีการอื่น</string>
+    
+    
+    <!-- 收银台 -->
+    <string name="halopay_payhub_hi_wallet">Hi-wallet：</string>
+    <string name="halopay_payhub_to_pay">ชำระเงินทันที</string>
+    <string name="halo_uisdk_user_cancle">ยกเลิกบัญชีผู้ใช้</string>
+    
+    <string name="halopay_oversea_title_payhub">Halo Pay</string>
+    <string name="halopay_oversea_title_pay">กรุณาเลือกวิธีการชำระเงิน</string>
+	<string name="halopay_charge_production">คำอธิบายการเติมเงิน</string>
+    <string name="halopay_charge_remind">กรุณาใส่จำนวนเงินที่เติมเงิน</string>
+	<string name="halo_id_is_give_up_find_pwd">คุณต้องการยกเลิกการสืบหารหัสใช่หรือไม่</string>
+    <string name="halo_id_input_new_pwd">กรุณาใส่รหัสใหม่</string>
+    <string name="halo_id_input_new_pwd_again">กรุณาใส่รหัสใหม่อีกครั้ง </string>
+    <string name="halo_id_button_complete">สำเร็จ</string>
+    <string name="halo_id_login">เข้าสู่ระบบ</string>
+    <string name="halo_id_register">ลงทะเบียน</string>
+    <string name="halo_id_dialog_sure">ตกลง</string>
+    <string name="halo_id_find_pwd">กู้คืนรหัส</string>
+	<string name="halo_id_input_true_email">กรุณาใส่อีเมลล์ที่ถูกต้อง</string>
+	 <string name="halo_id_two_pwd_not_equal_input_again">รหัสสองครั้งไม่ตรงกัน  กรุณาใส่อีกครั้ง</string>
+	 <string name="halo_id_register_seccess">เข้าสู่ระบบที่ประสบความสำเร็จ</string>
+	 <string name="halo_sub_pay_fail_info">ชำระเงินไม่สำเร็จ</string>
+    <string name="halopay_cardinfo_tip_cardno">กรุณากรอก pin code.</string>
+    <string name="halopay_cardinfo_tip_pwd">กรุณากรอก pin code.</string>
+    
+    <!-- idsdk -->
+    <string name="halo_id_tip_register">คุณได้ชำระเงินเรียบร้อยแล้ว  เพื่อความปลอดภัยของเงินในบัญชี  กรุณาลงทะเบียน</string>
+    <string name="halo_id_tip_register2">*เพื่อความสะดวกให้การกู้รหัสผ่าน กรุณากรอกอีเมลล์ที่แท้จริง</string>
+    <string name="halo_login_btn_complete">ขั้นตอนต่อไป</string>
+    <string name="halo_id_forgotpwd_tv_forgotpwd">ลืมรหัสผ่าน</string>
+    <string name="halo_id_register_protocol">ข้อตกลงของการลงทะเบียน</string>
+    
+    <!-- 充值 -->
+    <string name="halopay_charge_percent_balance">อัตราการแลกเปลี่ยน: 100Hi=%1$s</string>
+    <string name="halo_charge_show"><Data><![CDATA[จำนวนเงินที่แท้จริงเครดิต <font color="#000000"><b>%1$s</b></font>,<font color="#eb5353"><b>%2$s</b></font> ต้องคิดค่าใช้จ่าย]]></Data></string>
+    <string name="halo_chargefeee_tips">ยอดชำระในครั้งนี้ %1$s ในนั้น %2$s เป็นค่าดำเนินการ    ยอดเงินที่คืนกลับในบัญชีคือ %3$s</string>
+    <string name="halo_truemoney_check">กรุณาใส่เลขที่บัญชีความยาว  %1$s หลัก </string>
+    <string name="halo_truemoney_buy">ซื้อ</string>
+    <string name="halo_oversea_game_card_store_tips">ข้อควรระวัง:กรุณารับรองราคาอุปกรณ์กับจำนวนค่าธนบัตรจริงว่าตรงกัน  มิฉะนั้นอาจจะทำให้การเติมเงินผิดพลาด   บัตรถูกระงับหรือเกิดความเสียหายแก่ทรัพย์สิน  </string>
+    
+    <!-- util -->
+    <string name="halo_system_save">ช่องทางชำระเงินปิดบริการชั่วคราว   กรุณาชำระเงินด้วยวิธีการอื่น</string>
+
+    <!-- interface -->
+    <string name="halo_interface_else_error">ข้อผิดพลาดอื่นๆ</string>
+    <string name="halo_query_payresult_time_out">ตรวจสอบไม่พบผลการชำระเงิน  สืบค้นต่อไปหรือไม่</string>
+    <string name="halo_click_get">กดรับ</string>
+    
+    <!-- 切换国家界面 -->
+    <string name="halo_payhub_balance_tip">คุณมี %1$s Hi ยังไม่ฝากเข้าบัญชี  กรุณาเปิดใช้งานบัญชีของคุณเพื่อบันทึกยอดเงินคงเหลือ</string>
+    <string name="halo_select_settings_country">ประเทศ หรือ ภาค</string>
+    <string name="halo_select_settings_explain_country">กรุณาเลือกประเทศหรือพื้นที่ที่คุณอยู่</string>
+    <string name="halo_select_settings_currency">สกุลเงินของการชำระเงิน</string>
+    <string name="halo_select_settings_explain_currency">กรุณาเลือกสกุลเงินของการชำระเงิน</string>
+    <string name="halo_select_settings_language">ภาษาที่แสดง</string>
+     <string name="halo_select_settings_explain_language">กรุณาแสดงภาษาในเคาน์เตอร์</string>
+    <string name="halo_select_settings_submit">เสนอ</string>
+    <string name="halo_select_settings_back">กลับ</string>
+    
+    <!-- 收银台界面多的东西 -->
+    <string name="halo_payhub_balance">สมดุล:%1$s</string>
+    <string name="halo_payhub_pay">จ่ายเงิน</string>
+    <string name="halo_payhub_hi_helper">My Wallet คือการนำเสนอของHalo biling ทำหน้าที่เป็นการะเป๋าเงินออนไลน์ หน่วยพื้นฐานของบัญชีคือ Hi</string>
+    <string name="halo_payhub_vc_to_charge">คุณจะต้องจ่าย %1$s(%2$s), ยอดเงินในบัญชีไม่เพียงพอโปรดชาร์จ</string>
+    <string name="halo_payhub_other_paylist">ยกเลิก</string>
+    <string name="halo_payhub_to_charge">ด้านบน</string>
+    <string name="halo_charge_minpay">การจ่ายเงินขั้นต่ำ %1$s</string>
+    
+       <!--  支付弹层 -->
+  <string name="halo_paytip_title">ความสนใจ</string>
+  <string name="halo_paytip_wares_price">ราคาจำนวน:%1$s</string>
+  <string name="halo_paytip_pay_price">จำนวนเงินที่จ่ายเงิน:%1$s</string>
+  <string name="halo_paytip_pay_notice">กรุณาให้ความสนใจ:</string>
+  <string name="halo_paytip_pay_notice1">ตามวิธีการชำระเงินการ จำกัด บริษัท, คุณจะต้องจ่าย %1$s.</string>
+  <string name="halo_paytip_pay_notice2">ซึ่ง %1$s สำหรับการซื้อสินค้า, ส่วนที่เหลือจะเติมเงินเข้าไปใน Hi-กระเป๋าสตางค์คุณจะได้รับ %2$s สวัสดี (%3$s การเรียกเก็บค่าธรรมเนียมค่าใช้จ่าย)</string>
+  <!--  支付剩余的钱不足以充值Hi时的提示语  -->
+  <string name="halo_paytip_other_tips">คุณจะต้องจ่ายหยวน %1$s,%2$s ซึ่งในการซื้อผลิตภัณฑ์ %3$s สำหรับค่าใช้จ่ายที่ช่อง</string>
+    <!-- 显示卡类型的dialog   请选择卡类型-->
+    <string name="halo_card_dialog_select_type">กรุณาเลือกชนิดของบัตร</string>
+  
+  <!-- 取消支付调查问卷 -->
+    <string name="halo_paycancle_tips">หากไม่สามารถทำการจ่ายได้สำเร็จ กรุณาติดต่อเรา</string>
+    <string name="halo_paycancle_no_show">กรุณาอย่ารบกวนฉัน</string>
+    <string name="halo_paycancle_no_select">คุณยังไม่ได้เลือก</string>
+    <string name="halo_paycancle_more_feed_back">ผลตอบรับที่มากกว่า>></string>
+    <string name="halo_paycancle_button_quit">จบการทำงาน</string>
+    
+    <!-- 反馈界面 -->
+     <string name="halo_feed_back_title">ช่วยเหลือ และ ผลตอบรับ</string>
+     <string name="halo_feed_back_content">ผลตอบรับ:</string>
+     <string name="halo_feed_back_et_content_hint">กรุณาติดต่อเราหากคุณพบปัญหาใด ๆ ระหว่างที่ใช้บริการของเราอยู่</string>
+     <string name="halo_feed_back_email">ข้อมูลการติดต่อของเรา:</string>
+     <string name="halo_feed_back_et_email_hint">กรุณาใส่หมายเลขโทรศัพท์หรืออีเมลเพื่อที่เราจะสามารถติดต่อคุณได้สำหรับรายละเอียดข้อมูลอื่น ๆ</string>
+     <string name="halo_feed_back_submit_failed">ส่งล้มเหลวโปรดลองอีกครั้ง</string>
+     
+     <!-- 短代界面 -->
+      <string name="halo_sms_pay_operator">ผู้ประกอบการ</string>
+      <string name="halo_sms_pay_tip">คุณสามารถส่งข้อความข้างใต้ที่ %1$sและการสั่งซื้อ ให้เรียบร้อย</string>
+      <string name="halo_sms_pay_copy_tv_text">กรุณาคัดลอกข้อความ</string>
+      <string name="halo_sms_pay_query_tip">หลังจาก ส่งข้อความ เรียบร้อย กรุณาคลิก ดำเนินต่อไป</string>
+      <string name="halo_sms_pay_query_button_text">ดำเนินต่อไป</string>
+      <string name="halo_sms_pay_copy_success_tip">กรุณาส่งข้อความไปที่ %1$sหลังจากคัดลอกข้อความs</string>
+</resources>

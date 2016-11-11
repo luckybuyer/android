@@ -1,14 +1,20 @@
 package net.luckybuyer.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
@@ -76,6 +82,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
 
     class MyOnClickListener implements View.OnClickListener {
         private int position;
+        private AlertDialog show;
 
         public MyOnClickListener(int position) {
             this.position = position;
@@ -141,6 +148,18 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
                 case R.id.tv_shipping_delete:
+                    StartAlertDialog(position);
+                    break;
+                case R.id.tv_deleteadd_cancel:
+                    if(show.isShowing()) {
+                        show.dismiss();
+                    }
+                    break;
+                case R.id.tv_deleteadd_ok:
+                    if(show.isShowing()) {
+                        show.dismiss();
+                    }
+
                     url = MyApplication.url + "/v1/addresses/"+list.get(position).getId()+"?timezone=" + MyApplication.utc;
 
                     map = new HashMap();
@@ -182,7 +201,33 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     break;
             }
         }
+
+        private void StartAlertDialog(int position) {
+            //得到屏幕的 尺寸 动态设置
+            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+            int screenWidth = wm.getDefaultDisplay().getWidth();
+            int screenHeight = wm.getDefaultDisplay().getHeight();
+
+            View view = View.inflate(context, R.layout.alertdialog_shippingaddress_delete, null);
+            TextView tv_deleteadd_cancel = (TextView) view.findViewById(R.id.tv_deleteadd_cancel);
+            TextView tv_deleteadd_ok = (TextView) view.findViewById(R.id.tv_deleteadd_ok);
+
+            tv_deleteadd_cancel.setOnClickListener(new MyOnClickListener(position));
+            tv_deleteadd_ok.setOnClickListener(new MyOnClickListener(position));
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setView(view);
+            show = builder.show();
+            show.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+            show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Window window = show.getWindow();
+            window.setGravity(Gravity.CENTER);
+            show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
+            show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_shipping_name;

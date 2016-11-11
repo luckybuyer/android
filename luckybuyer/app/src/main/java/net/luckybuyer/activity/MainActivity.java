@@ -1,6 +1,5 @@
 package net.luckybuyer.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -41,6 +40,7 @@ import net.luckybuyer.pager.ShowPager;
 import net.luckybuyer.pager.WinningPager;
 import net.luckybuyer.secondpager.BuyCoinPager;
 import net.luckybuyer.utils.HttpUtils;
+import net.luckybuyer.utils.MyBase64;
 import net.luckybuyer.utils.StatusBarUtils;
 import net.luckybuyer.utils.Utils;
 
@@ -70,6 +70,8 @@ public class MainActivity extends FragmentActivity {
     private WinningPager winningPager;
     private MePager mePager;
 
+    public int id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +80,7 @@ public class MainActivity extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
-        Log.e("TAG_dimen",  getResources().getDimension(R.dimen.dimen_10)+"");
+        Log.e("TAG_dimen", getResources().getDimension(R.dimen.dimen_10) + "");
         //auth0登陆
         Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
@@ -124,7 +126,7 @@ public class MainActivity extends FragmentActivity {
         findView();
 
         rb_main_homepager.setChecked(true);
-        if(Utils.checkDeviceHasNavigationBar(MainActivity.this)) {
+        if (Utils.checkDeviceHasNavigationBar(MainActivity.this)) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(MainActivity.this));
             rl_main.setLayoutParams(lp);
         }
@@ -181,6 +183,7 @@ public class MainActivity extends FragmentActivity {
                     rb_main_buycoins.setChecked(true);
                     rb_main_newresult.setChecked(false);
                     rb_main_me.setChecked(false);
+                    id = 1;
                     break;
                 case R.id.rb_main_newresult:
                     showFragment(list.get(2));
@@ -188,6 +191,7 @@ public class MainActivity extends FragmentActivity {
                     rb_main_buycoins.setChecked(false);
                     rb_main_newresult.setChecked(true);
                     rb_main_me.setChecked(false);
+
                     break;
                 case R.id.rb_main_me:
                     String token_s = Utils.getSpData("token_num", MainActivity.this);
@@ -206,6 +210,7 @@ public class MainActivity extends FragmentActivity {
                     } else {
                         MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
                     }
+                    id = 3;
                     break;
             }
         }
@@ -229,18 +234,21 @@ public class MainActivity extends FragmentActivity {
             } else {
                 if (fg == homePager) {
                     homePager.initData();
-                    if(buyCoinPager != null &&buyCoinPager.show != null&& buyCoinPager.show.isShowing()) {
+                    if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
                         buyCoinPager.show.dismiss();
                     }
                 } else if (fg == mePager) {
 //                    mePager.initData();
-                    if(buyCoinPager != null &&buyCoinPager.show != null&& buyCoinPager.show.isShowing()) {
+                    if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
                         buyCoinPager.show.dismiss();
                     }
-                }else if(fg == buyCoinPager) {
+                    if(mePager != null) {
+                        mePager.setView();
+                    }
+                } else if (fg == buyCoinPager) {
 
-                }else if(fg == winningPager) {
-                    if(buyCoinPager != null &&buyCoinPager.show != null&& buyCoinPager.show.isShowing()) {
+                } else if (fg == winningPager) {
+                    if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
                         buyCoinPager.show.dismiss();
                     }
                 }
@@ -277,8 +285,9 @@ public class MainActivity extends FragmentActivity {
             // Base64 解码：
             String token = credentials.getIdToken();
 
-
-            byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
+            Log.e("TAG_token错误", token);
+//            byte[] mmmm = Base64.decode(token.getBytes(), Base64.URL_SAFE);
+            byte[] mmmm = MyBase64.decode(token.getBytes());
             String str = null;
             try {
                 str = new String(mmmm, "UTF-8");
@@ -309,12 +318,27 @@ public class MainActivity extends FragmentActivity {
                     Utils.setSpData("picture", user.getProfile().getPicture(), MainActivity.this);
                     Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
-                    //登陆成功  直接进入me页面
-                    showFragment(list.get(3));
-                    rb_main_homepager.setChecked(false);
-                    rb_main_buycoins.setChecked(false);
-                    rb_main_newresult.setChecked(false);
-                    rb_main_me.setChecked(true);
+                    Log.e("TAG", user.getProfile().getPicture());
+
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //登陆成功  直接进入me页面
+                            showFragment(list.get(id));
+                            if (id == 1) {
+                                rb_main_buycoins.setChecked(true);
+                                rb_main_me.setChecked(false);
+                            } else if (id == 3) {
+                                rb_main_buycoins.setChecked(false);
+                                rb_main_me.setChecked(true);
+                            }
+                            rb_main_homepager.setChecked(false);
+                            rb_main_newresult.setChecked(false);
+
+                        }
+                    });
+
+                    Log.e("TAG_用户信息", response);
 
                 }
 
@@ -324,7 +348,7 @@ public class MainActivity extends FragmentActivity {
                     Log.e("TAG", message);
                     Utils.setSpData("token", null, MainActivity.this);
                     Utils.setSpData("token_num", null, MainActivity.this);
-                    runOnUiThread(new Runnable() {
+                    MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Utils.MyToast(MainActivity.this, "Login failed, please login again");
@@ -336,7 +360,7 @@ public class MainActivity extends FragmentActivity {
                 public void failure(Exception exception) {
                     Utils.setSpData("token", null, MainActivity.this);
                     Utils.setSpData("token_num", null, MainActivity.this);
-                    runOnUiThread(new Runnable() {
+                    MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Utils.MyToast(MainActivity.this, "Login failed, please login again");
@@ -349,21 +373,40 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onCanceled() {
+            if (id == 1) {
+                showFragment(list.get(1));
+            } else if (id == 3) {
+                showFragment(list.get(0));
+            }
             showFragment(list.get(0));
-            rb_main_homepager.setChecked(true);
-            rb_main_buycoins.setChecked(false);
+            if (id == 1) {
+                rb_main_buycoins.setChecked(true);
+                rb_main_me.setChecked(false);
+            } else if (id == 3) {
+                rb_main_buycoins.setChecked(false);
+                rb_main_me.setChecked(true);
+            }
+            rb_main_homepager.setChecked(false);
             rb_main_newresult.setChecked(false);
-            rb_main_me.setChecked(false);
         }
 
         @Override
         public void onError(LockException error) {
-            Log.e("TAG", error.toString());
+            if (id == 1) {
+                showFragment(list.get(1));
+            } else if (id == 3) {
+                showFragment(list.get(0));
+            }
             showFragment(list.get(0));
-            rb_main_homepager.setChecked(true);
-            rb_main_buycoins.setChecked(false);
+            if (id == 1) {
+                rb_main_buycoins.setChecked(true);
+                rb_main_me.setChecked(false);
+            } else if (id == 3) {
+                rb_main_buycoins.setChecked(false);
+                rb_main_me.setChecked(true);
+            }
+            rb_main_homepager.setChecked(false);
             rb_main_newresult.setChecked(false);
-            rb_main_me.setChecked(false);
         }
     };
 
@@ -373,20 +416,15 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (buyCoinPager.wv_payssion != null && buyCoinPager.wv_payssion.getVisibility() == View.VISIBLE) {
-                if (buyCoinPager != null && buyCoinPager.wv_payssion != null) {
-                    buyCoinPager.wv_payssion.setVisibility(View.GONE);
-                }
+
+            if ((System.currentTimeMillis() - mExitTime) > 3000) {
+                Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
 
             } else {
-                if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                    Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
-                    mExitTime = System.currentTimeMillis();
-
-                } else {
-                    finish();
-                }
+                finish();
             }
+
             return true;
         }
         return super.onKeyUp(keyCode, event);

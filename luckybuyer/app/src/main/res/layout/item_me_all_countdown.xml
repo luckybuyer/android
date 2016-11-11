@@ -12,80 +12,86 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_all"
-        android:layout_width="@dimen/dimen_160"
-        android:layout_height="@dimen/dimen_160"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_50"
-        android:background="@drawable/shape_rl_all"
-        android:gravity="center">
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/rl_all"
+            android:layout_width="@dimen/dimen_160"
+            android:layout_height="@dimen/dimen_160"
+            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_50"
+            android:background="@drawable/shape_rl_all"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_countdown_icon"
+                android:layout_width="@dimen/dimen_130"
+                android:layout_height="@dimen/dimen_130"
+                android:background="@drawable/default_icon" />
+        </RelativeLayout>
+
+        <net.luckybuyer.view.JustifyTextView
+            android:id="@+id/jtv_countdown_discribe"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_72"
+            android:layout_marginLeft="@dimen/dimen_30"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_54"
+            android:layout_toRightOf="@id/rl_all"
+            android:ellipsize="end"
+            android:maxEms="10"
+            android:maxLines="2"
+            android:text="Magic sound headphones second"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_28" />
+
+        <TextView
+            android:id="@+id/tv_countdown_issue"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_38"
+            android:layout_below="@id/jtv_countdown_discribe"
+            android:layout_marginLeft="@dimen/dimen_30"
+            android:layout_toRightOf="@+id/rl_all"
+            android:text="Issue：171754"
+            android:textColor="#666666"
+            android:textSize="@dimen/dimen_28" />
+
+        <TextView
+            android:id="@+id/tv_countdown_participation"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_38"
+            android:layout_below="@id/tv_countdown_issue"
+            android:layout_marginLeft="@dimen/dimen_30"
+            android:layout_toRightOf="@+id/rl_all"
+            android:text="My participation: 1"
+            android:textColor="#666666"
+            android:textSize="@dimen/dimen_28" />
 
         <ImageView
-            android:id="@+id/iv_countdown_icon"
-            android:layout_width="@dimen/dimen_130"
-            android:layout_height="@dimen/dimen_130"
-            android:background="@drawable/default_icon" />
+            android:id="@+id/iv_countdown_goview"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_22"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_countdown_issue"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_4"
+            android:background="@drawable/go_go"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_24" />
+
+        <TextView
+            android:id="@+id/tv_countdown_goview"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_32"
+            android:layout_below="@+id/tv_countdown_issue"
+            android:layout_marginRight="@dimen/dimen_8"
+            android:layout_toLeftOf="@id/iv_countdown_goview"
+            android:text="view all"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_24" />
     </RelativeLayout>
 
-    <net.luckybuyer.view.JustifyTextView
-        android:id="@+id/jtv_countdown_discribe"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_72"
-        android:layout_marginLeft="@dimen/dimen_30"
-        android:layout_marginRight="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_54"
-        android:layout_toRightOf="@id/rl_all"
-        android:ellipsize="end"
-        android:maxEms="10"
-        android:maxLines="2"
-        android:text="Magic sound headphones second"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_28" />
-
-    <TextView
-        android:id="@+id/tv_countdown_issue"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_38"
-        android:layout_below="@id/jtv_countdown_discribe"
-        android:layout_marginLeft="@dimen/dimen_30"
-        android:layout_toRightOf="@+id/rl_all"
-        android:text="Issue：171754"
-        android:textColor="#666666"
-        android:textSize="@dimen/dimen_28" />
-
-    <TextView
-        android:id="@+id/tv_countdown_participation"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_38"
-        android:layout_below="@id/tv_countdown_issue"
-        android:layout_marginLeft="@dimen/dimen_30"
-        android:layout_toRightOf="@+id/rl_all"
-        android:text="My participation: 1"
-        android:textColor="#666666"
-        android:textSize="@dimen/dimen_28" />
-
-    <ImageView
-        android:id="@+id/iv_countdown_goview"
-        android:layout_width="@dimen/dimen_12"
-        android:layout_height="@dimen/dimen_22"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tv_countdown_issue"
-        android:layout_marginRight="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_4"
-        android:background="@drawable/go_go"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_24" />
-
-    <TextView
-        android:id="@+id/tv_countdown_goview"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_32"
-        android:layout_below="@+id/tv_countdown_issue"
-        android:layout_marginRight="@dimen/dimen_8"
-        android:layout_toLeftOf="@id/iv_countdown_goview"
-        android:text="view all"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_24" />
 
 
     <TextView
@@ -262,7 +268,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_below="@+id/rl_all"
+        android:layout_below="@+id/rl_top"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_40"

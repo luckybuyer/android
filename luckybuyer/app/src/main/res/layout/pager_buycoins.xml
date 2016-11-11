@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg_while">
+    android:background="#ffffff"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/rl_buycoins_header"
@@ -63,12 +63,14 @@
     </RelativeLayout>
 
     <ScrollView
-        android:layout_below="@+id/rl_buycoins_header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_buycoins_header">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:id="@+id/rl_top"
                 android:layout_width="match_parent"
@@ -76,6 +78,7 @@
                 android:background="#F2F2F4"></RelativeLayout>
 
             <RelativeLayout
+                android:background="#ffffff"
                 android:id="@+id/rl_buycoins_balance"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_100"
@@ -144,16 +147,18 @@
                 </android.support.v7.widget.RecyclerView>
 
                 <RelativeLayout
+                    android:id="@+id/rl_method_above"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_20"
                     android:layout_below="@+id/rv_buycoins"
                     android:background="#F2F2F4"></RelativeLayout>
 
                 <LinearLayout
+                    android:background="#ffffff"
                     android:id="@+id/ll_buycoins_method"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rv_buycoins"
+                    android:layout_below="@+id/rl_method_above"
                     android:orientation="vertical">
 
                     <TextView
@@ -163,9 +168,9 @@
                         android:layout_marginRight="@dimen/dimen_24"
                         android:layout_marginTop="@dimen/dimen_20"
                         android:gravity="center_vertical"
-                        android:text="Payment method"
-                        android:textColor="#999999"
-                        android:textSize="@dimen/dimen_26" />
+                        android:text="Payment Method"
+                        android:textColor="#333333"
+                        android:textSize="@dimen/dimen_33" />
 
                     <View
                         android:layout_width="match_parent"
@@ -174,6 +179,7 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:background="#ffffff"
                     android:id="@+id/rl_buycoins_paypal"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_100"
@@ -208,14 +214,18 @@
                     android:id="@+id/rl_buycoins_cashu"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_100"
-                    android:layout_below="@+id/rl_buycoins_paypal">
+                    android:layout_below="@+id/rl_buycoins_paypal"
+                    android:background="#ffffff">
 
-                    <ImageView
-                        android:layout_width="@dimen/dimen_130"
-                        android:layout_height="@dimen/dimen_30"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dimen_24"
-                        android:background="@drawable/buycoins_cashu" />
+                        android:textSize="@dimen/dimen_34"
+                        android:textColor="#999"
+                        android:text="Other payments"
+                        />
 
                     <ImageView
                         android:id="@+id/iv_buycoins_cashu"
@@ -227,12 +237,42 @@
                         android:background="@drawable/buycoins_true"
                         android:visibility="gone" />
                 </RelativeLayout>
+                
+                <RelativeLayout
+                    android:id="@+id/rl_buycoins"
+                    android:background="#f2f2f4"
+                    android:layout_below="@+id/rl_buycoins_cashu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:paddingTop="@dimen/dimen_34"
+                        android:id="@+id/rl_bucoins_contant"
+                        android:layout_width="match_parent"
+                        android:textSize="@dimen/dimen_24"
+                        android:textColor="#999999"
+                        android:gravity="center_horizontal"
+                        android:text="If you have any question you can contact us at"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:paddingBottom="@dimen/dimen_24"
+                        android:id="@+id/rl_buycoins_email"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/rl_bucoins_contant"
+                        android:textSize="@dimen/dimen_24"
+                        android:gravity="center"
+                        android:textColor="#999999"
+                        android:layout_marginTop="@dimen/dimen_5"
+                        android:text="@string/email"
+                        android:layout_height="match_parent" />
+                </RelativeLayout>
 
                 <RelativeLayout
+                    android:layout_below="@+id/rl_buycoins"
+                    android:background="#f2f2f4"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_200"
-                    android:layout_below="@+id/rl_buycoins_cashu"
-                    android:background="#F2F2F4"></RelativeLayout>
+                    android:layout_height="@dimen/dimen_120"></RelativeLayout>
+                
             </RelativeLayout>
 
         </RelativeLayout>
@@ -241,9 +281,8 @@
     <LinearLayout
         android:id="@+id/ll_buycoins"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_108"
+        android:layout_height="@dimen/dimen_98"
         android:layout_alignParentBottom="true"
-        android:background="#ffffff"
         android:orientation="horizontal">
 
         <TextView
@@ -251,10 +290,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="3"
+            android:background="#f5ffffff"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dimen_24"
             android:text="1coin"
-            android:background="#e6ffffff"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_30" />
 
@@ -263,48 +302,50 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:background="#e6ff0000"
+            android:background="#f5ff0000"
             android:gravity="center"
             android:text="Buy coins"
             android:textColor="@color/bg_while"
             android:textSize="@dimen/dimen_30" />
     </LinearLayout>
 
-
-    <WebView
-        android:id="@+id/wv_payssion"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/rl_buycoins_header"
-        android:visibility="gone"></WebView>
+        android:layout_height="1px"
+        android:layout_above="@+id/ll_buycoins"
+        android:background="@color/bg_view" />
+
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dimen_128"
         android:layout_below="@+id/rl_home_header"
+        android:layout_marginTop="@dimen/dimen_128"
         android:background="@color/f2f2f2">
 
         <RelativeLayout
             android:id="@+id/rl_loading"
             android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
             <ProgressBar
+                android:indeterminateDrawable="@drawable/shape_loading"
                 android:id="@+id/pb_loading"
                 android:layout_width="@dimen/dimen_60"
                 android:layout_height="@dimen/dimen_60" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_8"
                 android:layout_toRightOf="@+id/pb_loading"
-                android:layout_width="wrap_content"
+                android:text="Loading..."
                 android:textColor="#000000"
-                android:text="Wait..."
-                android:textSize="@dimen/dimen_32"
-                android:layout_height="wrap_content" />
+                android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -313,8 +354,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_160"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_neterror"
@@ -351,12 +391,12 @@
 
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_160">
+            android:layout_marginTop="@dimen/dimen_160"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_nodata"
@@ -374,6 +414,7 @@
                 android:text="No previous lottery data"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
+
         </RelativeLayout>
     </RelativeLayout>
 

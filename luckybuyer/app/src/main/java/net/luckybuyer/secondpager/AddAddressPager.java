@@ -60,8 +60,7 @@ public class AddAddressPager extends BaseNoTrackPager {
     private ImageView iv_addaddress_country;
     private ImageView iv_addaddress_city;                         //city
     private TextView tv_addaddress_city;
-    private ImageView iv_addaddress_area;                         //area
-    private TextView tv_addaddress_area;
+    private TextView et_addaddress_area;                          //area
     private EditText et_addaddress_street;                        //街道信息
     private EditText et_addaddress_build;                         //房屋号码
 
@@ -114,6 +113,8 @@ public class AddAddressPager extends BaseNoTrackPager {
 //        setHeadMargin();
         tv_addaddress_save.setEnabled(false);
         tv_addaddress_home.setHovered(true);
+        et_addaddress_lastname.clearFocus();
+
         return inflate;
     }
 
@@ -133,8 +134,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         iv_addaddress_country = (ImageView) inflate.findViewById(R.id.iv_addaddress_country);
         iv_addaddress_city = (ImageView) inflate.findViewById(R.id.iv_addaddress_city);
         tv_addaddress_city = (TextView) inflate.findViewById(R.id.tv_addaddress_city);
-        iv_addaddress_area = (ImageView) inflate.findViewById(R.id.iv_addaddress_area);
-        tv_addaddress_area = (TextView) inflate.findViewById(R.id.tv_addaddress_area);
+        et_addaddress_area = (TextView) inflate.findViewById(R.id.et_addaddress_area);
         et_addaddress_street = (EditText) inflate.findViewById(R.id.et_addaddress_street);
         et_addaddress_build = (EditText) inflate.findViewById(R.id.et_addaddress_build);
         tv_addaddress_business = (TextView) inflate.findViewById(R.id.tv_addaddress_business);
@@ -158,10 +158,8 @@ public class AddAddressPager extends BaseNoTrackPager {
         iv_addaddress_country.setOnClickListener(new MyOnClickListener());
         iv_addaddress_city.setOnClickListener(new MyOnClickListener());
         tv_addaddress_city.setOnClickListener(new MyOnClickListener());
-        iv_addaddress_area.setOnClickListener(new MyOnClickListener());
-        tv_addaddress_area.setOnClickListener(new MyOnClickListener());
-        rl_addaddress_name.setOnClickListener(new MyOnClickListener());
-        rl_addaddress_lastname.setOnClickListener(new MyOnClickListener());
+//        rl_addaddress_name.setOnClickListener(new MyOnClickListener());
+//        rl_addaddress_lastname.setOnClickListener(new MyOnClickListener());
 
 
         et_addaddress_firstname.addTextChangedListener(watcher);
@@ -171,16 +169,10 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_areacode.addTextChangedListener(watcher);
         et_addaddress_telnum.addTextChangedListener(watcher);
 
-        et_addaddress_firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus) {
-                    et_addaddress_firstname.setHint("Type in first name");
-                }else {
-                    et_addaddress_firstname.setHint("");
-                }
-            }
-        });
+        et_addaddress_firstname.requestFocus();
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
         et_addaddress_lastname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -191,6 +183,31 @@ public class AddAddressPager extends BaseNoTrackPager {
                 }
             }
         });
+
+        et_addaddress_firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    et_addaddress_firstname.setHint("Type in first name");
+                    Log.e("TAG", "丢失焦点");
+                }else {
+                    et_addaddress_firstname.setHint("");
+                    Log.e("TAG", "获取焦点");
+                }
+            }
+        });
+        et_addaddress_area.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    et_addaddress_area.setHint("Type in area");
+                }else {
+                    et_addaddress_area.setHint("");
+                    Log.e("TAG", "area 获取焦点");
+                }
+            }
+        });
+
         if (address_id != -1) {
             tv_title.setText("Edit Address");
         } else {
@@ -201,24 +218,23 @@ public class AddAddressPager extends BaseNoTrackPager {
         SoftKeyboardUtil.observeSoftKeyboard((SecondPagerActivity) context, new SoftKeyboardUtil.OnSoftKeyboardChangeListener() {
             @Override
             public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
-                if(visible) {
+                if (visible) {
                     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    lp.bottomMargin = softKeybardHeight - 200;
-                    lp.topMargin = DensityUtil.dip2px(context,73);
+                    lp.bottomMargin = softKeybardHeight;
+                    lp.topMargin = DensityUtil.dip2px(context, 73);
                     sv_addaddress.setLayoutParams(lp);
-                    if(et_addaddress_firstname.isFocused()) {
-                        et_addaddress_firstname.setHint("");
-                    }
-                }else {
+                } else {
                     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                     lp.bottomMargin = 0;
-                    lp.topMargin = DensityUtil.dip2px(context,73);
+                    lp.topMargin = DensityUtil.dip2px(context, 73);
                     sv_addaddress.setLayoutParams(lp);
 
                     et_addaddress_firstname.clearFocus();
                     et_addaddress_lastname.clearFocus();
+                    et_addaddress_area.clearFocus();
                     et_addaddress_firstname.setHint("Type in first name");
                     et_addaddress_lastname.setHint("Type in last name");
+                    et_addaddress_area.setHint("Type in last area");
                 }
 
             }
@@ -286,30 +302,16 @@ public class AddAddressPager extends BaseNoTrackPager {
                     }
                     AreaSelector(list, tv_addaddress_city);
                     break;
-                case R.id.iv_addaddress_area:
-                    list = new ArrayList();
-                    for (int i = 0; i < 20; i++) {
-                        list.add("nihao" + i);
-                    }
-                    AreaSelector(list, tv_addaddress_area);
-                    break;
-                case R.id.tv_addaddress_area:
-                    list = new ArrayList();
-                    for (int i = 0; i < 20; i++) {
-                        list.add("nihao" + i);
-                    }
-                    AreaSelector(list, tv_addaddress_area);
-                    break;
-                case R.id.rl_addaddress_name:
-                    et_addaddress_firstname.requestFocus();
-                    InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                    break;
-                case R.id.rl_addaddress_lastname:
-                    et_addaddress_lastname.requestFocus();
-                    imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                    break;
+//                case R.id.rl_addaddress_name:
+//                    et_addaddress_firstname.requestFocus();
+//                    InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                    break;
+//                case R.id.rl_addaddress_lastname:
+//                    et_addaddress_lastname.requestFocus();
+//                    imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                    break;
             }
         }
     }
@@ -319,7 +321,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         if (address_id != -1) {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/" + address_id + "?timezone=" + MyApplication.utc;
-            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + tv_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
@@ -357,7 +359,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         } else {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
-            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + tv_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
@@ -413,9 +415,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                 }
                 if (textView == tv_addaddress_country) {
                     tv_addaddress_city.setText("");
-                    tv_addaddress_area.setText("");
-                } else if (textView == tv_addaddress_area) {
-                    tv_addaddress_area.setText("");
+                    et_addaddress_area.setText("");
                 }
                 textView.setText(area);
                 setSaveState();
@@ -449,7 +449,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                 et_addaddress_lastname.getText() != null && et_addaddress_lastname.getText().length() > 0 &&
                 tv_addaddress_country.getText() != null && tv_addaddress_country.length() > 0 &&
                 tv_addaddress_city.getText() != null && tv_addaddress_city.getText().length() > 0 &&
-                tv_addaddress_area.getText() != null && tv_addaddress_area.getText().length() > 0 &&
+                et_addaddress_area.getText() != null && et_addaddress_area.getText().length() > 0 &&
                 et_addaddress_build.getText() != null && et_addaddress_build.getText().length() > 0 &&
                 et_addaddress_areacode.getText() != null && et_addaddress_areacode.getText().length() > 0 &&
                 et_addaddress_telnum.getText() != null && et_addaddress_telnum.getText().length() > 0) {

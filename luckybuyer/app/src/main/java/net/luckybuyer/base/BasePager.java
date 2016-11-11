@@ -32,7 +32,6 @@ public abstract class BasePager extends Fragment {
     }
 
     public abstract View initView();
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

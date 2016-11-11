@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\halopay_loading_img.png",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\halopay_loading_img.png"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\halopay_scrollbar.png",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\halopay_scrollbar.png"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\halopay_btn_clear.png",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\halopay_btn_clear.png"
+    }
+]

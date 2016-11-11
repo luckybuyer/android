@@ -103,13 +103,14 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.jtv_all_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_all_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
             holder.tv_all_participation.setText("My participation:" + list.get(position).getShares());
-            holder.tv_all_shares.setText("Total demand:" + list.get(position).getGame().getShares());
-            holder.tv_all_leftshares.setText("Remaining:" + list.get(position).getGame().getLeft_shares());
+            holder.tv_all_shares.setText("Total: " + list.get(position).getGame().getShares());
+            holder.tv_all_leftshares.setText("Remain: " + list.get(position).getGame().getLeft_shares());
             holder.pb_all_progress.setMax(list.get(position).getGame().getShares());
             holder.pb_all_progress.setProgress(list.get(position).getGame().getShares() - list.get(position).getGame().getLeft_shares());
             holder.rl_all_continue.setOnClickListener(new MyOnClickListener(position));
             holder.iv_all_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_all_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.rl_top.setOnClickListener(new MyOnClickListener(position));                                       //后加的 点击上半部分 进入本期
 
         } else if (type == 1) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
@@ -189,6 +190,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.rl_countdown_continue.setOnClickListener(new MyOnClickListener(position));
             holder.iv_countdown_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_countdown_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.rl_top.setOnClickListener(new MyOnClickListener(position));                                       //后加的 点击上半部分 进入本期
         } else if (type == 2) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -205,6 +207,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.rl_lucky_continue.setOnClickListener(new MyOnClickListener(position));
             holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.rl_top.setOnClickListener(new MyOnClickListener(position));                                       //后加的 点击上半部分 进入本期
         } else if (type == 3) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
             Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -232,6 +235,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.rl_lucky_address.setOnClickListener(new MyOnClickListener(position));
             holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
+            holder.rl_top.setOnClickListener(new MyOnClickListener(position));                                       //后加的 点击上半部分 进入本期
         }
     }
 
@@ -251,10 +255,17 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.rl_all_continue:                    //还在进行中
+                case R.id.rl_top:
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "productdetail");
                     intent.putExtra("game_id", list.get(position).getGame().getId());
+                    intent.putExtra("batch_id", list.get(position).getGame().getBatch_id());
+                    context.startActivity(intent);
+                    break;
+                case R.id.rl_all_continue:                    //还在进行中
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from", "productdetail");
+                    intent.putExtra("batch_id", list.get(position).getGame().getBatch_id());
                     ((MainActivity) context).startActivity(intent);
                     break;
                 case R.id.iv_all_goview:
@@ -346,6 +357,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private TextView tv_all_leftshares;
         private ProgressBar pb_all_progress;
         private RelativeLayout rl_all_continue;
+        private RelativeLayout rl_top;
         //countdown
         private ImageView iv_countdown_icon;
         private JustifyTextView jtv_countdown_discribe;
@@ -386,6 +398,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_all_leftshares = (TextView) itemView.findViewById(R.id.tv_all_leftshares);
                 pb_all_progress = (ProgressBar) itemView.findViewById(R.id.pb_all_progress);
                 rl_all_continue = (RelativeLayout) itemView.findViewById(R.id.rl_all_continue);
+                rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
             } else if (type == 1) {
                 iv_countdown_icon = (ImageView) itemView.findViewById(R.id.iv_countdown_icon);
                 jtv_countdown_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_countdown_discribe);
@@ -394,6 +407,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_countdown_goview = (TextView) itemView.findViewById(R.id.tv_countdown_goview);
                 iv_countdown_goview = (ImageView) itemView.findViewById(R.id.iv_countdown_goview);
                 rl_countdown_continue = (RelativeLayout) itemView.findViewById(R.id.rl_countdown_continue);
+                rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
                 tv_countdown_1 = (TextView) itemView.findViewById(R.id.tv_countdown_1);
                 tv_countdown_2 = (TextView) itemView.findViewById(R.id.tv_countdown_2);
                 tv_countdown_3 = (TextView) itemView.findViewById(R.id.tv_countdown_3);
@@ -410,6 +424,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_lucky_name = (TextView) itemView.findViewById(R.id.tv_lucky_name);
                 rl_lucky_address = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_address);
                 rl_lucky_continue = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_continue);
+                rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
                 rl_lucky_continue.setVisibility(View.VISIBLE);
                 rl_lucky_address.setVisibility(View.GONE);
             } else if (type == 3) {
@@ -423,6 +438,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 rl_lucky_address = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_address);
                 rl_lucky_continue = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_continue);
                 tv_lucky_go = (TextView) itemView.findViewById(R.id.tv_lucky_go);
+                rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
                 rl_lucky_continue.setVisibility(View.GONE);
                 rl_lucky_address.setVisibility(View.VISIBLE);
             }

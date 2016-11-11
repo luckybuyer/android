@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/haolopay_margin_5"
+        android:background="@drawable/halopay_spinner_pop_bg">
+        
+     <ListView
+        android:id="@+id/lv_list_aipay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:divider="@color/halopay_color_2_3"
+        android:dividerHeight="1dp"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:listSelector="@color/halopay_transparent"
+        android:scrollingCache="false" />
+    </LinearLayout>
+    
+</LinearLayout>

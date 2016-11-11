@@ -90,6 +90,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
         holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
         holder.rl_lucky_address.setOnClickListener(new MyOnClickListener(position));
+        holder.rl_top.setOnClickListener(new MyOnClickListener(position));
 
     }
 
@@ -131,6 +132,13 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
                     intent.putExtra("dispatch_game_id", list.get(position).getGame().getLucky_order().getId());
                     ((MainActivity) context).startActivity(intent);
                     break;
+                case R.id.rl_top:
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from", "productdetail");
+                    intent.putExtra("game_id", list.get(position).getGame().getId());
+                    intent.putExtra("batch_id", list.get(position).getGame().getBatch_id());
+                    context.startActivity(intent);
+                    break;
             }
         }
     }
@@ -146,6 +154,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         private TextView tv_lucky_name;
         private TextView tv_lucky_go;
         private RelativeLayout rl_lucky_address;
+        private RelativeLayout rl_top;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -157,6 +166,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
             iv_lucky_goview = (ImageView) itemView.findViewById(R.id.iv_lucky_goview);
             tv_lucky_name = (TextView) itemView.findViewById(R.id.tv_lucky_name);
             tv_lucky_go = (TextView) itemView.findViewById(R.id.tv_lucky_go);
+            rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
 
             rl_lucky_address = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_address);
         }

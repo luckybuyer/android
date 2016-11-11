@@ -20,7 +20,7 @@
             android:layout_centerInParent="true" />
     </RelativeLayout>
 
-    <net.luckybuyer.view.JustifyTextView
+    <TextView
         android:id="@+id/tv_producet_discribe"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_74"

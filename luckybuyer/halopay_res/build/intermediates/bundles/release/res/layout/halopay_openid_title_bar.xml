@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/welcome_page"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/halopay_title_h"
+    android:background="@color/halopay_color_7" >
+
+    <RelativeLayout
+        android:id="@+id/title_bar_layout_back"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_centerVertical="true"
+        android:background="@drawable/halopay_ui_back_selector"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/haolopay_margin_9"
+        android:paddingRight="@dimen/haolopay_margin_9" >
+
+        <ImageView
+            android:id="@+id/iv_left_button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/haolopay_margin_6"
+            android:contentDescription="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/halopay_common_back_normal" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_left_button_back"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_left_title_master"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/halopay_color_1"
+                android:textSize="@dimen/haolopay_text_size_18"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_left_title_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/haolopay_margin_3"
+                android:textColor="@color/halopay_color_3"
+                android:textSize="@dimen/haolopay_text_size_13"
+                android:visibility="gone" />
+        </LinearLayout>
+    </RelativeLayout>
+
+  <LinearLayout
+        android:id="@+id/ll_right_activity_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/halopay_ui_back_selector"
+        android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/iv_right_activity_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/haolopay_margin_15"
+            android:src="@drawable/halopay_ui_more"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_right_activity_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/haolopay_margin_15"
+            android:layout_marginRight="@dimen/haolopay_margin_15"
+            android:visibility="visible"
+            android:text="@string/halo_id_login"
+            android:textColor="@color/halopay_color_1"
+            android:textSize="@dimen/haolopay_text_size_14" >
+        </TextView>
+    </LinearLayout>
+
+</RelativeLayout>

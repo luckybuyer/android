@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="@dimen/dimen_170"
+    android:layout_width="@dimen/dimen_180"
     android:gravity="center"
     android:background="@drawable/rounded_corners_background"
     android:layout_height="@dimen/dimen_80">
@@ -16,7 +16,7 @@
         android:paddingBottom="@dimen/dimen_20"
         android:paddingTop="@dimen/dimen_20"
         android:layout_width="wrap_content"
-        android:text="wait..."
+        android:text="loading..."
         android:textSize="@dimen/dimen_26"
         android:textColor="#000000"
         android:gravity="center"

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/halopay_color_1"
+    android:orientation="vertical" >
+    
+   <include
+        android:id="@+id/v_title_bar_aipay"
+        layout="@layout/halopay_ui_title_bar_normal" />
+   
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginLeft="15dip"
+       android:layout_marginRight="15dp"
+       android:orientation="vertical" >
+
+       <LinearLayout
+           android:id="@+id/card_type_area"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:background="@drawable/halopay_common_input"
+           android:gravity="center_vertical" 
+           >
+
+           <EditText
+               android:id="@+id/cardTypeEditText"
+               android:layout_width="0.0dip"
+               android:layout_height="match_parent"
+               android:layout_weight="1.0"
+               android:background="@null"
+               android:ems="10"
+               android:imeOptions="actionDone"
+               android:gravity="center_vertical"
+               android:hint="Card type"
+               android:paddingLeft="15dip"
+               android:singleLine="true"
+               android:textColor="@color/halopay_color_2_1"
+               android:textColorHint="@color/halopay_color_3"
+               android:textSize="@dimen/haolopay_text_size_13" >
+
+           </EditText>
+
+           <ImageView
+               android:id="@+id/dropdown"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:padding="15dip"
+               android:src="@drawable/halopay_dropdown" 
+               android:scaleType="fitXY"
+               />
+       </LinearLayout>
+       <LinearLayout
+           android:id="@+id/card_no_area"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:background="@drawable/halopay_common_input"
+           android:gravity="center_vertical" 
+           >
+
+           <EditText
+               android:id="@+id/cardPwdsEditText"
+               android:layout_width="0.0dip"
+               android:layout_height="match_parent"
+               android:layout_weight="1.0"
+               android:background="@null"
+               android:imeOptions="actionDone"
+               android:gravity="center_vertical"
+               android:hint="Pin No."
+               android:paddingLeft="15dip"
+               android:singleLine="true"
+               android:maxLength="32"
+               android:textColor="@color/halopay_color_2_1"
+               android:textColorHint="@color/halopay_color_3"
+               android:textSize="@dimen/haolopay_text_size_13" 
+               >
+
+               <requestFocus />
+           </EditText>
+             <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:padding="15dip"
+               android:src="@drawable/halopay_dropdown"
+               android:visibility="invisible"
+                android:scaleType="fitXY"
+                />
+
+       </LinearLayout>
+       <LinearLayout
+           android:id="@+id/card_pwd_area"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:background="@drawable/halopay_common_input"
+           android:gravity="center_vertical" 
+           >
+
+           <EditText
+               android:id="@+id/cardNumEditText"
+               android:layout_width="0.0dip"
+               android:layout_height="match_parent"
+               android:layout_weight="1.0"
+               android:background="@null"
+               android:imeOptions="actionDone"
+               android:gravity="center_vertical"
+               android:hint="Serial Code"
+               android:paddingLeft="15dip"
+               android:singleLine="true"
+               android:maxLength="32"
+               android:textColor="@color/halopay_color_2_1"
+               android:textColorHint="@color/halopay_color_3"
+               android:textSize="@dimen/haolopay_text_size_13" 
+			   android:numeric="integer"
+               >
+
+           </EditText>
+             <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:padding="15dip"
+               android:src="@drawable/halopay_dropdown" 
+               android:visibility="invisible"
+               android:scaleType="fitXY"
+               />
+
+       </LinearLayout>
+   </LinearLayout>
+
+     <Button
+        android:id="@+id/button_pay"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/halopay_height_48"
+        android:layout_marginLeft="@dimen/haolopay_margin_15"
+        android:layout_marginRight="@dimen/haolopay_margin_15"
+        android:layout_marginTop="@dimen/haolopay_margin_30"
+        android:background="@drawable/halopay_common_btn_bg_color"
+        android:text="pay the bill"
+        android:textColor="@drawable/halopay_common_btn_text_color"
+        android:textSize="@dimen/haolopay_text_size_14" />
+     
+</LinearLayout>

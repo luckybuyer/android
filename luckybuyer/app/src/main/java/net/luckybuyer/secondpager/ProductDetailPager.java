@@ -54,6 +54,7 @@ import net.luckybuyer.activity.SecondPagerActivity;
 import net.luckybuyer.activity.ThirdPagerActivity;
 import net.luckybuyer.adapter.ProductDetailAdapter;
 import net.luckybuyer.app.MyApplication;
+import net.luckybuyer.base.BaseNoTrackPager;
 import net.luckybuyer.bean.BroadcastBean;
 import net.luckybuyer.bean.BuyStateBean;
 import net.luckybuyer.bean.MyBuyBean;
@@ -66,6 +67,8 @@ import net.luckybuyer.utils.Utils;
 import net.luckybuyer.view.AutoTextView;
 import net.luckybuyer.view.CircleImageView;
 import net.luckybuyer.view.JustifyTextView;
+import net.luckybuyer.view.MyScrollView;
+import net.luckybuyer.view.RoundCornerImageView;
 
 
 import java.text.SimpleDateFormat;
@@ -78,7 +81,7 @@ import java.util.TimeZone;
 /**
  * Created by admin on 2016/9/17.
  */
-public class ProductDetailPager extends BasePager {
+public class ProductDetailPager extends BaseNoTrackPager {
 
     public static final int WHAT_AUTO = 1;
     private RelativeLayout rl_productdetail_allview;
@@ -104,6 +107,8 @@ public class ProductDetailPager extends BasePager {
     private TextView tv_insert_warn;                              //textview警告
     private ImageView iv_insert_warn;                             //imageview警告
     private TextView tv_productdetail_discribe;                   //title 下面忽悠文件
+    private ProgressBar pb_insert;
+    private MyScrollView sv_productdetail;
     private View inflate;
 
     //倒計時  開獎
@@ -175,11 +180,11 @@ public class ProductDetailPager extends BasePager {
         srl_productdetail_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (newData == null) {
+//                if (newData == null) {
                     initData();
-                } else {
-                    processData(newData);
-                }
+//                } else {
+//                    processData(newData);
+//                }
             }
         });
 
@@ -444,6 +449,7 @@ public class ProductDetailPager extends BasePager {
         atv_productdetail_broadcast = (AutoTextView) inflate.findViewById(R.id.atv_productdetail_broadcast);
         rl_productdetail_back = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_back);
         tv_productdetail_discribe = (TextView) inflate.findViewById(R.id.tv_productdetail_discribe);
+        sv_productdetail = (MyScrollView) inflate.findViewById(R.id.sv_productdetail);
 
 
         srl_productdetail_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_productdetail_refresh);
@@ -470,16 +476,16 @@ public class ProductDetailPager extends BasePager {
         tv_net_again.setOnClickListener(new MyOnClickListener());
         rl_productdetail_back.setOnClickListener(new MyOnClickListener());
 
-        ((ScrollView) inflate.findViewById(R.id.sv_productdetail)).setOnScrollChangeListener(new View.OnScrollChangeListener() {
+
+        sv_productdetail.setOnScrollChanged(new MyScrollView.OnScrollChanged() {
             @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                int y = (int) (scrollY / 2);
+            public void onScroll(int l, int t, int oldl, int oldt) {
+                int y = (int) (t / 2);
                 if(y <= 255) {
                     rl_productdetail_header.setBackgroundColor(Color.argb(y, 255, 255, 255));
                 }else if(y > 255) {
                     rl_productdetail_header.setBackgroundColor(Color.argb(255, 255, 255, 255));
                 }
-
             }
         });
     }
@@ -633,15 +639,19 @@ public class ProductDetailPager extends BasePager {
 
         if ("finished".equals(myBuyBean.getMybuy().get(0).getGame().getStatus())) {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.leftMargin = ((CircleImageView) inflate.findViewById(R.id.civ_productdetail_lucky)).getWidth() + DensityUtil.px2dip(context, 34);
+            params.leftMargin = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky)).getWidth() + DensityUtil.px2dip(context, 34);
             rl_productdetail_mybuy.setLayoutParams(params);
         }
-
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_mybuyparticipate)).setText("My participation:" + myBuyBean.getMybuy().get(0).getAmount() / myBuyBean.getMybuy().get(0).getGame().getShare_price() + "");
         String str = "Participation numbers:";
-        for (int i = 0; i < myBuyBean.getMybuy().get(0).getNumbers().size(); i++) {
-            str += myBuyBean.getMybuy().get(0).getNumbers().get(i) + " ";
+        int count = 0;
+        for (int i =0;i < myBuyBean.getMybuy().size();i++){
+            for (int j = 0;j < myBuyBean.getMybuy().get(i).getNumbers().size();j++){
+                str += myBuyBean.getMybuy().get(i).getNumbers().get(j) + " ";
+                count += 1;
+            }
         }
+
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_mybuyparticipate)).setText("My participation:" + count);
         ((TextView) inflate.findViewById(R.id.tv_productdetail_mybuynum)).setText(str);
 
     }
@@ -665,13 +675,16 @@ public class ProductDetailPager extends BasePager {
     }
 
     private void setLucky() {
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_typesomething)).setText(productDetailBean.getLucky_user().getProfile().getName());
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckynum)).setText("Lucky Number：" + productDetailBean.getLucky_number() + "");
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckyid)).setText("User ID:" + productDetailBean.getLucky_user().getId() + "");
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckytime)).setText("Lottery time:" + productDetailBean.getFinished_at().substring(0, 19).replace("T", "\t"));
-        final CircleImageView civ_productdetail_lucky = ((CircleImageView) inflate.findViewById(R.id.civ_productdetail_lucky));
+        final RoundCornerImageView civ_productdetail_lucky = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky));
         boolean flag = ((SecondPagerActivity) context).isDestroyed();
+        Log.e("TAG_胜利者图片", flag + "");
+        Log.e("TAG_胜利者图片", productDetailBean.getLucky_user().getProfile().getPicture());
         if (!flag) {
-            Glide.with((SecondPagerActivity) context).load(productDetailBean.getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+            Glide.with((SecondPagerActivity) context).load(productDetailBean.getLucky_user().getProfile().getPicture()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     civ_productdetail_lucky.setImageBitmap(resource);
@@ -825,9 +838,6 @@ public class ProductDetailPager extends BasePager {
                     break;
                 case R.id.tv_insert_buy:
                     tv_insert_buy.setClickable(false);
-                    if(popupWindow.isShowing()) {
-                        popupWindow.dismiss();
-                    }
                     int money = Integer.parseInt(et_insert_count.getText().toString());
 
                     if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0")||money%productDetailBean.getShares_increment() != 0) {
@@ -840,6 +850,9 @@ public class ProductDetailPager extends BasePager {
                         tv_insert_buy.setClickable(true);
                         return;
                     }
+                    //加载进度条 暗示用户  正在购买
+                    pb_insert.setVisibility(View.VISIBLE);
+                    tv_insert_buy.setBackgroundColor(Color.argb(255,226,226,226));
                     //购买商品接口
                     int shares = Integer.parseInt(et_insert_count.getText().toString());
 
@@ -884,12 +897,7 @@ public class ProductDetailPager extends BasePager {
                     if (show.isShowing()) {
                         show.dismiss();
                     }
-                    //购买成功
-                    initData();
-                    String balance = Utils.getSpData("balance", context);
-                    money = Integer.parseInt(balance);
-                    balance = money - balanceCount + "";
-                    Utils.setSpData("balance", balance, context);
+
                     break;
                 case R.id.rl_insert_notsellgame:
                     //game 可能不足时处理
@@ -916,10 +924,21 @@ public class ProductDetailPager extends BasePager {
 
     private void startPrompt(String message, boolean flag) {
         View inflate = View.inflate(context, R.layout.alertdialog_insertcoins, null);
-        TextView tv_insertcoins_title = (TextView) inflate.findViewById(R.id.tv_insertcoins_title);
-        JustifyTextView jtv_insertcoins_discribe = (JustifyTextView) inflate.findViewById(R.id.jtv_insertcoins_discribe);
-        RelativeLayout rl_insert_ok = (RelativeLayout) inflate.findViewById(R.id.rl_insert_ok);
-        rl_insert_ok.setOnClickListener(new MyOnClickListener());
+        if(flag == true) {
+            TextView tv_insertcoins_title = (TextView) inflate.findViewById(R.id.tv_insertcoins_title);
+            JustifyTextView jtv_insertcoins_discribe = (JustifyTextView) inflate.findViewById(R.id.jtv_insertcoins_discribe);
+            RelativeLayout rl_insert_ok = (RelativeLayout) inflate.findViewById(R.id.rl_insert_ok);
+            rl_insert_ok.setOnClickListener(new MyOnClickListener());
+
+            //购买成功
+            initData();
+            int money = Integer.parseInt(et_insert_count.getText().toString());
+            String balance = Utils.getSpData("balance", context);
+            money = Integer.parseInt(balance);
+            balance = money - balanceCount + "";
+            Utils.setSpData("balance", balance, context);
+        }
+
 
         if (flag == false) {
             Gson gson = new Gson();
@@ -946,6 +965,10 @@ public class ProductDetailPager extends BasePager {
                 tv_lessicons_cancel.setOnClickListener(new MyOnClickListener());
                 tv_lessicons_ok.setOnClickListener(new MyOnClickListener());
             }
+        }
+
+        if(popupWindow.isShowing()) {
+            popupWindow.dismiss();
         }
 
         StartAlertDialog(inflate);
@@ -989,6 +1012,7 @@ public class ProductDetailPager extends BasePager {
         rl_insert_warn = (RelativeLayout) PPW.findViewById(R.id.rl_insert_warn);
         tv_insert_warn = (TextView) PPW.findViewById(R.id.tv_insert_warn);
         iv_insert_warn = (ImageView) PPW.findViewById(R.id.iv_insert_warn);
+        pb_insert = (ProgressBar) PPW.findViewById(R.id.pb_insert);
 
         if(productDetailBean.getShares_increment() == 5) {
             tv_insert_warn.setText("Purchase quantity must be a multiple of 5");
@@ -1046,7 +1070,9 @@ public class ProductDetailPager extends BasePager {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                Editable ea = et_insert_count.getText();
 
+                et_insert_count.setSelection(ea.length());
             }
         });
     }
@@ -1088,7 +1114,6 @@ public class ProductDetailPager extends BasePager {
                                 ll_productdetail_buyit.setVisibility(View.GONE);
                                 rl_productdetail_indsertcoins.setVisibility(View.VISIBLE);
                                 processData(newData);
-                                Log.e("TAG_newedata", newData);
                             }
                         }
                     }

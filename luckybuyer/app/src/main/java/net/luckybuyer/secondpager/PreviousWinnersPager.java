@@ -65,6 +65,7 @@ public class PreviousWinnersPager extends BasePager {
                     public void run() {
                         processData(response);
                         rl_keepout.setVisibility(View.GONE);
+                        Log.e("TAG000", response);
                     }
                 });
             }

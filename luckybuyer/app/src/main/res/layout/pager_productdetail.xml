@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto3d="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl"
+    android:background="#ffffff"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ScrollView
+            <net.luckybuyer.view.MyScrollView
                 android:id="@+id/sv_productdetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -97,11 +98,14 @@
 
                         <!--倒计时-->
                         <RelativeLayout
+                            android:layout_marginLeft="@dimen/dimen_24"
+                            android:layout_marginRight="@dimen/dimen_24"
                             android:id="@+id/rl_productdetail_countdown"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dimen_112"
                             android:layout_below="@id/tv_productdetail_discribe"
-                            android:layout_marginTop="@dimen/dimen_30"
+                            android:layout_marginTop="@dimen/dimen_40"
+                            android:layout_marginBottom="@dimen/dimen_20"
                             android:background="@color/ff9c05"
                             android:visibility="gone">
 
@@ -113,27 +117,29 @@
                                 android:layout_marginTop="@dimen/dimen_16"
                                 android:gravity="center"
                                 android:text="Issue: 42"
+                                android:textSize="@dimen/dimen_28"
                                 android:textColor="@color/text_white" />
 
                             <TextView
                                 android:id="@+id/tv_productdetail_announced"
                                 android:layout_width="wrap_content"
-                                android:layout_height="@dimen/dimen_26"
+                                android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen_20"
                                 android:layout_marginTop="@dimen/dimen_61"
                                 android:text="Countdown announced: "
                                 android:textColor="@color/text_white"
-                                android:textSize="@dimen/dimen_24" />
+                                android:textSize="@dimen/dimen_28" />
 
                             <TextView
                                 android:id="@+id/tv_countdown_1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/dimen_61"
+                                android:layout_marginTop="@dimen/dimen_55"
                                 android:layout_toRightOf="@+id/tv_productdetail_announced"
                                 android:text="0"
+                                android:textStyle="bold"
                                 android:textColor="@color/text_white"
-                                android:textSize="@dimen/dimen_28" />
+                                android:textSize="@dimen/dimen_36" />
 
 
                             <TextView
@@ -141,18 +147,19 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen_2"
-                                android:layout_marginTop="@dimen/dimen_61"
+                                android:layout_marginTop="@dimen/dimen_55"
+                                android:textStyle="bold"
                                 android:layout_toRightOf="@+id/tv_countdown_1"
                                 android:text="0"
                                 android:textColor="@color/text_white"
-                                android:textSize="@dimen/dimen_28" />
+                                android:textSize="@dimen/dimen_36" />
 
                             <RelativeLayout
                                 android:layout_width="@dimen/dimen_6"
                                 android:layout_height="@dimen/dimen_20"
                                 android:layout_alignTop="@id/tv_countdown_2"
                                 android:layout_marginLeft="@dimen/dimen_6"
-                                android:layout_marginTop="@dimen/dimen_10"
+                                android:layout_marginTop="@dimen/dimen_16"
                                 android:layout_toRightOf="@+id/tv_countdown_2">
 
                                 <ImageView
@@ -168,34 +175,36 @@
                             </RelativeLayout>
 
                             <TextView
+                                android:textStyle="bold"
                                 android:id="@+id/tv_countdown_3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen_20"
-                                android:layout_marginTop="@dimen/dimen_61"
+                                android:layout_marginTop="@dimen/dimen_55"
                                 android:layout_toRightOf="@+id/tv_countdown_2"
                                 android:text="0"
                                 android:textColor="@color/text_white"
-                                android:textSize="@dimen/dimen_28" />
+                                android:textSize="@dimen/dimen_36" />
 
 
                             <TextView
+                                android:textStyle="bold"
                                 android:id="@+id/tv_countdown_4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen_3"
-                                android:layout_marginTop="@dimen/dimen_61"
+                                android:layout_marginTop="@dimen/dimen_55"
                                 android:layout_toRightOf="@id/tv_countdown_3"
                                 android:text="0"
                                 android:textColor="@color/text_white"
-                                android:textSize="@dimen/dimen_28" />
+                                android:textSize="@dimen/dimen_36" />
 
                             <RelativeLayout
                                 android:layout_width="@dimen/dimen_6"
                                 android:layout_height="@dimen/dimen_20"
                                 android:layout_alignTop="@id/tv_countdown_4"
                                 android:layout_marginLeft="@dimen/dimen_6"
-                                android:layout_marginTop="@dimen/dimen_10"
+                                android:layout_marginTop="@dimen/dimen_16"
                                 android:layout_toRightOf="@+id/tv_countdown_4">
 
                                 <ImageView
@@ -212,27 +221,29 @@
 
 
                             <TextView
+                                android:textStyle="bold"
                                 android:id="@+id/tv_countdown_5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen_20"
-                                android:layout_marginTop="@dimen/dimen_61"
+                                android:layout_marginTop="@dimen/dimen_55"
                                 android:layout_toRightOf="@id/tv_countdown_4"
                                 android:text="0"
                                 android:textColor="@color/text_white"
-                                android:textSize="@dimen/dimen_28"></TextView>
+                                android:textSize="@dimen/dimen_36"></TextView>
 
 
                             <TextView
+                                android:textStyle="bold"
                                 android:id="@+id/tv_countdown_6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen_3"
-                                android:layout_marginTop="@dimen/dimen_61"
+                                android:layout_marginTop="@dimen/dimen_55"
                                 android:layout_toRightOf="@id/tv_countdown_5"
                                 android:text="0"
                                 android:textColor="@color/text_white"
-                                android:textSize="@dimen/dimen_28" />
+                                android:textSize="@dimen/dimen_36" />
 
                         </RelativeLayout>
 
@@ -245,7 +256,7 @@
                             android:layout_below="@+id/tv_productdetail_discribe"
                             android:layout_marginBottom="@dimen/dimen_20"
                             android:layout_marginRight="@dimen/dimen_24"
-                            android:layout_marginTop="@dimen/dimen_20"
+                            android:layout_marginTop="@dimen/dimen_25"
                             android:gravity="center"
                             android:paddingLeft="@dimen/dimen_4"
                             android:paddingRight="@dimen/dimen_4"
@@ -260,7 +271,7 @@
                             android:layout_below="@+id/tv_productdetail_discribe"
                             android:layout_marginBottom="@dimen/dimen_20"
                             android:layout_marginLeft="@dimen/dimen_24"
-                            android:layout_marginTop="@dimen/dimen_20"
+                            android:layout_marginTop="@dimen/dimen_25"
                             android:text="Issue：171754"
                             android:textColor="#666666"
                             android:textSize="@dimen/dimen_28" />
@@ -274,7 +285,7 @@
                             android:layout_marginBottom="@dimen/dimen_20"
                             android:layout_marginLeft="@dimen/dimen_24"
                             android:layout_marginRight="@dimen/dimen_24"
-                            android:layout_marginTop="@dimen/dimen_8"
+                            android:layout_marginTop="@dimen/dimen_4"
                             android:indeterminate="false"
                             android:progressDrawable="@drawable/homenew_product_progress" />
 
@@ -340,7 +351,7 @@
                             android:layout_height="@dimen/dimen_32"
                             android:layout_below="@+id/pb_productdetail_progress"
                             android:layout_toLeftOf="@id/tv_productdetail_icon"
-                            android:text="remain: "
+                            android:text="Remain: "
                             android:textColor="#999999"
                             android:textSize="@dimen/dimen_24" />
 
@@ -404,9 +415,8 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_20"
+                        android:layout_height="@dimen/dimen_10"
                         android:background="#EEEEEE">
-
                     </RelativeLayout>
 
 
@@ -447,7 +457,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dimen_100"></android.support.v7.widget.RecyclerView>
                 </LinearLayout>
-            </ScrollView>
+            </net.luckybuyer.view.MyScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
 
@@ -466,6 +476,7 @@
                 android:textColor="#ffffff"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
+
 
         <LinearLayout
             android:id="@+id/ll_productdetail_buyit"
@@ -498,6 +509,13 @@
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_above="@+id/ll_productdetail_buyit"
+            android:background="@drawable/default_shadow_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_3" />
+
     </RelativeLayout>
 
 
@@ -515,6 +533,7 @@
             android:layout_centerInParent="true">
 
             <ProgressBar
+                android:indeterminateDrawable="@drawable/shape_loading"
                 android:id="@+id/pb_loading"
                 android:layout_width="@dimen/dimen_60"
                 android:layout_height="@dimen/dimen_60" />
@@ -525,7 +544,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_8"
                 android:layout_toRightOf="@+id/pb_loading"
-                android:text="Wait..."
+                android:text="Loading..."
                 android:textColor="#000000"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
@@ -603,7 +622,7 @@
     <RelativeLayout
         android:id="@+id/rl_productdetail_header"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_128"
+        android:layout_height="@dimen/dimen_130"
         android:background="#00ffffff">
 
         <RelativeLayout
@@ -620,6 +639,12 @@
                 android:background="@drawable/productdetail_return" />
 
         </RelativeLayout>
+
+        <ImageView
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:background="@drawable/default_shadow_top"
+            android:layout_height="@dimen/dimen_3" />
 
     </RelativeLayout>
 

@@ -1,0 +1,34 @@
+[
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_common_btn_disable.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_common_btn_disable.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_idsdk_btn_normal.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_idsdk_btn_normal.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_common_btn_normal.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_common_btn_normal.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_idsdk_btn_pressed.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_idsdk_btn_pressed.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_common_bg.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_common_bg.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_idsdk_btn_disable.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_idsdk_btn_disable.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_common_list_item_bg_color.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_common_list_item_bg_color.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\halopay_common_btn_pressed.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\color\\halopay_common_btn_pressed.xml"
+    }
+]

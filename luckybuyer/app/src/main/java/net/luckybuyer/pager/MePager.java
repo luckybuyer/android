@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -117,9 +118,12 @@ public class MePager extends BaseNoTrackPager {
                                     @Override
                                     public void run() {
                                         //我的中奖  接口(lucky)
-
                                         if (response.length() > 10) {
                                             LuckyResponse(finalToken, response);
+                                        }else {
+                                            rl_nodata.setVisibility(View.VISIBLE);
+                                            rl_neterror.setVisibility(View.GONE);
+                                            rl_loading.setVisibility(View.GONE);
                                         }
                                     }
                                 }
@@ -133,8 +137,8 @@ public class MePager extends BaseNoTrackPager {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                rl_nodata.setVisibility(View.VISIBLE);
-                                rl_neterror.setVisibility(View.GONE);
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
                                 rl_loading.setVisibility(View.GONE);
                             }
                         });
@@ -142,8 +146,8 @@ public class MePager extends BaseNoTrackPager {
 
                     @Override
                     public void failure(Exception exception) {
-                        rl_nodata.setVisibility(View.VISIBLE);
-                        rl_neterror.setVisibility(View.GONE);
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
                     }
                 }
@@ -172,6 +176,7 @@ public class MePager extends BaseNoTrackPager {
                                             rl_loading.setVisibility(View.GONE);
                                         }
 
+                                        Log.e("TAG_me页面", response);
                                     }
                                 }
                         );
@@ -274,11 +279,13 @@ public class MePager extends BaseNoTrackPager {
         tv_net_again.setOnClickListener(new MyOnClickListener());
     }
 
-    private void setView() {
+    public void setView() {
         String user_id = Utils.getSpData("user_id", context);
         String balance = Utils.getSpData("balance", context);
         String name = Utils.getSpData("name", context);
         final String picture = Utils.getSpData("picture", context);
+
+        Log.e("TAG_me页面_name", name);
 
         tv_me_name.setText(name);
         tv_me_fbcode.setText(user_id);
@@ -304,7 +311,7 @@ public class MePager extends BaseNoTrackPager {
                 case R.id.i_me_set:
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "setpager");
-                    startActivityForResult(intent,0);
+                    startActivityForResult(intent, 0);
                     break;
                 case R.id.tv_me_gold:
                     intent = new Intent(context, SecondPagerActivity.class);
@@ -313,6 +320,11 @@ public class MePager extends BaseNoTrackPager {
                     break;
                 case R.id.tv_net_again:
                     initData();
+                    break;
+                case R.id.iv_me_voice:
+                    Intent data=new Intent(Intent.ACTION_SENDTO);
+                    data.setData(Uri.parse("mailto:contact@luckybuyer.net"));
+                    startActivity(data);
                     break;
             }
         }
