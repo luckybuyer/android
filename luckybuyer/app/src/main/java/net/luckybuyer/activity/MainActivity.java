@@ -1,6 +1,11 @@
 package net.luckybuyer.activity;
 
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -28,6 +33,7 @@ import com.auth0.android.lock.errors.LoginErrorMessageBuilder;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
+import com.halopay.sdk.main.HaloPay;
 import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
 import net.luckybuyer.R;
@@ -130,8 +136,10 @@ public class MainActivity extends FragmentActivity {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(MainActivity.this));
             rl_main.setLayoutParams(lp);
         }
-    }
 
+        HaloPay.getInstance().init (this,HaloPay.PORTRAIT, "3000600754");
+
+    }
 
     //设置数据
     private void setData() {

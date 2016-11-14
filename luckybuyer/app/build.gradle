@@ -32,7 +32,12 @@ dependencies {
     //auth0登陆
     compile 'com.google.code.gson:gson:2.7'
     compile project(':FlycoTabLayout_Lib')
-    compile 'com.paypal.sdk:paypal-android-sdk:2.15.0'
+//    compile 'com.paypal.sdk:paypal-android-sdk:2.15.0'
+    dependencies {
+        compile('com.paypal.sdk:paypal-android-sdk:2.15.1') {
+            exclude group: 'io.card'
+        }
+    }
     //paypal支付
     compile 'com.inthecheesefactory.thecheeselibrary:fb-like:0.9.3'
     //faceboook 点赞

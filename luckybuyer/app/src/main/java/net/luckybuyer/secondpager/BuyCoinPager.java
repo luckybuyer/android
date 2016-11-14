@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -55,10 +57,10 @@ import java.util.Map;
  */
 public class BuyCoinPager extends BaseNoTrackPager {
     private static PayPalConfiguration config = new PayPalConfiguration()
-            // 沙盒测试(ENVIRONMENT_SANDBOX)，生产环境(ENVIRONMENT_PRODUCTION)
+            // 沙盒测试(ENVIRONMENT_SANDBOX)，生产环境(ENVIRONMENT_PRODUCTION)
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .merchantName("nihao")
-            //你创建的测试应用Client ID  
+            //你创建的测试应用Client ID  
             .clientId("AfRWBJE7IMMtA0PeZ-fNA4VNKHQ96OzEi8zQhWiU62isFIK7u839fulj1HlwC1xQrl0PB3S4Sxfv-v_v");
 
 
@@ -117,6 +119,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
         return inflate;
     }
+
 
     @Override
     public void initData() {
@@ -415,17 +418,17 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     Gson gson = new Gson();
                     Map<String, Map<String, String>> map = gson.fromJson(confirm.toJSONObject().toString(), Map.class);
                     Log.e("TAG", map.get("response").get("id"));
-                    // TODO: 发送支付ID到你的服务器进行验证  
+                    // TODO: 发送支付ID到你的服务器进行验证  
                     paypalSever(map.get("response").get("id"));
 
                 } catch (JSONException e) {
-                    Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
+                    Log.e("paymentExample", "an extremely unlikely failure occurred: ", e);
                 }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
-            Log.e("paymentExample", "The user canceled.");
+            Log.e("paymentExample", "The user canceled.");
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
-            Log.e("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+            Log.e("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
         }
     }
 
