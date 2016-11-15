@@ -4,7 +4,8 @@
     <string name="auth0_domain">staging-luckybuyer.auth0.com</string>
 
     <!--facebook-->
-    <string name="app_id">258798961160938</string>
+    <string name="app_id">255982704775897</string>
 
+    <!--email-->
     <string name="email"><u>contact@luckybuyer.net</u></string>
 </resources>

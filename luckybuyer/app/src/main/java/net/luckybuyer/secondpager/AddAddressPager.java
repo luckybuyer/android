@@ -56,10 +56,12 @@ public class AddAddressPager extends BaseNoTrackPager {
     private TextView tv_addaddress_save;                          //保存地址
     private EditText et_addaddress_firstname;
     private EditText et_addaddress_lastname;
-    private TextView tv_addaddress_country;                       //country
-    private ImageView iv_addaddress_country;
-    private ImageView iv_addaddress_city;                         //city
-    private TextView tv_addaddress_city;
+//    private TextView tv_addaddress_country;                       //country
+//    private ImageView iv_addaddress_country;
+//    private ImageView iv_addaddress_city;                         //city
+//    private TextView tv_addaddress_city;
+    private EditText et_addaddress_country;
+    private EditText et_addaddress_city;
     private TextView et_addaddress_area;                          //area
     private EditText et_addaddress_street;                        //街道信息
     private EditText et_addaddress_build;                         //房屋号码
@@ -130,10 +132,12 @@ public class AddAddressPager extends BaseNoTrackPager {
         tv_addaddress_save = (TextView) inflate.findViewById(R.id.tv_addaddress_save);
         et_addaddress_firstname = (EditText) inflate.findViewById(R.id.et_addaddress_firstname);
         et_addaddress_lastname = (EditText) inflate.findViewById(R.id.et_addaddress_lastname);
-        tv_addaddress_country = (TextView) inflate.findViewById(R.id.tv_addaddress_country);
-        iv_addaddress_country = (ImageView) inflate.findViewById(R.id.iv_addaddress_country);
-        iv_addaddress_city = (ImageView) inflate.findViewById(R.id.iv_addaddress_city);
-        tv_addaddress_city = (TextView) inflate.findViewById(R.id.tv_addaddress_city);
+//        tv_addaddress_country = (TextView) inflate.findViewById(R.id.tv_addaddress_country);
+//        iv_addaddress_country = (ImageView) inflate.findViewById(R.id.iv_addaddress_country);
+//        iv_addaddress_city = (ImageView) inflate.findViewById(R.id.iv_addaddress_city);
+//        tv_addaddress_city = (TextView) inflate.findViewById(R.id.tv_addaddress_city);
+        et_addaddress_country = (EditText) inflate.findViewById(R.id.et_addaddress_country);
+        et_addaddress_city = (EditText) inflate.findViewById(R.id.et_addaddress_city);
         et_addaddress_area = (TextView) inflate.findViewById(R.id.et_addaddress_area);
         et_addaddress_street = (EditText) inflate.findViewById(R.id.et_addaddress_street);
         et_addaddress_build = (EditText) inflate.findViewById(R.id.et_addaddress_build);
@@ -154,10 +158,10 @@ public class AddAddressPager extends BaseNoTrackPager {
         tv_addaddress_business.setOnClickListener(new MyOnClickListener());
         tv_addaddress_home.setOnClickListener(new MyOnClickListener());
 
-        tv_addaddress_country.setOnClickListener(new MyOnClickListener());
-        iv_addaddress_country.setOnClickListener(new MyOnClickListener());
-        iv_addaddress_city.setOnClickListener(new MyOnClickListener());
-        tv_addaddress_city.setOnClickListener(new MyOnClickListener());
+//        tv_addaddress_country.setOnClickListener(new MyOnClickListener());
+//        iv_addaddress_country.setOnClickListener(new MyOnClickListener());
+//        iv_addaddress_city.setOnClickListener(new MyOnClickListener());
+//        tv_addaddress_city.setOnClickListener(new MyOnClickListener());
 //        rl_addaddress_name.setOnClickListener(new MyOnClickListener());
 //        rl_addaddress_lastname.setOnClickListener(new MyOnClickListener());
 
@@ -168,6 +172,9 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_build.addTextChangedListener(watcher);
         et_addaddress_areacode.addTextChangedListener(watcher);
         et_addaddress_telnum.addTextChangedListener(watcher);
+        et_addaddress_country.addTextChangedListener(watcher);
+        et_addaddress_city.addTextChangedListener(watcher);
+        et_addaddress_area.addTextChangedListener(watcher);
 
         et_addaddress_firstname.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -274,34 +281,34 @@ public class AddAddressPager extends BaseNoTrackPager {
                     tv_addaddress_business.setHovered(false);
                     tv_addaddress_home.setHovered(true);
                     break;
-                case R.id.iv_addaddress_country:
-                    List list = new ArrayList();
-                    for (int i = 0; i < 20; i++) {
-                        list.add("nihao" + i);
-                    }
-                    AreaSelector(list, tv_addaddress_country);
-                    break;
-                case R.id.tv_addaddress_country:
-                    list = new ArrayList();
-                    for (int i = 0; i < 20; i++) {
-                        list.add("nihao" + i);
-                    }
-                    AreaSelector(list, tv_addaddress_country);
-                    break;
-                case R.id.iv_addaddress_city:
-                    list = new ArrayList();
-                    for (int i = 0; i < 20; i++) {
-                        list.add("nihao" + i);
-                    }
-                    AreaSelector(list, tv_addaddress_city);
-                    break;
-                case R.id.tv_addaddress_city:
-                    list = new ArrayList();
-                    for (int i = 0; i < 20; i++) {
-                        list.add("nihao" + i);
-                    }
-                    AreaSelector(list, tv_addaddress_city);
-                    break;
+//                case R.id.iv_addaddress_country:
+//                    List list = new ArrayList();
+//                    for (int i = 0; i < 20; i++) {
+//                        list.add("nihao" + i);
+//                    }
+//                    AreaSelector(list, tv_addaddress_country);
+//                    break;
+//                case R.id.tv_addaddress_country:
+//                    list = new ArrayList();
+//                    for (int i = 0; i < 20; i++) {
+//                        list.add("nihao" + i);
+//                    }
+//                    AreaSelector(list, tv_addaddress_country);
+//                    break;
+//                case R.id.iv_addaddress_city:
+//                    list = new ArrayList();
+//                    for (int i = 0; i < 20; i++) {
+//                        list.add("nihao" + i);
+//                    }
+//                    AreaSelector(list, tv_addaddress_city);
+//                    break;
+//                case R.id.tv_addaddress_city:
+//                    list = new ArrayList();
+//                    for (int i = 0; i < 20; i++) {
+//                        list.add("nihao" + i);
+//                    }
+//                    AreaSelector(list, tv_addaddress_city);
+//                    break;
 //                case R.id.rl_addaddress_name:
 //                    et_addaddress_firstname.requestFocus();
 //                    InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -321,7 +328,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         if (address_id != -1) {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/" + address_id + "?timezone=" + MyApplication.utc;
-            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String json = "{\"address\": \"" + et_addaddress_country.getText() + et_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
@@ -359,7 +366,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         } else {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
-            String json = "{\"address\": \"" + tv_addaddress_country.getText() + tv_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String json = "{\"address\": \"" + et_addaddress_country.getText() + et_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_areacode.getText() + " " + et_addaddress_telnum.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
@@ -413,10 +420,10 @@ public class AddAddressPager extends BaseNoTrackPager {
                 if (show.isShowing()) {
                     show.dismiss();
                 }
-                if (textView == tv_addaddress_country) {
-                    tv_addaddress_city.setText("");
-                    et_addaddress_area.setText("");
-                }
+//                if (textView == tv_addaddress_country) {
+//                    tv_addaddress_city.setText("");
+//                    et_addaddress_area.setText("");
+//                }
                 textView.setText(area);
                 setSaveState();
             }
@@ -447,8 +454,8 @@ public class AddAddressPager extends BaseNoTrackPager {
     private void setSaveState() {
         if (et_addaddress_firstname.getText() != null && et_addaddress_firstname.getText().length() > 0 &&
                 et_addaddress_lastname.getText() != null && et_addaddress_lastname.getText().length() > 0 &&
-                tv_addaddress_country.getText() != null && tv_addaddress_country.length() > 0 &&
-                tv_addaddress_city.getText() != null && tv_addaddress_city.getText().length() > 0 &&
+                et_addaddress_country.getText() != null && et_addaddress_country.length() > 0 &&
+                et_addaddress_city.getText() != null && et_addaddress_city.getText().length() > 0 &&
                 et_addaddress_area.getText() != null && et_addaddress_area.getText().length() > 0 &&
                 et_addaddress_build.getText() != null && et_addaddress_build.getText().length() > 0 &&
                 et_addaddress_areacode.getText() != null && et_addaddress_areacode.getText().length() > 0 &&

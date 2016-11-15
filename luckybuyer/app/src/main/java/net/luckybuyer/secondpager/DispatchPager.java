@@ -171,6 +171,7 @@ public class DispatchPager extends BaseNoTrackPager {
     private void setView(String response) {
         Gson gson = new Gson();
         dispatchGameBean = gson.fromJson(response, DispatchGameBean.class);
+        Log.e("TAG_dispatch", response);
 
         TextView tv_dispatch_selector_address = (TextView) defaultaddress.findViewById(R.id.tv_dispatch_selector_address);
         Log.e("TAG", defaultaddress.toString());

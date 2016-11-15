@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_number": "415930282257",
+    "firebase_url": "https://kangqian-408a9.firebaseio.com",
+    "project_id": "kangqian-408a9",
+    "storage_bucket": "kangqian-408a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415930282257:android:6061a2775d00e08c",
+        "android_client_info": {
+          "package_name": "com.example.admin.firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415930282257-2pi1n80d8842bpjrlp5r3qv72b8kej2n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu2yIQaKTwudI0VdhfBq2Tx1j2qFTQFsA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415930282257:android:f4c73c486389894e",
+        "android_client_info": {
+          "package_name": "net.luckybuyer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415930282257-5t4508kdmm1ngqt5ajrkkfs0kkeq3p1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.luckybuyer",
+            "certificate_hash": "6A23584BD8C86706310EBA640566251EA6DF7036"
+          }
+        },
+        {
+          "client_id": "415930282257-2pi1n80d8842bpjrlp5r3qv72b8kej2n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAu2yIQaKTwudI0VdhfBq2Tx1j2qFTQFsA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415930282257-2pi1n80d8842bpjrlp5r3qv72b8kej2n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

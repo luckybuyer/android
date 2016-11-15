@@ -640,11 +640,11 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:background="@drawable/default_shadow_top"
-            android:layout_height="@dimen/dimen_3" />
+        <!--<ImageView-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:background="@drawable/default_shadow_top"-->
+            <!--android:layout_height="@dimen/dimen_3" />-->
 
     </RelativeLayout>
 

@@ -220,6 +220,7 @@ public class HomePager extends BaseNoTrackPager {
                     @Override
                     public void run() {
                         processBannerData(response);
+                        Log.e("TAG_banner", response);
 
                     }
                 });
@@ -393,6 +394,7 @@ public class HomePager extends BaseNoTrackPager {
         } else {
             vp_home.setCurrentItem(imageList.size() * 100);
         }
+
     }
 
     //解析数据

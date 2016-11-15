@@ -58,10 +58,10 @@ import java.util.Map;
 public class BuyCoinPager extends BaseNoTrackPager {
     private static PayPalConfiguration config = new PayPalConfiguration()
             // 沙盒测试(ENVIRONMENT_SANDBOX)，生产环境(ENVIRONMENT_PRODUCTION)
-            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
+            .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
             .merchantName("nihao")
             //你创建的测试应用Client ID  
-            .clientId("AfRWBJE7IMMtA0PeZ-fNA4VNKHQ96OzEi8zQhWiU62isFIK7u839fulj1HlwC1xQrl0PB3S4Sxfv-v_v");
+            .clientId("Adzkv-hUMlgx54740-FtAa-crh3rG7r2V-6Ezvx5cOOyODxl1wbF_ZC1Ups9EzkHJWGd5aQWk4iSCVjf");
 
 
     private RelativeLayout rl_buycoins_header;

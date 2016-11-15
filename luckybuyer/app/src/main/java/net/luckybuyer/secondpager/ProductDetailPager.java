@@ -194,6 +194,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
+        additionRequest();
         if (((SecondPagerActivity) context).game_id == -1) {
             if (((SecondPagerActivity) context).batch_id != -1) {
                 NewData();
@@ -236,6 +237,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         srl_productdetail_refresh.setRefreshing(false);
 
                         if (response.length() > 10) {
+                            Log.e("TAG_niho", response);
                             processData(response);
                             rl_keepout.setVisibility(View.GONE);
                         } else {
@@ -275,9 +277,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 });
             }
         });
-        additionRequest();
-
-
     }
 
     private void additionRequest() {
@@ -492,6 +491,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     //解析数据
     private void processData(String s) {
+        Log.e("s", s + "");
         //刷新完成
         srl_productdetail_refresh.setRefreshing(false);
         Gson gson = new Gson();
@@ -755,7 +755,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     if (token > System.currentTimeMillis() / 1000) {
                         View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
                         int height = 0;
-                        if(productDetailBean.getShares_increment() < 5) {
+                        if(productDetailBean != null && productDetailBean.getShares_increment() < 5) {
                             height = 270;
                         }else {
                             height = 300;
@@ -937,6 +937,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             money = Integer.parseInt(balance);
             balance = money - balanceCount + "";
             Utils.setSpData("balance", balance, context);
+            StartAlertDialog(inflate);
         }
 
 
@@ -956,6 +957,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 RelativeLayout rl_insert_notsellgame = (RelativeLayout) inflate.findViewById(R.id.rl_insert_notsellgame);
 
                 rl_insert_notsellgame.setOnClickListener(new MyOnClickListener());
+                StartAlertDialog(inflate);
             } else if ("InsufficientBalance".equals(buyStateBean.getMessage())) {
                 //余额不足
                 inflate = View.inflate(context, R.layout.alertdialog_insertcoins_lessicons, null);
@@ -964,6 +966,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
                 tv_lessicons_cancel.setOnClickListener(new MyOnClickListener());
                 tv_lessicons_ok.setOnClickListener(new MyOnClickListener());
+                StartAlertDialog(inflate);
             }
         }
 
@@ -971,7 +974,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
             popupWindow.dismiss();
         }
 
-        StartAlertDialog(inflate);
     }
 
     private AlertDialog show;
@@ -1104,6 +1106,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                             ll_productdetail_buyit.setVisibility(View.VISIBLE);
                             newData = response.replace("[", "");
                             newData = newData.replace("]", "");
+
                         } else {
                             ll_productdetail_buyit.setVisibility(View.GONE);
                         }

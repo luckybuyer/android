@@ -50,7 +50,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="yangshuyu.auth0.com"
+                    android:host="luckybuyer.auth0.com"
                     android:pathPrefix="/android/net.luckybuyer/callback"
                     android:scheme="https" />
             </intent-filter>
@@ -176,6 +176,23 @@
             android:theme="@android:style/Theme.Light.NoTitleBar">
         </activity>
         <service android:name="com.halopay.interfaces.SurveyService"></service>
+
+
+        <!--更新推动服务页面-->
+        <service
+            android:name=".sever.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <!-- [END firebase_service] -->
+        <!-- [START firebase_iid_service] -->
+        <service
+            android:name=".sever.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

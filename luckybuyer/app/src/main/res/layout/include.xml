@@ -48,8 +48,8 @@
 
     <net.luckybuyer.view.RoundCornerImageView
         android:id="@+id/civ_productdetail_lucky"
-        android:layout_width="@dimen/dimen_76"
-        android:layout_height="@dimen/dimen_76"
+        android:layout_width="@dimen/dimen_65"
+        android:layout_height="@dimen/dimen_65"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_130"
         android:src="@drawable/default_icon" />

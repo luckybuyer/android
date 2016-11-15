@@ -112,6 +112,7 @@
                     android:textSize="@dimen/dimen_28" />
 
                 <com.inthecheesefactory.lib.fblike.widget.FBLikeView
+                    android:visibility="gone"
                     android:id="@+id/fb_shipping_facebook"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dimen_50"

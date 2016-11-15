@@ -199,24 +199,38 @@
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/dimen_28" />
 
-                <ImageView
-                    android:id="@+id/iv_addaddress_country"
-                    android:layout_width="@dimen/dimen_22"
-                    android:layout_height="@dimen/dimen_12"
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_addaddress_country"-->
+                    <!--android:layout_width="@dimen/dimen_22"-->
+                    <!--android:layout_height="@dimen/dimen_12"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="@dimen/dimen_24"-->
+                    <!--android:background="@drawable/addaddress_selector" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_addaddress_country"-->
+                    <!--android:layout_width="@dimen/dimen_280"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="@dimen/dimen_15"-->
+                    <!--android:layout_toLeftOf="@+id/iv_addaddress_country"-->
+                    <!--android:gravity="right"-->
+                    <!--android:hint="select"-->
+                    <!--android:textColor="#666666"-->
+                    <!--android:textSize="@dimen/dimen_26" />-->
+                <EditText
+                    android:id="@+id/et_addaddress_country"
+                    android:layout_width="@dimen/dimen_360"
+                    android:layout_height="@dimen/dimen_80"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_24"
-                    android:background="@drawable/addaddress_selector" />
-
-                <TextView
-                    android:id="@+id/tv_addaddress_country"
-                    android:layout_width="@dimen/dimen_280"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dimen_15"
-                    android:layout_toLeftOf="@+id/iv_addaddress_country"
-                    android:gravity="right"
-                    android:hint="select"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|right"
+                    android:hint="Type in country"
+                    android:maxLines="1"
                     android:textColor="#666666"
                     android:textSize="@dimen/dimen_26" />
 
@@ -253,24 +267,38 @@
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/dimen_28" />
 
-                <ImageView
-                    android:id="@+id/iv_addaddress_city"
-                    android:layout_width="@dimen/dimen_22"
-                    android:layout_height="@dimen/dimen_12"
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_addaddress_city"-->
+                    <!--android:layout_width="@dimen/dimen_22"-->
+                    <!--android:layout_height="@dimen/dimen_12"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="@dimen/dimen_24"-->
+                    <!--android:background="@drawable/addaddress_selector" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_addaddress_city"-->
+                    <!--android:layout_width="@dimen/dimen_280"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="right"-->
+                    <!--android:layout_centerVertical="true"-->
+                    <!--android:layout_marginRight="@dimen/dimen_15"-->
+                    <!--android:layout_toLeftOf="@+id/iv_addaddress_city"-->
+                    <!--android:hint="select"-->
+                    <!--android:textColor="#666666"-->
+                    <!--android:textSize="@dimen/dimen_26" />-->
+                <EditText
+                    android:id="@+id/et_addaddress_city"
+                    android:layout_width="@dimen/dimen_360"
+                    android:layout_height="@dimen/dimen_80"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/dimen_24"
-                    android:background="@drawable/addaddress_selector" />
-
-                <TextView
-                    android:id="@+id/tv_addaddress_city"
-                    android:layout_width="@dimen/dimen_280"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dimen_15"
-                    android:layout_toLeftOf="@+id/iv_addaddress_city"
-                    android:hint="select"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical|right"
+                    android:hint="Type in city"
+                    android:maxLines="1"
                     android:textColor="#666666"
                     android:textSize="@dimen/dimen_26" />
 

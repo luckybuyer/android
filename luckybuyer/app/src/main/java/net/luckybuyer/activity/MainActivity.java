@@ -1,5 +1,6 @@
 package net.luckybuyer.activity;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +33,7 @@ import com.auth0.android.lock.enums.SocialButtonStyle;
 import com.auth0.android.lock.errors.LoginErrorMessageBuilder;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
 import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
@@ -88,7 +90,8 @@ public class MainActivity extends FragmentActivity {
 
         Log.e("TAG_dimen", getResources().getDimension(R.dimen.dimen_10) + "");
         //auth0登陆
-        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
+        Auth0 auth0 = new Auth0("6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc", "luckybuyer.auth0.com");
+//        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
                 .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.bg_ff4f3c).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_white).withPrimaryColor(R.color.bg_ff4f3c).build())
@@ -138,6 +141,11 @@ public class MainActivity extends FragmentActivity {
         }
 
         HaloPay.getInstance().init (this,HaloPay.PORTRAIT, "3000600754");
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+        if(token != null) {
+            Log.e("TAG_000", token);
+        }
 
     }
 
@@ -268,7 +276,10 @@ public class MainActivity extends FragmentActivity {
 
         //全局变量，记录当前显示的fragment
         currentFragment = fg;
-        transaction.commitAllowingStateLoss();
+        boolean flag = this.isDestroyed();
+        if(!flag) {
+            transaction.commitAllowingStateLoss();
+        }
 
     }
 
@@ -290,6 +301,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onAuthentication(Credentials credentials) {
 
+            Log.e("TAG", credentials+"");
             // Base64 解码：
             String token = credentials.getIdToken();
 
@@ -400,6 +412,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onError(LockException error) {
+            Log.e("TAG", error + "");
             if (id == 1) {
                 showFragment(list.get(1));
             } else if (id == 3) {
@@ -415,6 +428,7 @@ public class MainActivity extends FragmentActivity {
             }
             rb_main_homepager.setChecked(false);
             rb_main_newresult.setChecked(false);
+
         }
     };
 

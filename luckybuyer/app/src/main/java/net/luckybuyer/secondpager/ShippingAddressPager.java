@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     private RelativeLayout rl_loading;
     private TextView tv_net_again;
     private View inflate;
+    private LinearLayout ll_shipping_return;
 
 
     @Override
@@ -87,16 +89,31 @@ public class ShippingAddressPager extends BaseNoTrackPager {
 
                     @Override
                     public void error(int requestCode, String message) {
-                        rl_nodata.setVisibility(View.GONE);
-                        rl_neterror.setVisibility(View.VISIBLE);
-                        rl_loading.setVisibility(View.GONE);
+                        ((Activity) context).runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        rl_nodata.setVisibility(View.GONE);
+                                        rl_neterror.setVisibility(View.VISIBLE);
+                                        rl_loading.setVisibility(View.GONE);
+                                    }
+                                }
+                        );
+
                     }
 
                     @Override
                     public void failure(Exception exception) {
-                        rl_nodata.setVisibility(View.GONE);
-                        rl_neterror.setVisibility(View.VISIBLE);
-                        rl_loading.setVisibility(View.GONE);
+                        ((Activity) context).runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        rl_nodata.setVisibility(View.GONE);
+                                        rl_neterror.setVisibility(View.VISIBLE);
+                                        rl_loading.setVisibility(View.GONE);
+                                    }
+                                }
+                        );
                     }
                 }
 
@@ -115,10 +132,12 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        ll_shipping_return = (LinearLayout) inflate.findViewById(R.id.ll_shipping_return);
 
         iv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_newadd.setOnClickListener(new MyOnClickListener());
+        ll_shipping_return.setOnClickListener(new MyOnClickListener());
     }
 
     private void processData(String response) {
@@ -140,24 +159,31 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.iv_shipping_back:
-                    Log.e("TAG", ((SecondPagerActivity) context).from + "");
-                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(4);
-                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(7);
-                    }
-                    break;
-                case R.id.tv_shipping_back:
-                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(4);
-                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(7);
-                    }
-                    break;
+//                case R.id.iv_shipping_back:
+//                    Log.e("TAG", ((SecondPagerActivity) context).from + "");
+//                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(4);
+//                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(7);
+//                    }
+//                    break;
+//                case R.id.tv_shipping_back:
+//                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(4);
+//                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(7);
+//                    }
+//                    break;
                 case R.id.tv_shipping_newadd:
                     ((SecondPagerActivity) context).switchPage(8);
                     ((SecondPagerActivity) context).from = "shippingaddress";
+                    break;
+                case R.id.ll_shipping_return:
+                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).switchPage(4);
+                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).switchPage(7);
+                    }
                     break;
             }
         }
