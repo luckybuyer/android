@@ -41,6 +41,16 @@ public class ProductDetailBean {
     private String closed_at;
     private String finished_at;
     private int id;
+
+    public int getBatch_id() {
+        return batch_id;
+    }
+
+    public void setBatch_id(int batch_id) {
+        this.batch_id = batch_id;
+    }
+
+    private int batch_id;
     private int issue_id;
     private int left_shares;
     private String lucky_number;

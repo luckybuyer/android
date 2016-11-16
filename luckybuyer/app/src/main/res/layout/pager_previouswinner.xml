@@ -122,10 +122,10 @@
                 android:layout_marginTop="@dimen/dimen_80"
                 android:background="@drawable/shape_radius_4pxoragne"
                 android:paddingBottom="@dimen/dimen_12"
-                android:paddingLeft="@dimen/dimen_18"
-                android:paddingRight="@dimen/dimen_18"
+                android:paddingLeft="@dimen/dimen_24"
+                android:paddingRight="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="To request data"
+                android:text="Retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>

@@ -41,7 +41,7 @@ public class ThirdPagerActivity extends FragmentActivity {
         //沉浸式状态栏
         new StatusBarUtils(this).statusBar();
         setContentView(R.layout.activity_third_pager);
-        int batch_id = getIntent().getIntExtra("batch_id",-1);
+        batch_id = getIntent().getIntExtra("batch_id",-1);
 
         title_image = getIntent().getStringExtra("title_image");
         title = getIntent().getStringExtra("title");
@@ -58,7 +58,6 @@ public class ThirdPagerActivity extends FragmentActivity {
         list.add(new PreviousWinnersPager());
         //参与详情页面                     1
         list.add(new ParticipationPager());
-
     }
 
     private void selectPager() {

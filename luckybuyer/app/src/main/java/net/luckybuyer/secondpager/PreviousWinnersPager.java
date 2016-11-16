@@ -26,6 +26,7 @@ import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 
 import java.lang.reflect.Field;
+import java.util.logging.LogRecord;
 
 /**
  * Created by admin on 2016/9/18.
@@ -57,6 +58,7 @@ public class PreviousWinnersPager extends BasePager {
         rl_neterror.setVisibility(View.GONE);
         rl_loading.setVisibility(View.VISIBLE);
         String url = MyApplication.url + "/v1/games/?status=finished&batch_id="+ ((ThirdPagerActivity)context).batch_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
+        Log.e("TAG", url);
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -65,7 +67,7 @@ public class PreviousWinnersPager extends BasePager {
                     public void run() {
                         processData(response);
                         rl_keepout.setVisibility(View.GONE);
-                        Log.e("TAG000", response);
+                        Log.e("TAG_previous", response);
                     }
                 });
             }
@@ -104,7 +106,6 @@ public class PreviousWinnersPager extends BasePager {
         PreviousWinnerBean previousWinnerBean = gson.fromJson(response, PreviousWinnerBean.class);
 
         if(response.length() > 100) {
-            Log.e("TAG", response);
             rv_previous.setAdapter(new previousWinnersAdapter(context, previousWinnerBean.getPrevious()));
             rv_previous.setLayoutManager(new GridLayoutManager(context,1));
         }else {

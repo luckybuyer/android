@@ -151,6 +151,11 @@
                         android:layout_marginRight="@dimen/dimen_20"
                         android:layout_toLeftOf="@id/tv_home_products"
                         android:background="#666666"></View>
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/bg_view"
+                        android:layout_alignParentBottom="true"
+                        android:layout_height="1px"></View>
                 </RelativeLayout>
 
                 <android.support.v7.widget.RecyclerView
@@ -163,6 +168,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -192,7 +198,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_neterror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -225,10 +230,10 @@
                 android:layout_marginTop="@dimen/dimen_80"
                 android:background="@drawable/shape_radius_4pxoragne"
                 android:paddingBottom="@dimen/dimen_12"
-                android:paddingLeft="@dimen/dimen_18"
-                android:paddingRight="@dimen/dimen_18"
+                android:paddingLeft="@dimen/dimen_24"
+                android:paddingRight="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="To request data"
+                android:text="Retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>

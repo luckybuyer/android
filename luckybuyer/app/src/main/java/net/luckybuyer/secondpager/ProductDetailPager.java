@@ -237,7 +237,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         srl_productdetail_refresh.setRefreshing(false);
 
                         if (response.length() > 10) {
-                            Log.e("TAG_niho", response);
                             processData(response);
                             rl_keepout.setVisibility(View.GONE);
                         } else {
@@ -734,7 +733,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case R.id.rl_productdetail_announced:          //往期回顾
                     Intent intent = new Intent(context, ThirdPagerActivity.class);
                     intent.putExtra("from", "previous");
-                    intent.putExtra("batch_id", ((SecondPagerActivity) context).batch_id);
+                    intent.putExtra("batch_id", productDetailBean.getBatch_id());
                     startActivity(intent);
                     break;
                 case R.id.tv_productdetal_again:      //buy  it  now
