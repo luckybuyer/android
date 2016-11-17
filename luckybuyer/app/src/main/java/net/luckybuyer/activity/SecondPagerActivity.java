@@ -28,6 +28,7 @@ import com.google.gson.Gson;
 
 import net.luckybuyer.R;
 import net.luckybuyer.app.MyApplication;
+import net.luckybuyer.bean.ShippingAddressBean;
 import net.luckybuyer.bean.TokenBean;
 import net.luckybuyer.bean.User;
 import net.luckybuyer.secondpager.AddAddressPager;
@@ -70,6 +71,8 @@ public class SecondPagerActivity extends FragmentActivity {
     public String from;
 
     public Lock lock;
+
+    public ShippingAddressBean.ShippingBean shippingBean;              //为了分发页面
 
     public CountDownTimer countDownTimer;
 

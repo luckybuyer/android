@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
 
+    <!--谷歌支付权限-->
+    <uses-permission android:name="com.android.vending.BILLING" />
     <application
         android:name=".app.MyApplication"
         android:allowBackup="true"

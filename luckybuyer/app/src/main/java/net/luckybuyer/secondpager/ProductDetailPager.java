@@ -675,7 +675,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     private void setLucky() {
         ((TextView) inflate.findViewById(R.id.tv_productdetail_typesomething)).setText(productDetailBean.getLucky_user().getProfile().getName());
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckynum)).setText("Lucky Number：" + productDetailBean.getLucky_number() + "");
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckynum)).setText("Smart Number：" + productDetailBean.getLucky_number() + "");
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckyid)).setText("User ID:" + productDetailBean.getLucky_user().getId() + "");
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckytime)).setText("Lottery time:" + productDetailBean.getFinished_at().substring(0, 19).replace("T", "\t"));
         final RoundCornerImageView civ_productdetail_lucky = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky));
@@ -737,7 +737,11 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     startActivity(intent);
                     break;
                 case R.id.tv_productdetal_again:      //buy  it  now
-                    processData(newData);
+                    Log.e("TAG_gameid", ((SecondPagerActivity) context).game_id + "");
+                    ((SecondPagerActivity)context).batch_id = productDetailBean.getBatch_id();
+                    ((SecondPagerActivity)context).game_id = -1;
+                    NewData();
+//                    initData();
                     break;
                 case R.id.tv_net_again:
                     isNeedNetWaiting = true;
@@ -1116,6 +1120,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                 ll_productdetail_buyit.setVisibility(View.GONE);
                                 rl_productdetail_indsertcoins.setVisibility(View.VISIBLE);
                                 processData(newData);
+
+                                additionRequest();
                             }
                         }
                     }

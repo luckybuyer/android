@@ -20,7 +20,7 @@ public class MePagerViewPagerAdapter extends PagerAdapter {
         this.context = context;
         this.list = list;
         titleList.add("\n\n\n\nAll\n\n\n");
-        titleList.add("Lucky Records");
+        titleList.add("Smart Records");
 //        titleList.add("    Show   ");
 //        titleList.add("   Hisory  ");
     }

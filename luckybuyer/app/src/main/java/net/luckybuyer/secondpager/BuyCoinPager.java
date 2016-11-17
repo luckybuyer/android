@@ -43,10 +43,14 @@ import net.luckybuyer.bean.BuyCoinBean;
 import net.luckybuyer.bean.HaloPayBean;
 import net.luckybuyer.bean.PaypalSuccessBean;
 import net.luckybuyer.bean.User;
+import net.luckybuyer.util.IabHelper;
+import net.luckybuyer.util.IabResult;
+import net.luckybuyer.util.Purchase;
 import net.luckybuyer.utils.HttpUtils;
 import net.luckybuyer.utils.Utils;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -56,10 +60,11 @@ import java.util.Map;
  * Created by admin on 2016/9/29.
  */
 public class BuyCoinPager extends BaseNoTrackPager {
+    private static final int RESULT_PAYMENT_OK = 1001;       //google pay回调监听
     private static PayPalConfiguration config = new PayPalConfiguration()
             // 沙盒测试(ENVIRONMENT_SANDBOX)，生产环境(ENVIRONMENT_PRODUCTION)
             .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
-            .merchantName("nihao")
+            .merchantName("KangQian")
             //你创建的测试应用Client ID  
             .clientId("Adzkv-hUMlgx54740-FtAa-crh3rG7r2V-6Ezvx5cOOyODxl1wbF_ZC1Ups9EzkHJWGd5aQWk4iSCVjf");
 
@@ -89,6 +94,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private TextView rl_buycoins_email;                    //发送邮件
     private BuyCoinBean buyCoinBean;
 
+    IabHelper mHelper;                                     //谷歌支付
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_buycoins, null);
@@ -116,6 +122,24 @@ public class BuyCoinPager extends BaseNoTrackPager {
             HaloPay.getInstance().init (((MainActivity)context),HaloPay.PORTRAIT, "3000600754");                 //holypay支付
             HaloPay.getInstance().setLang(((MainActivity)context), "AE", "AED", "AR");
         }
+
+        //谷歌支付初始化
+        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtCg5MroH4SOIQ1p5kDVOzJYeSK5M9QUuFr7ZBqC2JdwusxotjASXzuJ+uIUf9do17q34ob9gdx2onV8bVbMAPyzd9Det3T+aHpbNjFp4fAEx6cdHQeps5GBmBdudM+SXXxJp4rO+pytRq6iFWmh6vzJWMQfFWEcb3k7DysxDcGIbQFr4q3b2VYIEUoy7dHeFdZcSOnv/kzqEyA456Co24CnE5PTbW8zkvpgtJVKeHrH/CufwJN3rBCWzhlt2HyQPI+ks5FwN8M9R770O43VjTY87ztmZtOnsOjc75AuqiW+vXCplYalMM//ZGx0BQKzSod166QR63kkxU2mGntX5kwIDAQAB";
+        mHelper = new IabHelper(context, base64EncodedPublicKey);
+        mHelper.enableDebugLogging(true);
+
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                Log.e("TAG_startSetup", result + "");
+
+                if (!result.isSuccess()) {
+                    return;
+                }
+
+                // Hooray, IAB is fully set up. Now, let's get an inventory of stuff we own.
+//                mHelper.queryInventoryAsync(mGotInventoryListener);
+            }
+        });
 
         return inflate;
     }
@@ -212,6 +236,52 @@ public class BuyCoinPager extends BaseNoTrackPager {
         }
     }
 
+    //开始google play支付
+    private void startRegistered() {
+        try {
+            if(flag == true) {
+                mHelper.launchPurchaseFlow(((SecondPagerActivity)context), "one", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
+            }else {
+                mHelper.launchPurchaseFlow(((MainActivity)context), "one", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
+            }
+
+        } catch (IabHelper.IabAsyncInProgressException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Callback for when a purchase is finished
+    IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            if (result.isFailure()) {
+                // Oh noes!
+                return;
+            }
+
+            Log.e("TAG", result.getMessage());
+            Log.e("TAG", result.toString());
+            Log.e("TAG", purchase.getSku());
+            Log.e("TAG", purchase.getOrderId().toString());
+            Log.e("TAG", purchase.getSignature().toString());
+            Log.e("TAG", purchase.getSignature().toString());
+
+
+            //消耗产品
+            try {
+                mHelper.consumeAsync(purchase, new IabHelper.OnConsumeFinishedListener() {
+                    @Override
+                    public void onConsumeFinished(Purchase purchase, IabResult result) {
+                        Log.e("TAG_xiaohao", result.isSuccess() + "");
+                    }
+                });
+
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+
     int money = 0;
     int topup_option_id = -1;
     int id_coins = 0;
@@ -269,28 +339,29 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     }
                     break;
                 case R.id.tv_buycoins_buy:
-                    String token_s = Utils.getSpData("token_num", context);
-                    int token = 0;
-                    if (token_s != null) {
-                        token = Integer.parseInt(token_s);
-                    }
-                    if (token > System.currentTimeMillis() / 1000) {
-                        if (iv_buycoins_paypal.isHovered()) {
-                            PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), buyCoinBean.getBuycoins().get(id_coins).getCurrency(), "Luckybuyer",
-                                    PayPalPayment.PAYMENT_INTENT_SALE);
-                            Intent intent = new Intent(context, PaymentActivity.class);
-                            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-                            startActivityForResult(intent, 0);
-                        } else if (iv_buycoins_cashu.isHovered()) {
-                            StartHalopay();
-                        }
-                    } else {
-                        if (context instanceof SecondPagerActivity) {
-                            context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
-                        } else if (context instanceof MainActivity) {
-                            context.startActivity(((MainActivity) context).lock.newIntent(((MainActivity) context)));
-                        }
-                    }
+//                    String token_s = Utils.getSpData("token_num", context);
+//                    int token = 0;
+//                    if (token_s != null) {
+//                        token = Integer.parseInt(token_s);
+//                    }
+//                    if (token > System.currentTimeMillis() / 1000) {
+//                        if (iv_buycoins_paypal.isHovered()) {
+//                            PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), buyCoinBean.getBuycoins().get(id_coins).getCurrency(), "Luckybuyer",
+//                                    PayPalPayment.PAYMENT_INTENT_SALE);
+//                            Intent intent = new Intent(context, PaymentActivity.class);
+//                            intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+//                            startActivityForResult(intent, 0);
+//                        } else if (iv_buycoins_cashu.isHovered()) {
+//                            StartHalopay();
+//                        }
+//                    } else {
+//                        if (context instanceof SecondPagerActivity) {
+//                            context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
+//                        } else if (context instanceof MainActivity) {
+//                            context.startActivity(((MainActivity) context).lock.newIntent(((MainActivity) context)));
+//                        }
+//                    }
+                    startRegistered();
                     break;
                 case R.id.rl_buycoins_cashu:
                     iv_buycoins_cashu.setVisibility(View.VISIBLE);
@@ -327,66 +398,66 @@ public class BuyCoinPager extends BaseNoTrackPager {
     }
 
     //paysession 支付
-    private void StartHalopay() {
-        String url = MyApplication.url+"/v1/payments/halopay/?timezone=" + MyApplication.utc;
-//        String json = "{\"failure_url\": \"http://net.luckybuyer.failure\",\"method\": \"alipay_cn\",\"success_url\": \"http://net.luckybuyer.success\",\"topup_option_id\": " + topup_option_id + "}";
-        String json = "{ \"topup_option_id\": "+topup_option_id+"}";
-        Map map = new HashMap();
-        String mToken = Utils.getSpData("token", context);
-        map.put("Authorization", "Bearer " + mToken);
-        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
-            @Override
-            public void success(final String response) {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        processHalopay(response);
-                    }
-                });
-            }
+//    private void StartHalopay() {
+//        String url = MyApplication.url+"/v1/payments/halopay/?timezone=" + MyApplication.utc;
+////        String json = "{\"failure_url\": \"http://net.luckybuyer.failure\",\"method\": \"alipay_cn\",\"success_url\": \"http://net.luckybuyer.success\",\"topup_option_id\": " + topup_option_id + "}";
+//        String json = "{ \"topup_option_id\": "+topup_option_id+"}";
+//        Map map = new HashMap();
+//        String mToken = Utils.getSpData("token", context);
+//        map.put("Authorization", "Bearer " + mToken);
+//        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+//            @Override
+//            public void success(final String response) {
+//                ((Activity) context).runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        processHalopay(response);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void error(final int code, final String message) {
+//                ((Activity) context).runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Log.e("TAG", code + message);
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void failure(Exception exception) {
+//
+//            }
+//        });
+//    }
 
-            @Override
-            public void error(final int code, final String message) {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e("TAG", code + message);
-                    }
-                });
-            }
-
-            @Override
-            public void failure(Exception exception) {
-
-            }
-        });
-    }
-
-    private void processHalopay(String response) {
-        Gson gson = new Gson();
-        HaloPayBean haloPayBean = gson.fromJson(response, HaloPayBean.class);
-        if(flag) {
-            HaloPay.getInstance().startPay(((SecondPagerActivity)context), "transid="+haloPayBean.getTransaction_id()+"&appid=3000600754", new MyIPayResultCallback());
-        }else {
-            HaloPay.getInstance().startPay((MainActivity)context, "transid="+haloPayBean.getTransaction_id()+"&appid=3000600754", new MyIPayResultCallback());
-        }
-    }
-    class MyIPayResultCallback implements IPayResultCallback{
-
-        @Override
-        public void onPayResult(int resultCode, String signvalue, String resultInfo) {
-            switch (resultCode) {
-                case HaloPay.PAY_SUCCESS:
-                    requestCoins();
-                    break;
-                default:
-                    Log.e("TAG", resultInfo);
-                    Log.e("TAG", resultCode + "");
-                    Log.e("TAG", signvalue + "");
-                    break;
-            }
-        }
-    }
+//    private void processHalopay(String response) {
+//        Gson gson = new Gson();
+//        HaloPayBean haloPayBean = gson.fromJson(response, HaloPayBean.class);
+//        if(flag) {
+//            HaloPay.getInstance().startPay(((SecondPagerActivity)context), "transid="+haloPayBean.getTransaction_id()+"&appid=3000600754", new MyIPayResultCallback());
+//        }else {
+//            HaloPay.getInstance().startPay((MainActivity)context, "transid="+haloPayBean.getTransaction_id()+"&appid=3000600754", new MyIPayResultCallback());
+//        }
+//    }
+//    class MyIPayResultCallback implements IPayResultCallback{
+//
+//        @Override
+//        public void onPayResult(int resultCode, String signvalue, String resultInfo) {
+//            switch (resultCode) {
+//                case HaloPay.PAY_SUCCESS:
+//                    requestCoins();
+//                    break;
+//                default:
+//                    Log.e("TAG", resultInfo);
+//                    Log.e("TAG", resultCode + "");
+//                    Log.e("TAG", signvalue + "");
+//                    break;
+//            }
+//        }
+//    }
 
     public AlertDialog show;
     private void StartAlertDialog(View view) {
@@ -409,6 +480,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("TAG", "onActivityResult(" + requestCode + "," + resultCode + "," + data);
         if (resultCode == Activity.RESULT_OK) {
             PaymentConfirmation confirm = data.getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
             if (confirm != null) {
@@ -429,6 +501,15 @@ public class BuyCoinPager extends BaseNoTrackPager {
             Log.e("paymentExample", "The user canceled.");
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             Log.e("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
+        }else if (requestCode == RESULT_PAYMENT_OK) {
+            //google play 支付
+            int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
+            String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
+            String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
+
+            Log.e("TAG_huidiao", purchaseData + "");
+            Log.e("TAG_huidiao", dataSignature + "");
+
         }
     }
 
@@ -520,5 +601,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
         super.onDestroy();
         context.stopService(new Intent(context, PayPalService.class));
     }
+
 
 }

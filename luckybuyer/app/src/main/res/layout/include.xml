@@ -36,7 +36,7 @@
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_30"
         android:gravity="center"
-        android:text="Lucky Number：0965389"
+        android:text="Smart Number：0965389"
         android:textColor="#ff9c05"
         android:textSize="@dimen/dimen_26" />
 

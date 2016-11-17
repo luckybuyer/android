@@ -170,6 +170,7 @@ public class DispatchPager extends BaseNoTrackPager {
     //设置视图
     private void setView(String response) {
         Gson gson = new Gson();
+        Log.e("TAG_diaptch", response);
         dispatchGameBean = gson.fromJson(response, DispatchGameBean.class);
         Log.e("TAG_dispatch", response);
 
@@ -249,7 +250,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
     //设置地址  包括有默认地址与无默认地址
     private void setAddress(DispatchGameBean dispatchGameBean, View defaultaddress, TextView tv_dispatch_selector_address, TextView tv_dispatch_current_address, TextView tv_disaptch_name, TextView tv_disaptch_telnum, TextView tv_disaptch_add_detailed,String status) {
-        if (dispatchGameBean.getDelivery().getAddress() == null) {
+        if (dispatchGameBean.getDelivery().getAddress() == null &&((SecondPagerActivity)context).shippingBean == null) {
             View view = inflate.findViewById(R.id.view_address);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context, 1), DensityUtil.dip2px(context, 78));
             lp.leftMargin = DensityUtil.dip2px(context, 17);
@@ -259,7 +260,7 @@ public class DispatchPager extends BaseNoTrackPager {
             View addView = View.inflate(context, R.layout.pager_dispatch_address, null);
             rl_dispatch_address_content.addView(addView);
             rl_dispatch_address_content.setOnClickListener(new MyOnClickListener());
-        } else {
+        } else if(dispatchGameBean.getDelivery().getAddress() != null){
             View view = inflate.findViewById(R.id.view_address);
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context, 1), DensityUtil.dip2px(context, 130));
             lp.leftMargin = DensityUtil.dip2px(context, 17);
@@ -279,7 +280,29 @@ public class DispatchPager extends BaseNoTrackPager {
             rl_dispatch_address_content.addView(defaultaddress);
             tv_dispatch_selector_address.setOnClickListener(new MyOnClickListener());
             tv_dispatch_current_address.setOnClickListener(new MyOnClickListener());
+        }else if(dispatchGameBean.getDelivery().getAddress() == null &&((SecondPagerActivity)context).shippingBean != null){
+            View view = inflate.findViewById(R.id.view_address);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context, 1), DensityUtil.dip2px(context, 130));
+            lp.leftMargin = DensityUtil.dip2px(context, 17);
+            lp.topMargin = DensityUtil.dip2px(context, 8);
+            view.setLayoutParams(lp);
+
+
+            tv_disaptch_name.setText(((SecondPagerActivity)context).shippingBean.getName() + "");
+            tv_disaptch_telnum.setText(((SecondPagerActivity)context).shippingBean.getPhone() + "");
+            tv_disaptch_add_detailed.setText(((SecondPagerActivity)context).shippingBean.getAddress() + "");
+
+            if(!"pending".equals(status)) {
+                defaultaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.GONE);
+            }else{
+                defaultaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.VISIBLE);
+            }
+            rl_dispatch_address_content.removeAllViews();
+            rl_dispatch_address_content.addView(defaultaddress);
+            tv_dispatch_selector_address.setOnClickListener(new MyOnClickListener());
+            tv_dispatch_current_address.setOnClickListener(new MyOnClickListener());
         }
+
     }
 
 
@@ -334,8 +357,17 @@ public class DispatchPager extends BaseNoTrackPager {
     private void setCurrentAddress() {
         HttpUtils.getInstance().startNetworkWaiting(context);
         String token = Utils.getSpData("token", context);
-        String url = MyApplication.url + "/v1/deliveries/" + dispatchGameBean.getDelivery().getId() + "?timezone=" + MyApplication.utc;
-        String json = "{\"status\": \"processing\"}";
+        String url = "";
+        String json = "";
+        if(dispatchGameBean.getDelivery().getAddress() != null) {
+            url = MyApplication.url + "/v1/deliveries/" + dispatchGameBean.getDelivery().getId() + "?timezone=" + MyApplication.utc;
+            json = "{\"status\": \"processing\"}";
+        }else if(dispatchGameBean.getDelivery().getAddress() == null && ((SecondPagerActivity)context).shippingBean!=null) {
+            url = MyApplication.url + "/v1/deliveries/" + dispatchGameBean.getDelivery().getId() + "?timezone=" + MyApplication.utc;
+            json = "{\"status\": \"processing\",\"address_id\":  "+((SecondPagerActivity)context).shippingBean.getId()+"}";
+        }
+
+        Log.e("TAG", json);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -349,6 +381,7 @@ public class DispatchPager extends BaseNoTrackPager {
                                     @Override
                                     public void run() {
                                         HttpUtils.getInstance().stopNetWorkWaiting();
+                                        Log.e("TAG_dispatch", response);
                                     }
                                 }
                         );
@@ -363,6 +396,7 @@ public class DispatchPager extends BaseNoTrackPager {
                                 if (requestCode == 204) {
                                     initData();
                                 }
+                                Log.e("TAG_dispatch", requestCode + message);
                             }
                         });
                     }

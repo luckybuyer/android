@@ -71,7 +71,7 @@
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_10"
         android:layout_toRightOf="@id/rl_winning_icon"
-        android:text="Lucky Number : "
+        android:text="Smart Number : "
         android:textColor="#999999"
         android:textSize="@dimen/dimen_22" />
 

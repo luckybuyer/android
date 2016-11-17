@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_10"
-        android:background="@drawable/shape_rl_all">
+        android:background="#e5e5e5">
 
     </RelativeLayout>
 

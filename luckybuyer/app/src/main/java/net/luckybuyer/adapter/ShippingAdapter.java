@@ -65,6 +65,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
         holder.jtv_shipping_detailed.setText(list.get(position).getAddress());
         if (list.get(position).isIs_default()) {
             holder.cb_shipping_select.setChecked(true);
+            ((SecondPagerActivity)context).shippingBean = list.get(position);
         } else {
             holder.cb_shipping_select.setChecked(false);
         }

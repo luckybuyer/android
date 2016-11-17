@@ -77,6 +77,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                     public void success(final String response) {
 
                         ((Activity) context).runOnUiThread(
+
                                 new Runnable() {
                                     @Override
                                     public void run() {
@@ -143,8 +144,11 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     private void processData(String response) {
         Gson gson = new Gson();
         response = "{\"shipping\":" + response + "}";
+        Log.e("TAG_response", response);
         ShippingAddressBean shippingAddressBean = gson.fromJson(response, ShippingAddressBean.class);
-
+        if(shippingAddressBean.getShipping().size()>0) {
+            ((SecondPagerActivity)context).shippingBean = shippingAddressBean.getShipping().get(0);
+        }
         rv_shipping_address.setAdapter(new ShippingAdapter(context, shippingAddressBean.getShipping()));
         rv_shipping_address.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
             @Override

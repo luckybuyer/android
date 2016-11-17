@@ -12,8 +12,8 @@
         android:background="@color/bg_while">
 
         <ImageView
-            android:layout_width="@dimen/dimen_250"
-            android:layout_height="@dimen/dimen_30"
+            android:layout_width="@dimen/dimen_323"
+            android:layout_height="@dimen/dimen_26"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_20"
             android:layout_alignParentBottom="true"
@@ -77,31 +77,22 @@
                     android:layout_below="@id/vp_home"
                     android:background="#ffffff">
 
-                    <View
-                        android:id="@+id/view_home"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="@dimen/dimen_56"
-                        android:layout_marginRight="@dimen/dimen_56"
-                        android:layout_marginTop="@dimen/dimen_30"
-                        android:background="@color/bg_view"></View>
+
 
                     <ImageView
                         android:id="@+id/iv_home_broadcast"
                         android:layout_width="@dimen/dimen_32"
                         android:layout_height="@dimen/dimen_32"
-                        android:layout_below="@+id/view_home"
                         android:layout_centerVertical="true"
                         android:layout_marginBottom="@dimen/dimen_16"
                         android:layout_marginLeft="@dimen/dimen_50"
-                        android:layout_marginTop="@dimen/dimen_30"
+                        android:layout_marginTop="@dimen/dimen_60"
                         android:background="@drawable/home_broadcast" />
 
                     <net.luckybuyer.view.AutoTextHomeView
                         android:id="@+id/atv_home_marquee"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_36"
-                        android:layout_below="@+id/view_home"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dimen_16"
                         android:layout_marginRight="@dimen/dimen_80"
