@@ -89,7 +89,7 @@
                         android:layout_marginTop="@dimen/dimen_60"
                         android:background="@drawable/home_broadcast" />
 
-                    <net.luckybuyer.view.AutoTextHomeView
+                    <net.smartbuyer.view.AutoTextHomeView
                         android:id="@+id/atv_home_marquee"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_36"

@@ -31,7 +31,7 @@
                 android:background="@drawable/me_voice" />
         </RelativeLayout>
 
-        <net.luckybuyer.view.JustifyTextView
+        <net.smartbuyer.view.JustifyTextView
             android:id="@+id/jtv_all_discribe"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_72"

@@ -32,7 +32,7 @@
                 android:background="@drawable/default_icon" />
         </RelativeLayout>
 
-        <net.luckybuyer.view.JustifyTextView
+        <net.smartbuyer.view.JustifyTextView
             android:id="@+id/jtv_lucky_discribe"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_72"

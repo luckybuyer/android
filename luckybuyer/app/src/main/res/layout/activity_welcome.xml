@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_ff4f3c"
-    tools:context="net.luckybuyer.activity.WelcomeActivity">
+    tools:context="net.smartbuyer.activity.WelcomeActivity">
 
     <ImageView
         android:layout_width="@dimen/dimen_260"

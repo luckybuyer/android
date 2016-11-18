@@ -41,7 +41,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:415930282257:android:f4c73c486389894e",
         "android_client_info": {
-          "package_name": "net.luckybuyer"
+          "package_name": "net.smartbuyer"
         }
       },
       "oauth_client": [
@@ -49,7 +49,7 @@
           "client_id": "415930282257-5t4508kdmm1ngqt5ajrkkfs0kkeq3p1e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "net.luckybuyer",
+            "package_name": "net.smartbuyer",
             "certificate_hash": "6A23584BD8C86706310EBA640566251EA6DF7036"
           }
         },

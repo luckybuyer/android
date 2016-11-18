@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <net.luckybuyer.view.MyScrollView
+            <net.smartbuyer.view.MyScrollView
                 android:id="@+id/sv_productdetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -57,7 +57,7 @@
                             android:layout_above="@+id/view"
                             android:layout_marginBottom="@dimen/dimen_100" />
 
-                        <net.luckybuyer.view.AutoTextView
+                        <net.smartbuyer.view.AutoTextView
                             android:id="@+id/atv_productdetail_broadcast"
                             android:layout_width="@dimen/dimen_680"
                             android:layout_height="@dimen/dimen_94"
@@ -457,7 +457,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/dimen_100"></android.support.v7.widget.RecyclerView>
                 </LinearLayout>
-            </net.luckybuyer.view.MyScrollView>
+            </net.smartbuyer.view.MyScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
 
