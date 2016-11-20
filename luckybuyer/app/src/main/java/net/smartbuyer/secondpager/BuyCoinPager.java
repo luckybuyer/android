@@ -147,20 +147,18 @@ public class BuyCoinPager extends BaseNoTrackPager {
         if(method.contains("android-inapp")) {
             rl_buycoins_google.setVisibility(View.VISIBLE);
             iv_buycoins_goole.setVisibility(View.VISIBLE);
-            iv_buycoins_goole.setHovered(true);
 
         }
         if(method.contains("paypal")) {
             rl_buycoins_paypal.setVisibility(View.VISIBLE);
             iv_buycoins_paypal.setVisibility(View.GONE);
-            iv_buycoins_paypal.setHovered(false);
         }
 
         if(method.contains("halopay")) {
             rl_buycoins_cashu.setVisibility(View.VISIBLE);
             iv_buycoins_cashu.setVisibility(View.GONE);
-            iv_buycoins_cashu.setHovered(false);
         }
+
         return inflate;
     }
 
@@ -272,8 +270,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 mHelper.launchPurchaseFlow(((MainActivity) context), topup_option_id +"", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((MainActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             }
-        } catch (IabHelper.IabAsyncInProgressException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            Utils.MyToast(context,"Sorry, temporarily unable to make Google payments");
+//            e.printStackTrace();
             Log.e("TAG+错误", e + "");
         }
     }
@@ -374,9 +373,12 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     if (token_s != null) {
                         token = Integer.parseInt(token_s);
                     }
+                    iv_buycoins_goole.setHovered(true);
                     if (token > System.currentTimeMillis() / 1000) {
+                        Log.e("TAG", "进入支付了");
+                        Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered());
                         if (iv_buycoins_paypal.isHovered()) {
-                            PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), buyCoinBean.getBuycoins().get(id_coins).getCurrency(), "Luckybuyer",
+                            PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), buyCoinBean.getBuycoins().get(id_coins).getCurrency(), "SmartBuyer",
                                     PayPalPayment.PAYMENT_INTENT_SALE);
                             Intent intent = new Intent(context, PaymentActivity.class);
                             intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
@@ -384,6 +386,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         } else if (iv_buycoins_cashu.isHovered()) {
                             StartHalopay();
                         }else if(iv_buycoins_goole.isHovered()) {
+                            Log.e("TAG", "进入google支付了");
                             startRegistered();
                         }
 

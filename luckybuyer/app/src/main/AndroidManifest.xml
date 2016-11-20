@@ -11,9 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <!--谷歌支付权限-->
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -24,10 +24,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="net.smartbuyer.activity.MainActivity"></activity>
+        <activity android:name="net.smartbuyer.activity.MainActivity" android:launchMode="singleTask"></activity>
         <activity android:name="net.smartbuyer.activity.SecondPagerActivity" />
         <activity android:name="net.smartbuyer.activity.ThirdPagerActivity" />
-        <activity android:name="net.smartbuyer.activity.WelcomeActivity">
+        <activity
+            android:name="net.smartbuyer.activity.WelcomeActivity"
+            android:alwaysRetainTaskState="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -90,109 +92,93 @@
         <activity
             android:name="com.halopay.openid.channel.ui.LoginActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="singleTask" >
-        </activity>
+            android:launchMode="singleTask"></activity>
         <!-- 注册界面 -->
         <activity
             android:name="com.halopay.openid.channel.ui.RegistActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="singleTask" >
-        </activity>
+            android:launchMode="singleTask"></activity>
         <!--  注册协议界面-->
-        <activity android:name="com.halopay.openid.channel.ui.RegisterProtocolActivity"
-            android:configChanges="screenSize|orientation|keyboardHidden|navigation|layoutDirection|locale">
-        </activity>
+        <activity
+            android:name="com.halopay.openid.channel.ui.RegisterProtocolActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden|navigation|layoutDirection|locale"></activity>
         <!--  忘记密码界面-->
         <activity
             android:name="com.halopay.openid.channel.ui.ForgotPasswordActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection">
-        </activity>
+            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"></activity>
         <activity
             android:name="com.halopay.openid.channel.ui.ForgotSetPwdActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection">
-        </activity>
+            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"></activity>
 
         <!-- 显示网页界面 -->
         <activity
             android:name="com.halopay.openid.channel.ui.WebActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="singleInstance" >
-        </activity>
+            android:launchMode="singleInstance"></activity>
 
         <!-- 收银台-普通 -->
         <activity
             android:name="com.halopay.ui.activity.normalpay.PayHubActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
         <!-- 收银台-爱贝币 -->
         <activity
             android:name="com.halopay.ui.activity.iapppay.IAppPayHubActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Translucent" >
-        </activity>
+            android:theme="@android:style/Theme.Translucent"></activity>
 
         <!-- 充值界面 -->
         <activity
             android:name="com.halopay.ui.activity.normalpay.ChargeActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection" >
-        </activity>
+            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"></activity>
         <!-- 用户选择设置界面 -->
         <activity
             android:name="com.halopay.ui.activity.SelectSettingsActivity"
             android:configChanges="screenSize|orientation|keyboardHidden|navigation|layoutDirection|locale"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:launchMode="standard" >
-        </activity>
+            android:launchMode="standard"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
         <!-- 用户输入金额充值界面 -->
         <activity
             android:name="com.halopay.ui.activity.PutAmountForChargeActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:launchMode="standard" >
-        </activity>
+            android:launchMode="standard"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
         <!-- 分组弹出页面 -->
         <activity
             android:name="com.halopay.ui.activity.normalpay.PayTypeGroupsActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:launchMode="standard" >
-        </activity>
+            android:launchMode="standard"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
         <!-- 填卡信息页面 -->
         <activity
             android:name="com.halopay.ui.activity.normalpay.CardInfoActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:launchMode="standard" >
-        </activity>
+            android:launchMode="standard"
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
         <!-- 反馈信息页面 -->
         <activity
             android:name="com.halopay.ui.activity.FeedBackActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
         <!-- 短代页面 -->
         <activity
             android:name="com.halopay.ui.activity.SmsPayActivity"
             android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Light.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
         <service android:name="com.halopay.interfaces.SurveyService"></service>
 
 
         <!--更新推动服务页面-->
-        <service
-            android:name="net.smartbuyer.sever.MyFirebaseMessagingService">
+        <service android:name="net.smartbuyer.sever.MyFirebaseMessagingService">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <!-- [END firebase_service] -->
         <!-- [START firebase_iid_service] -->
-        <service
-            android:name="net.smartbuyer.sever.MyFirebaseInstanceIDService">
+        <service android:name="net.smartbuyer.sever.MyFirebaseInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
     </application>

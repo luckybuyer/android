@@ -134,10 +134,10 @@ public class MainActivity extends FragmentActivity {
             rl_main.setLayoutParams(lp);
         }
 
-        HaloPay.getInstance().init (this,HaloPay.PORTRAIT, "3000600754");
+        HaloPay.getInstance().init(this, HaloPay.PORTRAIT, "3000600754");
 
         String token = FirebaseInstanceId.getInstance().getToken();
-        if(token != null) {
+        if (token != null) {
             Log.e("TAG_000", token);
         }
 
@@ -176,12 +176,15 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    private int login_id = 0;
+
     class MyOnclickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.rb_main_homepager:
+                    id = 0;
                     showFragment(list.get(0));
                     rb_main_homepager.setChecked(true);
                     rb_main_buycoins.setChecked(false);
@@ -189,14 +192,16 @@ public class MainActivity extends FragmentActivity {
                     rb_main_me.setChecked(false);
                     break;
                 case R.id.rb_main_buycoins:
+                    id = 1;
                     showFragment(list.get(1));
                     rb_main_homepager.setChecked(false);
                     rb_main_buycoins.setChecked(true);
                     rb_main_newresult.setChecked(false);
                     rb_main_me.setChecked(false);
-                    id = 1;
+                    login_id = 1;
                     break;
                 case R.id.rb_main_newresult:
+                    id = 2;
                     showFragment(list.get(2));
                     rb_main_homepager.setChecked(false);
                     rb_main_buycoins.setChecked(false);
@@ -218,10 +223,11 @@ public class MainActivity extends FragmentActivity {
                         rb_main_buycoins.setChecked(false);
                         rb_main_newresult.setChecked(false);
                         rb_main_me.setChecked(true);
+                        id = 3;
                     } else {
                         MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
+                        login_id = 3;
                     }
-                    id = 3;
                     break;
             }
         }
@@ -253,12 +259,18 @@ public class MainActivity extends FragmentActivity {
                     if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
                         buyCoinPager.show.dismiss();
                     }
-                    if(mePager != null) {
+                    if (mePager != null) {
                         mePager.setView();
                     }
                 } else if (fg == buyCoinPager) {
-                    if(buyCoinPager != null && buyCoinPager.tv_buycoins_balance != null) {
-                        buyCoinPager.tv_buycoins_balance.setText(Utils.getSpData("balance",MainActivity.this) + "");
+                    if (buyCoinPager != null && buyCoinPager.tv_buycoins_balance != null) {
+                        if (Utils.getSpData("balance", MainActivity.this) == null) {
+                            buyCoinPager.tv_buycoins_balance.setVisibility(View.GONE);
+                        } else {
+                            buyCoinPager.tv_buycoins_balance.setVisibility(View.VISIBLE);
+                        }
+
+                        buyCoinPager.tv_buycoins_balance.setText(Utils.getSpData("balance", MainActivity.this) + "");
                     }
 
                 } else if (fg == winningPager) {
@@ -274,7 +286,7 @@ public class MainActivity extends FragmentActivity {
         //全局变量，记录当前显示的fragment
         currentFragment = fg;
         boolean flag = this.isDestroyed();
-        if(!flag) {
+        if (!flag) {
             transaction.commitAllowingStateLoss();
         }
 
@@ -298,7 +310,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onAuthentication(Credentials credentials) {
 
-            Log.e("TAG", credentials+"");
+            Log.e("TAG", credentials + "");
             // Base64 解码：
             String token = credentials.getIdToken();
 
@@ -341,11 +353,12 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             //登陆成功  直接进入me页面
-                            showFragment(list.get(id));
-                            if (id == 1) {
+                            Log.e("TAG", "咱们登陆成功");
+                            showFragment(list.get(login_id));
+                            if (login_id == 1) {
                                 rb_main_buycoins.setChecked(true);
                                 rb_main_me.setChecked(false);
-                            } else if (id == 3) {
+                            } else if (login_id == 3) {
                                 rb_main_buycoins.setChecked(false);
                                 rb_main_me.setChecked(true);
                             }
@@ -390,42 +403,63 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onCanceled() {
-            if (id == 1) {
-                showFragment(list.get(1));
-            } else if (id == 3) {
+            Log.e("TAG_id_error", id + "");
+            if (id == 0) {
                 showFragment(list.get(0));
-            }
-            showFragment(list.get(0));
-            if (id == 1) {
+                rb_main_homepager.setChecked(true);
+                rb_main_buycoins.setChecked(false);
+                rb_main_newresult.setChecked(false);
+                rb_main_me.setChecked(false);
+            } else if (id == 1) {
+                showFragment(list.get(1));
+                rb_main_homepager.setChecked(false);
                 rb_main_buycoins.setChecked(true);
+                rb_main_newresult.setChecked(false);
+                rb_main_me.setChecked(false);
+            } else if (id == 2) {
+                showFragment(list.get(2));
+                rb_main_homepager.setChecked(false);
+                rb_main_buycoins.setChecked(false);
+                rb_main_newresult.setChecked(true);
                 rb_main_me.setChecked(false);
             } else if (id == 3) {
+                showFragment(list.get(0));
+                rb_main_homepager.setChecked(true);
                 rb_main_buycoins.setChecked(false);
-                rb_main_me.setChecked(true);
+                rb_main_newresult.setChecked(false);
+                rb_main_me.setChecked(false);
             }
-            rb_main_homepager.setChecked(false);
-            rb_main_newresult.setChecked(false);
         }
 
         @Override
         public void onError(LockException error) {
-            Log.e("TAG", error + "");
-            if (id == 1) {
-                showFragment(list.get(1));
-            } else if (id == 3) {
+            Log.e("TAG_id", id + "");
+            Utils.MyToast(MainActivity.this,"Login failed");
+            if (id == 0) {
                 showFragment(list.get(0));
-            }
-            showFragment(list.get(0));
-            if (id == 1) {
+                rb_main_homepager.setChecked(true);
+                rb_main_buycoins.setChecked(false);
+                rb_main_newresult.setChecked(false);
+                rb_main_me.setChecked(false);
+            } else if (id == 1) {
+                showFragment(list.get(1));
+                rb_main_homepager.setChecked(false);
                 rb_main_buycoins.setChecked(true);
+                rb_main_newresult.setChecked(false);
+                rb_main_me.setChecked(false);
+            } else if (id == 2) {
+                showFragment(list.get(2));
+                rb_main_homepager.setChecked(false);
+                rb_main_buycoins.setChecked(false);
+                rb_main_newresult.setChecked(true);
                 rb_main_me.setChecked(false);
             } else if (id == 3) {
+                showFragment(list.get(0));
+                rb_main_homepager.setChecked(true);
                 rb_main_buycoins.setChecked(false);
-                rb_main_me.setChecked(true);
+                rb_main_newresult.setChecked(false);
+                rb_main_me.setChecked(false);
             }
-            rb_main_homepager.setChecked(false);
-            rb_main_newresult.setChecked(false);
-
         }
     };
 
@@ -456,7 +490,6 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.e("TAG——activityresult", "onActivityResult(" + requestCode + "," + resultCode + "," + data);
@@ -465,7 +498,13 @@ public class MainActivity extends FragmentActivity {
             rg_main.check(0);
 //            switchPage(0);
             showFragment(list.get(0));
-        }else if (requestCode == 1001) {
+            rb_main_homepager.setChecked(true);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(false);
+            rb_main_me.setChecked(false);
+            Log.e("TAG", "进入这个了");
+
+        } else if (requestCode == 1001) {
             //google play 支付
             int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
             String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
@@ -474,7 +513,7 @@ public class MainActivity extends FragmentActivity {
 
             Log.e("TAG_huidiao", purchaseData + "");
             Log.e("TAG_huidiao", dataSignature + "");
-            buyCoinPager.googleMyService(purchaseData,dataSignature);
+            buyCoinPager.googleMyService(purchaseData, dataSignature);
 //            googleMyService(purchaseData, dataSignature);
 
         } else {
@@ -482,13 +521,12 @@ public class MainActivity extends FragmentActivity {
         }
 
         // Pass on the activity result to the helper for handling
-        if (buyCoinPager != null && !buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
+        if (buyCoinPager != null && buyCoinPager.mHelper != null && !buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
             // not handled, so handle it ourselves (here's where you'd
             // perform any handling of activity results not related to in-app
             // billing...
             super.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
+        } else {
             Log.e("TAG", "onActivityResult handled by IABUtil.");
         }
     }

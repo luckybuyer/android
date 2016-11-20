@@ -216,13 +216,13 @@ public class AddAddressPager extends BaseNoTrackPager {
             public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
                 if (visible) {
                     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    lp.bottomMargin = softKeybardHeight;
+                    lp.bottomMargin = softKeybardHeight - 80;
                     lp.topMargin = DensityUtil.dip2px(context, 73);
                     sv_addaddress.setLayoutParams(lp);
                 } else {
                     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    lp.bottomMargin = 0;
                     lp.topMargin = DensityUtil.dip2px(context, 73);
+                    lp.bottomMargin = 0;
                     sv_addaddress.setLayoutParams(lp);
 
                     et_addaddress_firstname.clearFocus();
@@ -237,7 +237,6 @@ public class AddAddressPager extends BaseNoTrackPager {
         });
 
     }
-
 
     class MyOnClickListener implements View.OnClickListener {
 

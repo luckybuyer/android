@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -64,7 +65,7 @@ public class WinningPager extends BaseNoTrackPager {
             srl_winning.setRefreshing(true);
         }
 
-        String url = MyApplication.url + "/v1/games/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        String url = MyApplication.url + "/v1/games/?status=closed&status=finished&per_page=20&page=1&timezone=" + MyApplication.utc;
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -72,7 +73,6 @@ public class WinningPager extends BaseNoTrackPager {
                     @Override
                     public void run() {
                         srl_winning.setRefreshing(false);
-
 
                         if (response.length() > 10) {
                             processData(response);

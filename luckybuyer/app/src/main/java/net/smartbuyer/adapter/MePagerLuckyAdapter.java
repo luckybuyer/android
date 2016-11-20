@@ -3,6 +3,7 @@ package net.smartbuyer.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
     @Override
     public int getItemViewType(int position) {
         String status = list.get(position).getDelivery().getStatus();
+        Log.e("TAG", status);
         if ("pending".equals(status)) {
             return 0;
         } else if ("processing".equals(status)) {
@@ -69,7 +71,6 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 //            }
 //        });
         int viewType = getItemViewType(position);
-        viewType = 0;
         if(viewType == 0) {
             holder.tv_lucky_go.setText("Confirm shipping address");
         }else if(viewType ==1) {

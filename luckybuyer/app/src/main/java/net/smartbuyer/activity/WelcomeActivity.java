@@ -70,9 +70,20 @@ public class WelcomeActivity extends Activity {
             });
         }
 
-
-
         handler.sendEmptyMessageDelayed(WAHT,3000);
+
+//        if (!isTaskRoot()) {
+//            finish();
+//            return;
+//        }
+        if(!isTaskRoot()){
+            Intent mainIntent = getIntent();
+            String action = mainIntent.getAction();
+            if(mainIntent.hasCategory(Intent.CATEGORY_LAUNCHER)&&action.equals(Intent.ACTION_MAIN)){
+                finish();
+                return;
+            }
+        }
 
         String pkName = this.getPackageName();
         String versionName = "";
