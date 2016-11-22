@@ -7,5 +7,8 @@
     <string name="app_id">255982704775897</string>
 
     <!--email-->
-    <string name="email"><u>contact@Smartbuyer.net</u></string>
+    <string name="email"><u>contact@SmartBuyer.net</u></string>
+
+    <!--facebooksdk-->
+    <string name="facebook_app_id">1164158777007946</string>
 </resources>

@@ -56,6 +56,7 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
         int amount = list.get(position).getAmount();
         if(amount == 1) {
             holder.tv_buyconis_coins.setText(list.get(position).getPrice() + " Coin");
+            holder.tv_buyconis_coins.setHovered(true);
             holder.tv_buyconis_free.setVisibility(View.GONE);
         }else {
             holder.tv_buyconis_coins.setText(list.get(position).getPrice() + " Coins");

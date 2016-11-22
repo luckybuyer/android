@@ -14,11 +14,19 @@
         android:layout_height="match_parent">
 
         <RelativeLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:id="@+id/view_me_top"
+                android:layout_width="match_parent"
+                android:layout_height="1px"></View>
+
             <RelativeLayout
+                android:layout_below="@+id/view_me_top"
                 android:id="@+id/rl_me_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -145,6 +153,8 @@
 
             <net.smartbuyer.view.CustomViewPager
                 android:id="@+id/vp_me"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stl_me_vpcontrol"

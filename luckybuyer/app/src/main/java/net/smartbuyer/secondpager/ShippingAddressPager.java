@@ -41,7 +41,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     private RelativeLayout rl_loading;
     private TextView tv_net_again;
     private View inflate;
-    private LinearLayout ll_shipping_return;
+    private RelativeLayout rl_shipping_return;
 
 
     @Override
@@ -126,12 +126,12 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
-        ll_shipping_return = (LinearLayout) inflate.findViewById(R.id.ll_shipping_return);
+        rl_shipping_return = (RelativeLayout) inflate.findViewById(R.id.rl_shipping_return);
 
         iv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_newadd.setOnClickListener(new MyOnClickListener());
-        ll_shipping_return.setOnClickListener(new MyOnClickListener());
+        rl_shipping_return.setOnClickListener(new MyOnClickListener());
     }
 
     private void processData(String response) {
@@ -175,7 +175,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                     ((SecondPagerActivity) context).switchPage(8);
                     ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
-                case R.id.ll_shipping_return:
+                case R.id.rl_shipping_return:
                     if ("setpager".equals(((SecondPagerActivity) context).from)) {
                         ((SecondPagerActivity) context).switchPage(4);
                     } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {

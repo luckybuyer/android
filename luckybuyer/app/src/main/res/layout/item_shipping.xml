@@ -6,8 +6,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="#eeeeee"
-        android:layout_height="@dimen/dimen_28"></RelativeLayout>
+        android:layout_height="@dimen/dimen_28"
+        android:background="#eeeeee"></RelativeLayout>
+
     <TextView
         android:id="@+id/tv_shipping_name"
         android:layout_width="wrap_content"
@@ -23,9 +24,9 @@
         android:id="@+id/tv_shipping_telnum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_66"
-        android:layout_alignParentRight="true"
         android:text="13699140938"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_32" />
@@ -78,38 +79,42 @@
 
     <TextView
         android:id="@+id/tv_shipping_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_48"
+        android:gravity="center"
+        android:layout_marginTop="-6dp"
+        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/tv_shipping_select"
-        android:textColor="#999999"
         android:layout_marginRight="@dimen/dimen_24"
-        android:text="Delete"
         android:drawableLeft="@drawable/default_delete"
         android:drawablePadding="@dimen/dimen_8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:text="Delete"
+        android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
 
     <View
         android:layout_width="@dimen/dimen_1"
-        android:layout_marginRight="@dimen/dimen_36"
-        android:background="#999999"
-        android:layout_marginTop="-4dp"
-        android:layout_marginBottom="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_32"
         android:layout_alignTop="@+id/cb_shipping_select"
+        android:layout_marginBottom="@dimen/dimen_30"
+        android:layout_marginRight="@dimen/dimen_36"
+        android:layout_marginTop="-4dp"
         android:layout_toLeftOf="@+id/tv_shipping_delete"
-        android:layout_height="@dimen/dimen_32"></View>
+        android:background="#999999"></View>
 
     <TextView
+        android:gravity="center"
         android:id="@+id/tv_shipping_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_48"
         android:layout_alignTop="@+id/tv_shipping_select"
-        android:textColor="#999999"
+        android:layout_marginTop="-6dp"
         android:layout_marginRight="@dimen/dimen_72"
-        android:text="Edit"
+        android:layout_toLeftOf="@+id/tv_shipping_delete"
         android:drawableLeft="@drawable/default_edit"
         android:drawablePadding="@dimen/dimen_8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/tv_shipping_delete"
+        android:text="Edit"
+        android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
 
 </RelativeLayout>

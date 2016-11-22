@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,9 @@ import net.smartbuyer.utils.HttpUtils;
 import net.smartbuyer.utils.Utils;
 import net.smartbuyer.view.CircleImageView;
 import net.smartbuyer.view.CustomViewPager;
+import net.smartbuyer.view.VerticalScrollView;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,8 +63,8 @@ public class MePager extends BaseNoTrackPager {
     private TextView tv_me_gold;
     public CustomViewPager vp_me;
     private SlidingTabLayout stl_me_vpcontrol;
-    private ScrollView sv_me;
-    private View inflate;
+    public ScrollView sv_me;
+    public View inflate;
 
 
     private RelativeLayout rl_keepout;
@@ -68,6 +72,8 @@ public class MePager extends BaseNoTrackPager {
     private RelativeLayout rl_nodata;
     private RelativeLayout rl_loading;
     private TextView tv_net_again;
+
+    private View view_me_top;                            //让视图指定做的临时
 
     private FBLikeView fb_shipping_facebook;
 
@@ -81,6 +87,14 @@ public class MePager extends BaseNoTrackPager {
 //        setHeadMargin();
 
         setView();
+
+        //埋点
+        try {
+            JSONObject props = new JSONObject();
+            MyApplication.mixpanel.track("PAGE:my_account", props);
+        }catch (Exception e){
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+        }
         return inflate;
     }
 
@@ -225,7 +239,7 @@ public class MePager extends BaseNoTrackPager {
                 return false;
             }
         });
-        rv_me_all.setAdapter(new MePagerAllAdapter(context, allOrderBean.getAllorder()));
+        rv_me_all.setAdapter(new MePagerAllAdapter(context, allOrderBean.getAllorder(),sv_me));
         vpList.add(view);
 
         //加载lucky界面
@@ -236,7 +250,7 @@ public class MePager extends BaseNoTrackPager {
                 return false;
             }
         });
-        recyclerView.setAdapter(new MePagerLuckyAdapter(context, luckyOrderBean.getAllorder()));
+        recyclerView.setAdapter(new MePagerLuckyAdapter(context, luckyOrderBean.getAllorder(),sv_me));
         vpList.add(recyclerView);
 
 
@@ -261,6 +275,7 @@ public class MePager extends BaseNoTrackPager {
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        view_me_top = (View) inflate.findViewById(R.id.view_me_top);
 
 
         i_me_set.setOnClickListener(new MyOnClickListener());
@@ -270,12 +285,17 @@ public class MePager extends BaseNoTrackPager {
     }
 
     public void setView() {
+
+//        Log.e("TAG", "进来了  设置");
+//        view_me_top.setFocusable(true);
+//        view_me_top.setFocusableInTouchMode(true);
+//        view_me_top.requestFocus();
+
         String user_id = Utils.getSpData("user_id", context);
         String balance = Utils.getSpData("balance", context);
         String name = Utils.getSpData("name", context);
         final String picture = Utils.getSpData("picture", context);
 
-        Log.e("TAG_me页面_name", name);
 
         tv_me_name.setText(name);
         tv_me_fbcode.setText(user_id);
@@ -299,6 +319,14 @@ public class MePager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.i_me_set:
+                    //埋点
+                    try {
+                        JSONObject props = new JSONObject();
+                        MyApplication.mixpanel.track("CLICK:setting", props);
+                    }catch (Exception e){
+                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                    }
+
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "setpager");
                     startActivityForResult(intent, 0);
@@ -312,6 +340,14 @@ public class MePager extends BaseNoTrackPager {
                     initData();
                     break;
                 case R.id.iv_me_voice:
+                    //埋点
+                    try {
+                        JSONObject props = new JSONObject();
+                        MyApplication.mixpanel.track("CLICK:chat", props);
+                    }catch (Exception e){
+                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                    }
+
                     Intent data=new Intent(Intent.ACTION_SENDTO);
                     data.setData(Uri.parse("mailto:contact@luckybuyer.net"));
                     startActivity(data);

@@ -48,6 +48,8 @@ import net.smartbuyer.utils.HttpUtils;
 import net.smartbuyer.utils.MyBase64;
 import net.smartbuyer.utils.Utils;
 
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -233,6 +235,14 @@ public class SecondPagerActivity extends FragmentActivity {
             HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                 @Override
                 public void success(String response) {
+                    //埋点
+                    try {
+                        JSONObject props = new JSONObject();
+                        MyApplication.mixpanel.track("LOGIN:loggedin", props);
+                    }catch (Exception e){
+                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                    }
+
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
                     Utils.setSpData("id", user.getId() + "", SecondPagerActivity.this);

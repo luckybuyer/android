@@ -2,12 +2,15 @@ package net.smartbuyer.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,16 +29,21 @@ import java.util.List;
 public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapter.ViewHolder> {
     private Context context;
     private List<AllOrderBean.AllorderBean> list;
+    private ScrollView sv_me;
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg){
 
-    public MePagerLuckyAdapter(Context context, List list) {
+        }
+    };
+    public MePagerLuckyAdapter(Context context, List list, ScrollView sv_me) {
         this.context = context;
         this.list = list;
+        this.sv_me = sv_me;
     }
 
     @Override
     public int getItemViewType(int position) {
         String status = list.get(position).getDelivery().getStatus();
-        Log.e("TAG", status);
         if ("pending".equals(status)) {
             return 0;
         } else if ("processing".equals(status)) {
@@ -103,6 +111,12 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         }
         @Override
         public void onClick(View view) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sv_me.scrollTo(0,0);
+                }
+            },500);
             switch (view.getId()){
                 case R.id.tv_lucky_goview:
                     Intent intent = new Intent(context, SecondPagerActivity.class);

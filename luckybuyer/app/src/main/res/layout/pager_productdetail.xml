@@ -631,10 +631,10 @@
 
             <ImageView
                 android:id="@+id/iv_productdetail_back"
-                android:layout_width="@dimen/dimen_42"
-                android:layout_height="@dimen/dimen_42"
+                android:layout_width="@dimen/dimen_56"
+                android:layout_height="@dimen/dimen_56"
                 android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_66"
+                android:layout_marginTop="@dimen/dimen_55"
                 android:background="@drawable/productdetail_return" />
 
         </RelativeLayout>

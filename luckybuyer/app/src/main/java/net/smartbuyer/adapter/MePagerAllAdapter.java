@@ -5,12 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +29,7 @@ import net.smartbuyer.activity.SecondPagerActivity;
 import net.smartbuyer.activity.ThirdPagerActivity;
 import net.smartbuyer.app.MyApplication;
 import net.smartbuyer.bean.AllOrderBean;
+import net.smartbuyer.pager.MePager;
 import net.smartbuyer.utils.HttpUtils;
 import net.smartbuyer.utils.Utils;
 import net.smartbuyer.view.JustifyTextView;
@@ -41,10 +46,17 @@ import java.util.TimeZone;
 public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.ViewHolder> {
     private Context context;
     public List<AllOrderBean.AllorderBean> list;
+    private ScrollView sv_me;
 
-    public MePagerAllAdapter(Context context, List list) {
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+
+        }
+    };
+    public MePagerAllAdapter(Context context, List list, ScrollView sv_me) {
         this.context = context;
         this.list = list;
+        this.sv_me = sv_me;
     }
 
     @Override
@@ -220,9 +232,9 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             } else if ("processing".equals(status)) {
                 holder.tv_lucky_go.setText("Waiting for shippment");
             } else if ("shipping".equals(status)) {
-                holder.tv_lucky_go.setText("Shipped, out for delivery");
+                holder.tv_lucky_go.setText("Confirm delivery");
             } else if ("finished".equals(status)) {
-                holder.tv_lucky_go.setText("Delivered and show to win awards");
+                holder.tv_lucky_go.setText("Delivered");
             }
             holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
@@ -251,13 +263,22 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
         @Override
         public void onClick(View view) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    sv_me.scrollTo(0,0);
+                }
+            },500);
+
             switch (view.getId()) {
                 case R.id.rl_top:
+
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "productdetail");
                     intent.putExtra("game_id", list.get(position).getGame().getId());
                     intent.putExtra("batch_id", list.get(position).getGame().getBatch_id());
                     context.startActivity(intent);
+
                     break;
                 case R.id.rl_all_continue:                    //还在进行中
                     intent = new Intent(context, SecondPagerActivity.class);

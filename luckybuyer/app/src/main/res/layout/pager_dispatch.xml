@@ -261,7 +261,7 @@
             android:layout_marginLeft="@dimen/dimen_18"
             android:layout_toRightOf="@+id/iv_disaptch_shipping"
             android:gravity="center_horizontal"
-            android:text="Shipping"
+            android:text="Waiting for shippment"
             android:textColor="#cccccc"
             android:textSize="@dimen/dimen_26" />
 
@@ -298,10 +298,27 @@
             android:layout_marginLeft="@dimen/dimen_18"
             android:layout_toRightOf="@+id/iv_disaptch_delivered"
             android:gravity="center_horizontal"
-            android:text="Delivered"
+            android:text="Confirm delivery"
             android:textColor="#cccccc"
             android:textSize="@dimen/dimen_26" />
     </RelativeLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_dispatch_confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/rl_delivered"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:background="@color/bg_ff4f3c"
+        android:paddingBottom="@dimen/dimen_8"
+        android:paddingLeft="@dimen/dimen_20"
+        android:paddingRight="@dimen/dimen_20"
+        android:paddingTop="@dimen/dimen_8"
+        android:text="Confirm"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/dimen_30" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -339,30 +356,32 @@
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dimen_128"
         android:layout_below="@+id/rl_home_header"
-        android:background="@color/f2f2f2">
+        android:layout_marginTop="@dimen/dimen_128"
+        android:background="@color/f2f2f2"
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/rl_loading"
             android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
             <ProgressBar
-                android:indeterminateDrawable="@drawable/shape_loading"
                 android:id="@+id/pb_loading"
                 android:layout_width="@dimen/dimen_60"
-                android:layout_height="@dimen/dimen_60" />
+                android:layout_height="@dimen/dimen_60"
+                android:indeterminateDrawable="@drawable/shape_loading" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_8"
                 android:layout_toRightOf="@+id/pb_loading"
-                android:layout_width="wrap_content"
-                android:textColor="#000000"
                 android:text="Loading..."
-                android:textSize="@dimen/dimen_32"
-                android:layout_height="wrap_content" />
+                android:textColor="#000000"
+                android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -371,8 +390,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_160"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_neterror"
@@ -409,12 +427,12 @@
 
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_160">
+            android:layout_marginTop="@dimen/dimen_160"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_nodata"

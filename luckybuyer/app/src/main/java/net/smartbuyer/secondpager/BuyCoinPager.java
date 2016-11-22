@@ -117,10 +117,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
         //holypay  支付
         if (flag) {
             HaloPay.getInstance().init(((SecondPagerActivity) context), HaloPay.PORTRAIT, "3000600754");                 //holypay支付
-            HaloPay.getInstance().setLang(((SecondPagerActivity) context), "BR", "BRL", "PT");
+            HaloPay.getInstance().setLang(((SecondPagerActivity) context), "AE", "AED", "EN");
         } else {
             HaloPay.getInstance().init(((MainActivity) context), HaloPay.PORTRAIT, "3000600754");                 //holypay支付
-            HaloPay.getInstance().setLang(((MainActivity) context), "AE", "AED", "AR");
+            HaloPay.getInstance().setLang(((MainActivity) context), "AE", "AED", "EN");
         }
 
 
@@ -141,22 +141,35 @@ public class BuyCoinPager extends BaseNoTrackPager {
 //                mHelper.queryInventoryAsync(mGotInventoryListener);
             }
         });
-        
+
         //判断打开哪些方法
-        String method = Utils.getSpData("paymentmethod",context);
-        if(method.contains("android-inapp")) {
+        String method = Utils.getSpData("paymentmethod", context);
+        if (method.contains("android-inapp")) {
             rl_buycoins_google.setVisibility(View.VISIBLE);
             iv_buycoins_goole.setVisibility(View.VISIBLE);
+            iv_buycoins_goole.setHovered(true);
 
         }
-        if(method.contains("paypal")) {
+        if (method.contains("paypal")) {
             rl_buycoins_paypal.setVisibility(View.VISIBLE);
-            iv_buycoins_paypal.setVisibility(View.GONE);
+            iv_buycoins_paypal.setVisibility(View.VISIBLE);
+            iv_buycoins_goole.setVisibility(View.GONE);
+            iv_buycoins_paypal.setHovered(true);
+            iv_buycoins_goole.setHovered(false);
         }
 
-        if(method.contains("halopay")) {
+        if (method.contains("halopay")) {
             rl_buycoins_cashu.setVisibility(View.VISIBLE);
             iv_buycoins_cashu.setVisibility(View.GONE);
+        }
+
+        Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered());
+        //埋点
+        try {
+            JSONObject props = new JSONObject();
+            MyApplication.mixpanel.track("PAGE:buy_coins", props);
+        } catch (Exception e) {
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
 
         return inflate;
@@ -261,17 +274,17 @@ public class BuyCoinPager extends BaseNoTrackPager {
     //开始google play支付
     private void startRegistered() {
         try {
-            if(flag) {
+            if (flag) {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), topup_option_id +"", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
-            }else {
+            } else {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((MainActivity) context), topup_option_id +"", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((MainActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((MainActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             }
         } catch (Exception e) {
-            Utils.MyToast(context,"Sorry, temporarily unable to make Google payments");
+            Utils.MyToast(context, "Sorry, temporarily unable to make Google payments");
 //            e.printStackTrace();
             Log.e("TAG+错误", e + "");
         }
@@ -346,10 +359,33 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 }
                 money = buyCoinBean.getBuycoins().get(position).getPrice();
                 topup_option_id = buyCoinBean.getBuycoins().get(position).getId();
-                Log.e("TAG_产品id", topup_option_id +"");
+                Log.e("TAG_产品id", topup_option_id + "");
                 id_coins = position;
+                String coin = "";
+                if (position == 0) {
+                    coin = "CLICK:1 coin";
+                } else if (position == 1) {
+                    coin = "CLICK:10 coins";
+
+                } else if (position == 2) {
+                    coin = "CLICK:50 coins";
+
+                } else if (position == 3) {
+                    coin = "CLICK:100 coins";
+                }
+                setPoint(coin);
             }
         });
+    }
+
+    public void setPoint(String coins) {
+        //埋点
+        try {
+            JSONObject props = new JSONObject();
+            MyApplication.mixpanel.track(coins, props);
+        } catch (Exception e) {
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+        }
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -368,14 +404,15 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     }
                     break;
                 case R.id.tv_buycoins_buy:
+                    //埋点
+                    JSONObject props = new JSONObject();
                     String token_s = Utils.getSpData("token_num", context);
                     int token = 0;
                     if (token_s != null) {
                         token = Integer.parseInt(token_s);
                     }
-                    iv_buycoins_goole.setHovered(true);
+                    Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered());
                     if (token > System.currentTimeMillis() / 1000) {
-                        Log.e("TAG", "进入支付了");
                         Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered());
                         if (iv_buycoins_paypal.isHovered()) {
                             PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), buyCoinBean.getBuycoins().get(id_coins).getCurrency(), "SmartBuyer",
@@ -383,20 +420,44 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             Intent intent = new Intent(context, PaymentActivity.class);
                             intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
                             startActivityForResult(intent, 0);
+                            try {
+                                props.put("%method", "paypal");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         } else if (iv_buycoins_cashu.isHovered()) {
                             StartHalopay();
-                        }else if(iv_buycoins_goole.isHovered()) {
-                            Log.e("TAG", "进入google支付了");
+                            try {
+                                props.put("%method", "halopay");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (iv_buycoins_goole.isHovered()) {
                             startRegistered();
+                            try {
+                                props.put("%method", "google_pay");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
 
+                        //埋点
+                        MyApplication.mixpanel.track("CLICK:buy", props);
                     } else {
                         if (context instanceof SecondPagerActivity) {
                             context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
+                            //埋点
+                            try {
+                                JSONObject prop = new JSONObject();
+                                MyApplication.mixpanel.track("LOGIN:showpage", prop);
+                            }catch (Exception e){
+                                Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                            }
                         } else if (context instanceof MainActivity) {
                             context.startActivity(((MainActivity) context).lock.newIntent(((MainActivity) context)));
                         }
                     }
+
                     break;
                 case R.id.rl_buycoins_cashu:
                     iv_buycoins_cashu.setVisibility(View.VISIBLE);
@@ -405,6 +466,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     iv_buycoins_cashu.setHovered(true);
                     iv_buycoins_paypal.setHovered(false);
                     iv_buycoins_goole.setHovered(false);
+                    setPoint("CLICK:halopay");
                     break;
                 case R.id.rl_buycoins_paypal:
                     iv_buycoins_cashu.setVisibility(View.GONE);
@@ -413,6 +475,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     iv_buycoins_cashu.setHovered(false);
                     iv_buycoins_paypal.setHovered(true);
                     iv_buycoins_goole.setHovered(false);
+                    setPoint("CLICK:paypal");
                     break;
                 case R.id.rl_buycoins_google:
                     iv_buycoins_cashu.setVisibility(View.GONE);
@@ -421,6 +484,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     iv_buycoins_cashu.setHovered(false);
                     iv_buycoins_paypal.setHovered(false);
                     iv_buycoins_goole.setHovered(true);
+                    setPoint("CLICK:google_pay");
                     break;
                 case R.id.rl_buycoins_ok:
                     if (show.isShowing()) {
@@ -446,9 +510,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     //paysession 支付
     private void StartHalopay() {
-        String url = MyApplication.url+"/v1/payments/halopay/?timezone=" + MyApplication.utc;
+        String url = MyApplication.url + "/v1/payments/halopay/?timezone=" + MyApplication.utc;
 //        String json = "{\"failure_url\": \"http://net.luckybuyer.failure\",\"method\": \"alipay_cn\",\"success_url\": \"http://net.luckybuyer.success\",\"topup_option_id\": " + topup_option_id + "}";
-        String json = "{ \"topup_option_id\": "+topup_option_id+"}";
+        String json = "{ \"topup_option_id\": " + topup_option_id + "}";
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
@@ -483,12 +547,13 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private void processHalopay(String response) {
         Gson gson = new Gson();
         HaloPayBean haloPayBean = gson.fromJson(response, HaloPayBean.class);
-        if(flag) {
-            HaloPay.getInstance().startPay(((SecondPagerActivity)context), "transid="+haloPayBean.getTransaction_id()+"&appid=3000600754", new MyIPayResultCallback());
-        }else {
-            HaloPay.getInstance().startPay((MainActivity)context, "transid="+haloPayBean.getTransaction_id()+"&appid=3000600754", new MyIPayResultCallback());
+        if (flag) {
+            HaloPay.getInstance().startPay(((SecondPagerActivity) context), "transid=" + haloPayBean.getTransaction_id() + "&appid=3000600754", new MyIPayResultCallback());
+        } else {
+            HaloPay.getInstance().startPay((MainActivity) context, "transid=" + haloPayBean.getTransaction_id() + "&appid=3000600754", new MyIPayResultCallback());
         }
     }
+
     class MyIPayResultCallback implements IPayResultCallback {
 
         @Override
@@ -557,8 +622,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/payments/android-inapp/?timezone=" + MyApplication.utc;
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.accumulate("data_signature",dataSignature);
-            jsonObject.accumulate("purchase_data",purchaseData);
+            jsonObject.accumulate("data_signature", dataSignature);
+            jsonObject.accumulate("purchase_data", purchaseData);
 
 
         } catch (JSONException e) {

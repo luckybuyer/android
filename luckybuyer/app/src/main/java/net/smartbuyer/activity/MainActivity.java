@@ -1,11 +1,16 @@
 package net.smartbuyer.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,7 +50,11 @@ import net.smartbuyer.utils.HttpUtils;
 import net.smartbuyer.utils.MyBase64;
 import net.smartbuyer.utils.Utils;
 
+import org.json.JSONObject;
+
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -142,6 +151,7 @@ public class MainActivity extends FragmentActivity {
         }
 
 
+//        getsp();
     }
 
     //设置数据
@@ -190,6 +200,7 @@ public class MainActivity extends FragmentActivity {
                     rb_main_buycoins.setChecked(false);
                     rb_main_newresult.setChecked(false);
                     rb_main_me.setChecked(false);
+                    setPoint("CLICK:homepage");
                     break;
                 case R.id.rb_main_buycoins:
                     id = 1;
@@ -199,6 +210,7 @@ public class MainActivity extends FragmentActivity {
                     rb_main_newresult.setChecked(false);
                     rb_main_me.setChecked(false);
                     login_id = 1;
+                    setPoint("CLICK:buy_coins");
                     break;
                 case R.id.rb_main_newresult:
                     id = 2;
@@ -207,9 +219,10 @@ public class MainActivity extends FragmentActivity {
                     rb_main_buycoins.setChecked(false);
                     rb_main_newresult.setChecked(true);
                     rb_main_me.setChecked(false);
-
+                    setPoint("CLICK:new_result");
                     break;
                 case R.id.rb_main_me:
+                    setPoint("CLICK:my_account");
                     String token_s = Utils.getSpData("token_num", MainActivity.this);
                     int token = 0;
                     if (token_s != null) {
@@ -227,9 +240,26 @@ public class MainActivity extends FragmentActivity {
                     } else {
                         MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
                         login_id = 3;
+                        //埋点
+                        try {
+                            JSONObject props = new JSONObject();
+                            MyApplication.mixpanel.track("LOGIN:showpage", props);
+                        }catch (Exception e){
+                            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                        }
                     }
                     break;
             }
+        }
+    }
+
+    private void setPoint(String page){
+        //埋点
+        try {
+            JSONObject props = new JSONObject();
+            MyApplication.mixpanel.track(page, props);
+        }catch (Exception e){
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
     }
 
@@ -279,6 +309,9 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
                 transaction.hide(currentFragment).show(fg);
+                if(mePager != null && mePager.vp_me != null) {
+                    mePager.setView();
+                }
             }
         }
 
@@ -304,6 +337,8 @@ public class MainActivity extends FragmentActivity {
 ////        fragmentTransaction.addToBackStack(null);
 ////        fragmentTransaction.commit();
 //    }
+
+
 
     //auth0登陆回调
     private LockCallback callback = new AuthenticationCallback() {
@@ -338,6 +373,13 @@ public class MainActivity extends FragmentActivity {
             HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                 @Override
                 public void success(String response) {
+                    //埋点
+                    try {
+                        JSONObject props = new JSONObject();
+                        MyApplication.mixpanel.track("LOGIN:loggedin", props);
+                    }catch (Exception e){
+                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                    }
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
                     Utils.setSpData("id", user.getId() + "", MainActivity.this);
@@ -382,6 +424,7 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                            selectPager();
                         }
                     });
                 }
@@ -394,6 +437,7 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                            selectPager();
                         }
                     });
                 }
@@ -404,64 +448,44 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onCanceled() {
             Log.e("TAG_id_error", id + "");
-            if (id == 0) {
-                showFragment(list.get(0));
-                rb_main_homepager.setChecked(true);
-                rb_main_buycoins.setChecked(false);
-                rb_main_newresult.setChecked(false);
-                rb_main_me.setChecked(false);
-            } else if (id == 1) {
-                showFragment(list.get(1));
-                rb_main_homepager.setChecked(false);
-                rb_main_buycoins.setChecked(true);
-                rb_main_newresult.setChecked(false);
-                rb_main_me.setChecked(false);
-            } else if (id == 2) {
-                showFragment(list.get(2));
-                rb_main_homepager.setChecked(false);
-                rb_main_buycoins.setChecked(false);
-                rb_main_newresult.setChecked(true);
-                rb_main_me.setChecked(false);
-            } else if (id == 3) {
-                showFragment(list.get(0));
-                rb_main_homepager.setChecked(true);
-                rb_main_buycoins.setChecked(false);
-                rb_main_newresult.setChecked(false);
-                rb_main_me.setChecked(false);
-            }
+            selectPager();
         }
 
         @Override
         public void onError(LockException error) {
             Log.e("TAG_id", id + "");
             Utils.MyToast(MainActivity.this,"Login failed");
-            if (id == 0) {
-                showFragment(list.get(0));
-                rb_main_homepager.setChecked(true);
-                rb_main_buycoins.setChecked(false);
-                rb_main_newresult.setChecked(false);
-                rb_main_me.setChecked(false);
-            } else if (id == 1) {
-                showFragment(list.get(1));
-                rb_main_homepager.setChecked(false);
-                rb_main_buycoins.setChecked(true);
-                rb_main_newresult.setChecked(false);
-                rb_main_me.setChecked(false);
-            } else if (id == 2) {
-                showFragment(list.get(2));
-                rb_main_homepager.setChecked(false);
-                rb_main_buycoins.setChecked(false);
-                rb_main_newresult.setChecked(true);
-                rb_main_me.setChecked(false);
-            } else if (id == 3) {
-                showFragment(list.get(0));
-                rb_main_homepager.setChecked(true);
-                rb_main_buycoins.setChecked(false);
-                rb_main_newresult.setChecked(false);
-                rb_main_me.setChecked(false);
-            }
+            selectPager();
         }
     };
+
+    private void selectPager() {
+        if (id == 0) {
+            showFragment(list.get(0));
+            rb_main_homepager.setChecked(true);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(false);
+            rb_main_me.setChecked(false);
+        } else if (id == 1) {
+            showFragment(list.get(1));
+            rb_main_homepager.setChecked(false);
+            rb_main_buycoins.setChecked(true);
+            rb_main_newresult.setChecked(false);
+            rb_main_me.setChecked(false);
+        } else if (id == 2) {
+            showFragment(list.get(2));
+            rb_main_homepager.setChecked(false);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(true);
+            rb_main_me.setChecked(false);
+        } else if (id == 3) {
+            showFragment(list.get(0));
+            rb_main_homepager.setChecked(true);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(false);
+            rb_main_me.setChecked(false);
+        }
+    }
 
 
     long mExitTime;
@@ -545,5 +569,23 @@ public class MainActivity extends FragmentActivity {
         buyCoinPager.mHelper = null;
     }
 
+//    public void  getsp(){
+//        try {
+//            Log.e("TAG", "getsp");
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "net.smartbuyer",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                Log.e("TAG", "sign");
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.e("TAG:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            Log.e("TAG000", e.toString());
+//        } catch (NoSuchAlgorithmException e) {
+//            Log.e("TAG000", e.toString());
+//        }
+//    }
 
 }

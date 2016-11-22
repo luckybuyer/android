@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.google.gson.Gson;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import net.smartbuyer.R;
 import net.smartbuyer.app.MyApplication;
@@ -18,6 +19,8 @@ import net.smartbuyer.bean.PaySwitchBean;
 import net.smartbuyer.bean.User;
 import net.smartbuyer.utils.HttpUtils;
 import net.smartbuyer.utils.Utils;
+
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -134,6 +137,7 @@ public class WelcomeActivity extends Activity {
             }
 
         });
+
 
     }
 

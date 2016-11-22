@@ -132,6 +132,7 @@
             android:textSize="@dimen/dimen_28" />
 
         <TextView
+            android:textColor="@drawable/selector_tc_insert_textcolor"
             android:id="@+id/tv_insert_five"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -143,6 +144,7 @@
             android:textSize="@dimen/dimen_28" />
 
         <TextView
+            android:textColor="@drawable/selector_tc_insert_textcolor"
             android:id="@+id/tv_insert_ten"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -154,6 +156,7 @@
             android:textSize="@dimen/dimen_28" />
 
         <TextView
+            android:textColor="@drawable/selector_tc_insert_textcolor"
             android:id="@+id/tv_insert_all"
             android:layout_width="0dp"
             android:layout_height="match_parent"

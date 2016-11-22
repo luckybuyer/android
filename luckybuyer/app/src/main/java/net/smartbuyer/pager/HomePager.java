@@ -43,6 +43,8 @@ import net.smartbuyer.utils.DensityUtil;
 import net.smartbuyer.utils.HttpUtils;
 import net.smartbuyer.view.AutoTextHomeView;
 
+import org.json.JSONObject;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -114,6 +116,14 @@ public class HomePager extends BaseNoTrackPager {
                 initData();
             }
         });
+
+        //埋点
+        try {
+            JSONObject props = new JSONObject();
+            MyApplication.mixpanel.track("PAGE:homepage", props);
+        }catch (Exception e){
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+        }
         return inflate;
     }
 
@@ -424,6 +434,14 @@ public class HomePager extends BaseNoTrackPager {
                 intent.putExtra("batch_id", batch_id);
                 intent.putExtra("game_id", game_id);
                 startActivity(intent);
+
+                //埋点
+                try {
+                    JSONObject props = new JSONObject();
+                    MyApplication.mixpanel.track("CLICK:product", props);
+                }catch (Exception e){
+                    Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                }
             }
 
             @Override

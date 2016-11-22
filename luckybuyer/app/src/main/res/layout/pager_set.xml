@@ -21,26 +21,33 @@
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_38" />
 
+        <RelativeLayout
+            android:id="@+id/rl_set_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_set_back"
+                android:layout_width="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_42"
+                android:layout_marginBottom="@dimen/dimen_24"
+                android:layout_marginLeft="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_62"
+                android:background="@drawable/go_back" />
 
-        <ImageView
-            android:id="@+id/iv_set_back"
-            android:layout_width="@dimen/dimen_24"
-            android:layout_height="@dimen/dimen_42"
-            android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_62"
-            android:background="@drawable/go_back" />
+            <TextView
+                android:gravity="center_vertical"
+                android:id="@+id/tv_set_back"
+                android:layout_width="@dimen/dimen_78"
+                android:layout_height="@dimen/dimen_42"
+                android:layout_marginLeft="@dimen/dimen_12"
+                android:layout_alignTop="@+id/iv_set_back"
+                android:layout_toRightOf="@+id/iv_set_back"
+                android:text="Back"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/dimen_28" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_set_back"
-            android:layout_width="@dimen/dimen_78"
-            android:layout_height="@dimen/dimen_32"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_68"
-            android:layout_toRightOf="@+id/iv_set_back"
-            android:text="Back"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_28" />
+
 
         <ImageView
             android:layout_width="match_parent"

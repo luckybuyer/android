@@ -18,6 +18,8 @@ import net.smartbuyer.base.BaseNoTrackPager;
 import net.smartbuyer.bean.PreviousWinnerBean;
 import net.smartbuyer.utils.HttpUtils;
 
+import org.json.JSONObject;
+
 /**
  * Created by admin on 2016/9/13.
  */
@@ -47,6 +49,14 @@ public class WinningPager extends BaseNoTrackPager {
             }
         });
         isNeedNetWaiting = true;
+
+        //埋点
+        try {
+            JSONObject props = new JSONObject();
+            MyApplication.mixpanel.track("PAGE:new_result", props);
+        }catch (Exception e){
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+        }
         return inflate;
     }
 

@@ -22,7 +22,6 @@ import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +64,8 @@ import net.smartbuyer.view.MyScrollView;
 import net.smartbuyer.view.RoundCornerImageView;
 
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +79,7 @@ import java.util.TimeZone;
 public class ProductDetailPager extends BaseNoTrackPager {
 
     public static final int WHAT_AUTO = 1;
+    private static final int PPW_WHAT = 2;
     private RelativeLayout rl_productdetail_allview;
     private TextView tv_productdetail_producttitle;
     private TextView tv_productdetail_issue;           //当前轮
@@ -159,7 +161,23 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         atv_productdetail_broadcast.setText(bcList.get(i));
                         mLoopCount++;
                         handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+
+
+                        if(tv_insert_two != null && tv_insert_five != null && tv_insert_ten != null && tv_insert_all != null) {
+                            tv_insert_two.setHovered(false);
+                            tv_insert_five.setHovered(false);
+                            tv_insert_ten.setHovered(false);
+                            tv_insert_all.setHovered(false);
+                        }
+
                     }
+                    break;
+                case PPW_WHAT:
+                    Log.e("TAG", "进来handler");
+                    tv_insert_two.setHovered(false);
+                    tv_insert_five.setHovered(false);
+                    tv_insert_ten.setHovered(false);
+                    tv_insert_all.setHovered(false);
                     break;
             }
         }
@@ -181,6 +199,14 @@ public class ProductDetailPager extends BaseNoTrackPager {
 //                }
             }
         });
+
+        //埋点
+        try {
+            JSONObject props = new JSONObject();
+            MyApplication.mixpanel.track("PAGE:product", props);
+        }catch (Exception e){
+            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+        }
 
         return inflate;
     }
@@ -484,7 +510,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     //解析数据
     private void processData(String s) {
-        Log.e("s", s + "");
         //刷新完成
         srl_productdetail_refresh.setRefreshing(false);
         Gson gson = new Gson();
@@ -742,28 +767,26 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     initData();
                     break;
                 case R.id.rl_productdetail_indsertcoins:
-                    String token_s = Utils.getSpData("token_num", context);
-                    int token = 0;
-                    if (token_s != null) {
-                        token = Integer.parseInt(token_s);
+                    //埋点
+                    try {
+                        JSONObject props = new JSONObject();
+                        MyApplication.mixpanel.track("CLICK:get_it_by1dollar", props);
+                    }catch (Exception e){
+                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                     }
 
-                    //判断是否登陆  未登陆  先登录  登陆 弹出popupwindow
-                    if (token > System.currentTimeMillis() / 1000) {
-                        View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
-                        int height = 0;
-                        if(productDetailBean != null && productDetailBean.getShares_increment() < 5) {
-                            height = 270;
-                        }else {
-                            height = 300;
-                        }
-                        int dip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, getResources().getDisplayMetrics());
-                        popupWindow = Utils.startPPW((SecondPagerActivity) context, viewPPW, Utils.getScreenWidth(context), dip);
 
-                        setPPW(viewPPW);
-                    } else {
-                        context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
+                    View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
+                    int height = 0;
+                    if(productDetailBean != null && productDetailBean.getShares_increment() < 5) {
+                        height = (int) getResources().getDimension(R.dimen.dimen_540);
+                    }else {
+                        height = (int) getResources().getDimension(R.dimen.dimen_605);
                     }
+//                    int dip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, getResources().getDisplayMetrics());
+                    popupWindow = Utils.startPPW((SecondPagerActivity) context, viewPPW, Utils.getScreenWidth(context), height);
+
+                    setPPW(viewPPW);
                     break;
                 case R.id.rl_productdetail_participation_lucky:
                     //别人中奖 view go
@@ -793,16 +816,16 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     if (count > productDetailBean.getShares_increment()) {
                         et_insert_count.setText(count - productDetailBean.getShares_increment() + "");
                     }
-                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
+                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
                     break;
                 case R.id.rl_insert_add:
                     count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
                     if (count < productDetailBean.getLeft_shares()-productDetailBean.getShares_increment() ) {
                         et_insert_count.setText(count + productDetailBean.getShares_increment()  + "");
-                        tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
+                        tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
                     }else{
                         et_insert_count.setText( productDetailBean.getLeft_shares()  + "");
-                        tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
+                        tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
                     }
                     break;
                 case R.id.tv_insert_two:
@@ -811,7 +834,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*2) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
+                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_two.setHovered(true);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
                 case R.id.tv_insert_five:
                     if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment()*5) {
@@ -819,7 +844,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     } else if (productDetailBean.getLeft_shares() < 5) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
+                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_five.setHovered(true);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
                 case R.id.tv_insert_ten:
                     if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment()*10) {
@@ -827,68 +854,38 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*10) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
+                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_ten.setHovered(true);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
                 case R.id.tv_insert_all:
                     et_insert_count.setText(productDetailBean.getLeft_shares() + "");
-                    tv_insert_buy.setText("Total\t" + et_insert_count.getText().toString() + "\tcoins");
+                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_all.setHovered(true);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
                 case R.id.tv_insert_buy:
-                    tv_insert_buy.setClickable(false);
-                    int money = Integer.parseInt(et_insert_count.getText().toString());
-
-                    if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0")||money%productDetailBean.getShares_increment() != 0) {
-                        rl_insert_warn.setVisibility(View.VISIBLE);
-                        iv_insert_warn.setVisibility(View.VISIBLE);
-                        tv_insert_warn.setEnabled(true);
-                        Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);//加载动画资源文件
-                        shake.setDuration(200);
-                        rl_insert_warn.startAnimation(shake); //给组件播放动画效果
-                        tv_insert_buy.setClickable(true);
-                        return;
+                    String token_s = Utils.getSpData("token_num", context);
+                    int token = 0;
+                    if (token_s != null) {
+                        token = Integer.parseInt(token_s);
                     }
-                    //加载进度条 暗示用户  正在购买
-                    pb_insert.setVisibility(View.VISIBLE);
-                    tv_insert_buy.setBackgroundColor(Color.argb(255,226,226,226));
-                    //购买商品接口
-                    int shares = Integer.parseInt(et_insert_count.getText().toString());
 
-                    String url = MyApplication.url + "/v1/game-orders/?timezone=" + MyApplication.utc;
-                    String json = "{\"game_id\": " + ((SecondPagerActivity) context).game_id + ",\"shares\": " + shares + "}";
-                    Map map = new HashMap();
-                    String mToken = Utils.getSpData("token", context);
-                    map.put("Authorization", "Bearer " + mToken);
-                    HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
-                        @Override
-                        public void success(final String response) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    startPrompt(response, true);
-                                    tv_insert_buy.setClickable(true);
-                                }
-                            });
-
+                    //判断是否登陆  未登陆  先登录  登陆 弹出popupwindow
+                    if (token > System.currentTimeMillis() / 1000) {
+                        buyCoins();
+                    } else {
+                        context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
+                        //埋点
+                        try {
+                            JSONObject props = new JSONObject();
+                            MyApplication.mixpanel.track("LOGIN:showpage", props);
+                        }catch (Exception e){
+                            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                         }
 
-                        @Override
-                        public void error(final int code, final String message) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (code == 409) {
-                                        startPrompt(message, false);
-                                        tv_insert_buy.setClickable(true);
-                                    }
-                                }
-                            });
-                        }
 
-                        @Override
-                        public void failure(Exception exception) {
-                            tv_insert_buy.setClickable(true);
-                        }
-                    });
+                    }
                     break;
                 case R.id.rl_insert_ok:
                     if (show.isShowing()) {
@@ -917,6 +914,64 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     break;
             }
         }
+    }
+
+    private void buyCoins() {
+        tv_insert_buy.setClickable(false);
+        int money = Integer.parseInt(et_insert_count.getText().toString());
+
+        if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0")||money%productDetailBean.getShares_increment() != 0) {
+            rl_insert_warn.setVisibility(View.VISIBLE);
+            iv_insert_warn.setVisibility(View.VISIBLE);
+            tv_insert_warn.setEnabled(true);
+            Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);//加载动画资源文件
+            shake.setDuration(200);
+            rl_insert_warn.startAnimation(shake); //给组件播放动画效果
+            tv_insert_buy.setClickable(true);
+            return;
+        }
+        //加载进度条 暗示用户  正在购买
+        pb_insert.setVisibility(View.VISIBLE);
+        tv_insert_buy.setBackgroundColor(Color.argb(255,226,226,226));
+        //购买商品接口
+        int shares = Integer.parseInt(et_insert_count.getText().toString());
+
+        String url = MyApplication.url + "/v1/game-orders/?timezone=" + MyApplication.utc;
+        String json = "{\"game_id\": " + ((SecondPagerActivity) context).game_id + ",\"shares\": " + shares + "}";
+        Map map = new HashMap();
+        String mToken = Utils.getSpData("token", context);
+        map.put("Authorization", "Bearer " + mToken);
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        startPrompt(response, true);
+                        tv_insert_buy.setClickable(true);
+                    }
+                });
+
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (code == 409) {
+                            startPrompt(message, false);
+                            tv_insert_buy.setClickable(true);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                tv_insert_buy.setClickable(true);
+            }
+        });
     }
 
     private void startPrompt(String message, boolean flag) {
@@ -1035,7 +1090,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         rl_insert_delete.setOnClickListener(new MyOnClickListener());
         rl_insert_add.setOnClickListener(new MyOnClickListener());
 
-        tv_insert_buy.setText("Total" + et_insert_count.getText().toString() + "coins");
+        tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
 
         tv_insert_two.setOnClickListener(new MyOnClickListener());
         tv_insert_five.setOnClickListener(new MyOnClickListener());
@@ -1057,7 +1112,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
 
                     }
-                    tv_insert_buy.setText("Total" + et_insert_count.getText().toString() + "coins");
+                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
                 }
                 if ("".equals(et_insert_count.getText().toString())) {
                     balanceCount = 0;
