@@ -78,7 +78,7 @@
             android:background="@drawable/default_icon" />
     </RelativeLayout>
 
-    <net.smartbuyer.view.JustifyTextView
+    <net.iwantbuyer.view.JustifyTextView
         android:id="@+id/jtv_dispatch_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

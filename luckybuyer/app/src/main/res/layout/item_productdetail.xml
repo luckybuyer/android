@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/dimen_24"
         android:background="@color/bg_view"></View>
-    <net.smartbuyer.view.RoundCornerImageView
+    <net.iwantbuyer.view.RoundCornerImageView
         android:id="@+id/civ_productdetail"
         android:layout_width="@dimen/dimen_40"
         android:layout_height="@dimen/dimen_40"

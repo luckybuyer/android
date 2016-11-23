@@ -89,7 +89,7 @@
                         android:layout_marginTop="@dimen/dimen_60"
                         android:background="@drawable/home_broadcast" />
 
-                    <net.smartbuyer.view.AutoTextHomeView
+                    <net.iwantbuyer.view.AutoTextHomeView
                         android:id="@+id/atv_home_marquee"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_36"
@@ -153,7 +153,8 @@
                     android:id="@+id/rv_home_producer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/rl_home_products"></android.support.v7.widget.RecyclerView>
+                    android:layout_below="@+id/rl_home_products"/>
+
             </RelativeLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

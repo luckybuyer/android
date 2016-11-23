@@ -40,7 +40,7 @@
         android:layout_marginTop="@dimen/dimen_90"
         android:background="@color/bg_view"></View>
 
-    <net.smartbuyer.view.CircleImageView
+    <net.iwantbuyer.view.CircleImageView
         android:id="@+id/civ_provious_icon"
         android:layout_width="@dimen/dimen_55"
         android:layout_height="@dimen/dimen_55"

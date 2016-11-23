@@ -16,7 +16,7 @@
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_36" />
 
-    <net.smartbuyer.view.JustifyTextView
+    <net.iwantbuyer.view.JustifyTextView
         android:id="@+id/jtv_insertcoins_lessicons_discribe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

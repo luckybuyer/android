@@ -41,7 +41,7 @@
         android:layout_marginTop="@dimen/dimen_20"
         android:background="@color/bg_view"></View>
 
-    <net.smartbuyer.view.JustifyTextView
+    <net.iwantbuyer.view.JustifyTextView
         android:id="@+id/jtv_shipping_detailed"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_64"

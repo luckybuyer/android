@@ -10,7 +10,7 @@
         android:background="@drawable/rounded_corners_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <net.smartbuyer.view.CenterTextView
+        <net.iwantbuyer.view.CenterTextView
             android:id="@+id/jtv_insertcoins_discribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

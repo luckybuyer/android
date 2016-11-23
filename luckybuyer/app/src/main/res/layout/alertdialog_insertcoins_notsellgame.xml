@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/dimen_40"
         android:textSize="@dimen/dimen_36" />
 
-    <net.smartbuyer.view.JustifyTextView
+    <net.iwantbuyer.view.JustifyTextView
         android:id="@+id/jtv_insertcoins_discribe"
         android:layout_marginLeft="@dimen/dimen_44"
         android:layout_marginRight="@dimen/dimen_44"

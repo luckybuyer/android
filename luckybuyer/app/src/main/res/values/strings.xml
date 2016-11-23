@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">smartbuyer</string>
+    <string name="app_name">luckybuyer</string>
     <string name="auth0_client_id">szkaPtfjwlvFuI8WToePdKMTanofgIsq</string>
     <string name="auth0_domain">staging-luckybuyer.auth0.com</string>
 
@@ -7,7 +7,7 @@
     <string name="app_id">255982704775897</string>
 
     <!--email-->
-    <string name="email"><u>contact@SmartBuyer.net</u></string>
+    <string name="email"><u>contact@LuckyBuyer.net</u></string>
 
     <!--facebooksdk-->
     <string name="facebook_app_id">1164158777007946</string>

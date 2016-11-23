@@ -32,14 +32,14 @@
                 android:layout_height="wrap_content"
                 android:background="#E9E6E8">
 
-                <net.smartbuyer.view.CircleImageView
+                <net.iwantbuyer.view.CircleImageView
                     android:layout_width="@dimen/dimen_128"
                     android:layout_height="@dimen/dimen_128"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dimen_80"
                     android:background="@drawable/civ_shape" />
 
-                <net.smartbuyer.view.CircleImageView
+                <net.iwantbuyer.view.CircleImageView
                     android:id="@+id/civ_me_header"
                     android:layout_width="@dimen/dimen_120"
                     android:layout_height="@dimen/dimen_120"
@@ -107,7 +107,7 @@
                     android:layout_marginTop="@dimen/dimen_20"
                     android:background="#cccccc"></View>
 
-                <net.smartbuyer.view.JustifyTextView
+                <net.iwantbuyer.view.JustifyTextView
                     android:id="@+id/jtv_shipinng_facebook"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_86"
@@ -151,14 +151,14 @@
                 tl:tl_underline_height="0dp" />
 
 
-            <net.smartbuyer.view.CustomViewPager
+            <net.iwantbuyer.view.CustomViewPager
                 android:id="@+id/vp_me"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stl_me_vpcontrol"
-                android:background="#ffffff"></net.smartbuyer.view.CustomViewPager>
+                android:background="#ffffff"></net.iwantbuyer.view.CustomViewPager>
 
             <RelativeLayout
                 android:id="@+id/rl_keepout"
