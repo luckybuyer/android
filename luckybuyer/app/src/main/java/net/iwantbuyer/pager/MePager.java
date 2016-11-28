@@ -6,13 +6,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Message;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -34,9 +40,11 @@ import net.iwantbuyer.adapter.MePagerViewPagerAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.AllOrderBean;
+import net.iwantbuyer.bean.CoinDetailBean;
 import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
+import net.iwantbuyer.view.BottomScrollView;
 import net.iwantbuyer.view.CircleImageView;
 import net.iwantbuyer.view.CustomViewPager;
 
@@ -61,8 +69,13 @@ public class MePager extends BaseNoTrackPager {
     private TextView tv_me_gold;
     public CustomViewPager vp_me;
     private SlidingTabLayout stl_me_vpcontrol;
-    public ScrollView sv_me;
+    public BottomScrollView sv_me;
     public View inflate;
+
+    //下拉加载更多
+    private LinearLayout ll_loading_data;
+    private ProgressBar pb_loading_data;
+    private TextView tv_loading_data;
 
 
     private RelativeLayout rl_keepout;
@@ -77,12 +90,18 @@ public class MePager extends BaseNoTrackPager {
 
     private List vpList;
     public RecyclerView recyclerView;
+    public MePagerAllAdapter mePagerAllAdapter;
+    public MePagerLuckyAdapter mePagerLuckyAdapter;
 
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+
+        }
+    };
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_me, null);
         findView();
-//        setHeadMargin();
 
         setView();
 
@@ -90,9 +109,33 @@ public class MePager extends BaseNoTrackPager {
         try {
             JSONObject props = new JSONObject();
             MyApplication.mixpanel.track("PAGE:my_account", props);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
+
+        vp_me.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                ViewGroup.LayoutParams params = vp_me.getLayoutParams();
+                if (position == 0) {
+                    params.height = vp_me.allHeight;
+                } else if (position == 1) {
+                    params.height = vp_me.luckyHeight;
+                }
+                vp_me.setLayoutParams(params);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         return inflate;
     }
 
@@ -100,10 +143,13 @@ public class MePager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
-        rl_keepout.setVisibility(View.VISIBLE);
-        rl_nodata.setVisibility(View.GONE);
-        rl_neterror.setVisibility(View.GONE);
-        rl_loading.setVisibility(View.VISIBLE);
+        if(rl_keepout != null && rl_nodata != null && rl_neterror != null && rl_loading != null) {
+            rl_keepout.setVisibility(View.VISIBLE);
+            rl_nodata.setVisibility(View.GONE);
+            rl_neterror.setVisibility(View.GONE);
+            rl_loading.setVisibility(View.VISIBLE);
+        }
+
 
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
@@ -122,7 +168,7 @@ public class MePager extends BaseNoTrackPager {
                                         //我的中奖  接口(lucky)
                                         if (response.length() > 10) {
                                             LuckyResponse(finalToken, response);
-                                        }else {
+                                        } else {
                                             rl_nodata.setVisibility(View.VISIBLE);
                                             rl_neterror.setVisibility(View.GONE);
                                             rl_loading.setVisibility(View.GONE);
@@ -148,13 +194,19 @@ public class MePager extends BaseNoTrackPager {
 
                     @Override
                     public void failure(Exception exception) {
-                        rl_nodata.setVisibility(View.GONE);
-                        rl_neterror.setVisibility(View.VISIBLE);
-                        rl_loading.setVisibility(View.GONE);
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
+                                rl_loading.setVisibility(View.GONE);
+                            }
+                        });
                     }
                 }
 
         );
+
     }
 
     private void LuckyResponse(String token, final String res) {
@@ -178,7 +230,6 @@ public class MePager extends BaseNoTrackPager {
                                             rl_loading.setVisibility(View.GONE);
                                         }
 
-                                        Log.e("TAG_me页面", response);
                                     }
                                 }
                         );
@@ -231,29 +282,234 @@ public class MePager extends BaseNoTrackPager {
         //加载All页面
         View view = View.inflate(context, R.layout.pager_me_recycle_all, null);
         RecyclerView rv_me_all = (RecyclerView) view.findViewById(R.id.rv_me_all);
-        rv_me_all.setLayoutManager(new GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false) {
+        rv_me_all.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
-        rv_me_all.setAdapter(new MePagerAllAdapter(context, allOrderBean.getAllorder(),sv_me));
+        mePagerAllAdapter = new MePagerAllAdapter(context, allOrderBean.getAllorder(), sv_me);
+        rv_me_all.setAdapter(mePagerAllAdapter);
         vpList.add(view);
 
         //加载lucky界面
         recyclerView = new RecyclerView(context);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 1, LinearLayoutManager.VERTICAL, false) {
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         });
-        recyclerView.setAdapter(new MePagerLuckyAdapter(context, luckyOrderBean.getAllorder(),sv_me));
+        mePagerLuckyAdapter = new MePagerLuckyAdapter(context, luckyOrderBean.getAllorder(), sv_me);
+        recyclerView.setAdapter(mePagerLuckyAdapter);
         vpList.add(recyclerView);
 
 
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
         stl_me_vpcontrol.setViewPager(vp_me);
+
+        //判断是否需要显示底部加载进度条
+        if (allOrderBean.getAllorder().size() < 20) {
+            ll_loading_data.setVisibility(View.GONE);
+        }
+        if (luckyOrderBean.getAllorder().size() < 20 && vp_me.getCurrentItem() == 1) {
+            ll_loading_data.setVisibility(View.GONE);
+        }
+
+        getMoreData(gson, mePagerLuckyAdapter, mePagerAllAdapter);
+    }
+
+    boolean isMoreLData = true;
+    boolean isuckyLuckyNeedpull = true;
+    int luckyPage = 2;
+
+    boolean isMoreData = true;
+    boolean isNeedpull = true;
+    int page = 2;
+
+    private void getMoreData(final Gson gson, final MePagerLuckyAdapter mePagerLuckyAdapter, final MePagerAllAdapter mePagerAllAdapter) {
+        sv_me.setOnScrollToBottomLintener(new BottomScrollView.OnScrollToBottomListener() {
+            @Override
+            public void onScrollBottomListener(boolean isBottom) {
+                if (isBottom && isMoreLData && isuckyLuckyNeedpull && vp_me.getCurrentItem() == 1) {
+                    ll_loading_data.setVisibility(View.VISIBLE);
+                    pb_loading_data.setVisibility(View.VISIBLE);
+                    tv_loading_data.setText("loading...");
+
+                    isuckyLuckyNeedpull = false;
+                    String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=" + luckyPage + "&timezone=" + MyApplication.utc;
+                    Map map = new HashMap<String, String>();
+                    String token = Utils.getSpData("token", context);
+                    map.put("Authorization", "Bearer " + token);
+                    //请求登陆接口
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+                                @Override
+                                public void success(final String response) {
+                                    ((Activity) context).runOnUiThread(
+                                            new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    isuckyLuckyNeedpull = true;
+                                                    if (response.length() > 10) {
+                                                        String res = "{\"allorder\":" + response + "}";
+                                                        AllOrderBean luckyOrder = gson.fromJson(res, AllOrderBean.class);
+                                                        for (int i = 0; i < luckyOrder.getAllorder().size(); i++) {
+                                                            mePagerLuckyAdapter.list.add(luckyOrder.getAllorder().get(i));
+                                                            if (i == luckyOrder.getAllorder().size() - 1) {
+                                                                mePagerLuckyAdapter.notifyDataSetChanged();
+                                                            }
+                                                        }
+                                                        if (luckyOrder.getAllorder().size() < 20) {
+                                                            isMoreData = false;
+                                                        }
+                                                        luckyPage++;
+                                                    } else {
+                                                        ll_loading_data.setVisibility(View.VISIBLE);
+                                                        pb_loading_data.setVisibility(View.GONE);
+                                                        tv_loading_data.setText("no more data");
+                                                        handler.postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                ll_loading_data.setVisibility(View.GONE);
+                                                            }
+                                                        },3000);
+                                                    }
+
+                                                }
+                                            }
+                                    );
+                                }
+
+                                @Override
+                                public void error(int requestCode, String message) {
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            isNeedpull = true;
+                                            pb_loading_data.setVisibility(View.GONE);
+                                            tv_loading_data.setText("Network failure");
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ll_loading_data.setVisibility(View.GONE);
+                                                }
+                                            },3000);
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void failure(Exception exception) {
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            isNeedpull = true;
+                                            pb_loading_data.setVisibility(View.GONE);
+                                            tv_loading_data.setText("Network failure");
+                                            handler.postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ll_loading_data.setVisibility(View.GONE);
+                                                }
+                                            },3000);
+                                        }
+                                    });
+                                }
+                            }
+
+
+                    );
+                }
+
+
+                if (isBottom && isMoreData && isNeedpull&&vp_me.getCurrentItem() == 0) {
+                    ll_loading_data.setVisibility(View.VISIBLE);
+                    pb_loading_data.setVisibility(View.VISIBLE);
+                    tv_loading_data.setText("loading...");
+
+                    isNeedpull = false;
+                    String token = Utils.getSpData("token", context);
+                    String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=" + page + "&timezone=" + MyApplication.utc;
+                    Log.e("TAG", url);
+                    Map map = new HashMap<String, String>();
+                    map.put("Authorization", "Bearer " + token);
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+                        @Override
+                        public void success(final String string) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    if (string.length() > 10) {
+                                        String res = "{\"allorder\":" + string + "}";
+                                        AllOrderBean allOrderBean = gson.fromJson(res, AllOrderBean.class);
+                                        for (int i = 0; i < allOrderBean.getAllorder().size(); i++) {
+                                            mePagerAllAdapter.list.add(allOrderBean.getAllorder().get(i));
+                                            if (i == allOrderBean.getAllorder().size() - 1) {
+                                                mePagerAllAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                        if (allOrderBean.getAllorder().size() < 20) {
+                                            isMoreData = false;
+                                        }
+                                        page++;
+                                    } else {
+                                        ll_loading_data.setVisibility(View.VISIBLE);
+                                        pb_loading_data.setVisibility(View.GONE);
+                                        tv_loading_data.setText("no more data");
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ll_loading_data.setVisibility(View.GONE);
+                                            }
+                                        },3000);
+                                    }
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void error(final int requestCode, final String message) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ll_loading_data.setVisibility(View.GONE);
+                                        }
+                                    },3000);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void failure(Exception exception) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ll_loading_data.setVisibility(View.GONE);
+                                        }
+                                    },3000);
+                                }
+                            });
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void findView() {
@@ -267,13 +523,17 @@ public class MePager extends BaseNoTrackPager {
         vp_me = (CustomViewPager) inflate.findViewById(R.id.vp_me);
         stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
         fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
-        sv_me = (ScrollView) inflate.findViewById(R.id.sv_me);
+        sv_me = (BottomScrollView) inflate.findViewById(R.id.sv_me);
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
         view_me_top = (View) inflate.findViewById(R.id.view_me_top);
+
+        ll_loading_data = (LinearLayout) inflate.findViewById(R.id.ll_loading_data);
+        pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
+        tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
 
 
         i_me_set.setOnClickListener(new MyOnClickListener());
@@ -321,7 +581,7 @@ public class MePager extends BaseNoTrackPager {
                     try {
                         JSONObject props = new JSONObject();
                         MyApplication.mixpanel.track("CLICK:setting", props);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                     }
 
@@ -342,11 +602,11 @@ public class MePager extends BaseNoTrackPager {
                     try {
                         JSONObject props = new JSONObject();
                         MyApplication.mixpanel.track("CLICK:chat", props);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                     }
 
-                    Intent data=new Intent(Intent.ACTION_SENDTO);
+                    Intent data = new Intent(Intent.ACTION_SENDTO);
                     data.setData(Uri.parse("mailto:contact@luckybuyer.net"));
                     startActivity(data);
                     break;

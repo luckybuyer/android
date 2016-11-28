@@ -98,7 +98,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
         flag = context instanceof SecondPagerActivity;
         if (context instanceof SecondPagerActivity) {
             ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
-            ((SecondPagerActivity) context).from = "coindetailpager";
         }
 
 
@@ -339,7 +338,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
             tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(0).getAmount() + " coins = " + buyCoinBean.getBuycoins().get(0).getPrice() + " USD");
         }
 
-
         money = buyCoinBean.getBuycoins().get(0).getPrice();
         topup_option_id = buyCoinBean.getBuycoins().get(0).getId();
         buyCoinAdapter.setBuyCoinOnClickListener(new BuyCoinAdapter.BuyCoinOnClickListener() {
@@ -390,12 +388,20 @@ public class BuyCoinPager extends BaseNoTrackPager {
             switch (view.getId()) {
                 case R.id.iv_buycoins_back:
                     if (context instanceof SecondPagerActivity) {
-                        ((SecondPagerActivity) context).switchPage(5);
+                        if (((SecondPagerActivity) context).from.equals("coindetailpager")) {
+                            ((SecondPagerActivity) context).switchPage(5);
+                        } else if (((SecondPagerActivity) context).from.equals("productdetail")) {
+                            ((SecondPagerActivity) context).switchPage(0);
+                        }
                     }
                     break;
                 case R.id.tv_buycoins_back:
                     if (context instanceof SecondPagerActivity) {
-                        ((SecondPagerActivity) context).switchPage(5);
+                        if (((SecondPagerActivity) context).from.equals("coindetailpager")) {
+                            ((SecondPagerActivity) context).switchPage(5);
+                        } else if (((SecondPagerActivity) context).from.equals("productdetail")) {
+                            ((SecondPagerActivity) context).switchPage(0);
+                        }
                     }
                     break;
                 case R.id.tv_buycoins_buy:
@@ -445,7 +451,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             try {
                                 JSONObject prop = new JSONObject();
                                 MyApplication.mixpanel.track("LOGIN:showpage", prop);
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                             }
                         } else if (context instanceof MainActivity) {
@@ -549,6 +555,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         }
     }
 
+    //halopay 支付 回调
     class MyIPayResultCallback implements IPayResultCallback {
 
         @Override
@@ -556,6 +563,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
             switch (resultCode) {
                 case HaloPay.PAY_SUCCESS:
                     requestCoins();
+                    break;
+                case HaloPay.PAY_ERROR:
+                    //支付失败
                     break;
                 default:
                     Log.e("TAG", resultInfo);
@@ -620,7 +630,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
             jsonObject.accumulate("data_signature", dataSignature);
             jsonObject.accumulate("purchase_data", purchaseData);
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -675,7 +684,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("TAG_response", response);
                         Utils.MyToast(context, response);
                         View view = View.inflate(context, R.layout.alertdialog_buycoins_success, null);
                         TextView tv_buycoins_success = (TextView) view.findViewById(R.id.tv_buycoins_success);

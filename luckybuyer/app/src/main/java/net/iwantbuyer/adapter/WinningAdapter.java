@@ -37,17 +37,15 @@ import java.util.TimeZone;
  * Created by admin on 2016/10/13.
  */
 public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHolder> {
-    private List<PreviousWinnerBean.PreviousBean> list;
+    public List<PreviousWinnerBean.PreviousBean> list;
     private Context context;
     public WinningAdapter(Context context, List<PreviousWinnerBean.PreviousBean> list) {
         this.list = list;
         this.context = context;
-        Log.e("TAG_刚进来", list.size()+"");
         for (int i = 0;i < list.size();i++){
             if("running".equals(list.get(i).getStatus())) {
                 list.remove(i);
                 i--;
-                Log.e("TAG——结束", list.size()+"");
             }
         }
     }

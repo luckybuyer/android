@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.media.MediaBrowserCompat;
+import android.support.v4.util.LogWriter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -20,7 +22,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +46,7 @@ import net.iwantbuyer.bean.GameProductBean;
 import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.view.AutoTextHomeView;
+import net.iwantbuyer.view.BottomScrollView;
 
 import org.json.JSONObject;
 
@@ -64,12 +69,18 @@ public class HomePager extends BaseNoTrackPager {
     private View inflate;
     private SwipeRefreshLayout srl_home_refresh;
     private TextView tv_net_again;
+    private BottomScrollView sv_home;
 
     //网络连接错误 与没有数据
     private RelativeLayout rl_keepout;
     private RelativeLayout rl_neterror;
     private RelativeLayout rl_nodata;
     private RelativeLayout rl_loading;
+
+    //下拉加载更多
+    private LinearLayout ll_home_loading;
+    private ProgressBar pb_loading_data;
+    private TextView tv_loading_data;
 
     //轮播图集合
     public List imageList;
@@ -92,7 +103,7 @@ public class HomePager extends BaseNoTrackPager {
                     break;
                 case WHAT_AUTO:
                     handler.removeMessages(WHAT_AUTO);
-                    if(mStringArray != null) {
+                    if (mStringArray != null) {
                         int i = mLoopCount % mStringArray.size();
                         atv_home_marquee.next();
                         atv_home_marquee.setText(mStringArray.get(i));
@@ -121,7 +132,7 @@ public class HomePager extends BaseNoTrackPager {
         try {
             JSONObject props = new JSONObject();
             MyApplication.mixpanel.track("PAGE:homepage", props);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
         return inflate;
@@ -142,6 +153,11 @@ public class HomePager extends BaseNoTrackPager {
             srl_home_refresh.setRefreshing(true);
             rv_home_producer.setFocusable(false);            //让recycleview时区焦点 不然show fragment的时候recycleview会顶在顶部
         }
+
+        //重置 请求  下拉刷新数据
+        isMoreData = true;
+        isNeedpull = true;
+        page = 2;
         //请求接口
         startRequestGame();
 
@@ -158,6 +174,11 @@ public class HomePager extends BaseNoTrackPager {
         atv_home_marquee = (AutoTextHomeView) inflate.findViewById(R.id.atv_home_marquee);
         srl_home_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_home_refresh);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        sv_home = (BottomScrollView) inflate.findViewById(R.id.sv_home);
+
+        ll_home_loading = (LinearLayout) inflate.findViewById(R.id.ll_home_loading);
+        pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
+        tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
 
 
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
@@ -253,14 +274,14 @@ public class HomePager extends BaseNoTrackPager {
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         srl_home_refresh.setRefreshing(false);
 
-                            if (response.length() > 10) {
-                                rl_keepout.setVisibility(View.GONE);
-                                processData(response);
-                                Log.e("TAG", response.length()+"");
-                            } else {
-                                rl_nodata.setVisibility(View.VISIBLE);
-                                rl_neterror.setVisibility(View.GONE);
-                                rl_loading.setVisibility(View.GONE);
+                        if (response.length() > 10) {
+                            rl_keepout.setVisibility(View.GONE);
+                            processData(response);
+                            Log.e("TAG", response.length() + "");
+                        } else {
+                            rl_nodata.setVisibility(View.VISIBLE);
+                            rl_neterror.setVisibility(View.GONE);
+                            rl_loading.setVisibility(View.GONE);
 //                            }
                         }
 
@@ -341,7 +362,7 @@ public class HomePager extends BaseNoTrackPager {
             mStringArray.add(builder);
         }
 
-        if(mStringArray.size() > 0) {
+        if (mStringArray.size() > 0) {
             atv_home_marquee.setText(mStringArray.get(0));
             handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
         }
@@ -401,19 +422,29 @@ public class HomePager extends BaseNoTrackPager {
 
     }
 
+    boolean isMoreData = true;
+    boolean isNeedpull = true;
+    int page = 2;
+
     //解析数据
     private void processData(String s) {
         //停止刷新
         srl_home_refresh.setRefreshing(false);
 
-        Gson gson = new Gson();
-        String game = "{\"game\":" + s + "}";
+        final Gson gson = new Gson();
+        final String game = "{\"game\":" + s + "}";
         GameProductBean gameProductBean = gson.fromJson(game, GameProductBean.class);
 
         //产品列表数据
         productList = gameProductBean.getGame();
+
+        if (productList != null && productList.size() < 20) {
+            ll_home_loading.setVisibility(View.GONE);
+            ll_home_loading.setVisibility(View.GONE);
+        }
+
         //设置recycleView
-        HomeProductAdapter homeProductAdapter = new HomeProductAdapter(context, productList);
+        final HomeProductAdapter homeProductAdapter = new HomeProductAdapter(context, productList);
         rv_home_producer.setAdapter(homeProductAdapter);
 
         //设置 recycleviewde manager   重写canScrollVertically方法是为了解决潜逃scrollview的卡顿问题
@@ -439,7 +470,7 @@ public class HomePager extends BaseNoTrackPager {
                 try {
                     JSONObject props = new JSONObject();
                     MyApplication.mixpanel.track("CLICK:product", props);
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                 }
             }
@@ -450,10 +481,103 @@ public class HomePager extends BaseNoTrackPager {
             }
         });
 
+        //下拉加载
+        sv_home.setOnScrollToBottomLintener(new BottomScrollView.OnScrollToBottomListener() {
+            @Override
+            public void onScrollBottomListener(boolean isBottom) {
+                if (isBottom && isMoreData && isNeedpull) {
+                    ll_home_loading.setVisibility(View.VISIBLE);
+                    pb_loading_data.setVisibility(View.VISIBLE);
+                    tv_loading_data.setText("loading...");
+
+                    isNeedpull = false;
+                    String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=" + page + "&timezone=" + MyApplication.utc;
+                    Log.e("TAG", url);
+                    HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+                        @Override
+                        public void success(final String string) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    if (string.length() > 10) {
+                                        String str = "{\"game\":" + string + "}";
+                                        GameProductBean gameProduct = gson.fromJson(str, GameProductBean.class);
+                                        for (int i = 0; i < gameProduct.getGame().size(); i++) {
+                                            homeProductAdapter.list.add(gameProduct.getGame().get(i));
+                                            if (i == gameProduct.getGame().size() - 1) {
+                                                homeProductAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                        if (gameProduct.getGame().size() < 20) {
+                                            isMoreData = false;
+                                            pb_loading_data.setVisibility(View.GONE);
+                                        }
+                                        page++;
+                                    } else {
+                                        ll_home_loading.setVisibility(View.VISIBLE);
+                                        pb_loading_data.setVisibility(View.GONE);
+                                        tv_loading_data.setText("no more data");
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ll_home_loading.setVisibility(View.GONE);
+                                            }
+                                        },3000);
+                                    }
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void error(final int requestCode, final String message) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ll_home_loading.setVisibility(View.GONE);
+                                        }
+                                    },3000);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void failure(Exception exception) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ll_home_loading.setVisibility(View.GONE);
+                                        }
+                                    },3000);
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+
+            }
+        });
+
     }
 
 
     int curPostion = 0;
+
 
     //ViewPager页面改变监听
     class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -526,7 +650,7 @@ public class HomePager extends BaseNoTrackPager {
     public void onResume() {
         super.onResume();
         handler.sendEmptyMessageDelayed(WHAT, 5000);
-        if(mStringArray != null && mStringArray.size() > 0) {
+        if (mStringArray != null && mStringArray.size() > 0) {
             handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
         }
     }

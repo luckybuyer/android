@@ -1,11 +1,16 @@
 package net.iwantbuyer.secondpager;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,8 +22,10 @@ import net.iwantbuyer.adapter.CoinDetailPagerAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BasePager;
 import net.iwantbuyer.bean.CoinDetailBean;
+import net.iwantbuyer.bean.GameProductBean;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
+import net.iwantbuyer.view.BottomScrollView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,9 +50,20 @@ public class CoinDetailPager extends BasePager {
     private RelativeLayout rl_nodata;
     private RelativeLayout rl_loading;
     private TextView tv_net_again;
+    private BottomScrollView sv_coindetail;
+
+    //下拉加载更多
+    private LinearLayout ll_loading_data;
+    private ProgressBar pb_loading_data;
+    private TextView tv_loading_data;
 
     private List list = new ArrayList();
 
+    private Handler handler = new Handler(){
+        public void handleMessage(Message msg){
+
+        }
+    };
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_coindetail, null);
@@ -114,20 +132,124 @@ public class CoinDetailPager extends BasePager {
         );
     }
 
+    boolean isMoreData = true;
+    boolean isNeedpull = true;
+    int page = 2;
     //处理数据
     private void processData(String response) {
-        Gson gson = new Gson();
+        final Gson gson = new Gson();
         String str = "{\"coin\":" + response + "}";
         CoinDetailBean coinDetailBean = gson.fromJson(str, CoinDetailBean.class);
 
-        rv_coindetail.setAdapter(new CoinDetailPagerAdapter(context, coinDetailBean.getCoin()));
-        GridLayoutManager gridlayoutManager = new GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false) {
+        if(coinDetailBean.getCoin().size() < 20) {
+            ll_loading_data.setVisibility(View.GONE);
+        }
+
+        final CoinDetailPagerAdapter coinDetailPagerAdapter = new CoinDetailPagerAdapter(context, coinDetailBean.getCoin());
+        rv_coindetail.setAdapter(coinDetailPagerAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, GridLayoutManager.VERTICAL, false) {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         };
-        rv_coindetail.setLayoutManager(gridlayoutManager);
+        rv_coindetail.setLayoutManager(linearLayoutManager);
+
+
+        //下拉加载
+        sv_coindetail.setOnScrollToBottomLintener(new BottomScrollView.OnScrollToBottomListener() {
+            @Override
+            public void onScrollBottomListener(boolean isBottom) {
+                if (isBottom && isMoreData && isNeedpull) {
+                    ll_loading_data.setVisibility(View.VISIBLE);
+                    pb_loading_data.setVisibility(View.VISIBLE);
+                    tv_loading_data.setText("loading...");
+
+                    isNeedpull = false;
+                    String url = MyApplication.url + "/v1/gold-records/?per_page=20&page= "+page+"&timezone=" + MyApplication.utc;
+                    String token = Utils.getSpData("token", context);
+                    Map map = new HashMap<String, String>();
+                    map.put("Authorization", "Bearer " + token);
+                    Log.e("TAG", url);
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+                        @Override
+                        public void success(final String string) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    if (string.length() > 10) {
+                                        String str = "{\"coin\":" + string + "}";
+                                        CoinDetailBean coinDetail = gson.fromJson(str, CoinDetailBean.class);
+                                        for (int i = 0; i < coinDetail.getCoin().size(); i++) {
+                                            coinDetailPagerAdapter.list.add(coinDetail.getCoin().get(i));
+                                            if (i == coinDetail.getCoin().size() - 1) {
+                                                coinDetailPagerAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                        if (coinDetail.getCoin().size() < 20) {
+                                            isMoreData = false;
+                                            pb_loading_data.setVisibility(View.GONE);
+                                        }
+                                        page++;
+                                    } else {
+                                        ll_loading_data.setVisibility(View.VISIBLE);
+                                        pb_loading_data.setVisibility(View.GONE);
+                                        tv_loading_data.setText("no more data");
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ll_loading_data.setVisibility(View.GONE);
+                                            }
+                                        },3000);
+                                    }
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void error(final int requestCode, final String message) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ll_loading_data.setVisibility(View.GONE);
+                                        }
+                                    },3000);
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void failure(Exception exception) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    handler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ll_loading_data.setVisibility(View.GONE);
+                                        }
+                                    },3000);
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+
+            }
+        });
     }
 
     private void findView() {
@@ -145,6 +267,10 @@ public class CoinDetailPager extends BasePager {
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
+        sv_coindetail = (BottomScrollView) inflate.findViewById(R.id.sv_coindetail);
+        ll_loading_data = (LinearLayout) inflate.findViewById(R.id.ll_loading_data);
+        pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
+        tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
         tv_net_again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,6 +296,7 @@ public class CoinDetailPager extends BasePager {
                     ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.tv_coindetail_buycoins:
+                    ((SecondPagerActivity) context).from = "coindetailpager";
                     ((SecondPagerActivity) context).switchPage(6);
                     break;
             }

@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapter.ViewHolder> {
     private Context context;
-    private List<AllOrderBean.AllorderBean> list;
+    public List<AllOrderBean.AllorderBean> list;
     private ScrollView sv_me;
     private Handler handler = new Handler(){
         public void handleMessage(Message msg){

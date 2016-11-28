@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#f2f2f2"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f2f2f2">
 
     <RelativeLayout
         android:id="@+id/rl_winning_header"
@@ -14,9 +14,9 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_60"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_18"
-            android:layout_alignParentBottom="true"
             android:gravity="center"
             android:text="New Result"
             android:textColor="@color/text_black"
@@ -31,69 +31,107 @@
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_winning"
-
-        android:layout_below="@+id/rl_winning_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_winning"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_winning_header">
+
+        <net.iwantbuyer.view.BottomScrollView
+            android:id="@+id/sv_winning"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_winning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <LinearLayout
+                    android:id="@+id/ll_loading_data"
+                    android:layout_below="@+id/rv_coindetail"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_height="@dimen/dimen_100">
+                    <ProgressBar
+                        android:indeterminateDrawable="@drawable/pb_loading_data"
+                        android:id="@+id/pb_loading_data"
+                        android:layout_width="@dimen/dimen_40"
+                        android:layout_height="@dimen/dimen_40" />
+                    <TextView
+                        android:id="@+id/tv_loading_data"
+                        android:layout_marginLeft="@dimen/dimen_16"
+                        android:textSize="@dimen/dimen_30"
+                        android:text="loading..."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </net.iwantbuyer.view.BottomScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
     <RelativeLayout
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/dimen_128"
         android:id="@+id/rl_keepout"
-        android:background="@color/f2f2f2"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/rl_home_header"
-        android:layout_height="match_parent">
+        android:layout_marginTop="@dimen/dimen_128"
+        android:background="@color/f2f2f2"
+        android:visibility="gone">
 
         <RelativeLayout
             android:id="@+id/rl_loading"
             android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
             <ProgressBar
-                android:indeterminateDrawable="@drawable/shape_loading"
                 android:id="@+id/pb_loading"
                 android:layout_width="@dimen/dimen_60"
-                android:layout_height="@dimen/dimen_60" />
+                android:layout_height="@dimen/dimen_60"
+                android:indeterminateDrawable="@drawable/shape_loading" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_8"
                 android:layout_toRightOf="@+id/pb_loading"
-                android:layout_width="wrap_content"
-                android:textColor="#000000"
                 android:text="Loading..."
-                android:textSize="@dimen/dimen_32"
-                android:layout_height="wrap_content" />
+                android:textColor="#000000"
+                android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_neterror"
-            android:visibility="gone"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_120"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <ImageView
                 android:id="@+id/iv_neterror"
                 android:layout_width="@dimen/dimen_400"
-                android:background="@drawable/default_neterror"
-                android:layout_height="@dimen/dimen_420" />
+                android:layout_height="@dimen/dimen_420"
+                android:background="@drawable/default_neterror" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_neterror"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:layout_below="@+id/iv_neterror"
-                android:textSize="@dimen/dimen_28"
-                android:textColor="#acabb4"
                 android:text="Network connection error"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="#acabb4"
+                android:textSize="@dimen/dimen_28" />
+
             <TextView
                 android:id="@+id/tv_net_again"
                 android:layout_width="wrap_content"
@@ -113,28 +151,29 @@
 
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_nodata"
-            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_180"
-            android:layout_height="wrap_content">
+            android:visibility="gone">
+
             <ImageView
-                android:layout_marginLeft="@dimen/dimen_40"
                 android:id="@+id/iv_nodata"
                 android:layout_width="@dimen/dimen_250"
-                android:background="@drawable/default_nodata"
-                android:layout_height="@dimen/dimen_300" />
+                android:layout_height="@dimen/dimen_300"
+                android:layout_marginLeft="@dimen/dimen_40"
+                android:background="@drawable/default_nodata" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_nodata"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:layout_below="@+id/iv_nodata"
-                android:textSize="@dimen/dimen_28"
-                android:textColor="#acabb4"
                 android:text="No previous lottery data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="#acabb4"
+                android:textSize="@dimen/dimen_28" />
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -14,10 +14,10 @@
         <ImageView
             android:layout_width="@dimen/dimen_323"
             android:layout_height="@dimen/dimen_26"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_20"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/home_luckybuy"
+            android:background="@drawable/home_luckybuye"
             android:textSize="@dimen/dimen_38" />
 
         <TextView
@@ -31,11 +31,12 @@
             android:layout_marginTop="@dimen/dimen_14"
             android:gravity="center"
             android:textColor="@color/text_black" />
+
         <ImageView
             android:layout_width="match_parent"
+            android:layout_height="3px"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/default_shadow_top"
-            android:layout_height="3px" />
+            android:background="@drawable/default_shadow_top" />
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -44,7 +45,8 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_home_header">
 
-        <ScrollView
+        <net.iwantbuyer.view.BottomScrollView
+            android:id="@+id/sv_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -76,7 +78,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/vp_home"
                     android:background="#ffffff">
-
 
 
                     <ImageView
@@ -142,25 +143,48 @@
                         android:layout_marginRight="@dimen/dimen_20"
                         android:layout_toLeftOf="@id/tv_home_products"
                         android:background="#666666"></View>
+
                     <View
                         android:layout_width="match_parent"
-                        android:background="@color/bg_view"
+                        android:layout_height="1px"
                         android:layout_alignParentBottom="true"
-                        android:layout_height="1px"></View>
+                        android:background="@color/bg_view"></View>
                 </RelativeLayout>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_home_producer"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/rl_home_products"/>
+                    android:layout_below="@+id/rl_home_products" />
+
+                <LinearLayout
+                    android:id="@+id/ll_home_loading"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_100"
+                    android:layout_below="@+id/rv_home_producer"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ProgressBar
+                        android:id="@+id/pb_loading_data"
+                        android:layout_width="@dimen/dimen_40"
+                        android:layout_height="@dimen/dimen_40"
+                        android:indeterminateDrawable="@drawable/pb_loading_data" />
+
+                    <TextView
+                        android:id="@+id/tv_loading_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dimen_16"
+                        android:text="loading..."
+                        android:textSize="@dimen/dimen_30" />
+                </LinearLayout>
 
             </RelativeLayout>
-        </ScrollView>
+        </net.iwantbuyer.view.BottomScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -170,23 +194,24 @@
         <RelativeLayout
             android:id="@+id/rl_loading"
             android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
             <ProgressBar
-                android:indeterminateDrawable="@drawable/shape_loading"
                 android:id="@+id/pb_loading"
                 android:layout_width="@dimen/dimen_60"
-                android:layout_height="@dimen/dimen_60" />
+                android:layout_height="@dimen/dimen_60"
+                android:indeterminateDrawable="@drawable/shape_loading" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_8"
                 android:layout_toRightOf="@+id/pb_loading"
-                android:layout_width="wrap_content"
-                android:textColor="#000000"
                 android:text="Loading..."
-                android:textSize="@dimen/dimen_32"
-                android:layout_height="wrap_content" />
+                android:textColor="#000000"
+                android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -195,7 +220,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_160"
-            >
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_neterror"
@@ -232,12 +257,12 @@
 
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_160">
+            android:layout_marginTop="@dimen/dimen_160"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_nodata"

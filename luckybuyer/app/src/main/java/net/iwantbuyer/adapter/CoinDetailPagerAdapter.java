@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CoinDetailPagerAdapter extends RecyclerView.Adapter<CoinDetailPagerAdapter.ViewHolder> {
     private Context context;
-    private List<CoinDetailBean.CoinBean> list;
+    public List<CoinDetailBean.CoinBean> list;
     public CoinDetailPagerAdapter(Context context, List list) {
         this.context = context;
         this.list = list;
@@ -33,7 +33,7 @@ public class CoinDetailPagerAdapter extends RecyclerView.Adapter<CoinDetailPager
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.tv_icondetail_from.setText(list.get(position).getType());
-        holder.tv_coindetail_time.setText(list.get(position).getCreated_at().substring(0, 20).replace("T", "\t"));
+        holder.tv_coindetail_time.setText(list.get(position).getCreated_at().substring(0, 20).replace("T", "\t "));
         int amount = list.get(position).getAmount();
         if(amount > 0) {
             holder.tv_ciondetail_many.setEnabled(true);

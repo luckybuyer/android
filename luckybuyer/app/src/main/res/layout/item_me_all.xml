@@ -28,7 +28,7 @@
                 android:id="@+id/iv_all_icon"
                 android:layout_width="@dimen/dimen_130"
                 android:layout_height="@dimen/dimen_130"
-                android:background="@drawable/me_voice" />
+                android:background="@drawable/default_icon" />
         </RelativeLayout>
 
         <net.iwantbuyer.view.JustifyTextView

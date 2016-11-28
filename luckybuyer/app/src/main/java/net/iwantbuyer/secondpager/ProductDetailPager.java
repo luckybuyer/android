@@ -52,6 +52,7 @@ import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.BroadcastBean;
 import net.iwantbuyer.bean.BuyStateBean;
+import net.iwantbuyer.bean.CoinDetailBean;
 import net.iwantbuyer.bean.MyBuyBean;
 import net.iwantbuyer.bean.ProductOrderBean;
 import net.iwantbuyer.bean.ProductDetailBean;
@@ -59,6 +60,7 @@ import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
 import net.iwantbuyer.view.AutoTextView;
+import net.iwantbuyer.view.BottomScrollView;
 import net.iwantbuyer.view.JustifyTextView;
 import net.iwantbuyer.view.MyScrollView;
 import net.iwantbuyer.view.RoundCornerImageView;
@@ -72,6 +74,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by admin on 2016/9/17.
@@ -80,6 +84,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     public static final int WHAT_AUTO = 1;
     private static final int PPW_WHAT = 2;
+    private static final int MORE_DATA = 3;
     private RelativeLayout rl_productdetail_allview;
     private TextView tv_productdetail_producttitle;
     private TextView tv_productdetail_issue;           //当前轮
@@ -105,6 +110,10 @@ public class ProductDetailPager extends BaseNoTrackPager {
     private TextView tv_productdetail_discribe;                   //title 下面忽悠文件
     private ProgressBar pb_insert;
     private MyScrollView sv_productdetail;
+    private TextView tv_productdetail_luckymany;                  //别人中奖   买了多少期
+    private LinearLayout ll_loading_data;                         //下拉加载数据
+    private ProgressBar pb_loading_data;
+    private TextView tv_loading_data;
     private View inflate;
 
     //倒計時  開獎
@@ -173,11 +182,14 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     }
                     break;
                 case PPW_WHAT:
-                    Log.e("TAG", "进来handler");
                     tv_insert_two.setHovered(false);
                     tv_insert_five.setHovered(false);
                     tv_insert_ten.setHovered(false);
                     tv_insert_all.setHovered(false);
+                    break;
+                case MORE_DATA:
+                    Log.e("TAG", "接收到消息");
+                    ll_loading_data.setVisibility(View.GONE);
                     break;
             }
         }
@@ -189,14 +201,10 @@ public class ProductDetailPager extends BaseNoTrackPager {
         inflate = View.inflate(context, R.layout.pager_productdetail, null);
         ((SecondPagerActivity) context).from = null;
         findView();
-        srl_productdetail_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                srl_productdetail_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                if (newData == null) {
                     initData();
-//                } else {
-//                    processData(newData);
-//                }
             }
         });
 
@@ -214,6 +222,12 @@ public class ProductDetailPager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
+
+        //下拉加载时 重新设置
+        isMoreData = true;
+        isNeedpull = true;
+        page = 2;
+
         additionRequest();
         if (((SecondPagerActivity) context).game_id == -1) {
             if (((SecondPagerActivity) context).batch_id != -1) {
@@ -468,6 +482,11 @@ public class ProductDetailPager extends BaseNoTrackPager {
         rl_productdetail_back = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_back);
         tv_productdetail_discribe = (TextView) inflate.findViewById(R.id.tv_productdetail_discribe);
         sv_productdetail = (MyScrollView) inflate.findViewById(R.id.sv_productdetail);
+        tv_productdetail_luckymany = (TextView) inflate.findViewById(R.id.tv_productdetail_luckymany);
+        ll_loading_data = (LinearLayout) inflate.findViewById(R.id.ll_loading_data);
+        pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
+        tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
+
 
 
         srl_productdetail_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_productdetail_refresh);
@@ -674,13 +693,20 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     }
 
-    private void processListData(String response) {
-        Gson gson = new Gson();
-        String productorder = "{\"productorder\":" + response + "}";
+    boolean isMoreData = true;
+    boolean isNeedpull = true;
+    int page = 2;
+
+    private void processListData(final String response) {
+        final Gson gson = new Gson();
+        final String productorder = "{\"productorder\":" + response + "}";
         ProductOrderBean productOrderBean = gson.fromJson(productorder, ProductOrderBean.class);
 
+        if(productOrderBean.getProductorder().size() < 20) {
+            ll_loading_data.setVisibility(View.GONE);
+        }
 
-        ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(context, productOrderBean.getProductorder());
+        final ProductDetailAdapter productDetailAdapter = new ProductDetailAdapter(context, productOrderBean.getProductorder());
         rv_productdetail.setAdapter(productDetailAdapter);
 
         //设置 recycleviewde manager   重写canScrollVertically方法是为了解决潜逃scrollview的卡顿问题
@@ -690,6 +716,109 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 return false;
             }
         });
+
+        //下拉加载
+        sv_productdetail.setOnScrollToBottomLintener(new MyScrollView.OnScrollToBottomListener() {
+            @Override
+            public void onScrollBottomListener(boolean isBottom) {
+                if (isBottom && isMoreData && isNeedpull) {
+                    ll_loading_data.setVisibility(View.VISIBLE);
+                    pb_loading_data.setVisibility(View.VISIBLE);
+                    tv_loading_data.setText("loading...");
+                    isNeedpull = false;
+                    String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page= "+page+"&timezone=" + MyApplication.utc;
+                    Log.e("TAG_产品详情", url);
+                    HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+                        @Override
+                        public void success(final String string) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    if (string.length() > 10) {
+                                        String str = "{\"productorder\":" + string + "}";
+                                        ProductOrderBean productOrderBean = gson.fromJson(str, ProductOrderBean.class);
+                                        for (int i = 0; i < productOrderBean.getProductorder().size(); i++) {
+                                            productDetailAdapter.list.add(productOrderBean.getProductorder().get(i));
+                                            if (i == productOrderBean.getProductorder().size() - 1) {
+                                                productDetailAdapter.notifyDataSetChanged();
+                                            }
+                                        }
+                                        if(productOrderBean.getProductorder().size() < 20) {
+                                            isMoreData = false;
+                                            ll_loading_data.setVisibility(View.GONE);
+                                        }
+                                        page++;
+                                    } else {
+                                        ll_loading_data.setVisibility(View.VISIBLE);
+                                        pb_loading_data.setVisibility(View.GONE);
+                                        tv_loading_data.setText("no more data");
+
+                                        TimerTask task = new TimerTask() {
+                                            @Override
+                                            public void run() {
+                                                handler.sendEmptyMessage(MORE_DATA);
+                                            }
+                                        };
+                                        Timer timer = new Timer();
+                                        timer.schedule(task, 3000);//
+
+                                    }
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void error(final int requestCode, final String message) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    TimerTask task = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            handler.sendEmptyMessage(MORE_DATA);
+                                        }
+                                    };
+                                    Timer timer = new Timer();
+                                    timer.schedule(task, 3000);//
+
+                                }
+                            });
+                        }
+
+                        @Override
+                        public void failure(Exception exception) {
+                            ((Activity) context).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isNeedpull = true;
+                                    pb_loading_data.setVisibility(View.GONE);
+                                    tv_loading_data.setText("Network failure");
+                                    TimerTask task = new TimerTask() {
+                                        @Override
+                                        public void run() {
+                                            handler.sendEmptyMessage(MORE_DATA);
+                                        }
+                                    };
+                                    Timer timer = new Timer();
+                                    timer.schedule(task, 3000);//
+
+                                }
+                            });
+
+                        }
+
+                    });
+                }
+
+            }
+        });
+
+
     }
 
     private void setLucky() {
@@ -697,10 +826,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckynum)).setText("Smart Number：" + productDetailBean.getLucky_number() + "");
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckyid)).setText("User ID:" + productDetailBean.getLucky_user().getId() + "");
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckytime)).setText("Lottery time:" + productDetailBean.getFinished_at().substring(0, 19).replace("T", "\t"));
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckymany)).setText("Number of participants:" + productDetailBean.getLucky_order().getTotal_shares() + "");
         final RoundCornerImageView civ_productdetail_lucky = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky));
         boolean flag = ((SecondPagerActivity) context).isDestroyed();
-        Log.e("TAG_胜利者图片", flag + "");
-        Log.e("TAG_胜利者图片", productDetailBean.getLucky_user().getProfile().getPicture());
         if (!flag) {
             Glide.with((SecondPagerActivity) context).load(productDetailBean.getLucky_user().getProfile().getPicture()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
@@ -910,7 +1038,14 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     if (show.isShowing()) {
                         show.dismiss();
                     }
+                    ((SecondPagerActivity) context).from = "productdetail";
                     ((SecondPagerActivity) context).switchPage(6);       //跳入到购买金币页面
+
+                    break;
+                case R.id.rl_insert_game:
+                    if (show.isShowing()) {
+                        show.dismiss();
+                    }
                     break;
             }
         }
@@ -996,12 +1131,17 @@ public class ProductDetailPager extends BaseNoTrackPager {
         if (flag == false) {
             Gson gson = new Gson();
             BuyStateBean buyStateBean = gson.fromJson(message, BuyStateBean.class);
+            initData();
             if ("GameNotFound".equals(buyStateBean.getMessage())) {
                 //产品没有发现
 
             } else if ("InsufficientGameShares".equals(buyStateBean.getMessage())) {
                 //产品  数量不足
-                Utils.MyToast(context,"Insufficient number of products");
+                inflate = View.inflate(context, R.layout.alertdialog_insertcoins_game, null);
+                RelativeLayout rl_insert_game = (RelativeLayout) inflate.findViewById(R.id.rl_insert_game);
+
+                rl_insert_game.setOnClickListener(new MyOnClickListener());
+                StartAlertDialog(inflate);
             } else if ("GameNotSellable".equals(buyStateBean.getMessage())) {
                 //产品不能出售  有可能是还没出售   还有可能已经售完
                 //余额不足

@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
 
-    <ScrollView
+    <net.iwantbuyer.view.BottomScrollView
         android:id="@+id/sv_me"
         android:fillViewport="true"
         android:layout_width="match_parent"
@@ -158,9 +158,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stl_me_vpcontrol"
-                android:background="#ffffff"></net.iwantbuyer.view.CustomViewPager>
+                android:background="#ffffff"/>
+
+            <LinearLayout
+                android:id="@+id/ll_loading_data"
+                android:layout_below="@+id/vp_me"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_height="@dimen/dimen_100">
+                <ProgressBar
+                    android:indeterminateDrawable="@drawable/pb_loading_data"
+                    android:id="@+id/pb_loading_data"
+                    android:layout_width="@dimen/dimen_40"
+                    android:layout_height="@dimen/dimen_40" />
+                <TextView
+                    android:id="@+id/tv_loading_data"
+                    android:layout_marginLeft="@dimen/dimen_16"
+                    android:textSize="@dimen/dimen_30"
+                    android:text="loading..."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/rl_keepout"
                 android:background="@color/f2f2f2"
                 android:layout_width="match_parent"
@@ -256,5 +279,5 @@
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
-    </ScrollView>
+    </net.iwantbuyer.view.BottomScrollView>
 </RelativeLayout>

@@ -26,7 +26,7 @@ import java.util.List;
 public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.ViewHolder> {
 
     private Context context;
-    private List<GameProductBean.GameBean> list;
+    public List<GameProductBean.GameBean> list;
     public interface OnClickListener{
         void onclick(View view ,int position);
         void onLongClick(View view,int position);

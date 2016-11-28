@@ -55,15 +55,17 @@
             android:text="Back"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_28" />
+
         <ImageView
             android:layout_width="match_parent"
+            android:layout_height="3px"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/default_shadow_top"
-            android:layout_height="3px" />
+            android:background="@drawable/default_shadow_top" />
 
     </RelativeLayout>
 
-    <ScrollView
+    <net.iwantbuyer.view.BottomScrollView
+        android:id="@+id/sv_coindetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/rl_coindetail_header">
@@ -119,37 +121,61 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/view_coindetails"></android.support.v7.widget.RecyclerView>
 
+            <LinearLayout
+                android:id="@+id/ll_loading_data"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/rv_coindetail"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ProgressBar
+                    android:id="@+id/pb_loading_data"
+                    android:layout_width="@dimen/dimen_40"
+                    android:layout_height="@dimen/dimen_40"
+                    android:indeterminateDrawable="@drawable/pb_loading_data" />
+
+                <TextView
+                    android:id="@+id/tv_loading_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_16"
+                    android:text="loading..."
+                    android:textSize="@dimen/dimen_30" />
+            </LinearLayout>
+
         </RelativeLayout>
-    </ScrollView>
+    </net.iwantbuyer.view.BottomScrollView>
 
     <RelativeLayout
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dimen_128"
         android:layout_below="@+id/rl_home_header"
+        android:layout_marginTop="@dimen/dimen_128"
         android:background="@color/f2f2f2">
 
         <RelativeLayout
             android:id="@+id/rl_loading"
             android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
             <ProgressBar
-                android:indeterminateDrawable="@drawable/shape_loading"
                 android:id="@+id/pb_loading"
                 android:layout_width="@dimen/dimen_60"
-                android:layout_height="@dimen/dimen_60" />
+                android:layout_height="@dimen/dimen_60"
+                android:indeterminateDrawable="@drawable/shape_loading" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dimen_8"
                 android:layout_toRightOf="@+id/pb_loading"
-                android:layout_width="wrap_content"
-                android:textColor="#000000"
                 android:text="Loading..."
-                android:textSize="@dimen/dimen_32"
-                android:layout_height="wrap_content" />
+                android:textColor="#000000"
+                android:textSize="@dimen/dimen_32" />
 
         </RelativeLayout>
 
@@ -159,8 +185,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_160"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_neterror"
@@ -197,12 +222,12 @@
 
 
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_160">
+            android:layout_marginTop="@dimen/dimen_160"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/iv_nodata"

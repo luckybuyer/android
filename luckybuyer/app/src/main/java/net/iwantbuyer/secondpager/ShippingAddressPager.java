@@ -131,12 +131,12 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         tv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_newadd.setOnClickListener(new MyOnClickListener());
         rl_shipping_return.setOnClickListener(new MyOnClickListener());
+        tv_net_again.setOnClickListener(new MyOnClickListener());
     }
 
     private void processData(String response) {
         Gson gson = new Gson();
         response = "{\"shipping\":" + response + "}";
-        Log.e("TAG_response", response);
         ShippingAddressBean shippingAddressBean = gson.fromJson(response, ShippingAddressBean.class);
         if(shippingAddressBean.getShipping().size()>0) {
             ((SecondPagerActivity)context).shippingBean = shippingAddressBean.getShipping().get(0);
@@ -180,6 +180,9 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                     } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
                         ((SecondPagerActivity) context).switchPage(7);
                     }
+                    break;
+                case R.id.tv_net_again:
+                    initData();
                     break;
             }
         }

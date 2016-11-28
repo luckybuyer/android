@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdapter.ViewHolder> {
     private Context context;
-    private List<ProductOrderBean.ProductorderBean> list;
+    public List<ProductOrderBean.ProductorderBean> list;
     int type;
 
     public interface OnClickListener {

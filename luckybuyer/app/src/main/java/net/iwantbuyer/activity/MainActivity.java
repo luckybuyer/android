@@ -1,11 +1,15 @@
 package net.iwantbuyer.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -46,6 +50,8 @@ import net.iwantbuyer.utils.Utils;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -302,6 +308,7 @@ public class MainActivity extends FragmentActivity {
                 transaction.hide(currentFragment).show(fg);
                 if(mePager != null && mePager.vp_me != null) {
                     mePager.setView();
+                    mePager.initData();
                 }
             }
         }
@@ -386,7 +393,6 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void run() {
                             //登陆成功  直接进入me页面
-                            Log.e("TAG", "咱们登陆成功");
                             showFragment(list.get(login_id));
                             if (login_id == 1) {
                                 rb_main_buycoins.setChecked(true);
@@ -394,6 +400,18 @@ public class MainActivity extends FragmentActivity {
                             } else if (login_id == 3) {
                                 rb_main_buycoins.setChecked(false);
                                 rb_main_me.setChecked(true);
+                                if(mePager!= null && mePager.mePagerAllAdapter != null) {
+                                    mePager.mePagerAllAdapter.list.clear();
+                                    mePager.mePagerAllAdapter.notifyDataSetChanged();
+                                }
+                                if(mePager!= null && mePager.mePagerLuckyAdapter != null) {
+                                    mePager.mePagerLuckyAdapter .list.clear();
+                                    mePager.mePagerLuckyAdapter .notifyDataSetChanged();
+                                }
+
+//                                if(mePager != null) {
+//                                    mePager.initData();
+//                                }
                             }
                             rb_main_homepager.setChecked(false);
                             rb_main_newresult.setChecked(false);
@@ -401,7 +419,6 @@ public class MainActivity extends FragmentActivity {
                         }
                     });
 
-                    Log.e("TAG_用户信息", response);
 
                 }
 
@@ -562,15 +579,15 @@ public class MainActivity extends FragmentActivity {
 
 //    public void  getsp(){
 //        try {
-//            Log.e("TAG", "getsp");
+//            Log.e("TAGhehe", "getsp");
 //            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "net.smartbuyer",
+//                    "net.iwantbuyer",
 //                    PackageManager.GET_SIGNATURES);
 //            for (Signature signature : info.signatures) {
-//                Log.e("TAG", "sign");
+//                Log.e("TAGhehe", "sign");
 //                MessageDigest md = MessageDigest.getInstance("SHA");
 //                md.update(signature.toByteArray());
-//                Log.e("TAG:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//                Log.e("TAGhehe:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
 //            }
 //        } catch (PackageManager.NameNotFoundException e) {
 //            Log.e("TAG000", e.toString());

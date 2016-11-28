@@ -24,7 +24,7 @@
             android:layout_height="@dimen/dimen_44"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dimen_64"
-            android:text="participation Record"
+            android:text="Participation Record"
             android:textColor="#666666"
             android:textSize="@dimen/dimen_32" />
 

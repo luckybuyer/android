@@ -454,8 +454,30 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_productdetail"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/dimen_100"></android.support.v7.widget.RecyclerView>
+                        android:layout_height="wrap_content"/>
+
+                    <!--上啦加载-->
+                    <LinearLayout
+                        android:id="@+id/ll_loading_data"
+                        android:layout_below="@+id/rv_productdetail"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/dimen_100"
+                        android:orientation="horizontal"
+                        android:layout_height="@dimen/dimen_100">
+                        <ProgressBar
+                            android:indeterminateDrawable="@drawable/pb_loading_data"
+                            android:id="@+id/pb_loading_data"
+                            android:layout_width="@dimen/dimen_40"
+                            android:layout_height="@dimen/dimen_40" />
+                        <TextView
+                            android:id="@+id/tv_loading_data"
+                            android:layout_marginLeft="@dimen/dimen_16"
+                            android:textSize="@dimen/dimen_30"
+                            android:text="loading..."
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
                 </LinearLayout>
             </net.iwantbuyer.view.MyScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
