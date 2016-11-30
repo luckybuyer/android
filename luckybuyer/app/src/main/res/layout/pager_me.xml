@@ -88,12 +88,22 @@
                     android:textSize="@dimen/dimen_24" />
 
                 <TextView
-                    android:id="@+id/tv_me_gold"
+                    android:id="@+id/tv_gold"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dimen_36"
                     android:layout_below="@+id/tv_me_fbcode"
                     android:layout_centerHorizontal="true"
-                    android:text="Gold:$998"
+                    android:text="Gold:$"
+                    android:textColor="#ff9c05"
+                    android:textSize="@dimen/dimen_28" />
+                <TextView
+                    android:id="@+id/tv_me_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dimen_36"
+                    android:layout_below="@+id/tv_me_fbcode"
+                    android:layout_toRightOf="@+id/tv_gold"
+                    android:layout_centerHorizontal="true"
+                    android:text="998"
                     android:textColor="#ff9c05"
                     android:textSize="@dimen/dimen_28" />
 

@@ -557,7 +557,7 @@ public class MePager extends BaseNoTrackPager {
 
         tv_me_name.setText(name);
         tv_me_fbcode.setText(user_id);
-        tv_me_gold.setText("Gold:$" + balance);
+        tv_me_gold.setText("" + balance);
         Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

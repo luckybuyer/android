@@ -108,10 +108,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 }
             });
             holder.jtv_all_discribe.setText(list.get(position).getGame().getProduct().getTitle());
-            holder.tv_all_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
-            holder.tv_all_participation.setText("My participation:" + list.get(position).getShares());
-            holder.tv_all_shares.setText("Total: " + list.get(position).getGame().getShares());
-            holder.tv_all_leftshares.setText("Remain: " + list.get(position).getGame().getLeft_shares());
+            holder.tv_all_issue.setText("" + list.get(position).getGame().getIssue_id());
+            holder.tv_all_participation.setText("" + list.get(position).getShares());
+            holder.tv_all_shares.setText("" + list.get(position).getGame().getShares());
+            holder.tv_all_leftshares.setText("" + list.get(position).getGame().getLeft_shares());
             holder.pb_all_progress.setMax(list.get(position).getGame().getShares());
             holder.pb_all_progress.setProgress(list.get(position).getGame().getShares() - list.get(position).getGame().getLeft_shares());
             holder.rl_all_continue.setOnClickListener(new MyOnClickListener(position));
@@ -128,8 +128,8 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 }
             });
             holder.jtv_countdown_discribe.setText(list.get(position).getGame().getProduct().getTitle());
-            holder.tv_countdown_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
-            holder.tv_countdown_participation.setText("My participation:" + list.get(position).getShares());
+            holder.tv_countdown_issue.setText("" + list.get(position).getGame().getIssue_id());
+            holder.tv_countdown_participation.setText("" + list.get(position).getShares());
             String finishTime = list.get(position).getGame().getFinished_at();
             long time = Utils.Iso8601ToLong(finishTime);
             new CountDownTimer(time, 10) {
@@ -207,8 +207,8 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 }
             });
             holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
-            holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
-            holder.tv_lucky_participation.setText("My participation:" + list.get(position).getShares());
+            holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id());
+            holder.tv_lucky_participation.setText("" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
 
             holder.rl_lucky_continue.setOnClickListener(new MyOnClickListener(position));
@@ -235,8 +235,8 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 holder.tv_lucky_go.setText("Delivered");
             }
             holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
-            holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id());
-            holder.tv_lucky_participation.setText("My participation:" + list.get(position).getShares());
+            holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id());
+            holder.tv_lucky_participation.setText("" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
 
             holder.rl_lucky_address.setOnClickListener(new MyOnClickListener(position));

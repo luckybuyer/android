@@ -6,16 +6,40 @@
     android:layout_height="wrap_content">
     <TextView
         android:layout_marginTop="@dimen/dimen_30"
-        android:id="@+id/tv_productdetail_mybuyparticipate"
+        android:id="@+id/tv_mybuyparticipate"
         android:layout_width="wrap_content"
         android:textSize="@dimen/dimen_26"
         android:textColor="#666666"
         android:layout_marginLeft="@dimen/dimen_20"
-        android:text="My participate:1"
+        android:text="My participate: "
         android:layout_below="@id/view_lucky"
         android:layout_toRightOf="@id/civ_productdetail_lucky"
         android:layout_height="@dimen/dimen_36" />
+    <TextView
+        android:layout_marginTop="@dimen/dimen_30"
+        android:id="@+id/tv_productdetail_mybuyparticipate"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/dimen_26"
+        android:textColor="#666666"
+        android:text="1"
+        android:layout_below="@id/view_lucky"
+        android:layout_toRightOf="@id/tv_mybuyparticipate"
+        android:layout_height="@dimen/dimen_36" />
 
+    <TextView
+        android:id="@+id/tv_mybuynum"
+        android:layout_width="wrap_content"
+        android:textSize="@dimen/dimen_24"
+        android:textColor="#999999"
+        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginTop="@dimen/dimen_8"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:text="Participation numbers:"
+        android:layout_below="@id/tv_productdetail_mybuyparticipate"
+        android:layout_toRightOf="@id/civ_productdetail_lucky"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_productdetail_mybuynum"
         android:layout_width="wrap_content"
@@ -24,8 +48,8 @@
         android:layout_marginLeft="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_8"
         android:layout_marginRight="@dimen/dimen_24"
-        android:text="Participation numbers:109653049   109653049 109653049 109653049 109653049 109653049"
-        android:layout_below="@id/tv_productdetail_mybuyparticipate"
+        android:text="109653049   109653049 109653049 109653049 109653049 109653049"
+        android:layout_below="@id/tv_mybuynum"
         android:layout_toRightOf="@id/civ_productdetail_lucky"
         android:maxLines="3"
         android:ellipsize="end"

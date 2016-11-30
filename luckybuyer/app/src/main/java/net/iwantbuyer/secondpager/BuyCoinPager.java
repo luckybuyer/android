@@ -4,17 +4,25 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,13 +42,17 @@ import net.iwantbuyer.adapter.BuyCoinAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.BuyCoinBean;
+import net.iwantbuyer.bean.BuyStateBean;
+import net.iwantbuyer.bean.CashuBean;
 import net.iwantbuyer.bean.HaloPayBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.util.IabHelper;
 import net.iwantbuyer.util.IabResult;
 import net.iwantbuyer.util.Purchase;
 import net.iwantbuyer.utils.HttpUtils;
+import net.iwantbuyer.utils.MyBase64;
 import net.iwantbuyer.utils.Utils;
+import net.iwantbuyer.view.JustifyTextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,22 +75,25 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
 
     private RelativeLayout rl_buycoins_header;
-    private ImageView iv_buycoins_back;
-    private TextView tv_buycoins_back;
+    public LinearLayout ll_buycoins_back;
     public TextView tv_buycoins_balance;
     private TextView tv_buycoins_count;
     private TextView tv_buycoins_buy;
     private View inflate;
     private RecyclerView rv_buycoins;
+    public TextView tv_title;                      //标题
 
     private ImageView iv_buycoins_paypal;
-    private ImageView iv_buycoins_cashu;
+    private ImageView iv_buycoins_halopay;
     private ImageView iv_buycoins_goole;
-    private RelativeLayout rl_buycoins_cashu;
+    private ImageView iv_buycoins_cashu;
+    private RelativeLayout rl_buycoins_halopay;
     private RelativeLayout rl_buycoins_paypal;
     private RelativeLayout rl_buycoins_google;
+    private RelativeLayout rl_buycoins_cashu;
     private boolean flag;
     private RelativeLayout rl_buycoins_ok;
+    private ProgressBar pb_buycoins_progress;
 
     private RelativeLayout rl_keepout;                     //联网
     private RelativeLayout rl_neterror;
@@ -89,7 +104,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private TextView rl_buycoins_email;                    //发送邮件
     private BuyCoinBean buyCoinBean;
 
+    public WebView wv_buycoins_cashu;
+
     public IabHelper mHelper;                                     //谷歌支付
+
+    public AlertDialog show;
 
     @Override
     public View initView() {
@@ -138,6 +157,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
         //判断打开哪些方法
         String method = Utils.getSpData("paymentmethod", context);
+        method = "android-inapppaypalcashuhalopay";
         if (method.contains("android-inapp")) {
             rl_buycoins_google.setVisibility(View.VISIBLE);
             iv_buycoins_goole.setVisibility(View.VISIBLE);
@@ -152,12 +172,18 @@ public class BuyCoinPager extends BaseNoTrackPager {
             iv_buycoins_goole.setHovered(false);
         }
 
-        if (method.contains("halopay")) {
+        if(method.contains("cashu")) {
             rl_buycoins_cashu.setVisibility(View.VISIBLE);
             iv_buycoins_cashu.setVisibility(View.GONE);
         }
 
-        Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered());
+        if (method.contains("halopay")) {
+            rl_buycoins_halopay.setVisibility(View.VISIBLE);
+            iv_buycoins_halopay.setVisibility(View.GONE);
+        }
+
+
+        Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered() + iv_buycoins_halopay.isHovered());
         //埋点
         try {
             JSONObject props = new JSONObject();
@@ -190,7 +216,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         View view = View.inflate(context, R.layout.alertdialog_buycoins, null);
                         rl_buycoins_ok = (RelativeLayout) view.findViewById(R.id.rl_buycoins_ok);
                         rl_buycoins_ok.setOnClickListener(new MyOnClickListener());
-                        StartAlertDialog(view);
+                        show = StartAlertDialog(view);
                     }
                 });
             }
@@ -225,20 +251,24 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     public void findView() {
         rl_buycoins_header = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_header);
-        iv_buycoins_back = (ImageView) inflate.findViewById(R.id.iv_buycoins_back);
-        tv_buycoins_back = (TextView) inflate.findViewById(R.id.tv_buycoins_back);
+        ll_buycoins_back = (LinearLayout) inflate.findViewById(R.id.ll_buycoins_back);
         tv_buycoins_balance = (TextView) inflate.findViewById(R.id.tv_buycoins_balance);
         tv_buycoins_count = (TextView) inflate.findViewById(R.id.tv_buycoins_count);
         tv_buycoins_buy = (TextView) inflate.findViewById(R.id.tv_buycoins_buy);
         rv_buycoins = (RecyclerView) inflate.findViewById(R.id.rv_buycoins);
+        tv_title = (TextView) inflate.findViewById(R.id.tv_title);
 
         iv_buycoins_paypal = (ImageView) inflate.findViewById(R.id.iv_buycoins_paypal);
-        iv_buycoins_cashu = (ImageView) inflate.findViewById(R.id.iv_buycoins_cashu);
+        iv_buycoins_halopay = (ImageView) inflate.findViewById(R.id.iv_buycoins_halopay);
         iv_buycoins_goole = (ImageView) inflate.findViewById(R.id.iv_buycoins_goole);
-        rl_buycoins_cashu = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_cashu);
+        iv_buycoins_cashu = (ImageView) inflate.findViewById(R.id.iv_buycoins_cashu);
+        rl_buycoins_halopay = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_halopay);
         rl_buycoins_paypal = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_paypal);
         rl_buycoins_google = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_google);
+        rl_buycoins_cashu = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_cashu);
         rl_buycoins_email = (TextView) inflate.findViewById(R.id.rl_buycoins_email);
+        wv_buycoins_cashu = (WebView) inflate.findViewById(R.id.wv_buycoins_cashu);
+        pb_buycoins_progress = (ProgressBar) inflate.findViewById(R.id.pb_buycoins_progress);
 
 
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
@@ -249,19 +279,18 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
 
         //设置监听
-        iv_buycoins_back.setOnClickListener(new MyOnClickListener());
-        tv_buycoins_back.setOnClickListener(new MyOnClickListener());
+        ll_buycoins_back.setOnClickListener(new MyOnClickListener());
         tv_buycoins_buy.setOnClickListener(new MyOnClickListener());
-        rl_buycoins_cashu.setOnClickListener(new MyOnClickListener());
+        rl_buycoins_halopay.setOnClickListener(new MyOnClickListener());
         rl_buycoins_paypal.setOnClickListener(new MyOnClickListener());
         rl_buycoins_google.setOnClickListener(new MyOnClickListener());
+        rl_buycoins_cashu.setOnClickListener(new MyOnClickListener());
 
         tv_net_again.setOnClickListener(new MyOnClickListener());
         rl_buycoins_email.setOnClickListener(new MyOnClickListener());
 
         if (!flag) {
-            iv_buycoins_back.setVisibility(View.GONE);
-            tv_buycoins_back.setVisibility(View.GONE);
+            ll_buycoins_back.setVisibility(View.GONE);
         }
     }
 
@@ -386,17 +415,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.iv_buycoins_back:
-                    if (context instanceof SecondPagerActivity) {
-                        if (((SecondPagerActivity) context).from.equals("coindetailpager")) {
-                            ((SecondPagerActivity) context).switchPage(5);
-                        } else if (((SecondPagerActivity) context).from.equals("productdetail")) {
-                            ((SecondPagerActivity) context).switchPage(0);
-                        }
-                    }
-                    break;
-                case R.id.tv_buycoins_back:
-                    if (context instanceof SecondPagerActivity) {
+                case R.id.ll_buycoins_back:
+                    if(wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
+                        wv_buycoins_cashu.setVisibility(View.GONE);
+                        tv_title.setText("Buy Coins");
+                    }else if (context instanceof SecondPagerActivity) {
                         if (((SecondPagerActivity) context).from.equals("coindetailpager")) {
                             ((SecondPagerActivity) context).switchPage(5);
                         } else if (((SecondPagerActivity) context).from.equals("productdetail")) {
@@ -412,9 +435,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     if (token_s != null) {
                         token = Integer.parseInt(token_s);
                     }
-                    Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered());
+                    Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_halopay.isHovered());
                     if (token > System.currentTimeMillis() / 1000) {
-                        Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered());
+                        Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_halopay.isHovered());
                         if (iv_buycoins_paypal.isHovered()) {
                             PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), buyCoinBean.getBuycoins().get(id_coins).getCurrency(), "LuckyBuyer",
                                     PayPalPayment.PAYMENT_INTENT_SALE);
@@ -426,7 +449,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        } else if (iv_buycoins_cashu.isHovered()) {
+                        } else if (iv_buycoins_halopay.isHovered()) {
                             StartHalopay();
                             try {
                                 props.put("%method", "halopay");
@@ -437,6 +460,13 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             startRegistered();
                             try {
                                 props.put("%method", "google_pay");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        } else if(iv_buycoins_cashu.isHovered()) {
+                            startCashu();
+                            try {
+                                props.put("%method", "cashu");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -460,35 +490,53 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     }
 
                     break;
-                case R.id.rl_buycoins_cashu:
-                    iv_buycoins_cashu.setVisibility(View.VISIBLE);
+                case R.id.rl_buycoins_halopay:
+                    iv_buycoins_halopay.setVisibility(View.VISIBLE);
+                    iv_buycoins_cashu.setVisibility(View.GONE);
                     iv_buycoins_paypal.setVisibility(View.GONE);
                     iv_buycoins_goole.setVisibility(View.GONE);
-                    iv_buycoins_cashu.setHovered(true);
+                    iv_buycoins_halopay.setHovered(true);
                     iv_buycoins_paypal.setHovered(false);
                     iv_buycoins_goole.setHovered(false);
+                    iv_buycoins_cashu.setHovered(false);
                     setPoint("CLICK:halopay");
                     break;
                 case R.id.rl_buycoins_paypal:
-                    iv_buycoins_cashu.setVisibility(View.GONE);
+                    iv_buycoins_halopay.setVisibility(View.GONE);
                     iv_buycoins_paypal.setVisibility(View.VISIBLE);
                     iv_buycoins_goole.setVisibility(View.GONE);
-                    iv_buycoins_cashu.setHovered(false);
+                    iv_buycoins_cashu.setVisibility(View.GONE);
+                    iv_buycoins_halopay.setHovered(false);
                     iv_buycoins_paypal.setHovered(true);
                     iv_buycoins_goole.setHovered(false);
+                    iv_buycoins_cashu.setHovered(false);
                     setPoint("CLICK:paypal");
                     break;
                 case R.id.rl_buycoins_google:
                     iv_buycoins_cashu.setVisibility(View.GONE);
+                    iv_buycoins_halopay.setVisibility(View.GONE);
                     iv_buycoins_paypal.setVisibility(View.GONE);
                     iv_buycoins_goole.setVisibility(View.VISIBLE);
                     iv_buycoins_cashu.setHovered(false);
+                    iv_buycoins_halopay.setHovered(false);
                     iv_buycoins_paypal.setHovered(false);
                     iv_buycoins_goole.setHovered(true);
                     setPoint("CLICK:google_pay");
+
+                    break;
+                case R.id.rl_buycoins_cashu:
+                    iv_buycoins_cashu.setVisibility(View.VISIBLE);
+                    iv_buycoins_paypal.setVisibility(View.GONE);
+                    iv_buycoins_goole.setVisibility(View.GONE);
+                    iv_buycoins_halopay.setVisibility(View.GONE);
+                    iv_buycoins_cashu.setHovered(true);
+                    iv_buycoins_halopay.setHovered(false);
+                    iv_buycoins_paypal.setHovered(false);
+                    iv_buycoins_goole.setHovered(false);
+                    setPoint("CLICK:cashu");
                     break;
                 case R.id.rl_buycoins_ok:
-                    if (show.isShowing()) {
+                    if (show != null && show.isShowing()) {
                         show.dismiss();
                     }
                     break;
@@ -505,7 +553,129 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         show.dismiss();
                     }
                     break;
+                case R.id.tv_buycoins_failure:
+                    if (show.isShowing()) {
+                        show.dismiss();
+                    }
+                    break;
             }
+        }
+    }
+
+    //cashu支付
+    private void startCashu() {
+        HttpUtils.getInstance().startNetworkWaiting(context);
+        String url = "https://api-staging.luckybuyer.net/v1/payments/cashu/?timezone=utc";
+//        String json = "{\"failure_url\": \"http://net.luckybuyer.failure\",\"method\": \"alipay_cn\",\"success_url\": \"http://net.luckybuyer.success\",\"topup_option_id\": " + topup_option_id + "}";
+        String success_url = "http://net.luckybuyer.success";
+        String failure_url = "http://net.luckybuyer.failure";
+        String json = "{\"failure_url\": \"" + failure_url + "\",\"success_url\": \"" + success_url + "\",\"topup_option_id\": 1}";
+        Map map = new HashMap();
+        String mToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3N0YWdpbmctbHVja3lidXllci5hdXRoMC5jb20vIiwic3ViIjoiZmFjZWJvb2t8MTE4MDkzOTkxOTgzNzM1IiwiYXVkIjoiSG1GM1I2ZHowcWJ6R1FvWXRUdW9yZ1Ntemd1NkF1YTEiLCJleHAiOjE0ODA5MzQ1MTAsImlhdCI6MTQ4MDMyOTcxMH0.DBi7mYTrztdBCLTUlys8Pg0geFGcJkH55GFF9U7a710";
+        map.put("Authorization", "Bearer " + mToken);
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("TAG_cashu", response);
+                        processCashU(response);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                    }
+                });
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("TAG_cashu", code + message);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        startAlert(false);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        startAlert(false);
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void processCashU(String response) {
+        ll_buycoins_back.setVisibility(View.VISIBLE);
+        tv_title.setText("CashU");
+        wv_buycoins_cashu.setVisibility(View.VISIBLE);
+        Gson gson = new Gson();
+        CashuBean cashuBean = gson.fromJson(response, CashuBean.class);
+
+        WebSettings webSettings = wv_buycoins_cashu.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+
+
+        String postData = "Transaction_Code=" + cashuBean.getTransaction_code();
+        wv_buycoins_cashu.postUrl(cashuBean.getPayment_url(), postData.getBytes());
+        wv_buycoins_cashu.setWebViewClient(new MyWebViewClient());
+
+        wv_buycoins_cashu.setWebChromeClient(new WebChromeClient() {
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                pb_buycoins_progress.setVisibility(View.VISIBLE);
+                pb_buycoins_progress.setProgress(newProgress);
+                if(newProgress == 100) {
+                    pb_buycoins_progress.setVisibility(View.GONE);
+                }
+            }
+
+        });
+    }
+
+    class MyWebViewClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {//网页页面开始加载的时候
+            super.onPageStarted(view, url, favicon);
+            Log.e("TAG_kaishi", url);
+            if (url.contains("http://net.luckybuyer.failure")) {  //请求失败
+                wv_buycoins_cashu.setVisibility(View.GONE);
+                startAlert(false);
+                ll_buycoins_back.setVisibility(View.GONE);
+                tv_title.setText("Buy Coins");
+            }
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {//网页加载结束的时候
+            super.onPageFinished(view, url);
+            if ("http://net.luckybuyer.success".equals(url)) {   //请求成功
+                wv_buycoins_cashu.setVisibility(View.GONE);
+                requestCoins();
+                startAlert(true);
+                ll_buycoins_back.setVisibility(View.GONE);
+                tv_title.setText("Buy Coins");
+            } else if ("http://net.luckybuyer.failure".equals(url)) {  //请求失败
+                wv_buycoins_cashu.setVisibility(View.GONE);
+                startAlert(false);
+                ll_buycoins_back.setVisibility(View.GONE);
+                tv_title.setText("Buy Coins");
+            }
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) { //网页加载时的连接的网址
+            Log.e("TAG_zhengzai", url);
+            return false;
         }
     }
 
@@ -566,6 +736,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     break;
                 case HaloPay.PAY_ERROR:
                     //支付失败
+                    startAlert(false);
                     break;
                 default:
                     Log.e("TAG", resultInfo);
@@ -574,11 +745,42 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     break;
             }
         }
+
     }
 
-    public AlertDialog show;
 
-    private void StartAlertDialog(View view) {
+    private AlertDialog StartAlertDialog(View view) {
+        //得到屏幕的 尺寸 动态设置
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        int screenHeight = wm.getDefaultDisplay().getHeight();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+        AlertDialog show = builder.show();
+        show.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = show.getWindow();
+        window.setGravity(Gravity.CENTER);
+        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return show;
+    }
+
+
+    private void startAlert(boolean flag) {
+        View view = null;
+        if(flag) {
+            view = View.inflate(context, R.layout.alertdialog_buycoins_success, null);
+            TextView tv_buycoins_success = (TextView) view.findViewById(R.id.tv_buycoins_success);
+            tv_buycoins_success.setOnClickListener(new MyOnClickListener());
+        }else if(!flag) {
+            view = View.inflate(context, R.layout.alertdialog_buycoins_failure, null);
+            TextView tv_buycoins_failure = (TextView) view.findViewById(R.id.tv_buycoins_failure);
+            tv_buycoins_failure.setOnClickListener(new MyOnClickListener());
+        }
+
         //得到屏幕的 尺寸 动态设置
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int screenWidth = wm.getDefaultDisplay().getWidth();
@@ -616,7 +818,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 }
             }
         } else if (resultCode == Activity.RESULT_CANCELED) {
-            Log.e("paymentExample", "The user canceled.");
+            startAlert(false);
         } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
             Log.e("paymentExample", "An invalid Payment or PayPalConfiguration was submitted. Please see the docs.");
         }
@@ -684,12 +886,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(context, response);
-                        View view = View.inflate(context, R.layout.alertdialog_buycoins_success, null);
-                        TextView tv_buycoins_success = (TextView) view.findViewById(R.id.tv_buycoins_success);
-                        tv_buycoins_success.setOnClickListener(new MyOnClickListener());
-                        StartAlertDialog(view);
-
+                        startAlert(true);
                         tv_buycoins_balance.setText(Utils.getSpData("balance", context) + buyCoinBean.getBuycoins().get(id_coins).getAmount());
                         //重新请求一下接口
                         requestCoins();
@@ -759,6 +956,4 @@ public class BuyCoinPager extends BaseNoTrackPager {
         super.onDestroy();
         context.stopService(new Intent(context, PayPalService.class));
     }
-
-
 }

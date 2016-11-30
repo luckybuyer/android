@@ -10,8 +10,8 @@
         android:id="@+id/rl_product_icon"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_264"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24">
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24">
 
         <ImageView
             android:id="@+id/iv_product_icon"
@@ -25,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_74"
         android:layout_below="@+id/rl_product_icon"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:ellipsize="end"
         android:maxEms="7"
         android:maxLines="2"
@@ -39,8 +39,8 @@
         android:id="@+id/tv_product_count"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_33"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_12"
         android:text="Total 1250"
         android:textColor="#999999"
@@ -53,8 +53,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_14"
         android:layout_marginBottom="@dimen/dimen_8"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_7"
         android:progressDrawable="@drawable/home_product_progress" />
 
@@ -68,7 +68,7 @@
             android:id="@+id/tv_home_claim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_24"
             android:text="Claimed: "
             android:textColor="#999999"
             android:textSize="@dimen/dimen_24" />
@@ -77,7 +77,7 @@
             android:id="@+id/tv_home_percentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_home_claim"
+            android:layout_toEndOf="@+id/tv_home_claim"
             android:text="30%"
             android:textColor="@color/ff9c05"
             android:textSize="@dimen/dimen_24" />

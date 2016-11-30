@@ -1,0 +1,11 @@
+<resources>
+    <string name="Home">الصفحة الرئيسية</string>                   <!--首页-->
+    <string name="PRODUCTS">المنتج</string>                         <!--产品-->
+    <string name="buycoins">شراء عملة الذهب</string>               <!--购买金币-->
+    <string name="NewResult">اعلان احدث النتائج</string>           <!--最新揭晓-->
+    <string name="MyAccount">الحساب الخاص بي</string>               <!--我的账号-->
+    <string name="Show">كشف الاوراق</string>                        <!--晒单-->
+    <string name="TenStart">الشراء بدأ من 10 دولار</string>         <!--10元起购-->
+    <string name="FiveStart">الشراء بدأ من 5 دولار</string>         <!--5元起购-->
+    <string name="Claimed">احراز التقدم: </string>                    <!--进度-->
+</resources>

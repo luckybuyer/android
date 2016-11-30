@@ -42,14 +42,24 @@
         android:textSize="@dimen/dimen_28" />
 
     <TextView
-        android:id="@+id/item_winning_issue"
+        android:id="@+id/item_issue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_buycoins_header"
         android:layout_marginLeft="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_148"
         android:layout_toRightOf="@id/rl_winning_icon"
-        android:text="Issue:10020"
+        android:text="Issue: "
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_28" />
+    <TextView
+        android:id="@+id/item_winning_issue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_buycoins_header"
+        android:layout_marginTop="@dimen/dimen_148"
+        android:layout_toRightOf="@+id/item_issue"
+        android:text="10020"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_28" />
 

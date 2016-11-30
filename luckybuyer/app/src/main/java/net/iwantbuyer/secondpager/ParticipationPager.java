@@ -119,7 +119,7 @@ public class ParticipationPager extends BasePager{
 
 
         tv_participation_discribe.setText(((ThirdPagerActivity) context).title + "");
-        tv_participation_period.setText("Participation period:" + productOrderBean.getProductorder().size());
+        tv_participation_period.setText("" + productOrderBean.getProductorder().size());
         if(!((ThirdPagerActivity) context).isDestroyed()) {
             Glide.with(context).load("http:" + ((ThirdPagerActivity) context).title_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override

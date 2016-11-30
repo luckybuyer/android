@@ -36,6 +36,7 @@ import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
+import net.iwantbuyer.bean.BuyCoinBean;
 import net.iwantbuyer.bean.TokenBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.pager.HomePager;
@@ -501,13 +502,18 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if(buyCoinPager != null && buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
+                buyCoinPager.wv_buycoins_cashu.setVisibility(View.GONE);
+                buyCoinPager.ll_buycoins_back.setVisibility(View.GONE);
+                buyCoinPager.tv_title.setText("Buy Coins");
+            }else {
+                if ((System.currentTimeMillis() - mExitTime) > 3000) {
+                    Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
+                    mExitTime = System.currentTimeMillis();
 
-            if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
-                mExitTime = System.currentTimeMillis();
-
-            } else {
-                finish();
+                } else {
+                    finish();
+                }
             }
 
             return true;
@@ -520,7 +526,6 @@ public class MainActivity extends FragmentActivity {
         super.onResume();
         showFragment(currentFragment);
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -94,15 +94,37 @@
         android:textSize="@dimen/dimen_26" />
 
     <TextView
+        android:id="@+id/tv_issue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/jtv_dispatch_title"
+        android:layout_marginLeft="@dimen/dimen_28"
+        android:layout_marginTop="@dimen/dimen_6"
+        android:layout_toRightOf="@+id/rl_dispatch_icon"
+        android:text="Issue: "
+        android:textColor="#666666"
+        android:textSize="@dimen/dimen_26" />
+    <TextView
         android:id="@+id/tv_dispatch_issue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/jtv_dispatch_title"
-        android:layout_marginLeft="@dimen/dimen_28"
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_6"
+        android:layout_toRightOf="@+id/tv_issue"
+        android:text="1234"
+        android:textColor="#666666"
+        android:textSize="@dimen/dimen_26" />
+
+    <TextView
+        android:id="@+id/tv_participate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_issue"
+        android:layout_marginLeft="@dimen/dimen_28"
+        android:layout_marginTop="@dimen/dimen_6"
         android:layout_toRightOf="@+id/rl_dispatch_icon"
-        android:text="Issue:171754"
+        android:text="I participation: "
         android:textColor="#666666"
         android:textSize="@dimen/dimen_26" />
 
@@ -110,12 +132,11 @@
         android:id="@+id/tv_dispatch_participate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_dispatch_issue"
-        android:layout_marginLeft="@dimen/dimen_28"
+        android:layout_below="@+id/tv_issue"
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_6"
-        android:layout_toRightOf="@+id/rl_dispatch_icon"
-        android:text="I participation:1"
+        android:layout_toRightOf="@+id/tv_participate"
+        android:text="1"
         android:textColor="#666666"
         android:textSize="@dimen/dimen_26" />
 

@@ -48,13 +48,33 @@
             android:textSize="@dimen/dimen_28" />
 
         <TextView
-            android:id="@+id/tv_lucky_issue"
+            android:id="@+id/tv_issue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/jtv_lucky_discribe"
             android:layout_marginLeft="@dimen/dimen_26"
             android:layout_toRightOf="@+id/rl_all"
-            android:text="Issue：171754"
+            android:text="Issue："
+            android:textColor="#666666"
+            android:textSize="@dimen/dimen_28" />
+        <TextView
+            android:id="@+id/tv_lucky_issue"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_below="@id/jtv_lucky_discribe"
+            android:layout_toRightOf="@+id/tv_issue"
+            android:text="171754"
+            android:textColor="#666666"
+            android:textSize="@dimen/dimen_28" />
+
+        <TextView
+            android:id="@+id/tv_participation"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_below="@id/tv_lucky_issue"
+            android:layout_marginLeft="@dimen/dimen_26"
+            android:layout_toRightOf="@+id/rl_all"
+            android:text="My participation: "
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
 
@@ -63,9 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/tv_lucky_issue"
-            android:layout_marginLeft="@dimen/dimen_26"
-            android:layout_toRightOf="@+id/rl_all"
-            android:text="My participation: 1"
+            android:layout_toRightOf="@+id/tv_participation"
+            android:text="1"
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
 

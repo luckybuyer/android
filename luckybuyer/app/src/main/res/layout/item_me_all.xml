@@ -47,13 +47,34 @@
             android:textSize="@dimen/dimen_28" />
 
         <TextView
-            android:id="@+id/tv_all_issue"
+            android:id="@+id/tv_issue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/jtv_all_discribe"
             android:layout_marginLeft="@dimen/dimen_30"
             android:layout_toRightOf="@+id/rl_all"
-            android:text="Issue：171754"
+            android:text="Issue："
+            android:textColor="#666666"
+            android:textSize="@dimen/dimen_28" />
+
+        <TextView
+            android:id="@+id/tv_all_issue"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_below="@id/jtv_all_discribe"
+            android:layout_toRightOf="@+id/tv_issue"
+            android:text="171754"
+            android:textColor="#666666"
+            android:textSize="@dimen/dimen_28" />
+
+        <TextView
+            android:id="@+id/tv_participation"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_38"
+            android:layout_below="@id/tv_all_issue"
+            android:layout_marginLeft="@dimen/dimen_30"
+            android:layout_toRightOf="@+id/rl_all"
+            android:text="My participation: "
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
 
@@ -62,9 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_38"
             android:layout_below="@id/tv_all_issue"
-            android:layout_marginLeft="@dimen/dimen_30"
-            android:layout_toRightOf="@+id/rl_all"
-            android:text="My participation: 1"
+            android:layout_toRightOf="@+id/tv_participation"
+            android:text="1"
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
 
@@ -95,12 +115,21 @@
 
 
     <TextView
-        android:id="@+id/tv_all_shares"
+        android:id="@+id/tv_shares"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_32"
         android:layout_marginLeft="@dimen/dimen_28"
         android:layout_marginTop="@dimen/dimen_274"
-        android:text="Total: 8888"
+        android:text="Total: "
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/dimen_24" />
+    <TextView
+        android:id="@+id/tv_all_shares"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_32"
+        android:layout_toRightOf="@+id/tv_shares"
+        android:layout_marginTop="@dimen/dimen_274"
+        android:text="8888"
         android:textColor="@color/text_gray"
         android:textSize="@dimen/dimen_24" />
 
@@ -116,13 +145,24 @@
         android:progressDrawable="@drawable/home_product_progress"
         android:indeterminate="false" />
 
+
     <TextView
         android:id="@+id/tv_all_leftshares"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_32"
         android:layout_alignRight="@id/pb_all_progress"
         android:layout_marginTop="@dimen/dimen_274"
-        android:text="Remain:88"
+        android:text="88"
+        android:textColor="@color/text_gray"
+        android:textSize="@dimen/dimen_24" />
+
+    <TextView
+        android:layout_toLeftOf="@+id/tv_all_leftshares"
+        android:id="@+id/tv_leftshares"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_32"
+        android:layout_marginTop="@dimen/dimen_274"
+        android:text="Remain: "
         android:textColor="@color/text_gray"
         android:textSize="@dimen/dimen_24" />
 

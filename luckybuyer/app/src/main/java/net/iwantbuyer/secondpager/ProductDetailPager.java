@@ -88,6 +88,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
     private RelativeLayout rl_productdetail_allview;
     private TextView tv_productdetail_producttitle;
     private TextView tv_productdetail_issue;           //当前轮
+    private TextView tv_issue;           //当前轮
     private TextView tv_productdetail_totalicon;      //总数
     private TextView tv_productdetail_total;      //总数
     private TextView tv_productdetail_icon;           //剩余金币
@@ -188,7 +189,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     tv_insert_all.setHovered(false);
                     break;
                 case MORE_DATA:
-                    Log.e("TAG", "接收到消息");
                     ll_loading_data.setVisibility(View.GONE);
                     break;
             }
@@ -234,6 +234,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 NewData();
                 tv_productdetail_inprogress.setVisibility(View.VISIBLE);
                 tv_productdetail_issue.setVisibility(View.VISIBLE);
+                tv_issue.setVisibility(View.VISIBLE);
                 tv_productdetail_totalicon.setVisibility(View.VISIBLE);
                 tv_productdetail_icon.setVisibility(View.VISIBLE);
                 pb_productdetail_progress.setVisibility(View.VISIBLE);
@@ -460,6 +461,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         rl_productdetail_allview = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_allview);
         tv_productdetail_producttitle = (TextView) inflate.findViewById(R.id.tv_productdetail_producttitle);
         tv_productdetail_issue = (TextView) inflate.findViewById(R.id.tv_productdetail_issue);
+        tv_issue = (TextView) inflate.findViewById(R.id.tv_issue);
         tv_productdetail_totalicon = (TextView) inflate.findViewById(R.id.tv_productdetail_totalicon);
         tv_productdetail_icon = (TextView) inflate.findViewById(R.id.tv_productdetail_icon);
         pb_productdetail_progress = (ProgressBar) inflate.findViewById(R.id.pb_productdetail_progress);
@@ -539,6 +541,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         if ("running".equals(productDetailBean.getStatus())) {
             tv_productdetail_inprogress.setVisibility(View.VISIBLE);
             tv_productdetail_issue.setVisibility(View.VISIBLE);
+            tv_issue.setVisibility(View.VISIBLE);
             pb_productdetail_progress.setVisibility(View.VISIBLE);
             rl_productdetail_indsertcoins.setVisibility(View.VISIBLE);
 
@@ -564,7 +567,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             long time = Utils.Iso8601ToLong(finishTime);
             rl_productdetail_countdown.setVisibility(View.VISIBLE);
 //            rl_productdetail_calculation.setVisibility(View.VISIBLE);
-            tv_productdetail_countdownissue.setText("Issue:" + productDetailBean.getIssue_id());
+            tv_productdetail_countdownissue.setText("" + productDetailBean.getIssue_id());
             ((SecondPagerActivity) context).countDownTimer = new MyCountDownTimer(time, 10).start();
 
             ll_productdetail_buyit.setOnClickListener(new View.OnClickListener() {
@@ -576,6 +579,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             rl_productdetail_indsertcoins.setVisibility(View.GONE);
             tv_productdetail_inprogress.setVisibility(View.GONE);
             tv_productdetail_issue.setVisibility(View.GONE);
+            tv_issue.setVisibility(View.GONE);
             pb_productdetail_progress.setVisibility(View.GONE);
             tv_productdetail_totalicon.setVisibility(View.GONE);
             tv_productdetail_total.setVisibility(View.GONE);
@@ -590,6 +594,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 //            rl_productdetail_calculation.setVisibility(View.VISIBLE);
             tv_productdetail_inprogress.setVisibility(View.VISIBLE);
             tv_productdetail_issue.setVisibility(View.VISIBLE);
+            tv_issue.setVisibility(View.VISIBLE);
 
             if (isMyBuy) {
                 tv_productdetail_inprogress.setText("Announced");
@@ -636,7 +641,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         tv_productdetail_producttitle.setText(productDetailBean.getProduct().getTitle());
         tv_productdetail_discribe.setText(productDetailBean.getProduct().getDetail());
 
-        tv_productdetail_issue.setText("Issue:" + productDetailBean.getIssue_id());
+        tv_productdetail_issue.setText("" + productDetailBean.getIssue_id());
 
         tv_productdetail_totalicon.setText(productDetailBean.getShares() + "");
 
@@ -679,7 +684,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             params.leftMargin = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky)).getWidth() + DensityUtil.px2dip(context, 34);
             rl_productdetail_mybuy.setLayoutParams(params);
         }
-        String str = "Participation numbers:";
+        String str = "";
         int count = 0;
         for (int i =0;i < myBuyBean.getMybuy().size();i++){
             for (int j = 0;j < myBuyBean.getMybuy().get(i).getNumbers().size();j++){
@@ -688,7 +693,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             }
         }
 
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_mybuyparticipate)).setText("My participation:" + count);
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_mybuyparticipate)).setText("" + count);
         ((TextView) inflate.findViewById(R.id.tv_productdetail_mybuynum)).setText(str);
 
     }
@@ -823,10 +828,10 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     private void setLucky() {
         ((TextView) inflate.findViewById(R.id.tv_productdetail_typesomething)).setText(productDetailBean.getLucky_user().getProfile().getName());
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckynum)).setText("Smart Number：" + productDetailBean.getLucky_number() + "");
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckyid)).setText("User ID:" + productDetailBean.getLucky_user().getId() + "");
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckytime)).setText("Lottery time:" + productDetailBean.getFinished_at().substring(0, 19).replace("T", "\t"));
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckymany)).setText("Number of participants:" + productDetailBean.getLucky_order().getTotal_shares() + "");
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckynum)).setText("" + productDetailBean.getLucky_number() + "");
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckyid)).setText("" + productDetailBean.getLucky_user().getId() + "");
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckytime)).setText("" + productDetailBean.getFinished_at().substring(0, 19).replace("T", "\t"));
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckymany)).setText("" + productDetailBean.getLucky_order().getTotal_shares() + "");
         final RoundCornerImageView civ_productdetail_lucky = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky));
         boolean flag = ((SecondPagerActivity) context).isDestroyed();
         if (!flag) {

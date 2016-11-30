@@ -66,7 +66,6 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
             }else {
                 holder.tv_buyconis_free.setVisibility(View.GONE);
             }
-
         }
         holder.tv_buyconis_usd.setText(list.get(position).getPrice() + " USD");
 

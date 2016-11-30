@@ -98,6 +98,7 @@
 
                         <!--倒计时-->
                         <RelativeLayout
+                            android:visibility="gone"
                             android:layout_marginLeft="@dimen/dimen_24"
                             android:layout_marginRight="@dimen/dimen_24"
                             android:id="@+id/rl_productdetail_countdown"
@@ -106,17 +107,26 @@
                             android:layout_below="@id/tv_productdetail_discribe"
                             android:layout_marginTop="@dimen/dimen_40"
                             android:layout_marginBottom="@dimen/dimen_20"
-                            android:background="@color/ff9c05"
-                            android:visibility="gone">
+                            android:background="@color/ff9c05">
 
                             <TextView
-                                android:id="@+id/tv_productdetail_countdownissue"
+                                android:id="@+id/tv_countdownissue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/dimen_20"
                                 android:layout_marginTop="@dimen/dimen_16"
                                 android:gravity="center"
-                                android:text="Issue: 42"
+                                android:text="Issue: "
+                                android:textSize="@dimen/dimen_28"
+                                android:textColor="@color/text_white" />
+                            <TextView
+                                android:id="@+id/tv_productdetail_countdownissue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/tv_countdownissue"
+                                android:layout_marginTop="@dimen/dimen_16"
+                                android:gravity="center"
+                                android:text="2"
                                 android:textSize="@dimen/dimen_28"
                                 android:textColor="@color/text_white" />
 
@@ -265,14 +275,25 @@
                             android:textSize="@dimen/dimen_26" />
 
                         <TextView
-                            android:id="@+id/tv_productdetail_issue"
+                            android:id="@+id/tv_issue"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_40"
                             android:layout_below="@+id/tv_productdetail_discribe"
                             android:layout_marginBottom="@dimen/dimen_20"
                             android:layout_marginLeft="@dimen/dimen_24"
                             android:layout_marginTop="@dimen/dimen_25"
-                            android:text="Issue：171754"
+                            android:text="Issue："
+                            android:textColor="#666666"
+                            android:textSize="@dimen/dimen_28" />
+                        <TextView
+                            android:id="@+id/tv_productdetail_issue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_40"
+                            android:layout_below="@+id/tv_productdetail_discribe"
+                            android:layout_marginBottom="@dimen/dimen_20"
+                            android:layout_marginTop="@dimen/dimen_25"
+                            android:layout_toRightOf="@+id/tv_issue"
+                            android:text="171754"
                             android:textColor="#666666"
                             android:textSize="@dimen/dimen_28" />
 

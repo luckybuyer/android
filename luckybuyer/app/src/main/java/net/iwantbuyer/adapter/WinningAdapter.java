@@ -77,7 +77,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.jtv_winning_title.setText(list.get(position).getProduct().getTitle());
-        holder.item_winning_issue.setText("Issue: " + list.get(position).getIssue_id());
+        holder.item_winning_issue.setText("" + list.get(position).getIssue_id());
         Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -176,7 +176,6 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        Log.e("TAG", list.size()+"");
         return list.size();
     }
 

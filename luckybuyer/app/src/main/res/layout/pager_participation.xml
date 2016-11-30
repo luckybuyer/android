@@ -88,15 +88,25 @@
             android:textSize="@dimen/dimen_26" />
 
         <TextView
+            android:id="@+id/tv_period"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_36"
+            android:layout_below="@+id/tv_participation_discribe"
+            android:layout_marginLeft="@dimen/dimen_30"
+            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_toRightOf="@+id/rl_participation_icon"
+            android:text="Participation period: "
+            android:textColor="#999999"
+            android:textSize="@dimen/dimen_26" />
+        <TextView
             android:id="@+id/tv_participation_period"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@+id/tv_participation_discribe"
-            android:layout_marginLeft="@dimen/dimen_30"
             android:layout_marginRight="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/rl_participation_icon"
-            android:text="Participation period:"
+            android:layout_toRightOf="@+id/tv_period"
+            android:text="1234"
             android:textColor="#999999"
             android:textSize="@dimen/dimen_26" />
 
@@ -177,6 +187,7 @@
             android:layout_marginTop="@dimen/dimen_2" />
     </RelativeLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

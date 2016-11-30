@@ -42,7 +42,7 @@ public class previousWinnersAdapter extends RecyclerView.Adapter<previousWinners
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.tv_previous_issue.setText("[Issue:" + list.get(position).getIssue_id() + "]");
+        holder.tv_previous_issue.setText(list.get(position).getIssue_id() + "");
         holder.tv_previous_time.setText(list.get(position).getFinished_at().substring(0, 19).replace("T", " "));
         holder.tv_previous_name.setText(list.get(position).getLucky_user().getProfile().getName() + "");
         holder.tv_previous_participation.setText(list.get(position).getLucky_order().getTotal_shares() + "");
