@@ -575,6 +575,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 public void onClick(View view) {
                 }
             });
+
             //原先控件隐藏
             rl_productdetail_indsertcoins.setVisibility(View.GONE);
             tv_productdetail_inprogress.setVisibility(View.GONE);

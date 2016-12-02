@@ -12,17 +12,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_40"
         android:gravity="center"
-        android:text="Important information"
+        android:text="@string/Importantinformation"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_36" />
 
     <net.iwantbuyer.view.JustifyTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_44"
-        android:layout_marginRight="@dimen/dimen_44"
+        android:layout_marginStart="@dimen/dimen_44"
+        android:layout_marginEnd="@dimen/dimen_44"
         android:layout_marginTop="@dimen/dimen_30"
-        android:text="When current address confirmed, the items will be shipped. The address cannot be changed during shippment. Be cautious on choosing address."
+        android:text="@string/addresswarn"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_30" />
 
@@ -47,7 +47,7 @@
             android:layout_marginTop="@dimen/dimen_25"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Cancel"
+            android:text="@string/Cancel"
             android:textColor="#ff9c06"
             android:textSize="@dimen/dimen_34" />
 
@@ -60,7 +60,7 @@
             android:layout_marginTop="@dimen/dimen_25"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="OK"
+            android:text="@string/OK"
             android:textColor="#ff9c06"
             android:textSize="@dimen/dimen_34" />
     </LinearLayout>

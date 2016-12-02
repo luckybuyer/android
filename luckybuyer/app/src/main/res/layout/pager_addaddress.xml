@@ -19,44 +19,40 @@
             android:layout_marginBottom="@dimen/dimen_18"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Add Address"
+            android:text="@string/Addaddress"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_42" />
 
         <TextView
             android:id="@+id/tv_addaddress_save"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_40"
-            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginEnd="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_57"
             android:gravity="center"
-            android:text="Save"
+            android:paddingBottom="@dimen/dimen_24"
+            android:text="@string/Save"
             android:textColor="@color/selecotr_addaddress_save_textcolor"
             android:textSize="@dimen/dimen_32" />
 
-        <ImageView
-            android:id="@+id/iv_addaddress_back"
-            android:layout_width="@dimen/dimen_20"
-            android:layout_height="@dimen/dimen_36"
-            android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_66"
-            android:background="@drawable/go_back" />
+        <LinearLayout
+            android:id="@+id/ll_addaddress_back"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_addaddress_back"
-            android:layout_width="@dimen/dimen_78"
-            android:layout_height="@dimen/dimen_36"
-            android:layout_alignTop="@id/iv_addaddress_back"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/iv_addaddress_back"
-            android:gravity="center"
-            android:text="Back"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_28" />
+            <ImageView
+                android:id="@+id/iv_addaddress_back"
+                android:layout_width="@dimen/dimen_20"
+                android:layout_height="@dimen/dimen_36"
+                android:layout_marginBottom="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_66"
+                android:background="@drawable/go_back" />
+
+        </LinearLayout>
+
 
         <ImageView
             android:layout_width="match_parent"
@@ -87,13 +83,14 @@
             <EditText
                 android:id="@+id/et_addaddress_firstname"
                 android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
-                android:layout_marginLeft="@dimen/dimen_24"
+                android:layout_height="@dimen/dimen_50"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_80"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="First Name"
-                android:maxLines="1"
+                android:hint="@string/firstname"
+                android:paddingBottom="@dimen/dimen_16"
+                android:singleLine="true"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -102,21 +99,21 @@
                 android:layout_width="@dimen/dimen_320"
                 android:layout_height="1px"
                 android:layout_below="@+id/et_addaddress_firstname"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_16"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
 
             <EditText
                 android:id="@+id/et_addaddress_lastname"
                 android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
-                android:layout_marginLeft="@dimen/dimen_36"
+                android:layout_height="@dimen/dimen_50"
+                android:layout_marginStart="@dimen/dimen_36"
                 android:layout_marginTop="@dimen/dimen_80"
-                android:layout_toRightOf="@+id/et_addaddress_firstname"
+                android:layout_toEndOf="@+id/et_addaddress_firstname"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Last Name"
+                android:hint="@string/lastname"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/dimen_16"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -124,19 +121,18 @@
                 android:id="@+id/view_addaddress_lastname"
                 android:layout_width="@dimen/dimen_320"
                 android:layout_height="1px"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_below="@+id/et_addaddress_firstname"
-                android:layout_marginRight="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_16"
+                android:layout_marginEnd="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
 
             <TextView
                 android:id="@+id/tv_addaddress_firstname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_44"
-                android:text="First Name"
+                android:text="@string/firstname"
                 android:textColor="#C0BFC7"
                 android:textSize="@dimen/dimen_22"
                 android:visibility="gone" />
@@ -145,10 +141,10 @@
                 android:id="@+id/tv_addaddress_lastname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_36"
+                android:layout_marginStart="@dimen/dimen_36"
                 android:layout_marginTop="@dimen/dimen_44"
-                android:layout_toRightOf="@+id/et_addaddress_firstname"
-                android:text="Last Name"
+                android:layout_toEndOf="@+id/et_addaddress_firstname"
+                android:text="@string/lastname"
                 android:textColor="#C0BFC7"
                 android:textSize="@dimen/dimen_22"
                 android:visibility="gone" />
@@ -157,14 +153,15 @@
             <EditText
                 android:id="@+id/et_addaddress_country"
                 android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/et_addaddress_firstname"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_104"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_88"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Type in country"
+                android:hint="@string/Entercountry"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/dimen_6"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -173,9 +170,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/et_addaddress_country"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
 
             <TextView
@@ -183,24 +179,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_addaddress_country"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:text="Enter country"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_6"
+                android:text="@string/Entercountry"
                 android:textColor="#FE5745"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_addaddress_topcountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_addaddress_firstname"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_62"
+                android:text="@string/Country"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"
                 android:visibility="gone" />
 
 
             <EditText
                 android:id="@+id/et_addaddress_city"
                 android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/et_addaddress_country"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_112"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_88"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Type in city"
+                android:hint="@string/Entercity"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/dimen_6"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -209,33 +218,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/et_addaddress_city"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
+
+            <TextView
+                android:id="@+id/tv_addaddress_topcity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_addaddress_country"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_62"
+                android:text="@string/City"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_addaddress_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_addaddress_city"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:text="Enter city"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_6"
+                android:text="@string/Entercity"
                 android:textColor="#FE5745"
                 android:visibility="gone" />
 
             <EditText
                 android:id="@+id/et_addaddress_area"
                 android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/et_addaddress_city"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_112"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_88"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Area"
+                android:hint="@string/Area"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/dimen_6"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -244,33 +265,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/et_addaddress_area"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
+
+            <TextView
+                android:id="@+id/tv_addaddress_toparea"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_addaddress_city"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_62"
+                android:text="@string/Area"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_addaddress_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_addaddress_area"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:text="Enter area"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_6"
+                android:text="@string/Enterarea"
                 android:textColor="#FE5745"
                 android:visibility="gone" />
 
             <EditText
                 android:id="@+id/et_addaddress_street"
                 android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/et_addaddress_area"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_112"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_88"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Street"
+                android:hint="@string/Street"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/dimen_6"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -279,33 +312,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/et_addaddress_street"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
+
+            <TextView
+                android:id="@+id/tv_addaddress_topstrest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_addaddress_area"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_62"
+                android:text="@string/Street"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_addaddress_street"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_addaddress_street"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:text="Enter Street"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_6"
+                android:text="@string/Enterstreet"
                 android:textColor="#FE5745"
                 android:visibility="gone" />
 
             <EditText
                 android:id="@+id/et_addaddress_build"
-                android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/et_addaddress_street"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_112"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_88"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Building"
+                android:hint="@string/Building"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/dimen_6"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -314,44 +360,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/et_addaddress_build"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
+
+            <TextView
+                android:id="@+id/tv_addaddress_topbuilding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_addaddress_street"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_62"
+                android:text="@string/Building"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_addaddress_build"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_addaddress_build"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:text="Enter Building Name/No."
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_6"
+                android:text="@string/EnterBuilding"
                 android:textColor="#FE5745"
                 android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/rl_addaddress_locationtype"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/et_addaddress_build"
                 android:layout_marginTop="@dimen/dimen_112">
 
                 <TextView
                     android:id="@+id/tv_addaddress_locationtype"
                     android:layout_width="@dimen/dimen_320"
-                    android:layout_height="@dimen/dimen_34"
-                    android:layout_marginLeft="@dimen/dimen_24"
-                    android:hint="Location Type"
+                    android:layout_height="@dimen/dimen_58"
+                    android:layout_marginStart="@dimen/dimen_24"
+                    android:gravity="bottom"
+                    android:hint="@string/LocationType"
+                    android:paddingBottom="@dimen/dimen_6"
                     android:textColor="#333333"
                     android:textSize="@dimen/dimen_32" />
 
                 <ImageView
                     android:layout_width="@dimen/dimen_23"
                     android:layout_height="@dimen/dimen_13"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dimen_24"
+                    android:layout_marginEnd="@dimen/dimen_24"
                     android:background="@drawable/addaddress_selector" />
 
             </RelativeLayout>
@@ -361,33 +420,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/rl_addaddress_locationtype"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
+
+            <TextView
+                android:id="@+id/tv_addaddress_toptype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_addaddress_build"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_82"
+                android:text="@string/LocationType"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_addaddress_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_addaddress_locationtype"
-                android:layout_marginLeft="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_30"
-                android:text="Select Location Type"
+                android:text="@string/LocationType"
                 android:textColor="#FE5745"
                 android:visibility="gone" />
 
             <EditText
                 android:id="@+id/et_addaddress_mobile"
                 android:layout_width="@dimen/dimen_320"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/rl_addaddress_locationtype"
-                android:layout_marginLeft="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_112"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Mobile number"
+                android:hint="@string/Mobilenumber"
                 android:maxLines="1"
+                android:paddingBottom="@dimen/dimen_6"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
 
@@ -396,19 +468,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/et_addaddress_mobile"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
+
+            <TextView
+                android:id="@+id/tv_addaddress_topmobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/view_addaddress_locationtype"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_62"
+                android:text="@string/Mobilenumber"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_addaddress_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_addaddress_mobile"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginTop="@dimen/dimen_30"
-                android:text="Enter mobile number"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_6"
+                android:text="@string/EnterMobile"
                 android:textColor="#FE5745"
                 android:visibility="gone" />
 
@@ -418,18 +501,15 @@
                 android:layout_height="@dimen/dimen_34"
                 android:layout_below="@+id/et_addaddress_mobile"
                 android:layout_marginBottom="@dimen/dimen_37"
-                android:layout_marginLeft="@dimen/dimen_24"
-                android:layout_marginRight="@dimen/dimen_24"
+                android:layout_marginEnd="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_112"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="Shipping Note"
+                android:hint="@string/ShippingNote"
                 android:maxLines="1"
                 android:textColor="#333333"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
-
     </ScrollView>
-
-
 </RelativeLayout>

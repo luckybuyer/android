@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,8 +41,7 @@ import java.util.Map;
 public class DispatchPager extends BaseNoTrackPager {
 
     private RelativeLayout rl_dispatch_header;
-    private TextView tv_dispatch_back;
-    private ImageView iv_dispatch_back;
+    private LinearLayout ll_dispatch_back;
     private RelativeLayout rl_dispatch_address;
     private RelativeLayout rl_dispatch_participate;
     //商品信息
@@ -132,8 +132,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
     private void findView() {
         rl_dispatch_header = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_header);
-        tv_dispatch_back = (TextView) inflate.findViewById(R.id.tv_dispatch_back);
-        iv_dispatch_back = (ImageView) inflate.findViewById(R.id.iv_dispatchs_back);
+        ll_dispatch_back = (LinearLayout) inflate.findViewById(R.id.ll_dispatch_back);
         iv_dispatch_icon = (ImageView) inflate.findViewById(R.id.iv_dispatch_icon);
         jtv_dispatch_title = (TextView) inflate.findViewById(R.id.jtv_dispatch_title);
         tv_dispatch_issue = (TextView) inflate.findViewById(R.id.tv_dispatch_issue);
@@ -156,8 +155,7 @@ public class DispatchPager extends BaseNoTrackPager {
         tv_dispatch_delivered = (TextView) inflate.findViewById(R.id.tv_dispatch_delivered);
 
 
-        tv_dispatch_back.setOnClickListener(new MyOnClickListener());
-        iv_dispatch_back.setOnClickListener(new MyOnClickListener());
+        ll_dispatch_back.setOnClickListener(new MyOnClickListener());
         tv_dispatch_confirm.setOnClickListener(new MyOnClickListener());
         rl_dispatch_participate.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
@@ -311,10 +309,7 @@ public class DispatchPager extends BaseNoTrackPager {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.tv_dispatch_back:
-                    ((SecondPagerActivity) context).finish();
-                    break;
-                case R.id.iv_dispatchs_back:
+                case R.id.ll_dispatch_back:
                     ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.rl_dispatch_address_content:

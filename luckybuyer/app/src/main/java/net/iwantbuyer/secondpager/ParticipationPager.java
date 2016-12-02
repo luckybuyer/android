@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,8 +31,7 @@ import net.iwantbuyer.utils.HttpUtils;
 public class ParticipationPager extends BasePager{
 
     private RelativeLayout rl_paricipation_header;
-    private ImageView iv_participation_back;
-    private TextView tv_participation_back;
+    private LinearLayout ll_participation_back;
     private ImageView iv_participation_icon;
     private TextView tv_participation_discribe;
     private TextView tv_participation_period;              //购买日期
@@ -133,8 +133,7 @@ public class ParticipationPager extends BasePager{
 
     private void findView() {
         rl_paricipation_header = (RelativeLayout) inflate.findViewById(R.id.rl_paricipation_header);
-        iv_participation_back = (ImageView) inflate.findViewById(R.id.iv_participation_back);
-        tv_participation_back = (TextView) inflate.findViewById(R.id.tv_participation_back);
+        ll_participation_back = (LinearLayout) inflate.findViewById(R.id.ll_participation_back);
         iv_participation_icon = (ImageView) inflate.findViewById(R.id.iv_participation_icon);
         tv_participation_discribe = (TextView) inflate.findViewById(R.id.tv_participation_discribe);
         tv_participation_period = (TextView) inflate.findViewById(R.id.tv_participation_period);
@@ -146,8 +145,7 @@ public class ParticipationPager extends BasePager{
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
 
-        iv_participation_back.setOnClickListener(new MyOnClickListener());
-        tv_participation_back.setOnClickListener(new MyOnClickListener());
+        ll_participation_back.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
     }
 
@@ -155,10 +153,7 @@ public class ParticipationPager extends BasePager{
         @Override
         public void onClick(View view) {
             switch (view.getId()){
-                case R.id.iv_participation_back:
-                    ((ThirdPagerActivity)context).finish();
-                    break;
-                case R.id.tv_participation_back:
+                case R.id.ll_participation_back:
                     ((ThirdPagerActivity)context).finish();
                     break;
                 case R.id.tv_net_again:

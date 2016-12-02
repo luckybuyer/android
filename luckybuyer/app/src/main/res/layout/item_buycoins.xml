@@ -9,7 +9,7 @@
         android:layout_width="@dimen/dimen_325"
         android:layout_height="@dimen/dimen_140"
         android:layout_marginBottom="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:background="@drawable/selector_black_ff9200_bian">
 
         <ImageView
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dimen_34"
                 android:layout_centerHorizontal="true"
-                android:layout_toRightOf="@+id/tv_buyconis_coins"
+                android:layout_toEndOf="@+id/tv_buyconis_coins"
                 android:gravity="center"
                 android:text=" + 1free"
                 android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"

@@ -19,7 +19,7 @@
             android:id="@+id/rl_all"
             android:layout_width="@dimen/dimen_160"
             android:layout_height="@dimen/dimen_160"
-            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_50"
             android:background="@drawable/shape_rl_all"
             android:gravity="center">
@@ -36,10 +36,10 @@
             android:id="@+id/jtv_lucky_discribe"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_72"
-            android:layout_marginLeft="@dimen/dimen_30"
-            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_30"
+            android:layout_marginEnd="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_54"
-            android:layout_toRightOf="@id/rl_all"
+            android:layout_toEndOf="@id/rl_all"
             android:ellipsize="end"
             android:maxEms="10"
             android:maxLines="2"
@@ -52,9 +52,9 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/jtv_lucky_discribe"
-            android:layout_marginLeft="@dimen/dimen_26"
-            android:layout_toRightOf="@+id/rl_all"
-            android:text="Issue："
+            android:layout_marginStart="@dimen/dimen_26"
+            android:layout_toEndOf="@+id/rl_all"
+            android:text="@string/Issue."
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
         <TextView
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/jtv_lucky_discribe"
-            android:layout_toRightOf="@+id/tv_issue"
+            android:layout_toEndOf="@+id/tv_issue"
             android:text="171754"
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
@@ -72,9 +72,9 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/tv_lucky_issue"
-            android:layout_marginLeft="@dimen/dimen_26"
-            android:layout_toRightOf="@+id/rl_all"
-            android:text="My participation: "
+            android:layout_marginStart="@dimen/dimen_26"
+            android:layout_toEndOf="@+id/rl_all"
+            android:text="@string/Myparticipat."
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
 
@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/tv_lucky_issue"
-            android:layout_toRightOf="@+id/tv_participation"
+            android:layout_toEndOf="@+id/tv_participation"
             android:text="1"
             android:textColor="#666666"
             android:textSize="@dimen/dimen_28" />
@@ -92,9 +92,9 @@
             android:id="@+id/iv_lucky_goview"
             android:layout_width="@dimen/dimen_12"
             android:layout_height="@dimen/dimen_22"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@+id/tv_lucky_issue"
-            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginEnd="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_4"
             android:background="@drawable/go_go"
             android:textColor="@color/text_black"
@@ -105,9 +105,9 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_32"
             android:layout_below="@+id/tv_lucky_issue"
-            android:layout_marginRight="@dimen/dimen_8"
-            android:layout_toLeftOf="@id/iv_lucky_goview"
-            android:text="view all"
+            android:layout_marginEnd="@dimen/dimen_8"
+            android:layout_toStartOf="@id/iv_lucky_goview"
+            android:text="@string/viewall"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_24" />
     </RelativeLayout>
@@ -116,7 +116,7 @@
     <ImageView
         android:layout_width="@dimen/dimen_26"
         android:layout_height="@dimen/dimen_22"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_282"
         android:background="@drawable/me_lucky" />
 
@@ -124,9 +124,9 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
         android:layout_marginBottom="@dimen/dimen_30"
-        android:layout_marginLeft="@dimen/dimen_56"
+        android:layout_marginStart="@dimen/dimen_56"
         android:layout_marginTop="@dimen/dimen_280"
-        android:text="Winner:"
+        android:text="@string/Winner."
         android:textColor="#ff9c05"
         android:textSize="@dimen/dimen_26" />
 
@@ -134,7 +134,7 @@
         android:id="@+id/tv_lucky_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_155"
+        android:layout_marginStart="@dimen/dimen_155"
         android:layout_marginTop="@dimen/dimen_280"
         android:text="yangshuyu"
         android:textColor="#ff9c05"
@@ -144,8 +144,8 @@
         android:id="@+id/rl_lucky_address"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_280"
         android:visibility="visible">
 
@@ -154,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="Confirm shipping address"
+            android:text="@string/confirmshippingaddress"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_26" />
 
@@ -163,8 +163,8 @@
             android:layout_width="@dimen/dimen_12"
             android:layout_height="@dimen/dimen_22"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_8"
-            android:layout_toRightOf="@+id/tv_lucky_go"
+            android:layout_marginStart="@dimen/dimen_8"
+            android:layout_toEndOf="@+id/tv_lucky_go"
             android:background="@drawable/go_go" />
 
     </RelativeLayout>
@@ -173,8 +173,8 @@
         android:id="@+id/rl_lucky_continue"
         android:layout_width="@dimen/dimen_180"
         android:layout_height="@dimen/dimen_54"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_270"
         android:background="#ff311a"
         android:visibility="gone"
@@ -184,7 +184,7 @@
             android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Participate again"
+            android:text="@string/Participantagain"
             android:textColor="@color/text_white"
             android:textSize="@dimen/dimen_22" />
     </RelativeLayout>
@@ -193,8 +193,8 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_below="@+id/rl_top"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_40"
         android:background="@color/bg_view"></View>
 </RelativeLayout>

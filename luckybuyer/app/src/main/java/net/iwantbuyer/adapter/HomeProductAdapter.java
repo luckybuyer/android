@@ -52,7 +52,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         int precent = (int) ((list.get(position).getShares()-list.get(position).getLeft_shares())*100/list.get(position).getShares());
         holder.tv_producet_discribe.setText(list.get(position).getProduct().getTitle());
-        holder.tv_product_count.setText("Total " + list.get(position).getShares());
+        holder.tv_product_count.setText("" + list.get(position).getShares());
         holder.pb_product_progress.setProgress((int) ((list.get(position).getShares() - list.get(position).getLeft_shares()) * 100 / list.get(position).getShares()));
         holder.tv_home_percentage.setText(precent+"%");
         Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {

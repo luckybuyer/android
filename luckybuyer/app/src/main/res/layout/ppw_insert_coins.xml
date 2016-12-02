@@ -10,15 +10,15 @@
         android:layout_height="@dimen/dimen_44"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_26"
-        android:text="Please select the quantity"
+        android:text="@string/selectquantity"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_32" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_100"
         android:background="#d8d8d8"></View>
 
@@ -49,9 +49,9 @@
         android:layout_width="@dimen/dimen_88"
         android:layout_height="@dimen/dimen_88"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="@dimen/dimen_20"
+        android:layout_marginEnd="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_150"
-        android:layout_toLeftOf="@+id/rl_insert_num"
+        android:layout_toStartOf="@+id/rl_insert_num"
         android:background="#f6f6f7">
 
         <ImageView
@@ -66,9 +66,9 @@
         android:layout_width="@dimen/dimen_88"
         android:layout_height="@dimen/dimen_88"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_150"
-        android:layout_toRightOf="@+id/rl_insert_num"
+        android:layout_toEndOf="@+id/rl_insert_num"
         android:background="#f6f6f7">
 
         <ImageView
@@ -91,7 +91,7 @@
             android:id="@+id/iv_insert_warn"
             android:layout_width="@dimen/dimen_25"
             android:layout_height="@dimen/dimen_25"
-            android:layout_marginRight="@dimen/dimen_6"
+            android:layout_marginEnd="@dimen/dimen_6"
             android:layout_marginTop="@dimen/dimen_4"
             android:background="@drawable/default_warn"
             android:visibility="gone" />
@@ -100,7 +100,7 @@
             android:id="@+id/tv_insert_warn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_insert_warn"
+            android:layout_toEndOf="@id/iv_insert_warn"
             android:enabled="false"
             android:text="Quantity of purchased items must be a multiple of 5"
             android:textColor="@drawable/selector_ff0000_999999"
@@ -113,8 +113,8 @@
         android:id="@+id/ll_insert_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_64"
-        android:layout_alignLeft="@+id/rl_insert_delete"
-        android:layout_alignRight="@id/rl_insert_add"
+        android:layout_alignStart="@+id/rl_insert_delete"
+        android:layout_alignEnd="@id/rl_insert_add"
         android:layout_below="@+id/rl_insert_warn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_30"
@@ -136,7 +136,7 @@
             android:id="@+id/tv_insert_five"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginStart="@dimen/dimen_20"
             android:layout_weight="3"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
@@ -148,7 +148,7 @@
             android:id="@+id/tv_insert_ten"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginStart="@dimen/dimen_20"
             android:layout_weight="3"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
@@ -160,11 +160,11 @@
             android:id="@+id/tv_insert_all"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginStart="@dimen/dimen_20"
             android:layout_weight="4"
             android:background="@drawable/selector_tv_insert"
             android:gravity="center"
-            android:text="all remain"
+            android:text="@string/allremain"
             android:textSize="@dimen/dimen_28" />
     </LinearLayout>
 
@@ -174,8 +174,8 @@
         android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/ll_insert_selector"
         android:layout_marginBottom="@dimen/dimen_54"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_50"
         android:background="@color/all_orange"
         android:gravity="center"

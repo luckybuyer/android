@@ -11,10 +11,10 @@
         android:id="@+id/jtv_insertcoins_lessicons_discribe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dimen_44"
-        android:layout_marginRight="@dimen/dimen_44"
+        android:layout_marginStart="@dimen/dimen_44"
+        android:layout_marginEnd="@dimen/dimen_44"
         android:layout_marginTop="@dimen/dimen_30"
-        android:text="Delete this address ?"
+        android:text="@string/Deleteaddress"
         android:gravity="center"
         android:layout_gravity="center"
         android:textColor="#333"
@@ -41,7 +41,7 @@
             android:layout_marginTop="@dimen/dimen_25"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Cancel"
+            android:text="@string/Cancel"
             android:textColor="#ff9c06"
             android:textSize="@dimen/dimen_34" />
 
@@ -54,7 +54,7 @@
             android:layout_marginTop="@dimen/dimen_25"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="OK"
+            android:text="@string/OK"
             android:textColor="#ff9c06"
             android:textSize="@dimen/dimen_34" />
     </LinearLayout>

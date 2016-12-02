@@ -38,8 +38,7 @@ import java.util.Map;
 public class CoinDetailPager extends BasePager {
 
     private RelativeLayout rl_coindetail_header;
-    private TextView tv_coindetail_back;
-    private ImageView iv_coindetail_back;
+    private RelativeLayout ll_coindetail_back;
     private TextView tv_coindetail_balance;
     private TextView tv_coindetail_buycoins;
     private RecyclerView rv_coindetail;
@@ -254,8 +253,7 @@ public class CoinDetailPager extends BasePager {
 
     private void findView() {
         rl_coindetail_header = (RelativeLayout) inflate.findViewById(R.id.rl_coindetail_header);
-        tv_coindetail_back = (TextView) inflate.findViewById(R.id.tv_coindetail_back);
-        iv_coindetail_back = (ImageView) inflate.findViewById(R.id.iv_coindetail_back);
+        ll_coindetail_back = (RelativeLayout) inflate.findViewById(R.id.ll_coindetail_back);
         tv_coindetail_balance = (TextView) inflate.findViewById(R.id.tv_coindetail_balance);
         tv_coindetail_buycoins = (TextView) inflate.findViewById(R.id.tv_coindetail_buycoins);
         rv_coindetail = (RecyclerView) inflate.findViewById(R.id.rv_coindetail);
@@ -278,8 +276,7 @@ public class CoinDetailPager extends BasePager {
             }
         });
         //设置监听
-        tv_coindetail_back.setOnClickListener(new MyOnClickListener());
-        iv_coindetail_back.setOnClickListener(new MyOnClickListener());
+        ll_coindetail_back.setOnClickListener(new MyOnClickListener());
         tv_coindetail_buycoins.setOnClickListener(new MyOnClickListener());
     }
 
@@ -289,10 +286,7 @@ public class CoinDetailPager extends BasePager {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.tv_coindetail_back:
-                    ((SecondPagerActivity) context).finish();
-                    break;
-                case R.id.iv_coindetail_back:
+                case R.id.ll_coindetail_back:
                     ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.tv_coindetail_buycoins:

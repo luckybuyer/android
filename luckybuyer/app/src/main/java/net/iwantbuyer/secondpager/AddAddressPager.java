@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -42,9 +43,8 @@ import java.util.Map;
  */
 public class AddAddressPager extends BaseNoTrackPager {
     private RelativeLayout rl_addaddress_header;
-    private ImageView iv_addaddress_back;
-    private TextView tv_addaddress_back;
     private TextView tv_addaddress_save;                          //保存地址
+    private LinearLayout ll_addaddress_back;
 
     private RelativeLayout rl_addaddress_locationtype;
     private EditText et_addaddress_firstname;
@@ -60,6 +60,15 @@ public class AddAddressPager extends BaseNoTrackPager {
     private TextView tv_addaddress_locationtype;
     private TextView tv_addaddress_firstname;
     private TextView tv_addaddress_lastname;
+    private TextView tv_addaddress_topcountry;
+    private TextView tv_addaddress_topcity;
+    private TextView tv_addaddress_toparea;
+    private TextView tv_addaddress_topstrest;
+    private TextView tv_addaddress_topbuilding;
+    private TextView tv_addaddress_toptype;
+    private TextView tv_addaddress_topmobile;
+
+
     private TextView tv_addaddress_country;
     private TextView tv_addaddress_city;
     private TextView tv_addaddress_area;
@@ -106,8 +115,7 @@ public class AddAddressPager extends BaseNoTrackPager {
 
     private void findView() {
         rl_addaddress_header = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress_header);
-        iv_addaddress_back = (ImageView) inflate.findViewById(R.id.iv_addaddress_back);
-        tv_addaddress_back = (TextView) inflate.findViewById(R.id.tv_addaddress_back);
+        ll_addaddress_back = (LinearLayout) inflate.findViewById(R.id.ll_addaddress_back);
         tv_addaddress_save = (TextView) inflate.findViewById(R.id.tv_addaddress_save);
         et_addaddress_firstname = (EditText) inflate.findViewById(R.id.et_addaddress_firstname);
         et_addaddress_lastname = (EditText) inflate.findViewById(R.id.et_addaddress_lastname);
@@ -123,6 +131,15 @@ public class AddAddressPager extends BaseNoTrackPager {
         tv_addaddress_locationtype = (TextView) inflate.findViewById(R.id.tv_addaddress_locationtype);
         tv_addaddress_firstname = (TextView) inflate.findViewById(R.id.tv_addaddress_firstname);
         tv_addaddress_lastname = (TextView) inflate.findViewById(R.id.tv_addaddress_lastname);
+        tv_addaddress_topcountry = (TextView) inflate.findViewById(R.id.tv_addaddress_topcountry);
+        tv_addaddress_topcity = (TextView) inflate.findViewById(R.id.tv_addaddress_topcity);
+        tv_addaddress_toparea = (TextView) inflate.findViewById(R.id.tv_addaddress_toparea);
+        tv_addaddress_topstrest = (TextView) inflate.findViewById(R.id.tv_addaddress_topstrest);
+        tv_addaddress_topbuilding = (TextView) inflate.findViewById(R.id.tv_addaddress_topbuilding);
+        tv_addaddress_toptype = (TextView) inflate.findViewById(R.id.tv_addaddress_toptype);
+        tv_addaddress_topmobile = (TextView) inflate.findViewById(R.id.tv_addaddress_topmobile);
+
+
         tv_addaddress_country = (TextView) inflate.findViewById(R.id.tv_addaddress_country);
         tv_addaddress_city = (TextView) inflate.findViewById(R.id.tv_addaddress_city);
         tv_addaddress_area = (TextView) inflate.findViewById(R.id.tv_addaddress_area);
@@ -148,8 +165,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         rl_addaddress = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress);
 
 
-        iv_addaddress_back.setOnClickListener(new MyOnClickListener());
-        tv_addaddress_back.setOnClickListener(new MyOnClickListener());
+        ll_addaddress_back.setOnClickListener(new MyOnClickListener());
         tv_addaddress_save.setOnClickListener(new MyOnClickListener());
         rl_addaddress_locationtype.setOnClickListener(new MyOnClickListener());
 
@@ -193,37 +209,207 @@ public class AddAddressPager extends BaseNoTrackPager {
             }
         });
 
+
+        //firstname 的长度监听
+        et_addaddress_firstname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_firstname.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_firstname.setVisibility(View.GONE);
+                }
+            }
+        });
+        //lastname 的长度监听
+        et_addaddress_lastname.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_lastname.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_lastname.setVisibility(View.GONE);
+                }
+            }
+        });
+        //country 的长度监听
+        et_addaddress_country.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_topcountry.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_topcountry.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //city 的长度监听
+        et_addaddress_city.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_topcity.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_topcity.setVisibility(View.GONE);
+                }
+            }
+        });
+        //area 的长度监听
+        et_addaddress_area.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_toparea.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_toparea.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        //street 的长度监听
+        et_addaddress_street.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_topstrest.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_topstrest.setVisibility(View.GONE);
+                }
+            }
+        });
+        //build 的长度监听
+        et_addaddress_build.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_topbuilding.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_topbuilding.setVisibility(View.GONE);
+                }
+            }
+        });
+        //locationtype 的长度监听
+        tv_addaddress_locationtype.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_toptype.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_toptype.setVisibility(View.GONE);
+                }
+            }
+        });
+        //mobile 的长度监听
+        et_addaddress_mobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().length()>0) {
+                    tv_addaddress_topmobile.setVisibility(View.VISIBLE);
+                }else {
+                    tv_addaddress_topmobile.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
+
         if (address_id != -1) {
             tv_title.setText("Edit Address");
         } else {
             tv_title.setText("Add Address");
         }
 
-        //软键盘的监听
-//        SoftKeyboardUtil.observeSoftKeyboard((SecondPagerActivity) context, new SoftKeyboardUtil.OnSoftKeyboardChangeListener() {
-//            @Override
-//            public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
-//                if (visible) {
-//                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//                    lp.bottomMargin = softKeybardHeight - 80;
-//                    lp.topMargin = DensityUtil.dip2px(context, 73);
-//                    sv_addaddress.setLayoutParams(lp);
-//                } else {
-//                    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-//                    lp.topMargin = DensityUtil.dip2px(context, 73);
-//                    lp.bottomMargin = 0;
-//                    sv_addaddress.setLayoutParams(lp);
-//
-//                    et_addaddress_firstname.clearFocus();
-//                    et_addaddress_lastname.clearFocus();
-//                    et_addaddress_area.clearFocus();
-//                    et_addaddress_firstname.setHint("Type in first name");
-//                    et_addaddress_lastname.setHint("Type in last name");
-//                    et_addaddress_area.setHint("Type in last area");
-//                }
-//
-//            }
-//        });
 
     }
 
@@ -232,15 +418,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.iv_addaddress_back:
-                    if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(7);
-                    } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(9);
-                    }
-
-                    break;
-                case R.id.tv_addaddress_back:
+                case R.id.ll_addaddress_back:
                     if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
                         ((SecondPagerActivity) context).switchPage(7);
                     } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {

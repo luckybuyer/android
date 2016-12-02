@@ -32,9 +32,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_70"
         android:layout_alignTop="@+id/rl_winning_icon"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
-        android:layout_toRightOf="@+id/rl_winning_icon"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
+        android:layout_toEndOf="@+id/rl_winning_icon"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="Magic sound headphones second generation"
@@ -46,10 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_buycoins_header"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_148"
-        android:layout_toRightOf="@id/rl_winning_icon"
-        android:text="Issue: "
+        android:layout_toEndOf="@id/rl_winning_icon"
+        android:text="@string/Issue."
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_28" />
     <TextView
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_buycoins_header"
         android:layout_marginTop="@dimen/dimen_148"
-        android:layout_toRightOf="@+id/item_issue"
+        android:layout_toEndOf="@+id/item_issue"
         android:text="10020"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_28" />
@@ -67,9 +67,9 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_2"
         android:layout_alignBottom="@+id/rl_winning_icon"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
-        android:layout_toRightOf="@+id/rl_winning_icon"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
+        android:layout_toEndOf="@+id/rl_winning_icon"
         android:background="@color/bg_view"></View>
 
     <TextView
@@ -77,10 +77,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_winning_icon"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_12"
-        android:layout_toRightOf="@id/rl_winning_icon"
-        android:text="Countdown announced"
+        android:layout_toEndOf="@id/rl_winning_icon"
+        android:text="@string/Countdownannounced."
         android:textColor="@color/ff9c05"
         android:textSize="@dimen/dimen_28" />
 
@@ -90,9 +90,9 @@
         android:layout_height="@dimen/dimen_34"
         android:layout_below="@id/tv_winningcountdown"
         android:layout_marginBottom="@dimen/dimen_16"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@+id/rl_winning_icon"
+        android:layout_toEndOf="@+id/rl_winning_icon"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -114,7 +114,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen_26"
             android:layout_height="@dimen/dimen_34"
-            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/dimen_8"
             android:background="#000000"
             android:gravity="center">
 
@@ -130,7 +130,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen_6"
             android:layout_height="@dimen/dimen_20"
-            android:layout_marginLeft="@dimen/dimen_8">
+            android:layout_marginStart="@dimen/dimen_8">
 
             <ImageView
                 android:layout_width="@dimen/dimen_6"
@@ -147,7 +147,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen_26"
             android:layout_height="@dimen/dimen_34"
-            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/dimen_8"
             android:background="#000000"
             android:gravity="center">
 
@@ -163,7 +163,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen_26"
             android:layout_height="@dimen/dimen_34"
-            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/dimen_8"
             android:background="#000000"
             android:gravity="center">
 
@@ -179,7 +179,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen_6"
             android:layout_height="@dimen/dimen_20"
-            android:layout_marginLeft="@dimen/dimen_8">
+            android:layout_marginStart="@dimen/dimen_8">
 
             <ImageView
                 android:layout_width="@dimen/dimen_6"
@@ -196,7 +196,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen_26"
             android:layout_height="@dimen/dimen_34"
-            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/dimen_8"
             android:background="#000000"
             android:gravity="center">
 
@@ -212,7 +212,7 @@
         <RelativeLayout
             android:layout_width="@dimen/dimen_26"
             android:layout_height="@dimen/dimen_34"
-            android:layout_marginLeft="@dimen/dimen_8"
+            android:layout_marginStart="@dimen/dimen_8"
             android:background="#000000"
             android:gravity="center">
 

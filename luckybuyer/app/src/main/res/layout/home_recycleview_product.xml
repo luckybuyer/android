@@ -36,13 +36,24 @@
 
     <TextView
         android:layout_below="@+id/tv_producet_discribe"
-        android:id="@+id/tv_product_count"
+        android:id="@+id/tv_count"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_33"
         android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_12"
+        android:text="@string/Total."
+        android:textColor="#999999"
+        android:textSize="@dimen/dimen_24" />
+
+    <TextView
+        android:layout_below="@+id/tv_producet_discribe"
+        android:id="@+id/tv_product_count"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/tv_count"
+        android:layout_height="@dimen/dimen_33"
         android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_12"
-        android:text="Total 1250"
+        android:text="1250"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
 
@@ -69,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_24"
-            android:text="Claimed: "
+            android:text="@string/Claimed."
             android:textColor="#999999"
             android:textSize="@dimen/dimen_24" />
 

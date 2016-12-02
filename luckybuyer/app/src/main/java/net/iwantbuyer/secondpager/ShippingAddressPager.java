@@ -115,8 +115,6 @@ public class ShippingAddressPager extends BaseNoTrackPager {
 
     private void findView() {
         rl_shipping_header = (RelativeLayout) inflate.findViewById(R.id.rl_shipping_header);
-        iv_shipping_back = (ImageView) inflate.findViewById(R.id.iv_shipping_back);
-        tv_shipping_back = (TextView) inflate.findViewById(R.id.tv_shipping_back);
         tv_shipping_newadd = (TextView) inflate.findViewById(R.id.tv_shipping_newadd);
         rv_shipping_address = (RecyclerView) inflate.findViewById(R.id.rv_shipping_address);
 
@@ -127,8 +125,6 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
         rl_shipping_return = (RelativeLayout) inflate.findViewById(R.id.rl_shipping_return);
 
-        iv_shipping_back.setOnClickListener(new MyOnClickListener());
-        tv_shipping_back.setOnClickListener(new MyOnClickListener());
         tv_shipping_newadd.setOnClickListener(new MyOnClickListener());
         rl_shipping_return.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());

@@ -9,7 +9,7 @@
         android:id="@+id/tv_icondetail_from"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_36"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_24"
         android:text="Paypal Recharge"
         android:textColor="#666666"
@@ -20,7 +20,7 @@
         android:layout_width="@dimen/dimen_26"
         android:layout_height="@dimen/dimen_26"
         android:layout_below="@+id/tv_icondetail_from"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_8"
         android:background="@drawable/productdetail_previous" />
 
@@ -29,9 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_30"
         android:layout_below="@+id/tv_icondetail_from"
-        android:layout_marginLeft="@dimen/dimen_8"
+        android:layout_marginStart="@dimen/dimen_8"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@id/iv_coindetail"
+        android:layout_toEndOf="@id/iv_coindetail"
         android:text="2016-07-15 10:01:41"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
@@ -40,8 +40,8 @@
         android:id="@+id/tv_ciondetail_many"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_40"
         android:text="+50"
         android:textColor="@drawable/selector_ff9c05_black"
@@ -51,8 +51,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_2"
         android:layout_below="@+id/tv_coindetail_time"
-        android:layout_marginLeft="@dimen/dimen_24"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_24"
         android:background="@color/bg_view"></View>
 </RelativeLayout>

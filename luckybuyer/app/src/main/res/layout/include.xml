@@ -14,17 +14,17 @@
     <ImageView
         android:layout_width="@dimen/dimen_26"
         android:layout_height="@dimen/dimen_24"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_36"
         android:background="@drawable/me_lucky" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
-        android:layout_marginLeft="@dimen/dimen_60"
+        android:layout_marginStart="@dimen/dimen_60"
         android:layout_marginTop="@dimen/dimen_30"
         android:gravity="center"
-        android:text="Winners"
+        android:text="@string/Winner"
         android:textColor="#ff9c05"
         android:textSize="@dimen/dimen_26" />
 
@@ -32,8 +32,8 @@
         android:id="@+id/tv_productdetail_luckynum"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_30"
         android:gravity="center"
         android:text="0965389"
@@ -44,9 +44,9 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
         android:layout_marginTop="@dimen/dimen_30"
-        android:layout_toLeftOf="@+id/tv_productdetail_luckynum"
+        android:layout_toStartOf="@+id/tv_productdetail_luckynum"
         android:gravity="center"
-        android:text="Smart Number:"
+        android:text="@string/Luckynumber."
         android:textColor="#ff9c05"
         android:textSize="@dimen/dimen_26" />
 
@@ -60,7 +60,7 @@
         android:id="@+id/civ_productdetail_lucky"
         android:layout_width="@dimen/dimen_65"
         android:layout_height="@dimen/dimen_65"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_130"
         android:src="@drawable/default_icon" />
 
@@ -68,9 +68,9 @@
         android:id="@+id/tv_productdetail_typesomething"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_36"
-        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_130"
-        android:layout_toRightOf="@+id/civ_productdetail_lucky"
+        android:layout_toEndOf="@+id/civ_productdetail_lucky"
         android:text="Type something"
         android:textColor="#666666"
         android:textSize="@dimen/dimen_27" />
@@ -80,9 +80,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_productdetail_typesomething"
-        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@id/civ_productdetail_lucky"
+        android:layout_toEndOf="@id/civ_productdetail_lucky"
         android:text="User ID: "
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_productdetail_typesomething"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@id/tv_luckyid"
+        android:layout_toEndOf="@id/tv_luckyid"
         android:text="109653049"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
@@ -102,10 +102,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_productdetail_luckyid"
-        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@id/civ_productdetail_lucky"
-        android:text="Lottery time: "
+        android:layout_toEndOf="@id/civ_productdetail_lucky"
+        android:text="@string/Lotterytime."
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
     <TextView
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_productdetail_luckyid"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@id/tv_luckytime"
+        android:layout_toEndOf="@id/tv_luckytime"
         android:text="2016-08-02  12:45"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
@@ -125,10 +125,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_productdetail_luckytime"
-        android:layout_marginLeft="@dimen/dimen_20"
+        android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@id/civ_productdetail_lucky"
-        android:text="Number of participants: "
+        android:layout_toEndOf="@id/civ_productdetail_lucky"
+        android:text="@string/Numberofparticipants."
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
     <TextView
@@ -137,7 +137,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_productdetail_luckytime"
         android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toRightOf="@id/tv_luckymany"
+        android:layout_toEndOf="@id/tv_luckymany"
         android:text="40"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
@@ -145,9 +145,9 @@
     <RelativeLayout
         android:id="@+id/rl_productdetail_participation_lucky"
         android:layout_width="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/tv_productdetail_luckymany"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_4"
         android:layout_height="wrap_content">
         <ImageView
@@ -155,16 +155,16 @@
             android:id="@+id/iv_productdetail_luckygo"
             android:layout_width="@dimen/dimen_12"
             android:layout_height="@dimen/dimen_22"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/dimen_4"
             android:background="@drawable/go_go" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/dimen_10"
-            android:layout_toLeftOf="@+id/iv_productdetail_luckygo"
-            android:text="Participation details"
+            android:layout_marginEnd="@dimen/dimen_10"
+            android:layout_toStartOf="@+id/iv_productdetail_luckygo"
+            android:text="@string/Participationdetails"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_24" />
     </RelativeLayout>

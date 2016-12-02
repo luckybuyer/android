@@ -18,7 +18,7 @@
             android:layout_marginBottom="@dimen/dimen_18"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Items confirm"
+            android:text="@string/Itemsconfirm"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_36" />
 
@@ -26,34 +26,29 @@
             android:id="@+id/tv_dispatch_share"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_40"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginEnd="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_66"
             android:gravity="center"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_28" />
 
-        <ImageView
-            android:id="@+id/iv_dispatchs_back"
-            android:layout_width="@dimen/dimen_20"
-            android:layout_height="@dimen/dimen_36"
-            android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_66"
-            android:background="@drawable/go_back" />
+        <LinearLayout
+            android:id="@+id/ll_dispatch_back"
+            android:layout_width="@dimen/dimen_80"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/iv_dispatchs_back"
+                android:layout_width="@dimen/dimen_20"
+                android:layout_height="@dimen/dimen_36"
+                android:layout_marginBottom="@dimen/dimen_24"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_66"
+                android:background="@drawable/go_back" />
 
-        <TextView
-            android:id="@+id/tv_dispatch_back"
-            android:layout_width="@dimen/dimen_78"
-            android:layout_height="@dimen/dimen_32"
-            android:layout_marginLeft="@dimen/dimen_12"
-            android:layout_marginTop="@dimen/dimen_66"
-            android:layout_toRightOf="@+id/iv_dispatchs_back"
-            android:text="Back"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_28" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="match_parent"
@@ -67,7 +62,7 @@
         android:layout_width="@dimen/dimen_140"
         android:layout_height="@dimen/dimen_140"
         android:layout_below="@+id/rl_dispatch_header"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_34"
         android:background="@drawable/shape_rl_all">
 
@@ -83,10 +78,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_dispatch_header"
-        android:layout_marginLeft="@dimen/dimen_28"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_28"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_34"
-        android:layout_toRightOf="@+id/rl_dispatch_icon"
+        android:layout_toEndOf="@+id/rl_dispatch_icon"
         android:ellipsize="end"
         android:maxLines="2"
         android:text="Magic sound headphones second generation"
@@ -98,10 +93,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/jtv_dispatch_title"
-        android:layout_marginLeft="@dimen/dimen_28"
+        android:layout_marginStart="@dimen/dimen_28"
         android:layout_marginTop="@dimen/dimen_6"
-        android:layout_toRightOf="@+id/rl_dispatch_icon"
-        android:text="Issue: "
+        android:layout_toEndOf="@+id/rl_dispatch_icon"
+        android:text="@string/Issue."
         android:textColor="#666666"
         android:textSize="@dimen/dimen_26" />
     <TextView
@@ -109,9 +104,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/jtv_dispatch_title"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_6"
-        android:layout_toRightOf="@+id/tv_issue"
+        android:layout_toEndOf="@+id/tv_issue"
         android:text="1234"
         android:textColor="#666666"
         android:textSize="@dimen/dimen_26" />
@@ -121,10 +116,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_issue"
-        android:layout_marginLeft="@dimen/dimen_28"
+        android:layout_marginStart="@dimen/dimen_28"
         android:layout_marginTop="@dimen/dimen_6"
-        android:layout_toRightOf="@+id/rl_dispatch_icon"
-        android:text="I participation: "
+        android:layout_toEndOf="@+id/rl_dispatch_icon"
+        android:text="@string/Myparticipat."
         android:textColor="#666666"
         android:textSize="@dimen/dimen_26" />
 
@@ -133,9 +128,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_issue"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_6"
-        android:layout_toRightOf="@+id/tv_participate"
+        android:layout_toEndOf="@+id/tv_participate"
         android:text="1"
         android:textColor="#666666"
         android:textSize="@dimen/dimen_26" />
@@ -148,8 +143,8 @@
         android:layout_marginTop="@dimen/dimen_36"
         android:background="#F2F2F4"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dimen_24"
-        android:text="Please confirm shipping address"
+        android:paddingStart="@dimen/dimen_24"
+        android:text="@string/confirmaddress"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_26" />
 
@@ -157,9 +152,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_dispatch_adddiscribe"
-        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_36"
-        android:text="Order tracking"
+        android:text="@string/Ordertracking"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_26" />
 
@@ -175,7 +170,7 @@
             android:id="@+id/tv_disaptch_timepoint1"
             android:layout_width="@dimen/dimen_24"
             android:layout_height="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_8"
             android:background="@drawable/dispatch_black" />
 
@@ -183,10 +178,10 @@
             android:id="@+id/tv_dispatch_discribe1"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
-            android:layout_marginLeft="@dimen/dimen_18"
-            android:layout_toRightOf="@+id/tv_disaptch_timepoint1"
+            android:layout_marginStart="@dimen/dimen_18"
+            android:layout_toEndOf="@+id/tv_disaptch_timepoint1"
             android:gravity="center_horizontal"
-            android:text="Congratulations! You won this product"
+            android:text="@string/youwonthisproduct"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_26" />
 
@@ -194,8 +189,8 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@+id/tv_dispatch_discribe1"
-            android:layout_marginLeft="@dimen/dimen_18"
-            android:layout_toRightOf="@+id/tv_disaptch_timepoint1"
+            android:layout_marginStart="@dimen/dimen_18"
+            android:layout_toEndOf="@+id/tv_disaptch_timepoint1"
             android:gravity="center_horizontal"
             android:text="6-07-13 16:02"
             android:textColor="#999999"
@@ -205,7 +200,7 @@
         <View
             android:layout_width="1px"
             android:layout_height="@dimen/dimen_80"
-            android:layout_marginLeft="@dimen/dimen_36"
+            android:layout_marginStart="@dimen/dimen_36"
             android:layout_marginTop="@dimen/dimen_20"
             android:background="#333333"></View>
     </RelativeLayout>
@@ -222,7 +217,7 @@
             android:id="@+id/iv_disaptch_selector_address"
             android:layout_width="@dimen/dimen_24"
             android:layout_height="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_8"
             android:background="@drawable/selector_dispatch_point" />
 
@@ -230,11 +225,11 @@
             android:id="@+id/tv_disaptch_selector_address"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
-            android:layout_marginLeft="@dimen/dimen_18"
-            android:layout_toRightOf="@+id/iv_disaptch_selector_address"
+            android:layout_marginStart="@dimen/dimen_18"
+            android:layout_toEndOf="@+id/iv_disaptch_selector_address"
             android:enabled="true"
             android:gravity="center_horizontal"
-            android:text="Confirm shipping address"
+            android:text="@string/confirmshippingaddress"
             android:textColor="@drawable/selector_dispatch_textcoclor"
             android:textSize="@dimen/dimen_26" />
 
@@ -243,10 +238,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_disaptch_selector_address"
-            android:layout_marginLeft="@dimen/dimen_18"
-            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_18"
+            android:layout_marginEnd="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_16"
-            android:layout_toRightOf="@+id/iv_disaptch_selector_address">
+            android:layout_toEndOf="@+id/iv_disaptch_selector_address">
 
         </RelativeLayout>
 
@@ -254,7 +249,7 @@
             android:id="@+id/view_address"
             android:layout_width="1px"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dimen_36"
+            android:layout_marginStart="@dimen/dimen_36"
             android:layout_marginTop="@dimen/dimen_20"
             android:background="@drawable/selector_dispatch_view"></View>
     </RelativeLayout>
@@ -271,7 +266,7 @@
             android:id="@+id/iv_disaptch_shipping"
             android:layout_width="@dimen/dimen_24"
             android:layout_height="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_8"
             android:background="@drawable/dispatch_gray" />
 
@@ -279,10 +274,10 @@
             android:id="@+id/tv_dispatch_shipping"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
-            android:layout_marginLeft="@dimen/dimen_18"
-            android:layout_toRightOf="@+id/iv_disaptch_shipping"
+            android:layout_marginStart="@dimen/dimen_18"
+            android:layout_toEndOf="@+id/iv_disaptch_shipping"
             android:gravity="center_horizontal"
-            android:text="Waiting for shippment"
+            android:text="@string/Waitingforshippment"
             android:textColor="#cccccc"
             android:textSize="@dimen/dimen_26" />
 
@@ -291,7 +286,7 @@
             android:id="@+id/view_shipping"
             android:layout_width="1px"
             android:layout_height="@dimen/dimen_80"
-            android:layout_marginLeft="@dimen/dimen_36"
+            android:layout_marginStart="@dimen/dimen_36"
             android:layout_marginTop="@dimen/dimen_20"
             android:background="#cccccc"></View>
     </RelativeLayout>
@@ -308,7 +303,7 @@
             android:id="@+id/iv_disaptch_delivered"
             android:layout_width="@dimen/dimen_24"
             android:layout_height="@dimen/dimen_24"
-            android:layout_marginLeft="@dimen/dimen_24"
+            android:layout_marginStart="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_8"
             android:background="@drawable/dispatch_gray" />
 
@@ -316,10 +311,10 @@
             android:id="@+id/tv_dispatch_delivered"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
-            android:layout_marginLeft="@dimen/dimen_18"
-            android:layout_toRightOf="@+id/iv_disaptch_delivered"
+            android:layout_marginStart="@dimen/dimen_18"
+            android:layout_toEndOf="@+id/iv_disaptch_delivered"
             android:gravity="center_horizontal"
-            android:text="Confirm delivery"
+            android:text="@string/Confirmdelivery"
             android:textColor="#cccccc"
             android:textSize="@dimen/dimen_26" />
     </RelativeLayout>
@@ -329,15 +324,15 @@
         android:id="@+id/tv_dispatch_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/rl_delivered"
-        android:layout_marginRight="@dimen/dimen_24"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:background="@color/bg_ff4f3c"
         android:paddingBottom="@dimen/dimen_8"
-        android:paddingLeft="@dimen/dimen_20"
-        android:paddingRight="@dimen/dimen_20"
+        android:paddingStart="@dimen/dimen_20"
+        android:paddingEnd="@dimen/dimen_20"
         android:paddingTop="@dimen/dimen_8"
-        android:text="Confirm"
+        android:text="@string/Confirm"
         android:textColor="#ffffff"
         android:textSize="@dimen/dimen_30" />
 
@@ -360,7 +355,7 @@
             android:layout_height="@dimen/dimen_80"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="Participate again"
+            android:text="@string/Participantagain"
             android:textColor="#eeff9c05"
             android:textSize="@dimen/dimen_28" />
 
@@ -368,8 +363,8 @@
             android:layout_width="@dimen/dimen_12"
             android:layout_height="@dimen/dimen_22"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_10"
-            android:layout_toRightOf="@+id/tv_dispatch_again"
+            android:layout_marginStart="@dimen/dimen_10"
+            android:layout_toEndOf="@+id/tv_dispatch_again"
             android:background="@drawable/go_yellow" />
     </RelativeLayout>
 
@@ -379,8 +374,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_home_header"
         android:layout_marginTop="@dimen/dimen_128"
-        android:background="@color/f2f2f2"
-        android:visibility="gone">
+        android:background="@color/f2f2f2">
 
         <RelativeLayout
             android:id="@+id/rl_loading"
@@ -398,9 +392,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dimen_8"
-                android:layout_toRightOf="@+id/pb_loading"
-                android:text="Loading..."
+                android:layout_marginStart="@dimen/dimen_8"
+                android:layout_toEndOf="@+id/pb_loading"
+                android:text="@string/loading..."
                 android:textColor="#000000"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
@@ -425,7 +419,7 @@
                 android:layout_below="@+id/iv_neterror"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:text="Network connection error"
+                android:text="@string/Networkfailure"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
 
@@ -438,8 +432,8 @@
                 android:layout_marginTop="@dimen/dimen_80"
                 android:background="@drawable/shape_radius_4pxoragne"
                 android:paddingBottom="@dimen/dimen_12"
-                android:paddingLeft="@dimen/dimen_24"
-                android:paddingRight="@dimen/dimen_24"
+                android:paddingStart="@dimen/dimen_24"
+                android:paddingEnd="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
                 android:text="Retry"
                 android:textColor="@color/text_white"
@@ -459,7 +453,7 @@
                 android:id="@+id/iv_nodata"
                 android:layout_width="@dimen/dimen_250"
                 android:layout_height="@dimen/dimen_300"
-                android:layout_marginLeft="@dimen/dimen_40"
+                android:layout_marginStart="@dimen/dimen_40"
                 android:background="@drawable/default_nodata" />
 
             <TextView
@@ -468,7 +462,7 @@
                 android:layout_below="@+id/iv_nodata"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:text="No previous lottery data"
+                android:text="@string/Nodata"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
         </RelativeLayout>

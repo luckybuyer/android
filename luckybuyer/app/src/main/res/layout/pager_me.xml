@@ -51,18 +51,18 @@
                     android:id="@+id/iv_me_voice"
                     android:layout_width="@dimen/dimen_62"
                     android:layout_height="@dimen/dimen_62"
-                    android:layout_marginRight="@dimen/dimen_110"
+                    android:layout_marginEnd="@dimen/dimen_110"
                     android:layout_marginTop="@dimen/dimen_110"
-                    android:layout_toLeftOf="@+id/civ_me_header"
+                    android:layout_toStartOf="@+id/civ_me_header"
                     android:background="@drawable/me_information" />
 
                 <ImageView
                     android:id="@+id/i_me_set"
                     android:layout_width="@dimen/dimen_62"
                     android:layout_height="@dimen/dimen_62"
-                    android:layout_marginLeft="@dimen/dimen_110"
+                    android:layout_marginStart="@dimen/dimen_110"
                     android:layout_marginTop="@dimen/dimen_110"
-                    android:layout_toRightOf="@+id/civ_me_header"
+                    android:layout_toEndOf="@+id/civ_me_header"
                     android:background="@drawable/me_set" />
 
                 <TextView
@@ -87,33 +87,48 @@
                     android:textColor="@color/text_gray"
                     android:textSize="@dimen/dimen_24" />
 
-                <TextView
-                    android:id="@+id/tv_gold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_36"
+                <LinearLayout
+                    android:id="@+id/ll"
                     android:layout_below="@+id/tv_me_fbcode"
                     android:layout_centerHorizontal="true"
-                    android:text="Gold:$"
-                    android:textColor="#ff9c05"
-                    android:textSize="@dimen/dimen_28" />
-                <TextView
-                    android:id="@+id/tv_me_gold"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_36"
-                    android:layout_below="@+id/tv_me_fbcode"
-                    android:layout_toRightOf="@+id/tv_gold"
-                    android:layout_centerHorizontal="true"
-                    android:text="998"
-                    android:textColor="#ff9c05"
-                    android:textSize="@dimen/dimen_28" />
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/tv_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen_36"
+                        android:layout_below="@+id/tv_me_fbcode"
+                        android:layout_centerHorizontal="true"
+                        android:text="@string/coins."
+                        android:textColor="#ff9c05"
+                        android:textSize="@dimen/dimen_28" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen_36"
+                        android:layout_below="@+id/tv_me_fbcode"
+                        android:layout_centerHorizontal="true"
+                        android:text="$"
+                        android:textColor="#ff9c05"
+                        android:textSize="@dimen/dimen_28" />
+                    <TextView
+                        android:id="@+id/tv_me_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dimen_36"
+                        android:layout_below="@+id/tv_me_fbcode"
+                        android:layout_toEndOf="@+id/tv_gold"
+                        android:layout_centerHorizontal="true"
+                        android:text="998"
+                        android:textColor="#ff9c05"
+                        android:textSize="@dimen/dimen_28" />
+                </LinearLayout>
 
                 <View
                     android:id="@+id/view_shipping"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_2"
-                    android:layout_below="@+id/tv_me_gold"
-                    android:layout_marginLeft="@dimen/dimen_70"
-                    android:layout_marginRight="@dimen/dimen_70"
+                    android:layout_below="@+id/ll"
+                    android:layout_marginStart="@dimen/dimen_70"
+                    android:layout_marginEnd="@dimen/dimen_70"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:background="#cccccc"></View>
 
@@ -122,10 +137,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_86"
                     android:layout_below="@+id/view_shipping"
-                    android:layout_marginLeft="@dimen/dimen_84"
-                    android:layout_marginRight="@dimen/dimen_84"
+                    android:layout_marginStart="@dimen/dimen_84"
+                    android:layout_marginEnd="@dimen/dimen_84"
                     android:layout_marginTop="@dimen/dimen_7"
-                    android:text="Click 'like' on our Facebook page and you'll see a notification when you win items."
+                    android:text="@string/facebooklike"
                     android:textColor="#666666"
                     android:textSize="@dimen/dimen_28" />
 
@@ -134,7 +149,7 @@
                     android:id="@+id/fb_shipping_facebook"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dimen_50"
-                    android:layout_alignLeft="@id/jtv_shipinng_facebook"
+                    android:layout_alignStart="@id/jtv_shipinng_facebook"
                     android:layout_below="@+id/jtv_shipinng_facebook"
                     android:layout_marginBottom="@dimen/dimen_24"
                     android:layout_marginTop="@dimen/dimen_16" />
@@ -184,9 +199,9 @@
                     android:layout_height="@dimen/dimen_40" />
                 <TextView
                     android:id="@+id/tv_loading_data"
-                    android:layout_marginLeft="@dimen/dimen_16"
+                    android:layout_marginStart="@dimen/dimen_16"
                     android:textSize="@dimen/dimen_30"
-                    android:text="loading..."
+                    android:text="@string/loading..."
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -214,11 +229,11 @@
 
                     <TextView
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/dimen_8"
-                        android:layout_toRightOf="@+id/pb_loading"
+                        android:layout_marginStart="@dimen/dimen_8"
+                        android:layout_toEndOf="@+id/pb_loading"
                         android:layout_width="wrap_content"
                         android:textColor="#000000"
-                        android:text="Loading..."
+                        android:text="@string/loading..."
                         android:textSize="@dimen/dimen_32"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
@@ -242,7 +257,7 @@
                         android:layout_below="@+id/iv_neterror"
                         android:textSize="@dimen/dimen_28"
                         android:textColor="#acabb4"
-                        android:text="Network connection error"
+                        android:text="@string/Networkfailure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <TextView
@@ -254,8 +269,8 @@
                         android:layout_marginTop="@dimen/dimen_80"
                         android:background="@drawable/shape_radius_4pxoragne"
                         android:paddingBottom="@dimen/dimen_12"
-                        android:paddingLeft="@dimen/dimen_24"
-                        android:paddingRight="@dimen/dimen_24"
+                        android:paddingStart="@dimen/dimen_24"
+                        android:paddingEnd="@dimen/dimen_24"
                         android:paddingTop="@dimen/dimen_12"
                         android:text="Retry"
                         android:textColor="@color/text_white"
@@ -271,7 +286,7 @@
                     android:layout_marginTop="@dimen/dimen_50"
                     android:layout_height="wrap_content">
                     <ImageView
-                        android:layout_marginLeft="@dimen/dimen_40"
+                        android:layout_marginStart="@dimen/dimen_40"
                         android:id="@+id/iv_nodata"
                         android:layout_width="@dimen/dimen_250"
                         android:background="@drawable/default_nodata"
@@ -283,7 +298,7 @@
                         android:layout_below="@+id/iv_nodata"
                         android:textSize="@dimen/dimen_28"
                         android:textColor="#acabb4"
-                        android:text="No previous lottery data"
+                        android:text="@string/Nodata"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>

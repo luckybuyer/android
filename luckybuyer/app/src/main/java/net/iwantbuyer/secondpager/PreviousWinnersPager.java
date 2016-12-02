@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,8 +25,7 @@ import net.iwantbuyer.utils.HttpUtils;
  */
 public class PreviousWinnersPager extends BasePager {
     private RelativeLayout rl_previous_header;
-    private ImageView iv_previous_back;
-    private TextView tv_previous_back;
+    private LinearLayout ll_previouswinner_back;
     private RecyclerView rv_previous;
     private View inflate;
 
@@ -106,8 +106,7 @@ public class PreviousWinnersPager extends BasePager {
     }
 
     private void findView() {
-        iv_previous_back = (ImageView) inflate.findViewById(R.id.iv_previous_back);
-        tv_previous_back = (TextView) inflate.findViewById(R.id.tv_previous_back);
+        ll_previouswinner_back = (LinearLayout) inflate.findViewById(R.id.ll_previouswinner_back);
         rv_previous = (RecyclerView) inflate.findViewById(R.id.rv_previous);
         rl_previous_header = (RelativeLayout) inflate.findViewById(R.id.rl_previous_header);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
@@ -125,8 +124,7 @@ public class PreviousWinnersPager extends BasePager {
             }
         });
 
-        iv_previous_back.setOnClickListener(new MyOnClickListener());
-        tv_previous_back.setOnClickListener(new MyOnClickListener());
+        ll_previouswinner_back.setOnClickListener(new MyOnClickListener());
     }
 
     class MyOnClickListener implements View.OnClickListener{
@@ -134,10 +132,7 @@ public class PreviousWinnersPager extends BasePager {
         @Override
         public void onClick(View view) {
             switch (view.getId()){
-                case R.id.iv_previous_back:
-                    ((ThirdPagerActivity)context).finish();
-                    break;
-                case R.id.tv_previous_back:
+                case R.id.ll_previouswinner_back:
                     ((ThirdPagerActivity)context).finish();
                     break;
             }

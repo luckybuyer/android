@@ -18,7 +18,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_18"
             android:gravity="center"
-            android:text="New Result"
+            android:text="@string/NewResult"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_36" />
 
@@ -64,9 +64,9 @@
                         android:layout_height="@dimen/dimen_40" />
                     <TextView
                         android:id="@+id/tv_loading_data"
-                        android:layout_marginLeft="@dimen/dimen_16"
+                        android:layout_marginStart="@dimen/dimen_16"
                         android:textSize="@dimen/dimen_30"
-                        android:text="loading..."
+                        android:text="@string/loading..."
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
@@ -101,9 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dimen_8"
-                android:layout_toRightOf="@+id/pb_loading"
-                android:text="Loading..."
+                android:layout_marginStart="@dimen/dimen_8"
+                android:layout_toEndOf="@+id/pb_loading"
+                android:text="@string/loading..."
                 android:textColor="#000000"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
@@ -128,7 +128,7 @@
                 android:layout_below="@+id/iv_neterror"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:text="Network connection error"
+                android:text="@string/Networkfailure"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
 
@@ -141,8 +141,8 @@
                 android:layout_marginTop="@dimen/dimen_80"
                 android:background="@drawable/shape_radius_4pxoragne"
                 android:paddingBottom="@dimen/dimen_12"
-                android:paddingLeft="@dimen/dimen_24"
-                android:paddingRight="@dimen/dimen_24"
+                android:paddingStart="@dimen/dimen_24"
+                android:paddingEnd="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
                 android:text="Retry"
                 android:textColor="@color/text_white"
@@ -162,7 +162,7 @@
                 android:id="@+id/iv_nodata"
                 android:layout_width="@dimen/dimen_250"
                 android:layout_height="@dimen/dimen_300"
-                android:layout_marginLeft="@dimen/dimen_40"
+                android:layout_marginStart="@dimen/dimen_40"
                 android:background="@drawable/default_nodata" />
 
             <TextView
@@ -171,7 +171,7 @@
                 android:layout_below="@+id/iv_nodata"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:text="No previous lottery data"
+                android:text="@string/Nodata"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
         </RelativeLayout>

@@ -15,10 +15,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/dimen_44"
-            android:layout_marginRight="@dimen/dimen_44"
+            android:layout_marginStart="@dimen/dimen_44"
+            android:layout_marginEnd="@dimen/dimen_44"
             android:layout_marginTop="@dimen/dimen_80"
-            android:text="Wow, special offer today only! 110 coins only $100！ "
+            android:text="@string/money100to115"
             android:textColor="#333333"
             android:textSize="@dimen/dimen_32" />
 
@@ -42,7 +42,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="@dimen/dimen_25"
                 android:layout_marginTop="@dimen/dimen_25"
-                android:text="OK"
+                android:text="@string/OK"
                 android:textColor="#ff9c06"
                 android:textSize="@dimen/dimen_34" />
         </RelativeLayout>
