@@ -89,7 +89,6 @@ public class MainActivity extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
-        Log.e("TAG_dimen", getResources().getDimension(R.dimen.dimen_10) + "");
         //auth0登陆
         Auth0 auth0 = new Auth0("6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc", "luckybuyer.auth0.com");
 //        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
@@ -502,10 +501,10 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(buyCoinPager != null && buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
+            if(buyCoinPager != null &&buyCoinPager.wv_buycoins_cashu != null&& buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
                 buyCoinPager.wv_buycoins_cashu.setVisibility(View.GONE);
                 buyCoinPager.ll_buycoins_back.setVisibility(View.GONE);
-                buyCoinPager.tv_title.setText("Buy Coins");
+                buyCoinPager.tv_title.setText(getString(R.string.BuyCoins));
             }else {
                 if ((System.currentTimeMillis() - mExitTime) > 3000) {
                     Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();

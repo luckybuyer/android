@@ -374,7 +374,7 @@ public class DispatchPager extends BaseNoTrackPager {
                                     @Override
                                     public void run() {
                                         HttpUtils.getInstance().stopNetWorkWaiting();
-                                        tv_dispatch_delivered.setText("Delivered");
+                                        tv_dispatch_delivered.setText(context.getString(R.string.Delivered));
                                     }
                                 }
                         );

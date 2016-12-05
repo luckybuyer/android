@@ -22,11 +22,11 @@
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_36" />
 
-        <ImageView
+        <View
             android:layout_width="match_parent"
             android:layout_height="3px"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/default_shadow_top"></ImageView>
+            android:background="@color/bg_view"></View>
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -144,7 +144,7 @@
                 android:paddingStart="@dimen/dimen_24"
                 android:paddingEnd="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>

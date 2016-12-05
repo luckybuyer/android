@@ -18,7 +18,7 @@
             android:layout_marginBottom="@dimen/dimen_18"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Buy Coins"
+            android:text="@string/BuyCoins"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_36" />
 
@@ -485,7 +485,7 @@
                 android:paddingStart="@dimen/dimen_24"
                 android:paddingEnd="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>

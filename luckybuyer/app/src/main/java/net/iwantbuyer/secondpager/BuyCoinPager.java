@@ -172,7 +172,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
             iv_buycoins_goole.setHovered(false);
         }
 
-        if(method.contains("cashu")) {
+        if (method.contains("cashu")) {
             rl_buycoins_cashu.setVisibility(View.VISIBLE);
             iv_buycoins_cashu.setVisibility(View.GONE);
         }
@@ -361,11 +361,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 //        double coins = buyCoinBean.getBuycoins().get(0).getAmount() * 3.6726;                                汇率
 //        coins = ((int) (coins * 100)) / 100;
         tv_buycoins_balance.setText(Utils.getSpData("balance", context));
-        if (buyCoinBean.getBuycoins().get(0).getAmount() == 1) {
-            tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(0).getAmount() + " coin = " + buyCoinBean.getBuycoins().get(0).getPrice() + " USD");
-        } else {
-            tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(0).getAmount() + " coins = " + buyCoinBean.getBuycoins().get(0).getPrice() + " USD");
-        }
+        tv_buycoins_count.setText(context.getString(R.string.Total_) + buyCoinBean.getBuycoins().get(0).getPrice() + context.getString(R.string.USD));
 
         money = buyCoinBean.getBuycoins().get(0).getPrice();
         topup_option_id = buyCoinBean.getBuycoins().get(0).getId();
@@ -374,11 +370,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
             public void onClick(View view, int position) {
                 double coins = buyCoinBean.getBuycoins().get(position).getAmount() * 3.6726;
                 coins = ((int) (coins * 100)) / 100;
-                if (buyCoinBean.getBuycoins().get(position).getAmount() == 1) {
-                    tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(position).getAmount() + " coin = " + buyCoinBean.getBuycoins().get(position).getPrice() + " USD");
-                } else {
-                    tv_buycoins_count.setText(buyCoinBean.getBuycoins().get(position).getAmount() + " coins = " + buyCoinBean.getBuycoins().get(position).getPrice() + " USD");
-                }
+                tv_buycoins_count.setText(context.getString(R.string.Total_) + buyCoinBean.getBuycoins().get(position).getPrice() + context.getString(R.string.USD));
                 money = buyCoinBean.getBuycoins().get(position).getPrice();
                 topup_option_id = buyCoinBean.getBuycoins().get(position).getId();
                 Log.e("TAG_产品id", topup_option_id + "");
@@ -416,10 +408,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.ll_buycoins_back:
-                    if(wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
+                    if (wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
                         wv_buycoins_cashu.setVisibility(View.GONE);
-                        tv_title.setText("Buy Coins");
-                    }else if (context instanceof SecondPagerActivity) {
+                        tv_title.setText(context.getString(R.string.BuyCoins));
+                    } else if (context instanceof SecondPagerActivity) {
                         if (((SecondPagerActivity) context).from.equals("coindetailpager")) {
                             ((SecondPagerActivity) context).switchPage(5);
                         } else if (((SecondPagerActivity) context).from.equals("productdetail")) {
@@ -463,7 +455,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                        } else if(iv_buycoins_cashu.isHovered()) {
+                        } else if (iv_buycoins_cashu.isHovered()) {
                             startCashu();
                             try {
                                 props.put("%method", "cashu");
@@ -634,7 +626,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 super.onProgressChanged(view, newProgress);
                 pb_buycoins_progress.setVisibility(View.VISIBLE);
                 pb_buycoins_progress.setProgress(newProgress);
-                if(newProgress == 100) {
+                if (newProgress == 100) {
                     pb_buycoins_progress.setVisibility(View.GONE);
                 }
             }
@@ -651,7 +643,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 wv_buycoins_cashu.setVisibility(View.GONE);
                 startAlert(false);
                 ll_buycoins_back.setVisibility(View.GONE);
-                tv_title.setText("Buy Coins");
+                tv_title.setText(context.getString(R.string.BuyCoins));
             }
         }
 
@@ -663,18 +655,17 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 requestCoins();
                 startAlert(true);
                 ll_buycoins_back.setVisibility(View.GONE);
-                tv_title.setText("Buy Coins");
+                tv_title.setText(context.getString(R.string.BuyCoins));
             } else if ("http://net.luckybuyer.failure".equals(url)) {  //请求失败
                 wv_buycoins_cashu.setVisibility(View.GONE);
                 startAlert(false);
                 ll_buycoins_back.setVisibility(View.GONE);
-                tv_title.setText("Buy Coins");
+                tv_title.setText(context.getString(R.string.BuyCoins));
             }
         }
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) { //网页加载时的连接的网址
-            Log.e("TAG_zhengzai", url);
             return false;
         }
     }
@@ -771,11 +762,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     private void startAlert(boolean flag) {
         View view = null;
-        if(flag) {
+        if (flag) {
             view = View.inflate(context, R.layout.alertdialog_buycoins_success, null);
             TextView tv_buycoins_success = (TextView) view.findViewById(R.id.tv_buycoins_success);
             tv_buycoins_success.setOnClickListener(new MyOnClickListener());
-        }else if(!flag) {
+        } else if (!flag) {
             view = View.inflate(context, R.layout.alertdialog_buycoins_failure, null);
             TextView tv_buycoins_failure = (TextView) view.findViewById(R.id.tv_buycoins_failure);
             tv_buycoins_failure.setOnClickListener(new MyOnClickListener());

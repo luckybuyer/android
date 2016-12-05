@@ -75,33 +75,12 @@
         android:textColor="#666666"
         android:textSize="@dimen/dimen_27" />
 
-    <TextView
-        android:id="@+id/tv_luckyid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_productdetail_typesomething"
-        android:layout_marginStart="@dimen/dimen_20"
-        android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toEndOf="@id/civ_productdetail_lucky"
-        android:text="User ID: "
-        android:textColor="#999999"
-        android:textSize="@dimen/dimen_24" />
-    <TextView
-        android:id="@+id/tv_productdetail_luckyid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_productdetail_typesomething"
-        android:layout_marginTop="@dimen/dimen_8"
-        android:layout_toEndOf="@id/tv_luckyid"
-        android:text="109653049"
-        android:textColor="#999999"
-        android:textSize="@dimen/dimen_24" />
 
     <TextView
         android:id="@+id/tv_luckytime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_productdetail_luckyid"
+        android:layout_below="@id/tv_productdetail_typesomething"
         android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_8"
         android:layout_toEndOf="@id/civ_productdetail_lucky"
@@ -112,7 +91,7 @@
         android:id="@+id/tv_productdetail_luckytime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_productdetail_luckyid"
+        android:layout_below="@id/tv_productdetail_typesomething"
         android:layout_marginTop="@dimen/dimen_8"
         android:layout_toEndOf="@id/tv_luckytime"
         android:text="2016-08-02  12:45"

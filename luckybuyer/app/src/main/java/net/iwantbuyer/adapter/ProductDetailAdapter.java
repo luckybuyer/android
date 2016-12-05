@@ -99,7 +99,11 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
             });
 
             holder.tv_productdetail_time.setText(list.get(position - 1).getCreated_at().substring(0, 19).replace("T", " "));
-            holder.tv_productdetail_winnermoney.setText(list.get(position - 1).getShares() + "");
+            if(list.get(position - 1).getShares() == 1) {
+                holder.tv_productdetail_winnermoney.setText(context.getString(R.string.onecoin));
+            }else {
+                holder.tv_productdetail_winnermoney.setText(list.get(position - 1).getShares() + context.getString(R.string.coins_coins));
+            }
             holder.tv_productdetail_name.setText(list.get(position - 1).getUser().getProfile().getName());
         }
     }

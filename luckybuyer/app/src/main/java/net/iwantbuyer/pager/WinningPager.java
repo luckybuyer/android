@@ -196,7 +196,7 @@ public class WinningPager extends BaseNoTrackPager {
                 if (isBottom && isMoreData && isNeedpull) {
                     ll_loading_data.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
-                    tv_loading_data.setText("loading...");
+                    tv_loading_data.setText(context.getString(R.string.loading___));
 
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/games/?status=closed&status=finished&per_page=20&page="+page+"&timezone=" + MyApplication.utc;
@@ -224,7 +224,7 @@ public class WinningPager extends BaseNoTrackPager {
                                     } else {
                                         ll_loading_data.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText("no more data");
+                                        tv_loading_data.setText(context.getString(R.string.nomoredata));
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
@@ -244,7 +244,7 @@ public class WinningPager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -262,7 +262,7 @@ public class WinningPager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {

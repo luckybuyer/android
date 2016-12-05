@@ -191,5 +191,4 @@
         android:layout_alignTop="@+id/tv_insert_buy"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_30" />
-
 </RelativeLayout>

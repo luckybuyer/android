@@ -52,7 +52,6 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_shipping, null);
         ViewHolder holder = new ViewHolder(view);
-        Log.e("TAG", "hahaha");
         return holder;
     }
 
@@ -173,6 +172,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                                 @Override
                                 public void run() {
                                     HttpUtils.getInstance().stopNetWorkWaiting();
+                                    Utils.MyToast(context,context.getString(R.string.deletesuccess));
                                 }
                             });
                         }
