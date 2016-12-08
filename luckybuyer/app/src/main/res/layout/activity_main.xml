@@ -12,10 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
+
     <ImageView
         android:layout_width="match_parent"
-        android:background="@drawable/default_shadow_top"
-        android:layout_height="3px" />
+        android:layout_height="3px"
+        android:background="@drawable/default_shadow_top" />
 
     <RadioGroup
         android:id="@+id/rg_main"
@@ -35,28 +36,26 @@
             android:drawablePadding="@dimen/dimen_2"
             android:drawableTop="@drawable/selector_home"
             android:gravity="center"
-            android:textColor="@drawable/selector_999999_ff311a"
-            android:textSize="@dimen/dimen_22"
             android:paddingTop="@dimen/dimen_8"
-            android:text="@string/Home" />
+            android:text="@string/Home"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:textSize="@dimen/dimen_20" />
 
         <RadioButton
-            android:textSize="@dimen/dimen_22"
             android:id="@+id/rb_main_buycoins"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:textColor="@drawable/selector_999999_ff311a"
             android:drawablePadding="@dimen/dimen_2"
             android:drawableTop="@drawable/selector_buycoins"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
-            android:text="@string/BuyCoins" />
+            android:text="@string/BuyCoins"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:textSize="@dimen/dimen_20" />
 
         <RadioButton
-            android:textColor="@drawable/selector_999999_ff311a"
-            android:textSize="@dimen/dimen_22"
             android:id="@+id/rb_main_newresult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,12 +65,12 @@
             android:drawableTop="@drawable/selector__newresult"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
-            android:text="@string/NewResult" />
+            android:text="@string/NewResult"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:textSize="@dimen/dimen_20" />
 
 
         <RadioButton
-            android:textColor="@drawable/selector_999999_ff311a"
-            android:textSize="@dimen/dimen_22"
             android:id="@+id/rb_main_me"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,13 +80,14 @@
             android:drawableTop="@drawable/selector_me"
             android:gravity="center"
             android:paddingTop="@dimen/dimen_8"
-            android:text="@string/MyAccount" />
+            android:text="@string/MyAccount"
+            android:textColor="@drawable/selector_999999_ff311a"
+            android:textSize="@dimen/dimen_20" />
     </RadioGroup>
 
     <RelativeLayout
         android:id="@+id/rl_main"
-        android:background="#000000"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="#000000"></RelativeLayout>
 </LinearLayout>

@@ -220,8 +220,10 @@ public class Utils {
         int w = newOpts.outWidth;
         int h = newOpts.outHeight;
         //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
-        float hh = 800f;//这里设置高度为800f
-        float ww = 480f;//这里设置宽度为480f
+//        float hh = 800f;//这里设置高度为800f
+//        float ww = 480f;//这里设置宽度为480f
+        float hh = 1280;//
+        float ww = 720f;//
         //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
         int be = 1;//be=1表示不缩放
         if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放
@@ -235,7 +237,38 @@ public class Utils {
         //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
         isBm = new ByteArrayInputStream(baos.toByteArray());
         bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
-        return compressImage(bitmap);//压缩好比例大小后再进行质量压缩
+        return bitmap;//压缩好比例大小后再进行质量压缩
+    }
+
+    //减少像素
+    public static Bitmap compressImageFromFile(String srcPath) {
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        newOpts.inJustDecodeBounds = true;//只读边,不读内容
+        Bitmap bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
+
+        newOpts.inJustDecodeBounds = false;
+        int w = newOpts.outWidth;
+        int h = newOpts.outHeight;
+        float hh = 1280;//
+        float ww = 720f;//
+        int be = 1;
+        if (w > h && w > ww) {
+            be = (int) (newOpts.outWidth / ww);
+        } else if (w < h && h > hh) {
+            be = (int) (newOpts.outHeight / hh);
+        }
+        if (be <= 0)
+            be = 1;
+        newOpts.inSampleSize = be;//设置采样率
+
+        newOpts.inPreferredConfig = Bitmap.Config.ARGB_8888;//该模式是默认的,可不设
+        newOpts.inPurgeable = true;// 同时设置才会有效
+        newOpts.inInputShareable = true;//。当系统内存不够时候图片自动被回收
+
+        bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
+//		return compressBmpFromBmp(bitmap);//原来的方法调用了这个方法企图进行二次压缩
+        //其实是无效的,大家尽管尝试
+        return bitmap;
     }
 
     public static void MyToast(Context context, String message) {
@@ -316,10 +349,14 @@ public class Utils {
     public static PopupWindow startPPW(final Activity activity, View view, int width, int height) {
         final PopupWindow mPopupWindow = new PopupWindow(view, width, height);
         mPopupWindow.setFocusable(true);
+        mPopupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
+        mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setBackgroundDrawable(dw);
         mPopupWindow.setOutsideTouchable(false);
+
         mPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         // 设置背景颜色变暗
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
@@ -336,7 +373,6 @@ public class Utils {
         });
         return mPopupWindow;
     }
-
 
     /**
      * ISO8601与现在时间对比

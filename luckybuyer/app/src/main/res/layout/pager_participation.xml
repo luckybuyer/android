@@ -17,7 +17,7 @@
             android:layout_marginBottom="@dimen/dimen_16"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Participation details"
+            android:text="@string/Participationdetails"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_34" />
 
@@ -87,7 +87,7 @@
             android:layout_marginStart="@dimen/dimen_30"
             android:layout_marginTop="@dimen/dimen_8"
             android:layout_toEndOf="@+id/rl_participation_icon"
-            android:text="@string/Participationnumbers"
+            android:text="@string/Participationnumbers."
             android:textColor="#999999"
             android:textSize="@dimen/dimen_26" />
         <TextView
@@ -179,6 +179,7 @@
             android:layout_marginTop="@dimen/dimen_2" />
     </RelativeLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

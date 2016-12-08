@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -107,7 +108,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     holder.iv_all_icon.setImageBitmap(resource);
                 }
             });
-            holder.jtv_all_discribe.setText(list.get(position).getGame().getProduct().getTitle());
+            holder.tv_all_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_all_issue.setText("" + list.get(position).getGame().getIssue_id());
             holder.tv_all_participation.setText("" + list.get(position).getShares());
             holder.tv_all_shares.setText("" + list.get(position).getGame().getShares());
@@ -127,7 +128,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     holder.iv_countdown_icon.setImageBitmap(resource);
                 }
             });
-            holder.jtv_countdown_discribe.setText(list.get(position).getGame().getProduct().getTitle());
+            holder.tv_countdown_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_countdown_issue.setText("" + list.get(position).getGame().getIssue_id());
             holder.tv_countdown_participation.setText("" + list.get(position).getShares());
             String finishTime = list.get(position).getGame().getFinished_at();
@@ -138,6 +139,8 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     SimpleDateFormat formatter = new SimpleDateFormat("mm:ss:SSS");
                     formatter.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
                     String time = formatter.format(l);
+
+                    Log.e("TAG", time);
 
                     holder.tv_countdown_1.setText(time.substring(0, 1));
                     holder.tv_countdown_2.setText(time.substring(1, 2));
@@ -206,7 +209,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     holder.iv_lucky_icon.setImageBitmap(resource);
                 }
             });
-            holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
+            holder.tv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id());
             holder.tv_lucky_participation.setText("" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
@@ -234,7 +237,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             } else if ("finished".equals(status)) {
                 holder.tv_lucky_go.setText(context.getString(R.string.Delivered));
             }
-            holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
+            holder.tv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id());
             holder.tv_lucky_participation.setText("" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
@@ -364,7 +367,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder {
         //all
         private ImageView iv_all_icon;
-        private JustifyTextView jtv_all_discribe;
+        private TextView tv_all_discribe;
         private TextView tv_all_issue;
         private TextView tv_all_participation;
         private TextView tv_all_goview;
@@ -376,7 +379,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private RelativeLayout rl_top;
         //countdown
         private ImageView iv_countdown_icon;
-        private JustifyTextView jtv_countdown_discribe;
+        private TextView tv_countdown_discribe;
         private TextView tv_countdown_issue;
         private TextView tv_countdown_participation;
         private TextView tv_countdown_goview;
@@ -391,7 +394,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
         //luckey
         private ImageView iv_lucky_icon;
-        private JustifyTextView jtv_lucky_discribe;
+        private TextView tv_lucky_discribe;
         private TextView tv_lucky_issue;
         private TextView tv_lucky_participation;
         private TextView tv_lucky_goview;
@@ -405,7 +408,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             super(itemView);
             if (type == 0) {
                 iv_all_icon = (ImageView) itemView.findViewById(R.id.iv_all_icon);
-                jtv_all_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_all_discribe);
+                tv_all_discribe = (TextView) itemView.findViewById(R.id.tv_all_discribe);
                 tv_all_issue = (TextView) itemView.findViewById(R.id.tv_all_issue);
                 tv_all_participation = (TextView) itemView.findViewById(R.id.tv_all_participation);
                 tv_all_goview = (TextView) itemView.findViewById(R.id.tv_all_goview);
@@ -417,7 +420,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
             } else if (type == 1) {
                 iv_countdown_icon = (ImageView) itemView.findViewById(R.id.iv_countdown_icon);
-                jtv_countdown_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_countdown_discribe);
+                tv_countdown_discribe = (TextView) itemView.findViewById(R.id.tv_countdown_discribe);
                 tv_countdown_issue = (TextView) itemView.findViewById(R.id.tv_countdown_issue);
                 tv_countdown_participation = (TextView) itemView.findViewById(R.id.tv_countdown_participation);
                 tv_countdown_goview = (TextView) itemView.findViewById(R.id.tv_countdown_goview);
@@ -432,7 +435,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 tv_countdown_6 = (TextView) itemView.findViewById(R.id.tv_countdown_6);
             } else if (type == 2) {
                 iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
-                jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
+                tv_lucky_discribe = (TextView) itemView.findViewById(R.id.tv_lucky_discribe);
                 tv_lucky_issue = (TextView) itemView.findViewById(R.id.tv_lucky_issue);
                 tv_lucky_participation = (TextView) itemView.findViewById(R.id.tv_lucky_participation);
                 tv_lucky_goview = (TextView) itemView.findViewById(R.id.tv_lucky_goview);
@@ -445,7 +448,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 rl_lucky_address.setVisibility(View.GONE);
             } else if (type == 3) {
                 iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
-                jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
+                tv_lucky_discribe = (TextView) itemView.findViewById(R.id.tv_lucky_discribe);
                 tv_lucky_issue = (TextView) itemView.findViewById(R.id.tv_lucky_issue);
                 tv_lucky_participation = (TextView) itemView.findViewById(R.id.tv_lucky_participation);
                 tv_lucky_goview = (TextView) itemView.findViewById(R.id.tv_lucky_goview);

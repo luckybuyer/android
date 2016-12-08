@@ -16,7 +16,7 @@
             android:layout_marginBottom="@dimen/dimen_16"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Previous winners"
+            android:text="@string/PreviousWinners"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_36" />
 

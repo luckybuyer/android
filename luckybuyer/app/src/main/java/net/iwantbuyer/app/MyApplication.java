@@ -31,5 +31,4 @@ public class MyApplication extends MultiDexApplication{
         String projectToken = "1ad47d43bf1c4784bb8a037f420bebc3"; // e.g.: "1ef7e30d2a58d27f4b90c42e31d6d7ad"     真的
         mixpanel = MixpanelAPI.getInstance(this, projectToken);
     }
-
 }

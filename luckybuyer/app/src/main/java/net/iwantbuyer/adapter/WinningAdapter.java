@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.CountDownTimer;
+import android.support.v4.util.LogWriter;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,7 +77,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.jtv_winning_title.setText(list.get(position).getProduct().getTitle());
+        holder.tv_winning_title.setText(list.get(position).getProduct().getTitle());
         holder.item_winning_issue.setText("" + list.get(position).getIssue_id());
         Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
@@ -184,7 +185,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
         //公共的
         View view;
         ImageView iv_winning_icon;
-        JustifyTextView jtv_winning_title;
+        TextView tv_winning_title;
         TextView item_winning_issue;
 
         //倒计时
@@ -206,7 +207,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
             if(viewType == 0) {
                 view = itemView;
                 iv_winning_icon = (ImageView) itemView.findViewById(R.id.iv_winning_icon);
-                jtv_winning_title = (JustifyTextView) itemView.findViewById(R.id.jtv_winning_title);
+                tv_winning_title = (TextView) itemView.findViewById(R.id.tv_winning_title);
                 item_winning_issue = (TextView) itemView.findViewById(R.id.item_winning_issue);
                 tv_winning_countdown1 = (TextView) itemView.findViewById(R.id.tv_winning_countdown1);
                 tv_winning_countdown2 = (TextView) itemView.findViewById(R.id.tv_winning_countdown2);
@@ -217,7 +218,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
             }else if(viewType == 1) {
                 view = itemView;
                 iv_winning_icon = (ImageView) itemView.findViewById(R.id.iv_winning_icon);
-                jtv_winning_title = (JustifyTextView) itemView.findViewById(R.id.jtv_winning_title);
+                tv_winning_title = (TextView) itemView.findViewById(R.id.tv_winning_title);
                 item_winning_issue = (TextView) itemView.findViewById(R.id.item_winning_issue);
                 tv_winning_luckynum = (TextView) itemView.findViewById(R.id.tv_winning_luckynum);
                 tv_winning_winningname = (TextView) itemView.findViewById(R.id.tv_winning_winningname);

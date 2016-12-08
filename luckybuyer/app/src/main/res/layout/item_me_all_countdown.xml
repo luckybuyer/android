@@ -31,8 +31,8 @@
                 android:background="@drawable/default_icon" />
         </RelativeLayout>
 
-        <net.iwantbuyer.view.JustifyTextView
-            android:id="@+id/jtv_countdown_discribe"
+        <TextView
+            android:id="@+id/tv_countdown_discribe"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_72"
             android:layout_marginStart="@dimen/dimen_30"
@@ -50,7 +50,7 @@
             android:id="@+id/tv_issue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_38"
-            android:layout_below="@id/jtv_countdown_discribe"
+            android:layout_below="@id/tv_countdown_discribe"
             android:layout_marginStart="@dimen/dimen_30"
             android:layout_toEndOf="@+id/rl_all"
             android:text="@string/Issue."
@@ -61,7 +61,7 @@
             android:id="@+id/tv_countdown_issue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_38"
-            android:layout_below="@id/jtv_countdown_discribe"
+            android:layout_below="@id/tv_countdown_discribe"
             android:layout_toEndOf="@+id/tv_issue"
             android:text="171754"
             android:textColor="#666666"
@@ -281,7 +281,7 @@
             android:paddingEnd="@dimen/dimen_3"
             android:text="@string/Participantagain"
             android:textColor="@color/text_white"
-            android:textSize="@dimen/dimen_28" />
+            android:textSize="@dimen/dimen_22" />
     </RelativeLayout>
 
     <View

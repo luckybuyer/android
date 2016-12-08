@@ -64,7 +64,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle() + "");
+        holder.tv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle() + "");
         holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id() + "");
         holder.tv_lucky_participation.setText("" + list.get(position).getGame().getLucky_order().getTotal_shares() + "");
         holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName() + "");
@@ -153,7 +153,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         //luckey
         private ImageView iv_lucky_icon;
-        private JustifyTextView jtv_lucky_discribe;
+        private TextView tv_lucky_discribe;
         private TextView tv_lucky_issue;
         private TextView tv_lucky_participation;
         private TextView tv_lucky_goview;
@@ -166,7 +166,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
-            jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
+            tv_lucky_discribe = (TextView) itemView.findViewById(R.id.tv_lucky_discribe);
             tv_lucky_issue = (TextView) itemView.findViewById(R.id.tv_lucky_issue);
             tv_lucky_participation = (TextView) itemView.findViewById(R.id.tv_lucky_participation);
             tv_lucky_goview = (TextView) itemView.findViewById(R.id.tv_lucky_goview);

@@ -38,7 +38,7 @@ import java.util.Map;
 public class CoinDetailPager extends BasePager {
 
     private RelativeLayout rl_coindetail_header;
-    private RelativeLayout ll_coindetail_back;
+    private LinearLayout ll_coindetail_back;
     private TextView tv_coindetail_balance;
     private TextView tv_coindetail_buycoins;
     private RecyclerView rv_coindetail;
@@ -253,7 +253,7 @@ public class CoinDetailPager extends BasePager {
 
     private void findView() {
         rl_coindetail_header = (RelativeLayout) inflate.findViewById(R.id.rl_coindetail_header);
-        ll_coindetail_back = (RelativeLayout) inflate.findViewById(R.id.ll_coindetail_back);
+        ll_coindetail_back = (LinearLayout) inflate.findViewById(R.id.ll_coindetail_back);
         tv_coindetail_balance = (TextView) inflate.findViewById(R.id.tv_coindetail_balance);
         tv_coindetail_buycoins = (TextView) inflate.findViewById(R.id.tv_coindetail_buycoins);
         rv_coindetail = (RecyclerView) inflate.findViewById(R.id.rv_coindetail);

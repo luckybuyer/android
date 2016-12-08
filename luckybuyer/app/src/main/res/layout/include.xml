@@ -58,8 +58,8 @@
 
     <net.iwantbuyer.view.RoundCornerImageView
         android:id="@+id/civ_productdetail_lucky"
-        android:layout_width="@dimen/dimen_65"
-        android:layout_height="@dimen/dimen_65"
+        android:layout_width="@dimen/dimen_40"
+        android:layout_height="@dimen/dimen_40"
         android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_130"
         android:src="@drawable/default_icon" />

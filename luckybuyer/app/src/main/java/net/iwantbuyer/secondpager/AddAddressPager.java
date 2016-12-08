@@ -178,7 +178,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_lastname.setHint("Type in last name");
+                    et_addaddress_lastname.setHint(context.getString(R.string.firstname));
                 } else {
                     et_addaddress_lastname.setHint("");
                 }
@@ -189,7 +189,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_firstname.setHint("Type in first name");
+                    et_addaddress_firstname.setHint(context.getString(R.string.lastname));
                     Log.e("TAG", "丢失焦点");
                 } else {
                     et_addaddress_firstname.setHint("");
@@ -201,7 +201,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_area.setHint("Type in area");
+                    et_addaddress_area.setHint(context.getString(R.string.Enterarea));
                 } else {
                     et_addaddress_area.setHint("");
                     Log.e("TAG", "area 获取焦点");

@@ -110,7 +110,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                                     handler.sendEmptyMessage(WHAT);
 
                                     HttpUtils.getInstance().stopNetWorkWaiting();
-                                    Utils.MyToast(context, "Set Success");
+                                    Utils.MyToast(context, context.getString(R.string.setsuccess));
 
                                     if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
                                         ((SecondPagerActivity) context).switchPage(7);
@@ -127,7 +127,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                                 @Override
                                 public void run() {
                                     HttpUtils.getInstance().stopNetWorkWaiting();
-                                    Utils.MyToast(context, "Setup failed");
+//                                    Utils.MyToast(context, "Setup failed");
                                 }
                             });
                         }
@@ -135,7 +135,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                         @Override
                         public void failure(Exception exception) {
                             HttpUtils.getInstance().stopNetWorkWaiting();
-                            Utils.MyToast(context, "Setup failed");
+//                            Utils.MyToast(context, "Setup failed");
                         }
 
 

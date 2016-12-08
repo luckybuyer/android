@@ -68,7 +68,7 @@ public class MePager extends BaseNoTrackPager {
     private TextView tv_me_fbcode;
     private TextView tv_me_gold;
     public CustomViewPager vp_me;
-    private SlidingTabLayout stl_me_vpcontrol;
+//    private SlidingTabLayout stl_me_vpcontrol;
     public BottomScrollView sv_me;
     public View inflate;
 
@@ -84,6 +84,11 @@ public class MePager extends BaseNoTrackPager {
     private RelativeLayout rl_loading;
     private TextView tv_net_again;
 
+    private TextView tv_me_all;
+    private TextView tv_me_luckyrecord;
+    private View view_me_all;
+    private View view_me_luckyrecord;
+
     private View view_me_top;                            //让视图指定做的临时
 
     private FBLikeView fb_shipping_facebook;
@@ -92,6 +97,8 @@ public class MePager extends BaseNoTrackPager {
     public RecyclerView recyclerView;
     public MePagerAllAdapter mePagerAllAdapter;
     public MePagerLuckyAdapter mePagerLuckyAdapter;
+
+
 
     private Handler handler = new Handler(){
         public void handleMessage(Message msg){
@@ -142,6 +149,13 @@ public class MePager extends BaseNoTrackPager {
 
     @Override
     public void initData() {
+        view_me_all.setVisibility(View.VISIBLE);
+        view_me_luckyrecord.setVisibility(View.GONE);
+        tv_me_all.setHovered(true);
+        tv_me_luckyrecord.setHovered(false);
+
+        vp_me.setCurrentItem(0);
+
         super.initData();
         if(rl_keepout != null && rl_nodata != null && rl_neterror != null && rl_loading != null) {
             rl_keepout.setVisibility(View.VISIBLE);
@@ -306,7 +320,7 @@ public class MePager extends BaseNoTrackPager {
 
 
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
-        stl_me_vpcontrol.setViewPager(vp_me);
+//        stl_me_vpcontrol.setViewPager(vp_me);
 
         //判断是否需要显示底部加载进度条
         if (allOrderBean.getAllorder().size() < 20) {
@@ -521,7 +535,7 @@ public class MePager extends BaseNoTrackPager {
         tv_me_fbcode = (TextView) inflate.findViewById(R.id.tv_me_fbcode);
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
         vp_me = (CustomViewPager) inflate.findViewById(R.id.vp_me);
-        stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
+//        stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
         fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
         sv_me = (BottomScrollView) inflate.findViewById(R.id.sv_me);
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
@@ -530,6 +544,13 @@ public class MePager extends BaseNoTrackPager {
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
         view_me_top = (View) inflate.findViewById(R.id.view_me_top);
+
+
+        tv_me_all = (TextView) inflate.findViewById(R.id.tv_me_all);
+        tv_me_luckyrecord = (TextView) inflate.findViewById(R.id.tv_me_luckyrecord);
+        view_me_all = (View) inflate.findViewById(R.id.view_me_all);
+        view_me_luckyrecord = (View) inflate.findViewById(R.id.view_me_luckyrecord);
+
 
         ll_loading_data = (LinearLayout) inflate.findViewById(R.id.ll_loading_data);
         pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
@@ -540,6 +561,35 @@ public class MePager extends BaseNoTrackPager {
         iv_me_voice.setOnClickListener(new MyOnClickListener());
         tv_me_gold.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
+        tv_me_all.setOnClickListener(new MyOnClickListener());
+        tv_me_luckyrecord.setOnClickListener(new MyOnClickListener());
+
+        vp_me.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 0) {
+                    view_me_all.setVisibility(View.VISIBLE);
+                    view_me_luckyrecord.setVisibility(View.GONE);
+                    tv_me_all.setHovered(true);
+                    tv_me_luckyrecord.setHovered(false);
+                }else if(position == 1) {
+                    view_me_all.setVisibility(View.GONE);
+                    view_me_luckyrecord.setVisibility(View.VISIBLE);
+                    tv_me_all.setHovered(false);
+                    tv_me_luckyrecord.setHovered(true);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void setView() {
@@ -609,6 +659,24 @@ public class MePager extends BaseNoTrackPager {
                     Intent data = new Intent(Intent.ACTION_SENDTO);
                     data.setData(Uri.parse("mailto:contact@luckybuyer.net"));
                     startActivity(data);
+                    break;
+                case R.id.tv_me_all:
+                    if(vp_me != null) {
+                        vp_me.setCurrentItem(0);
+                        view_me_all.setVisibility(View.VISIBLE);
+                        view_me_luckyrecord.setVisibility(View.GONE);
+                        tv_me_all.setHovered(true);
+                        tv_me_luckyrecord.setHovered(false);
+                    }
+                    break;
+                case R.id.tv_me_luckyrecord:
+                    if(vp_me != null) {
+                        vp_me.setCurrentItem(1);
+                        view_me_all.setVisibility(View.GONE);
+                        view_me_luckyrecord.setVisibility(View.VISIBLE);
+                        tv_me_all.setHovered(false);
+                        tv_me_luckyrecord.setHovered(true);
+                    }
                     break;
             }
         }

@@ -32,8 +32,8 @@
                 android:background="@drawable/default_icon" />
         </RelativeLayout>
 
-        <net.iwantbuyer.view.JustifyTextView
-            android:id="@+id/jtv_lucky_discribe"
+        <TextView
+            android:id="@+id/tv_lucky_discribe"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_72"
             android:layout_marginStart="@dimen/dimen_30"
@@ -51,7 +51,7 @@
             android:id="@+id/tv_issue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
-            android:layout_below="@id/jtv_lucky_discribe"
+            android:layout_below="@id/tv_lucky_discribe"
             android:layout_marginStart="@dimen/dimen_26"
             android:layout_toEndOf="@+id/rl_all"
             android:text="@string/Issue."
@@ -61,7 +61,7 @@
             android:id="@+id/tv_lucky_issue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
-            android:layout_below="@id/jtv_lucky_discribe"
+            android:layout_below="@id/tv_lucky_discribe"
             android:layout_toEndOf="@+id/tv_issue"
             android:text="171754"
             android:textColor="#666666"

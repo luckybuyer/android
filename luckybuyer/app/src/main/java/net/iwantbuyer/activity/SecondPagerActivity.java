@@ -35,11 +35,13 @@ import net.iwantbuyer.secondpager.AddAddressPager;
 import net.iwantbuyer.secondpager.BuyCoinPager;
 import net.iwantbuyer.secondpager.CoinDetailPager;
 import net.iwantbuyer.secondpager.DispatchPager;
+import net.iwantbuyer.secondpager.EditShowPager;
 import net.iwantbuyer.secondpager.PreviousWinnersPager;
 import net.iwantbuyer.secondpager.ProductDetailPager;
 import net.iwantbuyer.secondpager.ProductInformationPager;
 import net.iwantbuyer.secondpager.SetPager;
 import net.iwantbuyer.secondpager.ShippingAddressPager;
+import net.iwantbuyer.secondpager.ShowPager;
 import net.iwantbuyer.secondpager.WinnersSharingPager;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.MyBase64;
@@ -91,7 +93,8 @@ public class SecondPagerActivity extends FragmentActivity {
         setContentView(R.layout.activity_second_pager);
 
         //auth0登陆
-        Auth0 auth0 = new Auth0("6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc", "luckybuyer.auth0.com");
+//        Auth0 auth0 = new Auth0("6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc", "luckybuyer.auth0.com");
+        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
                 .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.bg_ff4f3c).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_white).withPrimaryColor(R.color.bg_ff4f3c).build())
@@ -143,7 +146,8 @@ public class SecondPagerActivity extends FragmentActivity {
         //增加地址页面                     8
         list.add(new AddAddressPager());
         //选择地址页面                     9
-        list.add(new ShippingAddressPager());
+//        list.add(new ShippingAddressPager());
+        list.add(new ShowPager());
     }
 
     //发现视图  设置监听

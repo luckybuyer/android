@@ -246,6 +246,7 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:id="@+id/rl_buycoins_cashu"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_100"
@@ -518,5 +519,4 @@
 
         </RelativeLayout>
     </RelativeLayout>
-
 </RelativeLayout>

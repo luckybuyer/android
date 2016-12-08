@@ -27,8 +27,8 @@
             android:background="@drawable/default_icon" />
     </RelativeLayout>
 
-    <net.iwantbuyer.view.JustifyTextView
-        android:id="@+id/jtv_winning_title"
+    <TextView
+        android:id="@+id/tv_winning_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_70"
         android:layout_alignTop="@+id/rl_winning_icon"

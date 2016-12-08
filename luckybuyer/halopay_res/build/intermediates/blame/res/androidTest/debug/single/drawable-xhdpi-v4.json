@@ -40,12 +40,12 @@
         "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\halopay_checkbox_default.png"
     },
     {
-        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\halopay_icon_webmoney.png",
-        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\halopay_icon_webmoney.png"
-    },
-    {
         "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\halopay_icon_paytype_aibeibi.png",
         "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\halopay_icon_paytype_aibeibi.png"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\halopay_icon_webmoney.png",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\halopay_icon_webmoney.png"
     },
     {
         "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\halopay_icon_paytype_indomog.png",

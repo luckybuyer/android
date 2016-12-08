@@ -3,6 +3,7 @@ package net.iwantbuyer.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +64,11 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         });
 
         if(list.get(position).getShares_increment() == 5) {
-            holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_5);
+            holder.tv_product_increment.setBackgroundResource(R.drawable.homepager_5);
+            holder.tv_product_increment.setText(context.getString(R.string.FiveStart));
         }else if(list.get(position).getShares_increment() == 10) {
-            holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_10);
+            holder.tv_product_increment.setBackgroundResource(R.drawable.homepager_10);
+            holder.tv_product_increment.setText(context.getString(R.string.TenStart));
         }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +99,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         private ImageView iv_product_icon;
         private TextView tv_home_percentage;
         private View view;
-        private ImageView iv_product_increment;
+        private TextView tv_product_increment;
         public ViewHolder(View view) {
             super(view);
             this.view = view;
@@ -105,7 +108,7 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
             pb_product_progress = (ProgressBar) view.findViewById(R.id.pb_product_progress);
             iv_product_icon = (ImageView) view.findViewById(R.id.iv_product_icon);
             tv_home_percentage = (TextView) view.findViewById(R.id.tv_home_percentage);
-            iv_product_increment = (ImageView) view.findViewById(R.id.iv_product_increment);
+            tv_product_increment = (TextView) view.findViewById(R.id.tv_product_increment);
         }
     }
 }

@@ -10,8 +10,8 @@
         android:id="@+id/rl_product_icon"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_264"
-        android:layout_marginStart="@dimen/dimen_24"
-        android:layout_marginEnd="@dimen/dimen_24">
+        android:layout_marginEnd="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24">
 
         <ImageView
             android:id="@+id/iv_product_icon"
@@ -25,8 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_74"
         android:layout_below="@+id/rl_product_icon"
-        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginEnd="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:ellipsize="end"
         android:maxEms="7"
         android:maxLines="2"
@@ -35,10 +35,10 @@
         android:textSize="@dimen/dimen_26" />
 
     <TextView
-        android:layout_below="@+id/tv_producet_discribe"
         android:id="@+id/tv_count"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_33"
+        android:layout_below="@+id/tv_producet_discribe"
         android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_12"
         android:text="@string/Total."
@@ -46,33 +46,33 @@
         android:textSize="@dimen/dimen_24" />
 
     <TextView
-        android:layout_below="@+id/tv_producet_discribe"
         android:id="@+id/tv_product_count"
         android:layout_width="wrap_content"
-        android:layout_toRightOf="@+id/tv_count"
         android:layout_height="@dimen/dimen_33"
+        android:layout_below="@+id/tv_producet_discribe"
         android:layout_marginEnd="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_12"
+        android:layout_toEndOf="@+id/tv_count"
         android:text="1250"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
 
     <ProgressBar
-        android:layout_below="@+id/tv_product_count"
         android:id="@+id/pb_product_progress"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_14"
+        android:layout_below="@+id/tv_product_count"
         android:layout_marginBottom="@dimen/dimen_8"
-        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginEnd="@dimen/dimen_24"
+        android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_7"
         android:progressDrawable="@drawable/home_product_progress" />
 
     <RelativeLayout
-        android:layout_below="@+id/pb_product_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/pb_product_progress"
         android:layout_marginBottom="@dimen/dimen_20">
 
         <TextView
@@ -93,10 +93,15 @@
             android:textColor="@color/ff9c05"
             android:textSize="@dimen/dimen_24" />
     </RelativeLayout>
-    
-    <ImageView
-        android:id="@+id/iv_product_increment"
+
+    <TextView
+        android:id="@+id/tv_product_increment"
+        android:layout_width="@dimen/dimen_170"
+        android:layout_height="@dimen/dimen_40"
         android:layout_marginTop="@dimen/dimen_10"
-        android:layout_width="@dimen/dimen_140"
-        android:layout_height="@dimen/dimen_40" />
+        android:gravity="center"
+        android:paddingEnd="@dimen/dimen_10"
+        android:text="@string/FiveStart"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/dimen_18" />
 </RelativeLayout>

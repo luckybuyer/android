@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -102,7 +103,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
     private TextView tv_productdetal_again;                   //buy it now
     private RelativeLayout rl_productdetail_participation_me;     //我中奖 view go
     private RelativeLayout rl_productdetail_participation_lucky;  //别人中奖view go
-    private ImageView iv_productdetail_number;                    //最低购买份数 图片
+    private TextView tv_productdetail_number;                    //最低购买份数 图片
     private AutoTextView atv_productdetail_broadcast;             //广播图
     private RelativeLayout rl_productdetail_back;                 //返回按钮
     private RelativeLayout rl_insert_warn;                        //相对布局警告
@@ -430,7 +431,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
                         //皇冠图片
                         if (broadcastBean.getBroad().get(finalI).getContent().contains("Congratulations!")) {
-                            Drawable d = getResources().getDrawable(R.drawable.me_lucky);
+                            Drawable d = ContextCompat.getDrawable(context,R.drawable.me_lucky);
+//                            Drawable d = getResources().getDrawable(R.drawable.me_lucky);
                             d.setBounds(0, 0, 36, 30);//设置图片大小
                             sb.append(expristion);
                             sb.setSpan(new ImageSpan(d), len, sb.length(), Spannable.SPAN_COMPOSING);
@@ -479,7 +481,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         tv_productdetail_percent = (TextView) inflate.findViewById(R.id.tv_productdetail_percent);
         tv_productdetail_remain = (TextView) inflate.findViewById(R.id.tv_productdetail_remain);
         rl_productdetail_header = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_header);
-        iv_productdetail_number = (ImageView) inflate.findViewById(R.id.iv_productdetail_number);
+        tv_productdetail_number = (TextView) inflate.findViewById(R.id.tv_productdetail_number);
         atv_productdetail_broadcast = (AutoTextView) inflate.findViewById(R.id.atv_productdetail_broadcast);
         rl_productdetail_back = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_back);
         tv_productdetail_discribe = (TextView) inflate.findViewById(R.id.tv_productdetail_discribe);
@@ -648,7 +650,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
         tv_productdetail_icon.setText(productDetailBean.getLeft_shares() + "");
         int precentage = (int) (productDetailBean.getShares() - productDetailBean.getLeft_shares()) * 100 / productDetailBean.getShares();
-        tv_productdetail_percentage.setText(precentage + "");
+        tv_productdetail_percentage.setText(precentage + "%");
 
         //后加的  产品描述
 
@@ -659,9 +661,11 @@ public class ProductDetailPager extends BaseNoTrackPager {
         pb_productdetail_progress.setMax(productDetailBean.getShares());
         pb_productdetail_progress.setProgress(productDetailBean.getShares() - productDetailBean.getLeft_shares());
         if (productDetailBean.getShares_increment() == 5) {
-            iv_productdetail_number.setBackgroundResource(R.drawable.homepager_5);
+            tv_productdetail_number.setBackgroundResource(R.drawable.homepager_5);
+            tv_productdetail_number.setText(context.getString(R.string.FiveStart));
         } else if (productDetailBean.getShares_increment() == 10) {
-            iv_productdetail_number.setBackgroundResource(R.drawable.homepager_10);
+            tv_productdetail_number.setBackgroundResource(R.drawable.homepager_10);
+            tv_productdetail_number.setText(context.getString(R.string.TenStart));
         }
     }
 
@@ -1004,6 +1008,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         token = Integer.parseInt(token_s);
                     }
 
+
                     //判断是否登陆  未登陆  先登录  登陆 弹出popupwindow
                     if (token > System.currentTimeMillis() / 1000) {
                         buyCoins();
@@ -1016,8 +1021,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         }catch (Exception e){
                             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                         }
-
-
                     }
                     break;
                 case R.id.rl_insert_ok:

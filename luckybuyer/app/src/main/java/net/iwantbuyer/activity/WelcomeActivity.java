@@ -99,7 +99,7 @@ public class WelcomeActivity extends Activity {
 
         
         //请求  产品  列表
-        String url = MyApplication.url + "/v1/config/android-v" + versionName;
+        String url = MyApplication.url + "/v1/config/android-iwantbuyer-v" + versionName;
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {

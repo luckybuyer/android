@@ -2,6 +2,7 @@ package net.iwantbuyer.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,6 +52,8 @@ public class MePagerViewPagerAdapter extends PagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+        Log.e("TAG", titleList.get(position));
         return titleList.get(position);
     }
+
 }

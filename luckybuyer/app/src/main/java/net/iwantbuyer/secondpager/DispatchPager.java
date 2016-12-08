@@ -46,7 +46,7 @@ public class DispatchPager extends BaseNoTrackPager {
     private RelativeLayout rl_dispatch_participate;
     //商品信息
     private ImageView iv_dispatch_icon;
-    private TextView jtv_dispatch_title;
+    private TextView tv_dispatch_title;
     private TextView tv_dispatch_issue;
     private TextView tv_dispatch_participate;
 
@@ -134,7 +134,7 @@ public class DispatchPager extends BaseNoTrackPager {
         rl_dispatch_header = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_header);
         ll_dispatch_back = (LinearLayout) inflate.findViewById(R.id.ll_dispatch_back);
         iv_dispatch_icon = (ImageView) inflate.findViewById(R.id.iv_dispatch_icon);
-        jtv_dispatch_title = (TextView) inflate.findViewById(R.id.jtv_dispatch_title);
+        tv_dispatch_title = (TextView) inflate.findViewById(R.id.tv_dispatch_title);
         tv_dispatch_issue = (TextView) inflate.findViewById(R.id.tv_dispatch_issue);
         tv_dispatch_participate = (TextView) inflate.findViewById(R.id.tv_dispatch_participate);
         tv_dispatch_adddiscribe = (TextView) inflate.findViewById(R.id.tv_dispatch_adddiscribe);
@@ -234,7 +234,7 @@ public class DispatchPager extends BaseNoTrackPager {
             ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(getResources().getColor(R.color.ff9c05));
         }
 
-        jtv_dispatch_title.setText(dispatchGameBean.getGame().getProduct().getTitle() + "");
+        tv_dispatch_title.setText(dispatchGameBean.getGame().getProduct().getTitle() + "");
         tv_dispatch_issue.setText("" + dispatchGameBean.getGame().getIssue_id() + "");
         tv_dispatch_participate.setText("" + dispatchGameBean.getGame().getLucky_order().getTotal_shares() + "");
         Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
