@@ -38,7 +38,7 @@ import java.util.Map;
 public class CoinDetailPager extends BasePager {
 
     private RelativeLayout rl_coindetail_header;
-    private RelativeLayout ll_coindetail_back;
+    private LinearLayout ll_coindetail_back;
     private TextView tv_coindetail_balance;
     private TextView tv_coindetail_buycoins;
     private RecyclerView rv_coindetail;
@@ -162,7 +162,7 @@ public class CoinDetailPager extends BasePager {
                 if (isBottom && isMoreData && isNeedpull) {
                     ll_loading_data.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
-                    tv_loading_data.setText("loading...");
+                    tv_loading_data.setText(context.getString(R.string.loading___));
 
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/gold-records/?per_page=20&page= "+page+"&timezone=" + MyApplication.utc;
@@ -194,7 +194,7 @@ public class CoinDetailPager extends BasePager {
                                     } else {
                                         ll_loading_data.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText("no more data");
+                                        tv_loading_data.setText(context.getString(R.string.nomoredata));
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
@@ -214,7 +214,7 @@ public class CoinDetailPager extends BasePager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -232,7 +232,7 @@ public class CoinDetailPager extends BasePager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -253,7 +253,7 @@ public class CoinDetailPager extends BasePager {
 
     private void findView() {
         rl_coindetail_header = (RelativeLayout) inflate.findViewById(R.id.rl_coindetail_header);
-        ll_coindetail_back = (RelativeLayout) inflate.findViewById(R.id.ll_coindetail_back);
+        ll_coindetail_back = (LinearLayout) inflate.findViewById(R.id.ll_coindetail_back);
         tv_coindetail_balance = (TextView) inflate.findViewById(R.id.tv_coindetail_balance);
         tv_coindetail_buycoins = (TextView) inflate.findViewById(R.id.tv_coindetail_buycoins);
         rv_coindetail = (RecyclerView) inflate.findViewById(R.id.rv_coindetail);

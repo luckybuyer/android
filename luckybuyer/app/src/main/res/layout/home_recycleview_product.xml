@@ -9,15 +9,16 @@
     <RelativeLayout
         android:id="@+id/rl_product_icon"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_264"
+        android:layout_height="@dimen/dimen_260"
         android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginEnd="@dimen/dimen_24">
 
         <ImageView
             android:id="@+id/iv_product_icon"
-            android:layout_width="@dimen/dimen_192"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
+            android:layout_marginTop="@dimen/dimen_30"
+            android:layout_width="@dimen/dimen_230"
+            android:layout_height="@dimen/dimen_230"
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
     <TextView

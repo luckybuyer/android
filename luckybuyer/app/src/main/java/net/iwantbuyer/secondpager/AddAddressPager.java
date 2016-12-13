@@ -405,9 +405,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
 
         if (address_id != -1) {
-            tv_title.setText("Edit Address");
+            tv_title.setText(context.getString(R.string.Editaddress));
         } else {
-            tv_title.setText("Add Address");
+            tv_title.setText(context.getString(R.string.Addaddress));
         }
 
 
@@ -433,13 +433,13 @@ public class AddAddressPager extends BaseNoTrackPager {
                     startLocationType();
                     break;
                 case R.id.tv_addaddress_home:
-                    tv_addaddress_locationtype.setText("Home");
+                    tv_addaddress_locationtype.setText(context.getString(R.string.Home));
                     if(mPopupWindow.isShowing()) {
                         mPopupWindow.dismiss();
                     }
                     break;
                 case R.id.tv_addaddress_business:
-                    tv_addaddress_locationtype.setText("Business");
+                    tv_addaddress_locationtype.setText(context.getString(R.string.Business));
                     if(mPopupWindow.isShowing()) {
                         mPopupWindow.dismiss();
                     }

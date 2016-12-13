@@ -1,5 +1,18 @@
 package net.iwantbuyer.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * Created by admin on 2016/11/11.
  */
@@ -215,5 +228,120 @@ public class MyBase64 {
             return false;
         }
         return true;
+    }
+
+    /*
+ *bitmap转base64
+ */
+    public static String bitmapToBase64(Bitmap bitmap){
+        String result="";
+        ByteArrayOutputStream bos=null;
+        try {
+            if(null!=bitmap){
+                bos=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);//将bitmap放入字节数组流中
+
+                bos.flush();//将bos流缓存在内存中的数据全部输出，清空缓存
+                bos.close();
+
+                byte []bitmapByte=bos.toByteArray();
+                StringBuilder stringBuilder = new StringBuilder();
+                result=Base64.encodeToString(bitmapByte, Base64.NO_WRAP);
+                stringBuilder.append("data:image/jpeg;base64,");
+                stringBuilder.append(result);
+                result = stringBuilder.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if(null!=null){
+                try {
+                    bos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return result;
+    }
+
+
+
+    /**
+     * 将base64转换成bitmap图片
+     */
+    public static String bitmaptoString(Bitmap bitmap, int bitmapQuality) {
+        // 将Bitmap转换成字符串
+        String string = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, bitmapQuality, bStream);
+        byte[] bytes = bStream.toByteArray();
+        string = Base64.encodeToString(bytes, Base64.DEFAULT);
+        stringBuilder.append("data:image/jpeg;base64,");
+        stringBuilder.append(string);
+//        ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
+//
+//       /* Fill byteArrayOutStream with data */
+//
+//        StringBuilder stringBuilder = new StringBuilder();
+//
+//        String encodedData = Base64.encodeToString(byteArrayOutStream.toByteArray(),
+//                Base64.NO_WRAP);
+//
+//        stringBuilder.append("data:image/jpeg;base64,");
+//        stringBuilder.append(encodedData);
+//
+//// Log the result
+//        android.util.Log.d("Base64Test", stringBuilder.toString());
+
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 将base64转换成bitmap图片
+     *
+     * @param string base64字符串
+     * @return bitmap
+     */
+    public static Bitmap stringtoBitmap(String string) {
+        // 将字符串转换成Bitmap类型
+        Bitmap bitmap = null;
+        try {
+            byte[] bitmapArray;
+            bitmapArray = Base64.decode(string, Base64.DEFAULT);
+            bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0,
+                    bitmapArray.length);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    public static String persistImage(Context context,Bitmap bitmap, String name) {
+        File filesDir = context.getFilesDir();
+        File imageFile = new File(filesDir, name + ".jpg");
+
+        OutputStream os;
+        try {
+            os = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, os);
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+        }
+
+        FileInputStream inputFile;
+        byte[] buffer = new byte[(int) imageFile.length()];
+        try {
+            inputFile = new FileInputStream(imageFile);
+            inputFile.read(buffer);
+            inputFile.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Base64.encodeToString(buffer, Base64.DEFAULT);
+
     }
 }

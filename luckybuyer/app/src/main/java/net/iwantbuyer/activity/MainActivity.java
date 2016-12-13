@@ -29,6 +29,8 @@ import com.auth0.android.lock.Theme;
 import com.auth0.android.lock.enums.SocialButtonStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
+import com.facebook.appevents.AppEventsConstants;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
@@ -41,6 +43,7 @@ import net.iwantbuyer.bean.TokenBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.pager.HomePager;
 import net.iwantbuyer.pager.MePager;
+import net.iwantbuyer.pager.ShowPager;
 import net.iwantbuyer.pager.WinningPager;
 import net.iwantbuyer.secondpager.BuyCoinPager;
 import net.iwantbuyer.util.IabHelper;
@@ -68,6 +71,7 @@ public class MainActivity extends FragmentActivity {
     private RadioButton rb_main_homepager;
     private RadioButton rb_main_buycoins;
     private RadioButton rb_main_newresult;
+    private RadioButton rb_main_show;
     private RadioButton rb_main_me;
     private RelativeLayout rl_main;
 
@@ -76,6 +80,7 @@ public class MainActivity extends FragmentActivity {
     private HomePager homePager;
     private BuyCoinPager buyCoinPager;
     private WinningPager winningPager;
+    private ShowPager showPager;
     private MePager mePager;
 
     public int id;
@@ -91,11 +96,11 @@ public class MainActivity extends FragmentActivity {
 
         Log.e("TAG_dimen", getResources().getDimension(R.dimen.dimen_10) + "");
         //auth0登陆
-        Auth0 auth0 = new Auth0("6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc", "luckybuyer.auth0.com");
+        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
 //        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
-                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.bg_ff4f3c).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_white).withPrimaryColor(R.color.bg_ff4f3c).build())
+                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
                 .withSocialButtonStyle(SocialButtonStyle.BIG)
                 // Add parameters to the Lock Builder
                 .build();
@@ -107,6 +112,7 @@ public class MainActivity extends FragmentActivity {
             homePager = (HomePager) fragmentManager.findFragmentByTag(HomePager.class.getName());
             buyCoinPager = (BuyCoinPager) fragmentManager.findFragmentByTag(BuyCoinPager.class.getName());
             winningPager = (WinningPager) fragmentManager.findFragmentByTag(WinningPager.class.getName());
+            showPager = (ShowPager) fragmentManager.findFragmentByTag(ShowPager.class.getName());
             mePager = (MePager) fragmentManager.findFragmentByTag(MePager.class.getName());
 
             //解决重叠问题show里面可以指定恢复的页面
@@ -114,6 +120,7 @@ public class MainActivity extends FragmentActivity {
                     .show(homePager)
                     .hide(buyCoinPager)
                     .hide(winningPager)
+                    .hide(showPager)
                     .hide(mePager)
                     .commit();
 
@@ -125,6 +132,7 @@ public class MainActivity extends FragmentActivity {
             homePager = new HomePager();
             buyCoinPager = new BuyCoinPager();
             winningPager = new WinningPager();
+            showPager = new ShowPager();
             mePager = new MePager();
 
             showFragment(homePager);
@@ -150,6 +158,7 @@ public class MainActivity extends FragmentActivity {
 
 
 //        getsp();
+        Utils.setSpData("main_pager",null,this);       //当editshow 返回时候的临时变量 一定要删除
     }
 
     //设置数据
@@ -158,6 +167,7 @@ public class MainActivity extends FragmentActivity {
         list.add(homePager);
         list.add(buyCoinPager);
         list.add(winningPager);
+        list.add(showPager);
         list.add(mePager);
     }
 
@@ -168,6 +178,7 @@ public class MainActivity extends FragmentActivity {
         rb_main_homepager = (RadioButton) findViewById(R.id.rb_main_homepager);
         rb_main_buycoins = (RadioButton) findViewById(R.id.rb_main_buycoins);
         rb_main_newresult = (RadioButton) findViewById(R.id.rb_main_newresult);
+        rb_main_show = (RadioButton) findViewById(R.id.rb_main_show);
         rb_main_me = (RadioButton) findViewById(R.id.rb_main_me);
         rl_main = (RelativeLayout) findViewById(R.id.rl_main);
 
@@ -180,6 +191,7 @@ public class MainActivity extends FragmentActivity {
         rb_main_homepager.setOnClickListener(new MyOnclickListener());
         rb_main_buycoins.setOnClickListener(new MyOnclickListener());
         rb_main_newresult.setOnClickListener(new MyOnclickListener());
+        rb_main_show.setOnClickListener(new MyOnclickListener());
         rb_main_me.setOnClickListener(new MyOnclickListener());
 
     }
@@ -197,6 +209,7 @@ public class MainActivity extends FragmentActivity {
                     rb_main_homepager.setChecked(true);
                     rb_main_buycoins.setChecked(false);
                     rb_main_newresult.setChecked(false);
+                    rb_main_show.setChecked(false);
                     rb_main_me.setChecked(false);
                     setPoint("CLICK:homepage");
                     break;
@@ -206,6 +219,7 @@ public class MainActivity extends FragmentActivity {
                     rb_main_homepager.setChecked(false);
                     rb_main_buycoins.setChecked(true);
                     rb_main_newresult.setChecked(false);
+                    rb_main_show.setChecked(false);
                     rb_main_me.setChecked(false);
                     login_id = 1;
                     setPoint("CLICK:buy_coins");
@@ -216,8 +230,19 @@ public class MainActivity extends FragmentActivity {
                     rb_main_homepager.setChecked(false);
                     rb_main_buycoins.setChecked(false);
                     rb_main_newresult.setChecked(true);
+                    rb_main_show.setChecked(false);
                     rb_main_me.setChecked(false);
                     setPoint("CLICK:new_result");
+                    break;
+                case R.id.rb_main_show:
+                    id = 3;
+                    showFragment(list.get(3));
+                    rb_main_homepager.setChecked(false);
+                    rb_main_buycoins.setChecked(false);
+                    rb_main_newresult.setChecked(false);
+                    rb_main_show.setChecked(true);
+                    rb_main_me.setChecked(false);
+                    setPoint("CLICK:show");
                     break;
                 case R.id.rb_main_me:
                     setPoint("CLICK:my_account");
@@ -229,15 +254,15 @@ public class MainActivity extends FragmentActivity {
 
                     //判断是否登陆  未登陆  先登录  登陆 进入me页面
                     if (token > System.currentTimeMillis() / 1000) {
-                        showFragment(list.get(3));
+                        showFragment(list.get(4));
                         rb_main_homepager.setChecked(false);
                         rb_main_buycoins.setChecked(false);
                         rb_main_newresult.setChecked(false);
                         rb_main_me.setChecked(true);
-                        id = 3;
+                        id = 4;
                     } else {
                         MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
-                        login_id = 3;
+                        login_id = 4;
                         //埋点
                         try {
                             JSONObject props = new JSONObject();
@@ -398,7 +423,7 @@ public class MainActivity extends FragmentActivity {
                             if (login_id == 1) {
                                 rb_main_buycoins.setChecked(true);
                                 rb_main_me.setChecked(false);
-                            } else if (login_id == 3) {
+                            } else if (login_id == 4) {
                                 rb_main_buycoins.setChecked(false);
                                 rb_main_me.setChecked(true);
                                 if(mePager!= null && mePager.mePagerAllAdapter != null) {
@@ -474,24 +499,35 @@ public class MainActivity extends FragmentActivity {
             rb_main_homepager.setChecked(true);
             rb_main_buycoins.setChecked(false);
             rb_main_newresult.setChecked(false);
+            rb_main_show.setChecked(false);
             rb_main_me.setChecked(false);
         } else if (id == 1) {
             showFragment(list.get(1));
             rb_main_homepager.setChecked(false);
             rb_main_buycoins.setChecked(true);
             rb_main_newresult.setChecked(false);
+            rb_main_show.setChecked(false);
             rb_main_me.setChecked(false);
         } else if (id == 2) {
             showFragment(list.get(2));
             rb_main_homepager.setChecked(false);
             rb_main_buycoins.setChecked(false);
             rb_main_newresult.setChecked(true);
+            rb_main_show.setChecked(false);
             rb_main_me.setChecked(false);
         } else if (id == 3) {
+            showFragment(list.get(3));
+            rb_main_homepager.setChecked(false);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(false);
+            rb_main_show.setChecked(true);
+            rb_main_me.setChecked(false);
+        }else if (id == 4) {
             showFragment(list.get(0));
             rb_main_homepager.setChecked(true);
             rb_main_buycoins.setChecked(false);
             rb_main_newresult.setChecked(false);
+            rb_main_show.setChecked(false);
             rb_main_me.setChecked(false);
         }
     }
@@ -502,10 +538,10 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(buyCoinPager != null && buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
+            if(buyCoinPager != null && buyCoinPager.wv_buycoins_cashu != null && buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
                 buyCoinPager.wv_buycoins_cashu.setVisibility(View.GONE);
                 buyCoinPager.ll_buycoins_back.setVisibility(View.GONE);
-                buyCoinPager.tv_title.setText("Buy Coins");
+                buyCoinPager.tv_title.setText(getString(R.string.BuyCoins));
             }else {
                 if ((System.currentTimeMillis() - mExitTime) > 3000) {
                     Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
@@ -524,7 +560,27 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        showFragment(currentFragment);
+        if("show".equals(Utils.getSpData("main_pager",this))) {
+            Utils.setSpData("main_pager",null,this);       //当editshow 返回时候的临时变量 一定要删除
+            id = 3;
+            showFragment(showPager);
+            showPager.initData();
+            rb_main_homepager.setChecked(false);
+            rb_main_buycoins.setChecked(false);
+            rb_main_newresult.setChecked(false);
+            rb_main_show.setChecked(true);
+            rb_main_me.setChecked(false);
+        }else {
+            showFragment(currentFragment);
+        }
+
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
     }
 
     @Override
@@ -539,7 +595,6 @@ public class MainActivity extends FragmentActivity {
             rb_main_buycoins.setChecked(false);
             rb_main_newresult.setChecked(false);
             rb_main_me.setChecked(false);
-            Log.e("TAG", "进入这个了");
 
         } else if (requestCode == 1001) {
             //google play 支付

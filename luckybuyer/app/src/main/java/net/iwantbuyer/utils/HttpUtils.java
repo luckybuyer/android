@@ -160,11 +160,15 @@ public class HttpUtils {
 
     public void postRequest(String url, Map<String, String> map, final OnRequestListener onRequestListener) {
         FormBody.Builder builder = new FormBody.Builder();
-        Set<String> key = map.keySet();
-        for (Iterator it = key.iterator(); it.hasNext(); ) {
-            String s = (String) it.next();
-            builder.add(s, map.get(s));
+        if(map != null) {
+            Set<String> key = map.keySet();
+            for (Iterator it = key.iterator(); it.hasNext(); ) {
+                String s = (String) it.next();
+                builder.add(s, map.get(s));
+                Log.e("TAG", map.get(s));
+            }
         }
+
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder()
                 .url(url)

@@ -33,4 +33,6 @@
     <color name="all_orange">#ff311a</color>
     <color name="ff9c05">#ff9c05</color>
     <color name="f2f2f2">#f2f2f2</color>
+
+    <color name="auth0_header">#F0F0F0</color>
 </resources>

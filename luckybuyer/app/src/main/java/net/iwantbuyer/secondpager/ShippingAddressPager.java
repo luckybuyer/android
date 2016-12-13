@@ -171,6 +171,9 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                     ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
                 case R.id.rl_shipping_return:
+                    if("shippingaddress".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).from = "setpager";
+                    }
                     if ("setpager".equals(((SecondPagerActivity) context).from)) {
                         ((SecondPagerActivity) context).switchPage(4);
                     } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {

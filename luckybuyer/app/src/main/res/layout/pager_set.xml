@@ -36,8 +36,6 @@
 
         </RelativeLayout>
 
-
-
         <ImageView
             android:layout_width="match_parent"
             android:background="@drawable/default_shadow_top"

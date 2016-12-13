@@ -226,13 +226,15 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
             String status = list.get(position).getDelivery().getStatus();
             if ("pending".equals(status)) {
-                holder.tv_lucky_go.setText("Confirm shipping address");
+                holder.tv_lucky_go.setText(context.getString(R.string.confirmshippingaddress));
             } else if ("processing".equals(status)) {
-                holder.tv_lucky_go.setText("Waiting for shippment");
+                holder.tv_lucky_go.setText(context.getString(R.string.Waitingforshippment));
             } else if ("shipping".equals(status)) {
-                holder.tv_lucky_go.setText("Confirm delivery");
+                holder.tv_lucky_go.setText(context.getString(R.string.Confirmdelivery));
             } else if ("finished".equals(status)) {
-                holder.tv_lucky_go.setText("Delivered");
+                holder.tv_lucky_go.setText("Show it, get rewarding!");
+            } else if ("shared".equals(status)) {
+                holder.tv_lucky_go.setText(context.getString(R.string.Shown));
             }
             holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id());

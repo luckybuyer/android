@@ -35,6 +35,7 @@ import net.iwantbuyer.secondpager.AddAddressPager;
 import net.iwantbuyer.secondpager.BuyCoinPager;
 import net.iwantbuyer.secondpager.CoinDetailPager;
 import net.iwantbuyer.secondpager.DispatchPager;
+import net.iwantbuyer.secondpager.EditShowPager;
 import net.iwantbuyer.secondpager.PreviousWinnersPager;
 import net.iwantbuyer.secondpager.ProductDetailPager;
 import net.iwantbuyer.secondpager.ProductInformationPager;
@@ -68,6 +69,8 @@ public class SecondPagerActivity extends FragmentActivity {
 
     public int address_id;                 //进入addaddresspager页面   标记表明是增加地址还是修改
 
+    public int order_id;                 //进入addaddresspager页面   标记表明是增加地址还是修改
+
     //需要去哪
     public String from;
 
@@ -91,10 +94,10 @@ public class SecondPagerActivity extends FragmentActivity {
         setContentView(R.layout.activity_second_pager);
 
         //auth0登陆
-        Auth0 auth0 = new Auth0("6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc", "luckybuyer.auth0.com");
+        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
-                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.bg_ff4f3c).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_white).withPrimaryColor(R.color.bg_ff4f3c).build())
+                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
                 .withSocialButtonStyle(SocialButtonStyle.BIG)
                 // Add parameters to the Lock Builder
                 .build();
@@ -144,6 +147,9 @@ public class SecondPagerActivity extends FragmentActivity {
         list.add(new AddAddressPager());
         //选择地址页面                     9
         list.add(new ShippingAddressPager());
+//        list.add(new ShowPager());
+        //编辑show页面                    10
+        list.add(new EditShowPager());
     }
 
     //发现视图  设置监听
@@ -156,7 +162,6 @@ public class SecondPagerActivity extends FragmentActivity {
         tv_second_back.setOnClickListener(new MyOnClickListener());
 //        tv_second_share.setOnClickListener(new MyOnClickListener());
     }
-
 
     //选择哪个界面
     public void switchPage(int checkedId) {

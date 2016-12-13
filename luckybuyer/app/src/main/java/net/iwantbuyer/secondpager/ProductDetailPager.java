@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -166,12 +167,13 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case WHAT_AUTO:
                     if (bcList != null) {
                         handler.removeCallbacksAndMessages(null);
-                        int i = mLoopCount % bcList.size();
-                        atv_productdetail_broadcast.next();
-                        atv_productdetail_broadcast.setText(bcList.get(i));
-                        mLoopCount++;
-                        handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
-
+                        if(bcList.size() != 0) {
+                            int i = mLoopCount % bcList.size();
+                            atv_productdetail_broadcast.next();
+                            atv_productdetail_broadcast.setText(bcList.get(i));
+                            mLoopCount++;
+                            handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
+                        }
 
                         if(tv_insert_two != null && tv_insert_five != null && tv_insert_ten != null && tv_insert_all != null) {
                             tv_insert_two.setHovered(false);
@@ -430,7 +432,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
                         //皇冠图片
                         if (broadcastBean.getBroad().get(finalI).getContent().contains("Congratulations!")) {
-                            Drawable d = getResources().getDrawable(R.drawable.me_lucky);
+                            Drawable d = ContextCompat.getDrawable(context,R.drawable.me_lucky);
                             d.setBounds(0, 0, 36, 30);//设置图片大小
                             sb.append(expristion);
                             sb.setSpan(new ImageSpan(d), len, sb.length(), Spannable.SPAN_COMPOSING);
@@ -598,9 +600,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
             tv_issue.setVisibility(View.VISIBLE);
 
             if (isMyBuy) {
-                tv_productdetail_inprogress.setText("Announced");
+                tv_productdetail_inprogress.setText(context.getString(R.string.Announced));
             } else {
-                tv_productdetail_inprogress.setText("Announced");
+                tv_productdetail_inprogress.setText(context.getString(R.string.Announced));
             }
             //隐藏一些控件
             rl_productdetail_indsertcoins.setVisibility(View.GONE);
@@ -730,7 +732,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 if (isBottom && isMoreData && isNeedpull) {
                     ll_loading_data.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
-                    tv_loading_data.setText("loading...");
+                    tv_loading_data.setText(context.getString(R.string.loading___) );
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page= "+page+"&timezone=" + MyApplication.utc;
                     Log.e("TAG_产品详情", url);
@@ -758,7 +760,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                     } else {
                                         ll_loading_data.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText("no more data");
+                                        tv_loading_data.setText(context.getString(R.string.nomoredata) );
 
                                         TimerTask task = new TimerTask() {
                                             @Override
@@ -782,7 +784,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure) );
                                     TimerTask task = new TimerTask() {
                                         @Override
                                         public void run() {
@@ -803,7 +805,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure) );
                                     TimerTask task = new TimerTask() {
                                         @Override
                                         public void run() {
@@ -950,16 +952,16 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     if (count > productDetailBean.getShares_increment()) {
                         et_insert_count.setText(count - productDetailBean.getShares_increment() + "");
                     }
-                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     break;
                 case R.id.rl_insert_add:
                     count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
                     if (count < productDetailBean.getLeft_shares()-productDetailBean.getShares_increment() ) {
                         et_insert_count.setText(count + productDetailBean.getShares_increment()  + "");
-                        tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                        tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     }else{
                         et_insert_count.setText( productDetailBean.getLeft_shares()  + "");
-                        tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                        tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     }
                     break;
                 case R.id.tv_insert_two:
@@ -968,7 +970,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*2) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_two.setHovered(true);
                     handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
@@ -978,7 +980,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     } else if (productDetailBean.getLeft_shares() < 5) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_five.setHovered(true);
                     handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
@@ -988,13 +990,13 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*10) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
                     }
-                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_ten.setHovered(true);
                     handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
                 case R.id.tv_insert_all:
                     et_insert_count.setText(productDetailBean.getLeft_shares() + "");
-                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_all.setHovered(true);
                     handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
@@ -1214,10 +1216,10 @@ public class ProductDetailPager extends BaseNoTrackPager {
         iv_insert_warn = (ImageView) PPW.findViewById(R.id.iv_insert_warn);
         pb_insert = (ProgressBar) PPW.findViewById(R.id.pb_insert);
 
-        if(productDetailBean.getShares_increment() == 5) {
-            tv_insert_warn.setText("Purchase quantity must be a multiple of 5");
-        }else if(productDetailBean.getShares_increment() == 10) {
-            tv_insert_warn.setText("Purchase quantity must be a multiple of 10");
+        if(productDetailBean != null && productDetailBean.getShares_increment() == 5) {
+            tv_insert_warn.setText(context.getString(R.string.FiveTimes) + "5");
+        }else if(productDetailBean != null && productDetailBean.getShares_increment() == 10) {
+            tv_insert_warn.setText(context.getString(R.string.FiveTimes) + "10");
         }else {
             rl_insert_warn.setVisibility(View.GONE);
         }
@@ -1236,7 +1238,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         rl_insert_delete.setOnClickListener(new MyOnClickListener());
         rl_insert_add.setOnClickListener(new MyOnClickListener());
 
-        tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+        tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
 
         tv_insert_two.setOnClickListener(new MyOnClickListener());
         tv_insert_five.setOnClickListener(new MyOnClickListener());
@@ -1258,7 +1260,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
 
                     }
-                    tv_insert_buy.setText("Total " + et_insert_count.getText().toString() + " coins");
+                    tv_insert_buy.setText(context.getString(R.string.Total) + " "  + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins) );
                 }
                 if ("".equals(et_insert_count.getText().toString())) {
                     balanceCount = 0;

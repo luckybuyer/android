@@ -51,6 +51,8 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
             return 2;
         } else if ("finished".equals(status)) {
             return 3;
+        }else if ("shared".equals(status)) {
+            return 4;
         }
         return super.getItemViewType(position);
     }
@@ -65,8 +67,8 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle() + "");
-        holder.tv_lucky_issue.setText("Issue:" + list.get(position).getGame().getIssue_id() + "");
-        holder.tv_lucky_participation.setText("My participation:" + list.get(position).getGame().getLucky_order().getTotal_shares() + "");
+        holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id() + "");
+        holder.tv_lucky_participation.setText("" + list.get(position).getGame().getLucky_order().getTotal_shares() + "");
         holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName() + "");
         String picture = "http:" + list.get(position).getGame().getProduct().getTitle_image();
         Glide.with(context).load(picture).into(holder.iv_lucky_icon);
@@ -79,13 +81,15 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 //        });
         int viewType = getItemViewType(position);
         if(viewType == 0) {
-            holder.tv_lucky_go.setText("Confirm shipping address");
+            holder.tv_lucky_go.setText(context.getString(R.string.confirmshippingaddress));
         }else if(viewType ==1) {
-            holder.tv_lucky_go.setText("Waiting for shippment");
+            holder.tv_lucky_go.setText(context.getString(R.string.Waitingforshippment));
         }else if(viewType == 2) {
-            holder.tv_lucky_go.setText("Shipped, out for delivery");
+            holder.tv_lucky_go.setText(context.getString(R.string.Confirmdelivery));
         }else if(viewType == 3) {
-            holder.tv_lucky_go.setText("Delivered and show to win awards");
+            holder.tv_lucky_go.setText(context.getString(R.string.Delivered));
+        }else if (viewType == 4) {
+            holder.tv_lucky_go.setText(context.getString(R.string.Shown));
         }
 
         holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));

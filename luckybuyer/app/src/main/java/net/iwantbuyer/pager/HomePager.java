@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
 import android.support.v4.util.LogWriter;
 import android.support.v4.view.ViewPager;
@@ -342,7 +343,7 @@ public class HomePager extends BaseNoTrackPager {
             //获取内容字符串
             String content = broadcastBean.getBroad().get(i).getContent();
             builder = new SpannableStringBuilder(content);
-            ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.ff9c05));
+            ForegroundColorSpan redSpan = new ForegroundColorSpan(ContextCompat.getColor(context,R.color.ff9c05));
             ForegroundColorSpan blackSpan = null;
             builder.setSpan(redSpan, 0, content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             String[] st = str.split("\\}");
@@ -488,7 +489,7 @@ public class HomePager extends BaseNoTrackPager {
                 if (isBottom && isMoreData && isNeedpull) {
                     ll_home_loading.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
-                    tv_loading_data.setText("loading...");
+                    tv_loading_data.setText(context.getString(R.string.loading___));
 
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=" + page + "&timezone=" + MyApplication.utc;
@@ -517,7 +518,7 @@ public class HomePager extends BaseNoTrackPager {
                                     } else {
                                         ll_home_loading.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText("no more data");
+                                        tv_loading_data.setText(context.getString(R.string.nomoredata));
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
@@ -537,7 +538,7 @@ public class HomePager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
@@ -555,7 +556,7 @@ public class HomePager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText("Network failure");
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {

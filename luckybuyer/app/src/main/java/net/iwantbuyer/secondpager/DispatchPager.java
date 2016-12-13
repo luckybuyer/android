@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -49,6 +50,7 @@ public class DispatchPager extends BaseNoTrackPager {
     private TextView jtv_dispatch_title;
     private TextView tv_dispatch_issue;
     private TextView tv_dispatch_participate;
+    private TextView tv_dispatch_time;
 
     private TextView tv_dispatch_adddiscribe;
     private RelativeLayout rl_dispatch_address_content;
@@ -62,6 +64,7 @@ public class DispatchPager extends BaseNoTrackPager {
     private TextView tv_net_again;
 
     private TextView tv_dispatch_confirm;                    //确认收货
+    private TextView tv_dispatch_isshow;                    //确认收货
     private TextView tv_dispatch_delivered;
 
     private View defaultaddress;
@@ -102,6 +105,7 @@ public class DispatchPager extends BaseNoTrackPager {
                                     public void run() {
                                         rl_keepout.setVisibility(View.GONE);
                                         setView(response);
+                                        Log.e("TAG_dispatch", response);
                                     }
                                 }
                         );
@@ -121,9 +125,14 @@ public class DispatchPager extends BaseNoTrackPager {
 
                     @Override
                     public void failure(Exception exception) {
-                        rl_nodata.setVisibility(View.GONE);
-                        rl_neterror.setVisibility(View.VISIBLE);
-                        rl_loading.setVisibility(View.GONE);
+                        ((Activity) context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                rl_nodata.setVisibility(View.GONE);
+                                rl_neterror.setVisibility(View.VISIBLE);
+                                rl_loading.setVisibility(View.GONE);
+                            }
+                        });
                     }
                 }
 
@@ -138,6 +147,7 @@ public class DispatchPager extends BaseNoTrackPager {
         tv_dispatch_issue = (TextView) inflate.findViewById(R.id.tv_dispatch_issue);
         tv_dispatch_participate = (TextView) inflate.findViewById(R.id.tv_dispatch_participate);
         tv_dispatch_adddiscribe = (TextView) inflate.findViewById(R.id.tv_dispatch_adddiscribe);
+        tv_dispatch_time = (TextView) inflate.findViewById(R.id.tv_dispatch_time);
 
         rl_dispatch_address_content = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_address_content);
         rl_dispatch_address = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_address);
@@ -152,11 +162,13 @@ public class DispatchPager extends BaseNoTrackPager {
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
 
         tv_dispatch_confirm = (TextView) inflate.findViewById(R.id.tv_dispatch_confirm);
+        tv_dispatch_isshow = (TextView) inflate.findViewById(R.id.tv_dispatch_isshow);
         tv_dispatch_delivered = (TextView) inflate.findViewById(R.id.tv_dispatch_delivered);
 
 
         ll_dispatch_back.setOnClickListener(new MyOnClickListener());
         tv_dispatch_confirm.setOnClickListener(new MyOnClickListener());
+        tv_dispatch_isshow.setOnClickListener(new MyOnClickListener());
         rl_dispatch_participate.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
     }
@@ -179,8 +191,8 @@ public class DispatchPager extends BaseNoTrackPager {
         TextView tv_disaptch_add_detailed = (TextView) defaultaddress.findViewById(R.id.tv_disaptch_add_detailed);
 
         String status = dispatchGameBean.getDelivery().getStatus();
+        Log.e("TAG_status",status);
         if ("pending".equals(status)) {
-            Log.e("TAG", "pending");
             setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
 
             //设置线的长度
@@ -192,14 +204,13 @@ public class DispatchPager extends BaseNoTrackPager {
         } else if ("processing".equals(status)) {
             //设置地址
             setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
-            Log.e("TAG", "processing");
             inflate.findViewById(R.id.iv_disaptch_selector_address).setEnabled(false);
             inflate.findViewById(R.id.tv_disaptch_selector_address).setEnabled(false);
             inflate.findViewById(R.id.view_address).setEnabled(false);
 
             inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
             inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(true);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(getResources().getColor(R.color.ff9c05));
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
             inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
             inflate.findViewById(R.id.view_shipping).setEnabled(true);
         } else if ("shipping".equals(status)) {
@@ -210,13 +221,20 @@ public class DispatchPager extends BaseNoTrackPager {
             inflate.findViewById(R.id.view_address).setEnabled(false);
 
             inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(true);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(getResources().getColor(R.color.ff9c05));
+            inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(false);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
             inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_shipping).setEnabled(true);
+            inflate.findViewById(R.id.view_shipping).setEnabled(false);
 
+
+            inflate.findViewById(R.id.iv_disaptch_delivered).setBackgroundResource(R.drawable.selector_dispatch_point);
+            inflate.findViewById(R.id.iv_disaptch_delivered).setEnabled(true);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_delivered)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
+            inflate.findViewById(R.id.view_delivered).setBackgroundResource(R.drawable.selector_dispatch_view);
+            inflate.findViewById(R.id.view_delivered).setEnabled(true);
             tv_dispatch_confirm.setVisibility(View.VISIBLE);
         } else if ("finished".equals(status)) {
+            Log.e("TAG", "finished");
             //设置地址
             setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
             inflate.findViewById(R.id.iv_disaptch_selector_address).setEnabled(false);
@@ -225,18 +243,55 @@ public class DispatchPager extends BaseNoTrackPager {
 
             inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
             inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(false);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(getResources().getColor(R.color.text_black));
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
             inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
             inflate.findViewById(R.id.view_shipping).setEnabled(false);
 
             inflate.findViewById(R.id.iv_disaptch_delivered).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_delivered).setEnabled(true);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(getResources().getColor(R.color.ff9c05));
+            inflate.findViewById(R.id.iv_disaptch_delivered).setEnabled(false);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_delivered)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
+            inflate.findViewById(R.id.view_delivered).setBackgroundResource(R.drawable.selector_dispatch_view);
+            inflate.findViewById(R.id.view_delivered).setEnabled(false);
+
+            inflate.findViewById(R.id.iv_disaptch_show).setBackgroundResource(R.drawable.selector_dispatch_point);
+            inflate.findViewById(R.id.iv_disaptch_show).setEnabled(true);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_show)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_5coins)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
+            tv_dispatch_isshow.setVisibility(View.VISIBLE);
+        } else if ("shared".equals(status)) {
+            rl_dispatch_participate.setVisibility(View.VISIBLE);
+            //设置地址
+            setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_show)).setText("Shown");
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_5coins)).setText("show success, 5 gold has been credited into your account.");
+
+            inflate.findViewById(R.id.iv_disaptch_selector_address).setEnabled(false);
+            inflate.findViewById(R.id.tv_disaptch_selector_address).setEnabled(false);
+            inflate.findViewById(R.id.view_address).setEnabled(false);
+
+            inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
+            inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(false);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
+            inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
+            inflate.findViewById(R.id.view_shipping).setEnabled(false);
+
+            inflate.findViewById(R.id.iv_disaptch_delivered).setBackgroundResource(R.drawable.selector_dispatch_point);
+            inflate.findViewById(R.id.iv_disaptch_delivered).setEnabled(false);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_delivered)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
+            inflate.findViewById(R.id.view_delivered).setBackgroundResource(R.drawable.selector_dispatch_view);
+            inflate.findViewById(R.id.view_delivered).setEnabled(false);
+
+            inflate.findViewById(R.id.iv_disaptch_show).setBackgroundResource(R.drawable.selector_dispatch_point);
+            inflate.findViewById(R.id.iv_disaptch_show).setEnabled(true);
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_show)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
+            ((TextView) inflate.findViewById(R.id.tv_dispatch_5coins)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
+
         }
 
         jtv_dispatch_title.setText(dispatchGameBean.getGame().getProduct().getTitle() + "");
         tv_dispatch_issue.setText("" + dispatchGameBean.getGame().getIssue_id() + "");
         tv_dispatch_participate.setText("" + dispatchGameBean.getGame().getLucky_order().getTotal_shares() + "");
+        tv_dispatch_time.setText(dispatchGameBean.getDelivery().getCreated_at().substring(0, 20).replace("T", "\t ") + "");
         Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -347,6 +402,11 @@ public class DispatchPager extends BaseNoTrackPager {
                 case R.id.tv_dispatch_confirm:
                     currentAddress();
                     break;
+                case R.id.tv_dispatch_isshow:
+                    //开始展示
+                    ((SecondPagerActivity)context).switchPage(10);
+                    ((SecondPagerActivity)context).order_id = dispatchGameBean.getId();
+                    break;
             }
         }
     }
@@ -374,7 +434,6 @@ public class DispatchPager extends BaseNoTrackPager {
                                     @Override
                                     public void run() {
                                         HttpUtils.getInstance().stopNetWorkWaiting();
-                                        tv_dispatch_delivered.setText("Delivered");
                                     }
                                 }
                         );
@@ -385,7 +444,15 @@ public class DispatchPager extends BaseNoTrackPager {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Utils.MyToast(context,"Internet not available");
+                                HttpUtils.getInstance().stopNetWorkWaiting();
+                                if (requestCode == 204) {
+                                    tv_dispatch_delivered.setText(context.getString(R.string.Delivered));
+                                    tv_dispatch_confirm.setVisibility(View.VISIBLE);
+                                    initData();
+                                    tv_dispatch_confirm.setVisibility(View.GONE);
+                                } else {
+                                    Utils.MyToast(context, "Internet not available");
+                                }
                             }
                         });
                     }
@@ -395,7 +462,8 @@ public class DispatchPager extends BaseNoTrackPager {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Utils.MyToast(context,"Internet not available");
+                                HttpUtils.getInstance().stopNetWorkWaiting();
+                                Utils.MyToast(context, "Internet not available");
                             }
                         });
                     }
@@ -418,7 +486,6 @@ public class DispatchPager extends BaseNoTrackPager {
             json = "{\"status\": \"processing\",\"address_id\":  " + ((SecondPagerActivity) context).shippingBean.getId() + "}";
         }
 
-        Log.e("TAG", json);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -432,7 +499,6 @@ public class DispatchPager extends BaseNoTrackPager {
                                     @Override
                                     public void run() {
                                         HttpUtils.getInstance().stopNetWorkWaiting();
-                                        Log.e("TAG_dispatch", response);
                                     }
                                 }
                         );
@@ -447,7 +513,6 @@ public class DispatchPager extends BaseNoTrackPager {
                                 if (requestCode == 204) {
                                     initData();
                                 }
-                                Log.e("TAG_dispatch", requestCode + message);
                             }
                         });
                     }
@@ -487,6 +552,5 @@ public class DispatchPager extends BaseNoTrackPager {
         show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
-
 }
 

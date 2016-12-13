@@ -3,6 +3,7 @@ package net.iwantbuyer.app;
 import android.support.multidex.MultiDexApplication;
 
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import java.util.TimeZone;
@@ -24,7 +25,9 @@ public class MyApplication extends MultiDexApplication{
         super.onCreate();
         TimeZone tz = TimeZone.getDefault();
         utc = tz.getID();
+        // Initialize the SDK before executing any other operations,
         FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
         //埋点
 //        String projectToken = "79fb255c5fce0739c93fa063bd7990ca"; // e.g.: "1ef7e30d2a58d27f4b90c42e31d6d7ad"     测试
