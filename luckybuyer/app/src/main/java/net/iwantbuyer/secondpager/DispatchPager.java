@@ -23,6 +23,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
+import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
@@ -551,6 +552,18 @@ public class DispatchPager extends BaseNoTrackPager {
         window.setGravity(Gravity.CENTER);
         show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("DispatchPager");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("DispatchPager");
     }
 }
 

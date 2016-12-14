@@ -274,11 +274,12 @@
         android:gravity="center">
 
         <TextView
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingStart="@dimen/dimen_3"
-            android:paddingEnd="@dimen/dimen_3"
+            android:paddingStart="@dimen/dimen_8"
+            android:paddingEnd="@dimen/dimen_8"
             android:text="@string/Participantagain"
             android:textColor="@color/text_white"
             android:textSize="@dimen/dimen_28" />

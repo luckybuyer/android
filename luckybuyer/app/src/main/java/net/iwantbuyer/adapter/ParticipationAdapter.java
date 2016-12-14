@@ -48,8 +48,10 @@ public class ParticipationAdapter extends RecyclerView.Adapter<ParticipationAdap
             public void onClick(View view) {
                 if(holder.tv_participation_num.getVisibility() == View.GONE) {
                     holder.tv_participation_num.setVisibility(View.VISIBLE);
+                    holder.tv_participation_detail.setText("Unfold");
                 }else{
                     holder.tv_participation_num.setVisibility(View.GONE);
+                    holder.tv_participation_detail.setText("Fold");
                 }
             }
         });

@@ -35,6 +35,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
 import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
+import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
@@ -369,11 +370,12 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onAuthentication(Credentials credentials) {
 
-            Log.e("TAG", credentials + "");
+            //友盟登陆通缉
+            LogChannel("Login_Success");
+
             // Base64 解码：
             String token = credentials.getIdToken();
 
-            Log.e("TAG_token错误", token);
 //            byte[] mmmm = Base64.decode(token.getBytes(), Base64.URL_SAFE);
             byte[] mmmm = MyBase64.decode(token.getBytes());
             String str = null;
@@ -390,108 +392,122 @@ public class MainActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, MainActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", MainActivity.this);
-            String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
-            Map map = new HashMap<String, String>();
-            map.put("Authorization", "Bearer " + token);
-            //请求登陆接口
-            HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
-                @Override
-                public void success(String response) {
-                    //埋点
-                    try {
-                        JSONObject props = new JSONObject();
-                        MyApplication.mixpanel.track("LOGIN:loggedin", props);
-                    }catch (Exception e){
-                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                    }
-                    Gson gson = new Gson();
-                    User user = gson.fromJson(response, User.class);
-                    Utils.setSpData("id", user.getId() + "", MainActivity.this);
-                    Utils.setSpData("user_id", user.getAuth0_user_id(), MainActivity.this);
-                    Utils.setSpData("balance", user.getBalance() + "", MainActivity.this);
-                    Utils.setSpData("name", user.getProfile().getName(), MainActivity.this);
-                    Utils.setSpData("picture", user.getProfile().getPicture(), MainActivity.this);
-                    Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
-                    Log.e("TAG", user.getProfile().getPicture());
-
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //登陆成功  直接进入me页面
-                            showFragment(list.get(login_id));
-                            if (login_id == 1) {
-                                rb_main_buycoins.setChecked(true);
-                                rb_main_me.setChecked(false);
-                            } else if (login_id == 4) {
-                                rb_main_buycoins.setChecked(false);
-                                rb_main_me.setChecked(true);
-                                if(mePager!= null && mePager.mePagerAllAdapter != null) {
-                                    mePager.mePagerAllAdapter.list.clear();
-                                    mePager.mePagerAllAdapter.notifyDataSetChanged();
-                                }
-                                if(mePager!= null && mePager.mePagerLuckyAdapter != null) {
-                                    mePager.mePagerLuckyAdapter .list.clear();
-                                    mePager.mePagerLuckyAdapter .notifyDataSetChanged();
-                                }
-
-//                                if(mePager != null) {
-//                                    mePager.initData();
-//                                }
-                            }
-                            rb_main_homepager.setChecked(false);
-                            rb_main_newresult.setChecked(false);
-
-                        }
-                    });
-
-
-                }
-
-                @Override
-                public void error(int requestCode, String message) {
-                    Log.e("TAG", requestCode + "");
-                    Log.e("TAG", message);
-                    Utils.setSpData("token", null, MainActivity.this);
-                    Utils.setSpData("token_num", null, MainActivity.this);
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.MyToast(MainActivity.this, "Login failed, please login again");
-                            selectPager();
-                        }
-                    });
-                }
-
-                @Override
-                public void failure(Exception exception) {
-                    Utils.setSpData("token", null, MainActivity.this);
-                    Utils.setSpData("token_num", null, MainActivity.this);
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.MyToast(MainActivity.this, "Login failed, please login again");
-                            selectPager();
-                        }
-                    });
-                }
-            });
+            Login(token);
 
         }
 
         @Override
         public void onCanceled() {
-            Log.e("TAG_id_error", id + "");
+            //友盟登陆通缉
+            LogChannel("Login_Canceled");
             selectPager();
         }
 
         @Override
         public void onError(LockException error) {
-            Log.e("TAG_id", id + "");
+            //友盟登陆通缉
+            LogChannel("Login_Error");
             Utils.MyToast(MainActivity.this,"Login failed");
             selectPager();
         }
     };
+
+    private void LogChannel(String string) {
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("channel",getString(R.string.channel));
+        MobclickAgent.onEvent(this, string, map);
+    }
+
+    //auth0登陆成功后  登陆我们自己的api
+    private void Login(String token) {
+        String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
+        Map map = new HashMap<String, String>();
+        map.put("Authorization", "Bearer " + token);
+        //请求登陆接口
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(String response) {
+                //埋点
+                try {
+                    JSONObject props = new JSONObject();
+                    MyApplication.mixpanel.track("LOGIN:loggedin", props);
+                }catch (Exception e){
+                    Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                }
+                Gson gson = new Gson();
+                User user = gson.fromJson(response, User.class);
+                Utils.setSpData("id", user.getId() + "", MainActivity.this);
+                Utils.setSpData("user_id", user.getAuth0_user_id(), MainActivity.this);
+                Utils.setSpData("balance", user.getBalance() + "", MainActivity.this);
+                Utils.setSpData("name", user.getProfile().getName(), MainActivity.this);
+                Utils.setSpData("picture", user.getProfile().getPicture(), MainActivity.this);
+                Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
+
+                Log.e("TAG", user.getProfile().getPicture());
+
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //登陆成功  直接进入me页面
+                        showFragment(list.get(login_id));
+                        if (login_id == 1) {
+                            rb_main_buycoins.setChecked(true);
+                            rb_main_me.setChecked(false);
+                        } else if (login_id == 4) {
+                            rb_main_buycoins.setChecked(false);
+                            rb_main_me.setChecked(true);
+                            if(mePager!= null && mePager.mePagerAllAdapter != null) {
+                                mePager.mePagerAllAdapter.list.clear();
+                                mePager.mePagerAllAdapter.notifyDataSetChanged();
+                            }
+                            if(mePager!= null && mePager.mePagerLuckyAdapter != null) {
+                                mePager.mePagerLuckyAdapter .list.clear();
+                                mePager.mePagerLuckyAdapter .notifyDataSetChanged();
+                            }
+
+//                                if(mePager != null) {
+//                                    mePager.initData();
+//                                }
+                        }
+                        rb_main_homepager.setChecked(false);
+                        rb_main_newresult.setChecked(false);
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void error(int requestCode, String message) {
+                Log.e("TAG", requestCode + "");
+                Log.e("TAG", message);
+                Utils.setSpData("token", null, MainActivity.this);
+                Utils.setSpData("token_num", null, MainActivity.this);
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                        selectPager();
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                Utils.setSpData("token", null, MainActivity.this);
+                Utils.setSpData("token_num", null, MainActivity.this);
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                        selectPager();
+                    }
+                });
+            }
+        });
+    }
 
     private void selectPager() {
         if (id == 0) {
@@ -574,13 +590,18 @@ public class MainActivity extends FragmentActivity {
             showFragment(currentFragment);
         }
 
-        AppEventsLogger.activateApp(this);
+        AppEventsLogger.activateApp(this);                 //facebook统计
+
+        MobclickAgent.onResume(this);                      //统计时长   友盟
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         AppEventsLogger.deactivateApp(this);
+
+        MobclickAgent.onPause(this);
     }
 
     @Override

@@ -67,19 +67,16 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
                 holder.tv_buyconis_free.setVisibility(View.GONE);
             }
         }
-        holder.tv_buyconis_usd.setText(list.get(position).getPrice() + context.getString(R.string.USD));
 
         if(list.get(position).isHovered()) {
             holder.tv_buyconis_coins.setHovered(true);
             holder.rl_buycoins_coins.setHovered(true);
             holder.iv_buycoins_jiao.setVisibility(View.VISIBLE);
-            holder.tv_buyconis_usd.setHovered(true);
             holder.tv_buyconis_free.setHovered(true);
         }else {
             holder.tv_buyconis_coins.setHovered(false);
             holder.rl_buycoins_coins.setHovered(false);
             holder.iv_buycoins_jiao.setVisibility(View.GONE);
-            holder.tv_buyconis_usd.setHovered(false);
             holder.tv_buyconis_free.setHovered(false);
         }
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +106,6 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
         private TextView tv_buyconis_free;
         private RelativeLayout rl_buycoins_coins;
         private ImageView iv_buycoins_jiao;
-        private TextView tv_buyconis_usd;
         private View view;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -117,7 +113,6 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
             tv_buyconis_free = (TextView) itemView.findViewById(R.id.tv_buyconis_free);
             rl_buycoins_coins = (RelativeLayout) itemView.findViewById(R.id.rl_buycoins_coins);
             iv_buycoins_jiao = (ImageView) itemView.findViewById(R.id.iv_buycoins_jiao);
-            tv_buyconis_usd = (TextView) itemView.findViewById(R.id.tv_buyconis_usd);
             view = itemView;
         }
     }

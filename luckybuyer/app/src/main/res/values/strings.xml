@@ -15,6 +15,9 @@
     <!--facebooksdk-->
     <string name="facebook_app_id">1333788250026847</string>
 
+    <!--有盟渠道号-->
+    <!--<string name="channel">google_play</string>-->
+    <string name="channel">Free_Game</string>
 
     <!--英文-->
     <string name="Home">Home</string>                        <!--首页-->

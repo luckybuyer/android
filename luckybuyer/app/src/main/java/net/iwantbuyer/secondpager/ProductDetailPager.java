@@ -44,6 +44,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
+import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
@@ -950,14 +951,25 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case R.id.rl_insert_delete:
                     int count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
                     if (count > productDetailBean.getShares_increment()) {
-                        et_insert_count.setText(count - productDetailBean.getShares_increment() + "");
+                        if(count % productDetailBean.getShares_increment() == 0) {
+                            et_insert_count.setText(count - productDetailBean.getShares_increment() + "");
+                        }else {
+                            Log.e("TAG_delete", count + "----" + count / productDetailBean.getShares_increment());
+                            et_insert_count.setText(count - count % productDetailBean.getShares_increment() + "");
+                        }
+
                     }
                     tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     break;
                 case R.id.rl_insert_add:
                     count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
                     if (count < productDetailBean.getLeft_shares()-productDetailBean.getShares_increment() ) {
-                        et_insert_count.setText(count + productDetailBean.getShares_increment()  + "");
+                        if(count % productDetailBean.getShares_increment() == 0) {
+                            et_insert_count.setText(count + productDetailBean.getShares_increment()  + "");
+                        }else {
+                            et_insert_count.setText(count/productDetailBean.getShares_increment()*productDetailBean.getShares_increment() + productDetailBean.getShares_increment() + "");
+                            Log.e("TAG_add", count%productDetailBean.getShares_increment() + "");
+                        }
                         tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     }else{
                         et_insert_count.setText( productDetailBean.getLeft_shares()  + "");
@@ -1349,5 +1361,16 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 });
             }
         });
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("ProductDetailPager");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("ProductDetailPager");
     }
 }

@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_buycoins_coins"
         android:layout_width="@dimen/dimen_325"
-        android:layout_height="@dimen/dimen_140"
+        android:layout_height="@dimen/dimen_120"
         android:layout_marginBottom="@dimen/dimen_24"
         android:layout_marginEnd="@dimen/dimen_24"
         android:background="@drawable/selector_black_ff9200_bian">
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_34"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dimen_30">
+            android:layout_marginTop="@dimen/dimen_43">
 
             <TextView
                 android:id="@+id/tv_buyconis_coins"
@@ -32,32 +32,21 @@
                 android:gravity="center"
                 android:text="1 coin"
                 android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:textSize="@dimen/dimen_28"
+                android:textSize="@dimen/dimen_32"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_buyconis_free"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/dimen_34"
-                android:layout_centerHorizontal="true"
                 android:layout_toEndOf="@+id/tv_buyconis_coins"
                 android:gravity="center"
                 android:text=" + 1free"
                 android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:textSize="@dimen/dimen_28" />
+                android:textSize="@dimen/dimen_32" />
 
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/tv_buyconis_usd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_32"
-            android:text="1USD"
-            android:textColor="@drawable/selector_999999_ff9200"
-            android:textSize="@dimen/dimen_24" />
     </RelativeLayout>
 </LinearLayout>

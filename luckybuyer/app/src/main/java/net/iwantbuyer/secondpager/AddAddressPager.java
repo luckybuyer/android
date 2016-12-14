@@ -24,6 +24,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
+
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.adapter.AddAddressAdapter;
@@ -710,6 +712,16 @@ public class AddAddressPager extends BaseNoTrackPager {
         show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("AddAddressPager");
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("AddAddressPager");
+    }
 
 }

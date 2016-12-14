@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 
+import com.umeng.analytics.MobclickAgent;
+
 import net.iwantbuyer.R;
 import net.iwantbuyer.secondpager.ParticipationPager;
 import net.iwantbuyer.secondpager.PreviousWinnersPager;
@@ -65,5 +67,17 @@ public class ThirdPagerActivity extends FragmentActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_third, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);                      //统计时长   友盟
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);                      //统计时长   友盟
     }
 }

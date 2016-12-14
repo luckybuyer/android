@@ -33,6 +33,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
+import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
@@ -645,6 +646,7 @@ public class HomePager extends BaseNoTrackPager {
     public void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
+        MobclickAgent.onPageEnd("HomePager");
     }
 
     @Override
@@ -654,7 +656,6 @@ public class HomePager extends BaseNoTrackPager {
         if (mStringArray != null && mStringArray.size() > 0) {
             handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);
         }
+        MobclickAgent.onPageStart("HomePager");
     }
-
-
 }

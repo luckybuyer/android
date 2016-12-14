@@ -25,6 +25,7 @@ import com.auth0.android.lock.enums.SocialButtonStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
+import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
@@ -36,6 +37,7 @@ import net.iwantbuyer.secondpager.BuyCoinPager;
 import net.iwantbuyer.secondpager.CoinDetailPager;
 import net.iwantbuyer.secondpager.DispatchPager;
 import net.iwantbuyer.secondpager.EditShowPager;
+import net.iwantbuyer.secondpager.HelpPager;
 import net.iwantbuyer.secondpager.PreviousWinnersPager;
 import net.iwantbuyer.secondpager.ProductDetailPager;
 import net.iwantbuyer.secondpager.ProductInformationPager;
@@ -106,7 +108,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
         batch_id = getIntent().getIntExtra("batch_id", -1);
         game_id = getIntent().getIntExtra("game_id", -1);
-        address_id = getIntent().getIntExtra("address_id",-1);
+        address_id = getIntent().getIntExtra("address_id", -1);
 
         dispatch_game_id = getIntent().getIntExtra("dispatch_game_id", -1);
 
@@ -116,7 +118,7 @@ public class SecondPagerActivity extends FragmentActivity {
         setHeadMargin();
         selectPager();
 
-        if(Utils.checkDeviceHasNavigationBar(SecondPagerActivity.this)) {
+        if (Utils.checkDeviceHasNavigationBar(SecondPagerActivity.this)) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(SecondPagerActivity.this));
             rl_secondpager.setLayoutParams(lp);
         }
@@ -150,6 +152,8 @@ public class SecondPagerActivity extends FragmentActivity {
 //        list.add(new ShowPager());
         //编辑show页面                    10
         list.add(new EditShowPager());
+        //Help界面                        11
+        list.add(new HelpPager());
     }
 
     //发现视图  设置监听
@@ -181,10 +185,12 @@ public class SecondPagerActivity extends FragmentActivity {
             switchPage(4);
         } else if ("coindetailpager".equals(from)) {
             switchPage(5);
-        }else if ("dispatchpager".equals(from)) {
+        } else if ("dispatchpager".equals(from)) {
             switchPage(7);
-        }else if("participation".equals(from)) {
+        } else if ("participation".equals(from)) {
             switchPage(10);
+        } else if ("helppager".equals(from)) {
+            switchPage(11);
         }
     }
 
@@ -208,6 +214,9 @@ public class SecondPagerActivity extends FragmentActivity {
         @Override
         public void onAuthentication(Credentials credentials) {
 
+            //友盟登陆通缉
+            LogChannel("Login_Success");
+
             // Base64 解码：
             String token = credentials.getIdToken();
             Log.e("TAG_TOKEN", token);
@@ -229,72 +238,87 @@ public class SecondPagerActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, SecondPagerActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", SecondPagerActivity.this);
-            String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
-            Map map = new HashMap<String, String>();
-            map.put("Authorization", "Bearer " + token);
-
-            Log.e("TAG", "登陆成功");
-            //请求登陆接口
-            HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
-                @Override
-                public void success(String response) {
-                    //埋点
-                    try {
-                        JSONObject props = new JSONObject();
-                        MyApplication.mixpanel.track("LOGIN:loggedin", props);
-                    }catch (Exception e){
-                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                    }
-
-                    Gson gson = new Gson();
-                    User user = gson.fromJson(response, User.class);
-                    Utils.setSpData("id", user.getId() + "", SecondPagerActivity.this);
-                    Utils.setSpData("user_id", user.getAuth0_user_id(), SecondPagerActivity.this);
-                    Utils.setSpData("balance", user.getBalance() + "", SecondPagerActivity.this);
-                    Utils.setSpData("name", user.getProfile().getName(), SecondPagerActivity.this);
-                    Utils.setSpData("picture", user.getProfile().getPicture(), SecondPagerActivity.this);
-                    Utils.setSpData("social_link", user.getProfile().getSocial_link(), SecondPagerActivity.this);
-                }
-
-                @Override
-                public void error(int requestCode, String message) {
-                    Log.e("TAG", requestCode + "");
-                    Log.e("TAG", message);
-                    Utils.setSpData("token", null, SecondPagerActivity.this);
-                    Utils.setSpData("token_num", null,SecondPagerActivity.this);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
-                        }
-                    });
-                }
-
-                @Override
-                public void failure(Exception exception) {
-                    Utils.setSpData("token", null,SecondPagerActivity.this);
-                    Utils.setSpData("token_num", null,SecondPagerActivity.this);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
-                        }
-                    });
-                }
-            });
+            Login(token);
 
         }
 
         @Override
         public void onCanceled() {
             // Login Cancelled response
+            //友盟登陆通缉
+            LogChannel("Login_Canceled");
         }
 
         @Override
         public void onError(LockException error) {
-            Log.e("TAG", error.toString());
+            //友盟登陆通缉
+            LogChannel("Login_Error");
+            Utils.MyToast(SecondPagerActivity.this,"Login failed");
         }
     };
+
+    private void LogChannel(String string) {
+        HashMap<String,String> map = new HashMap<String,String>();
+        map.put("channel",getString(R.string.channel));
+        MobclickAgent.onEvent(this, string, map);
+    }
+
+    //Auth0登陆成功后  调用我们自己的api
+    private void Login(String token) {
+        String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
+        Map map = new HashMap<String, String>();
+        map.put("Authorization", "Bearer " + token);
+
+        Log.e("TAG", "登陆成功");
+        //请求登陆接口
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(String response) {
+                //埋点
+                try {
+                    JSONObject props = new JSONObject();
+                    MyApplication.mixpanel.track("LOGIN:loggedin", props);
+                } catch (Exception e) {
+                    Log.e("MYAPP", "Unable to add properties to JSONObject", e);
+                }
+
+                Gson gson = new Gson();
+                User user = gson.fromJson(response, User.class);
+                Utils.setSpData("id", user.getId() + "", SecondPagerActivity.this);
+                Utils.setSpData("user_id", user.getAuth0_user_id(), SecondPagerActivity.this);
+                Utils.setSpData("balance", user.getBalance() + "", SecondPagerActivity.this);
+                Utils.setSpData("name", user.getProfile().getName(), SecondPagerActivity.this);
+                Utils.setSpData("picture", user.getProfile().getPicture(), SecondPagerActivity.this);
+                Utils.setSpData("social_link", user.getProfile().getSocial_link(), SecondPagerActivity.this);
+            }
+
+            @Override
+            public void error(int requestCode, String message) {
+                Log.e("TAG", requestCode + "");
+                Log.e("TAG", message);
+                Utils.setSpData("token", null, SecondPagerActivity.this);
+                Utils.setSpData("token_num", null, SecondPagerActivity.this);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                Utils.setSpData("token", null, SecondPagerActivity.this);
+                Utils.setSpData("token_num", null, SecondPagerActivity.this);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
+                    }
+                });
+            }
+        });
+    }
 
     //根据版本判断是否 需要设置据顶部状态栏高度
     @TargetApi(19)
@@ -342,7 +366,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 switchPage(5);
                 from = "";
                 return false;
-            }else if ("dispatchpager".equals(from)) {
+            } else if ("dispatchpager".equals(from)) {
                 switchPage(7);
                 from = "";
                 return false;
@@ -354,7 +378,12 @@ public class SecondPagerActivity extends FragmentActivity {
                 switchPage(9);
                 from = "";
                 return false;
+            } else if ("buycoinpager".equals(from)) {
+                switchPage(6);
+                from = "";
+                return false;
             }
+
             finish();
         }
         return super.onKeyUp(keyCode, event);
@@ -374,18 +403,29 @@ public class SecondPagerActivity extends FragmentActivity {
             Log.e("TAG_huidiao", dataSignature + "");
 
 //            googleMyService(purchaseData, dataSignature);
-            buyCoinPager.googleMyService(purchaseData,dataSignature);
+            buyCoinPager.googleMyService(purchaseData, dataSignature);
         }
 
         // Pass on the activity result to the helper for handling
-        if (buyCoinPager!= null &&buyCoinPager.mHelper != null&&!buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
+        if (buyCoinPager != null && buyCoinPager.mHelper != null && !buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
             // not handled, so handle it ourselves (here's where you'd
             // perform any handling of activity results not related to in-app
             // billing...
             super.onActivityResult(requestCode, resultCode, data);
-        }
-        else {
+        } else {
             Log.e("TAG", "onActivityResult handled by IABUtil.");
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);                      //统计时长   友盟
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);                      //统计时长   友盟
     }
 }

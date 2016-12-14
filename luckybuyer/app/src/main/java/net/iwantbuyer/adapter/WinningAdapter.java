@@ -42,12 +42,6 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
     public WinningAdapter(Context context, List<PreviousWinnerBean.PreviousBean> list) {
         this.list = list;
         this.context = context;
-        for (int i = 0;i < list.size();i++){
-            if("running".equals(list.get(i).getStatus())) {
-                list.remove(i);
-                i--;
-            }
-        }
     }
     @Override
     public int getItemViewType(int position) {
