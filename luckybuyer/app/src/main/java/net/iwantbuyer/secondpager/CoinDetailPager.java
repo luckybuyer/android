@@ -130,6 +130,11 @@ public class CoinDetailPager extends BasePager {
                 }
 
         );
+
+        //重置 请求  下拉刷新数据
+        isMoreData = true;
+        isNeedpull = true;
+        page = 2;
     }
 
     boolean isMoreData = true;

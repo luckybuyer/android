@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.ShowAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
@@ -71,7 +72,13 @@ public class ShowPager extends BaseNoTrackPager{
     public void initData() {
         super.initData();
         list = new ArrayList();
-        String url = MyApplication.url + "/v1/posts/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        String url = null;
+        if(context instanceof ThirdPagerActivity) {
+            url = MyApplication.url + "/v1/posts/?product_id= "+((ThirdPagerActivity)context).product_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
+        }else {
+            url = MyApplication.url + "/v1/posts/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        }
+
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -84,6 +91,7 @@ public class ShowPager extends BaseNoTrackPager{
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
                             rl_neterror.setVisibility(View.GONE);
+                            rl_loading.setVisibility(View.GONE);
                         }
                         srl_show.setRefreshing(false);
                     }
@@ -118,6 +126,10 @@ public class ShowPager extends BaseNoTrackPager{
             }
         });
 
+        //重置 请求  下拉刷新数据
+        isMoreData = true;
+        isNeedpull = true;
+        page = 2;
 
     }
 
@@ -173,7 +185,13 @@ public class ShowPager extends BaseNoTrackPager{
                     tv_loading_data.setText(context.getString(R.string.loading___));
 
                     isNeedpull = false;
-                    String url = MyApplication.url + "/v1/posts/?per_page=20&page="+page+"&timezone=" + MyApplication.utc;
+                    String url = null;
+                    if(context instanceof ThirdPagerActivity) {
+                        url = MyApplication.url + "/v1/posts/?product_id= "+((ThirdPagerActivity)context).product_id+"&per_page="+page+"&page=1&timezone=" + MyApplication.utc;
+                    }else {
+                        url = MyApplication.url + "/v1/posts/?per_page=20&page="+page+"&timezone=" + MyApplication.utc;
+                    }
+
                     HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string) {

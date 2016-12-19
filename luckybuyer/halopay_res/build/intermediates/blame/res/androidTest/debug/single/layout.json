@@ -12,12 +12,12 @@
         "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\layout\\halopay_input_cardno_layout.xml"
     },
     {
-        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\halopay_ui_common_tip_layout.xml",
-        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\layout\\halopay_ui_common_tip_layout.xml"
-    },
-    {
         "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\halopay_layout_common_single_dialog_item.xml",
         "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\layout\\halopay_layout_common_single_dialog_item.xml"
+    },
+    {
+        "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\halopay_ui_common_tip_layout.xml",
+        "source": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\bundles\\debug\\res\\layout\\halopay_ui_common_tip_layout.xml"
     },
     {
         "merged": "F:\\yangshuyu\\luckybuyer\\android\\luckybuyer\\halopay_res\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout\\halopay_layout_common_single_dialog.xml",

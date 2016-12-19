@@ -208,6 +208,14 @@ public class MePager extends BaseNoTrackPager {
 
         );
 
+        //重置下拉刷新接口
+        isMoreLData = true;
+        isuckyLuckyNeedpull = true;
+        luckyPage = 2;
+
+        isMoreData = true;
+        isNeedpull = true;
+        page = 2;
     }
 
     private void LuckyResponse(String token, final String res) {

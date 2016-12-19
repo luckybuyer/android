@@ -194,11 +194,12 @@ public class HomePager extends BaseNoTrackPager {
         atv_home_marquee.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SecondPagerActivity.class);
-                intent.putExtra("from", "productdetail");
-                intent.putExtra("game_id", broadcastBean.getBroad().get(mLoopCount % mStringArray.size()).getGame_id());
-                context.startActivity(intent);
-
+                if(mStringArray.size() != 0) {
+                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from", "productdetail");
+                    intent.putExtra("game_id", broadcastBean.getBroad().get(mLoopCount % mStringArray.size()).getGame_id());
+                    context.startActivity(intent);
+                }
             }
         });
         tv_net_again.setOnClickListener(new View.OnClickListener() {

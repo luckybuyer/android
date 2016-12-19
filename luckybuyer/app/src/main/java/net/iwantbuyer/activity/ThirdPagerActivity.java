@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.pager.ShowPager;
 import net.iwantbuyer.secondpager.ParticipationPager;
 import net.iwantbuyer.secondpager.PreviousWinnersPager;
 import net.iwantbuyer.utils.StatusBarUtils;
@@ -24,6 +25,7 @@ public class ThirdPagerActivity extends FragmentActivity {
     public String title;                                   //all界面点击view go用到
     public int user_id = -1;
     public int game_id = -1;
+    public int product_id = -1;                            //show界面
 
     public int batch_id;
     @Override
@@ -38,6 +40,7 @@ public class ThirdPagerActivity extends FragmentActivity {
         title = getIntent().getStringExtra("title");
         user_id = getIntent().getIntExtra("user_id",-1);
         game_id = getIntent().getIntExtra("game_id",-1);
+        game_id = getIntent().getIntExtra("product_id",-1);
         setData();
         selectPager();
     }
@@ -49,6 +52,8 @@ public class ThirdPagerActivity extends FragmentActivity {
         list.add(new PreviousWinnersPager());
         //参与详情页面                     1
         list.add(new ParticipationPager());
+        //参与详情页面                     1
+        list.add(new ShowPager());
     }
 
     private void selectPager() {
@@ -57,6 +62,8 @@ public class ThirdPagerActivity extends FragmentActivity {
             switchPage(0);
         }else if("participation".equals(from)) {
             switchPage(1);
+        }else if("show".equals(from)) {
+            switchPage(2);
         }
     }
 

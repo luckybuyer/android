@@ -17,11 +17,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.auth0.android.Auth0;
+import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
-import com.auth0.android.lock.Theme;
-import com.auth0.android.lock.enums.SocialButtonStyle;
+//import com.auth0.android.lock.Theme;
+//import com.auth0.android.lock.enums.SocialButtonStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
@@ -96,14 +97,16 @@ public class SecondPagerActivity extends FragmentActivity {
         setContentView(R.layout.activity_second_pager);
 
         //auth0登陆
-        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
+        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
-                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
-                .withSocialButtonStyle(SocialButtonStyle.BIG)
+//                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
+//                .withSocialButtonStyle(SocialButtonStyle.BIG)
+                .withAuthButtonSize(AuthButtonSize.BIG)
                 // Add parameters to the Lock Builder
-                .build();
-        this.lock.onCreate(this);
+                .useBrowser(false)
+                .build(this);
+
 
 
         batch_id = getIntent().getIntExtra("batch_id", -1);

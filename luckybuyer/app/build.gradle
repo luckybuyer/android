@@ -28,16 +28,18 @@ dependencies {
     compile files('libs/glide-3.6.1.jar')
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    compile 'com.auth0.android:lock:2.0.0-beta.3'
+//    compile 'com.auth0.android:lock:2.0.0-beta.3'
+//    compile 'com.auth0.android:lock:2.0.0'
+    compile 'com.auth0.android:lock:2.2.1'
     //auth0登陆
     compile 'com.google.code.gson:gson:2.7'
     compile project(':FlycoTabLayout_Lib')
-//    compile 'com.paypal.sdk:paypal-android-sdk:2.15.0'
-    dependencies {
-        compile('com.paypal.sdk:paypal-android-sdk:2.15.1') {
-            exclude group: 'io.card'
-        }
-    }
+    compile 'com.paypal.sdk:paypal-android-sdk:2.15.0'
+//    dependencies {
+//        compile('com.paypal.sdk:paypal-android-sdk:2.15.1') {
+//            exclude group: 'io.card'
+//        }
+//    }
 
     //paypal支付
 
@@ -52,4 +54,4 @@ dependencies {
 //    compile "com.google.android.gms:play-services:7.5.0+"
     compile 'com.umeng.analytics:analytics:latest.integration'            //有盟
 }
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

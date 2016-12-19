@@ -114,6 +114,7 @@ public class WinningPager extends BaseNoTrackPager {
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
                             rl_neterror.setVisibility(View.GONE);
+                            rl_loading.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -145,6 +146,10 @@ public class WinningPager extends BaseNoTrackPager {
                 });
             }
         });
+        //重置 请求  下拉刷新数据
+        isMoreData = true;
+        isNeedpull = true;
+        page = 2;
     }
 
     private void findView() {

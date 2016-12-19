@@ -17,7 +17,8 @@
 
     <!--有盟渠道号-->
     <!--<string name="channel">google_play</string>-->
-    <string name="channel">Free_Game</string>
+    <!--<string name="channel">Free_Game</string>-->
+    <string name="channel">YeahMobi</string>
 
     <!--英文-->
     <string name="Home">Home</string>                        <!--首页-->
@@ -40,15 +41,15 @@
     <string name="GetItNow">Get It Now</string>              <!--现在购买-->
     <string name="Play1coin">Play 1 coin, get 1 chance! Now with free shipping！</string>              <!--花费一枚金币，就有一次获奖机会！而且免运费！-->
     <string name="FiveTimes">Quantity of purchased items must be multiples of </string>              <!--必须是五的倍数-->
-    <string name="allremain">all remain</string>              <!--买下剩下的所有-->
+    <string name="allremain">all remained</string>              <!--买下剩下的所有-->
 
     <string name="selectquantity">Please select the quantity</string>              <!--请选择数量  在popupwindow上面-->
     <string name="Participationsuccess">Participation success</string>              <!--参与成功 -->
     <string name="Participationsuccesstext">You will be notified by email if you are the winner</string>              <!--如果您赢了，我们会给您发邮件-->
     <string name="Insufficientfunds">Insufficient funds</string>              <!--金币不足-->
     <string name="Insufficientfundstext">No enough coins, please topup firstly.</string>              <!--没有足够的金币 请购买金币-->
-    <string name="Itemexpired">Item expired</string>              <!--本期以结束-->
-    <string name="Itemexpiredtext">the issue you selected has sold out, please choose another time.</string>              <!--该期次已结束，请参与最新一期-->
+    <string name="Itemexpired">Current Round finished</string>              <!--本期以结束-->
+    <string name="Itemexpiredtext">the current round is finished, please select another rounds.</string>              <!--该期次已结束，请参与最新一期-->
     <string name="Participationfailed">Participation failed</string>              <!--参与失败-->
     <string name="Participationfailedtext">Insufficient number of products. plaese select it again.</string>              <!--剩余数量不足，请重新选择-->
     <string name="Done">Done</string>                         <!--我知道了-->
@@ -66,7 +67,7 @@
     <string name="viewall">view all</string>                     <!--查看全部-->
     <string name="Details">Details</string>                     <!--详情-->
     <string name="Time">Date</string>                     <!--详情-->
-    <string name="People">People</string>                     <!--人次-->
+    <string name="People">Total Coins</string>                     <!--人次-->
     <string name="Participationnumbers">Ticket Number</string>                     <!--号码-->
     <string name="Participationnumbers.">Ticket Number:</string>                     <!--号码-->
     <string name="facebooklike">Click like on our \"Facebook\" page and you\'ll see a notification when you win items.</string>                     <!--like lucky buyer page后，我们会实时公布开奖信息。-->
@@ -80,7 +81,7 @@
     <string name="Confirmdelivery">Confirm Receipt</string>                     <!--确认收货-->
     <string name="Delivered">Completed</string>                     <!--已收货-->
     <string name="Confirm">Confirm</string>                     <!--确认-->
-    <string name="Itemsconfirm">Items confirm</string>                     <!--商品确认-->
+    <string name="Itemsconfirm">Delivery confirmation</string>                     <!--商品确认-->
 
     <string name="Ordertracking">Order tracking</string>                     <!--商品追踪-->
     <string name="youwonthisproduct">Congratulations to you! You won this product!</string>                     <!--恭喜您获得该商品-->

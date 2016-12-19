@@ -27,6 +27,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import net.iwantbuyer.activity.MainActivity;
+import net.iwantbuyer.view.CustomToast;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -272,8 +275,11 @@ public class Utils {
     }
 
     public static void MyToast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
+        int xOffset = 0, yOffset = -300;
+        CustomToast.makeText(context, message,
+                CustomToast.LENGTH_SHORT, xOffset, yOffset).show();
     }
 
     /**

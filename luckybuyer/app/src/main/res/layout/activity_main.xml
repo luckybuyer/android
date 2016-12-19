@@ -110,10 +110,9 @@
             android:background="#000000"></RelativeLayout>
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
+    <net.iwantbuyer.view.NoScrollViewPager
         android:id="@+id/vp_main"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></net.iwantbuyer.view.NoScrollViewPager>
 
 </RelativeLayout>

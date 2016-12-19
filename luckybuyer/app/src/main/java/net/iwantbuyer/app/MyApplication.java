@@ -14,8 +14,8 @@ import java.util.TimeZone;
 public class MyApplication extends MultiDexApplication{
 
     public static String utc;
-//    public static String url = "https://api-staging.luckybuyer.net";                      //测试服务器
-    public static String url = "https://api-sg.luckybuyer.net";                           //新加波服务器
+    public static String url = "https://api-staging.luckybuyer.net";                      //测试服务器
+//    public static String url = "https://api-sg.luckybuyer.net";                           //新加波服务器
 //    public static String url = "https://api-usw.luckybuyer.net";                          //美国服务器
 //    public static String url = "http://192.168.166.236:8000";
 
@@ -34,5 +34,4 @@ public class MyApplication extends MultiDexApplication{
         String projectToken = "1ad47d43bf1c4784bb8a037f420bebc3"; // e.g.: "1ef7e30d2a58d27f4b90c42e31d6d7ad"     真的
         mixpanel = MixpanelAPI.getInstance(this, projectToken);
     }
-
 }

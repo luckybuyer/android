@@ -1,5 +1,6 @@
 package net.iwantbuyer.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -22,11 +24,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.auth0.android.Auth0;
+import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
-import com.auth0.android.lock.Theme;
-import com.auth0.android.lock.enums.SocialButtonStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.facebook.appevents.AppEventsConstants;
@@ -38,6 +39,7 @@ import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.adapter.GuideAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.bean.BuyCoinBean;
 import net.iwantbuyer.bean.TokenBean;
@@ -51,6 +53,7 @@ import net.iwantbuyer.util.IabHelper;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.MyBase64;
 import net.iwantbuyer.utils.Utils;
+import net.iwantbuyer.view.NoScrollViewPager;
 
 import org.json.JSONObject;
 
@@ -66,6 +69,7 @@ public class MainActivity extends FragmentActivity {
 
     private FrameLayout fl_main;
     public RadioGroup rg_main;
+    private NoScrollViewPager vp_main;
     private List<Fragment> list;
     public Lock lock;
 
@@ -95,17 +99,20 @@ public class MainActivity extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
-        Log.e("TAG_dimen", getResources().getDimension(R.dimen.dimen_10) + "");
+
         //auth0登陆
-        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
+        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
 //        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
-                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
-                .withSocialButtonStyle(SocialButtonStyle.BIG)
-                // Add parameters to the Lock Builder
-                .build();
-        this.lock.onCreate(this);
+//                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
+                .withAuthButtonSize(AuthButtonSize.BIG)
+//                // Add parameters to the Lock Builder
+                .useBrowser(false)
+                .build(this);
+
+
+
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) { // “内存重启”时调用
 
@@ -144,6 +151,15 @@ public class MainActivity extends FragmentActivity {
         //发现视图  设置监听
         findView();
 
+        //新手 引导页面
+        if(Utils.getSpData("guide",this) == null) {
+            vp_main.setAdapter(new GuideAdapter(this,vp_main));
+            vp_main.setPageTransformer(true, new DepthPageTransformer());
+        }else {
+            vp_main.setVisibility(View.GONE);
+        }
+        //放在  是否需要新手引导后面设置
+        Utils.setSpData("guide","value",this);
         rb_main_homepager.setChecked(true);
         if (Utils.checkDeviceHasNavigationBar(MainActivity.this)) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(MainActivity.this));
@@ -152,14 +168,49 @@ public class MainActivity extends FragmentActivity {
 
         HaloPay.getInstance().init(this, HaloPay.PORTRAIT, "3000600754");
 
-        String token = FirebaseInstanceId.getInstance().getToken();
-        if (token != null) {
-            Log.e("TAG_000", token);
-        }
+//        String token = FirebaseInstanceId.getInstance().getToken();
+//        if (token != null) {
+//            Log.e("TAG_000", token);
+//        }
 
 
 //        getsp();
         Utils.setSpData("main_pager",null,this);       //当editshow 返回时候的临时变量 一定要删除
+    }
+    class DepthPageTransformer implements ViewPager.PageTransformer {
+        private float MIN_SCALE = 0.75f;
+
+        @SuppressLint("NewApi")
+        @Override
+        public void transformPage(View view, float position) {
+            int pageWidth = view.getWidth();
+            if (position < -1) { // [-Infinity,-1)
+                // This page is way off-screen to the left.
+                view.setAlpha(0);
+            } else if (position <= 0) { // [-1,0]
+                // Use the default slide transition when
+                // moving to the left page
+                view.setAlpha(1);
+                view.setTranslationX(0);
+                view.setScaleX(1);
+                view.setScaleY(1);
+            } else if (position <= 1) { // (0,1]
+                // Fade the page out.
+                view.setAlpha(1 - position);
+                // Counteract the default slide transition
+                view.setTranslationX(pageWidth * -position);
+                // Scale the page down (between MIN_SCALE and 1)
+                float scaleFactor = MIN_SCALE + (1 - MIN_SCALE)
+                        * (1 - Math.abs(position));
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
+            } else { // (1,+Infinity]
+                // This page is way off-screen to the right.
+                view.setAlpha(0);
+
+            }
+        }
+
     }
 
     //设置数据
@@ -176,6 +227,7 @@ public class MainActivity extends FragmentActivity {
     private void findView() {
         fl_main = (FrameLayout) findViewById(R.id.fl_main);
         rg_main = (RadioGroup) findViewById(R.id.rg_main);
+        vp_main = (NoScrollViewPager) findViewById(R.id.vp_main);
         rb_main_homepager = (RadioButton) findViewById(R.id.rb_main_homepager);
         rb_main_buycoins = (RadioButton) findViewById(R.id.rb_main_buycoins);
         rb_main_newresult = (RadioButton) findViewById(R.id.rb_main_newresult);
@@ -454,9 +506,13 @@ public class MainActivity extends FragmentActivity {
                         if (login_id == 1) {
                             rb_main_buycoins.setChecked(true);
                             rb_main_me.setChecked(false);
+                            rb_main_homepager.setChecked(false);
+                            rb_main_newresult.setChecked(false);
                         } else if (login_id == 4) {
                             rb_main_buycoins.setChecked(false);
                             rb_main_me.setChecked(true);
+                            rb_main_homepager.setChecked(false);
+                            rb_main_newresult.setChecked(false);
                             if(mePager!= null && mePager.mePagerAllAdapter != null) {
                                 mePager.mePagerAllAdapter.list.clear();
                                 mePager.mePagerAllAdapter.notifyDataSetChanged();
@@ -469,6 +525,12 @@ public class MainActivity extends FragmentActivity {
 //                                if(mePager != null) {
 //                                    mePager.initData();
 //                                }
+                        }else {
+                            rb_main_homepager.setChecked(true);
+                            rb_main_buycoins.setChecked(false);
+                            rb_main_me.setChecked(false);
+                            rb_main_newresult.setChecked(false);
+
                         }
                         rb_main_homepager.setChecked(false);
                         rb_main_newresult.setChecked(false);
