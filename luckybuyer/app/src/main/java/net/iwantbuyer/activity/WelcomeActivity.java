@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
@@ -41,6 +42,8 @@ public class WelcomeActivity extends Activity {
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_welcome);
+
+        AppsFlyerLib.getInstance().startTracking(this.getApplication(),"GKRPFQEuht2yY8DiQdfwc8");
 
         if(Utils.getSpData("token",WelcomeActivity.this)!= null) {
             String token = Utils.getSpData("token",WelcomeActivity.this);

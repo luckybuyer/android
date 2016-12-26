@@ -9,25 +9,26 @@
     </style>
 
     <declare-styleable name="refreshableView">
-        <attr name="interceptAllMoveEvents" format="boolean"/>
+        <attr name="interceptAllMoveEvents" format="boolean" />
     </declare-styleable>
 
-     <attr name="borderRadius" format="dimension" />  
-        <attr name="type">  
-            <enum name="circle" value="0" />  
-            <enum name="round" value="1" />  
-        </attr>  
-        <declare-styleable name="RoundCornerImageView">
-            <attr name="borderRadius" />  
-            <attr name="type" />  
-        </declare-styleable>
+    <attr name="borderRadius" format="dimension" />
+    <attr name="type">
+        <enum name="circle" value="0" />
+        <enum name="round" value="1" />
+    </attr>
+    <declare-styleable name="RoundCornerImageView">
+        <attr name="borderRadius" />
+        <attr name="type" />
+    </declare-styleable>
 
     <style name="MyLockTheme" parent="Lock.Theme">
-        <item name="Auth0.HeaderLogo">@drawable/me_selector</item>
-        <item name="Auth0.HeaderTitle">yangshuyu</item>
-        <item name="Auth0.HeaderTitleColor">@color/com_auth0_lock_text</item>
-        <item name="Auth0.HeaderBackground">@color/com_auth0_lock_header_background</item>
-        <item name="Auth0.PrimaryColor">@color/com_auth0_lock_submit_normal</item>
-        <item name="Auth0.DarkPrimaryColor">@color/com_auth0_lock_submit_pressed</item>
+
+        <item name="Auth0.HeaderTitle">@string/app_name</item>
+        <item name="Auth0.HeaderTitleColor">@color/text_black</item>
+        <item name="Auth0.HeaderLogo">@mipmap/ic_launcher</item>
+        <item name="Auth0.HeaderBackground">@color/auth0_header</item>
+        <item name="Auth0.DarkPrimaryColor">@color/text_black</item>
+        <item name="Auth0.PrimaryColor">@color/bg_ff4f3c</item>
     </style>
 </resources>

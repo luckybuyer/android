@@ -8,8 +8,8 @@ android {
         applicationId "net.iwantbuyer"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 5
-        versionName "1.2.0"
+        versionCode 7
+        versionName "1.2.2"
         multiDexEnabled true
     }
     buildTypes {
@@ -17,6 +17,32 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions{
+        exclude 'AndroidManifest.xml'
+        exclude 'lib/arm64-v8a/libcardioDecider.so'
+        exclude 'lib/arm64-v8a/libcardioRecognizer.so'
+        exclude 'lib/arm64-v8a/libcardioRecognizer_tegra2.so'
+        exclude 'lib/arm64-v8a/libopencv_core.so'
+        exclude 'lib/arm64-v8a/libopencv_imgproc.so'
+        exclude 'lib/armeabi/libcardioDecider.so'
+        exclude 'lib/armeabi-v7a/libcardioDecider.so'
+        exclude 'lib/armeabi-v7a/libcardioRecognizer.so'
+        exclude 'lib/armeabi-v7a/libcardioRecognizer_tegra2.so'
+        exclude 'lib/armeabi-v7a/libopencv_core.so'
+        exclude 'lib/armeabi-v7a/libopencv_imgproc.so'
+        exclude 'lib/mips/libcardioDecider.so'
+        exclude 'lib/x86/libcardioDecider.so'
+        exclude 'lib/x86/libcardioRecognizer.so'
+        exclude 'lib/x86/libcardioRecognizer_tegra2.so'
+        exclude 'lib/x86/libopencv_core.so'
+        exclude 'lib/x86/libopencv_imgproc.so'
+        exclude 'lib/x86_64/libcardioDecider.so'
+        exclude 'lib/x86_64/libcardioRecognizer.so'
+        exclude 'lib/x86_64/libcardioRecognizer_tegra2.so'
+        exclude 'lib/x86_64/libopencv_core.so'
+        exclude 'lib/x86_64/libopencv_imgproc.so'
     }
 }
 
@@ -28,19 +54,18 @@ dependencies {
     compile files('libs/glide-3.6.1.jar')
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    compile 'com.auth0.android:lock:2.0.0-beta.3'
+//    compile 'com.auth0.android:lock:2.0.0-beta.3'
+    compile 'com.auth0.android:lock:2.2.1'
     //auth0登陆
     compile 'com.google.code.gson:gson:2.7'
     compile project(':FlycoTabLayout_Lib')
 //    compile 'com.paypal.sdk:paypal-android-sdk:2.15.0'
-    dependencies {
-        compile('com.paypal.sdk:paypal-android-sdk:2.15.1') {
-            exclude group: 'io.card'
-        }
-    }
+    compile 'com.paypal.sdk:paypal-android-sdk:2.14.1'
+//    compile('com.paypal.sdk:paypal-android-sdk:2.15.1') {
+//        exclude group: 'io.card'
+//    }
 
     //paypal支付
-
     compile 'com.inthecheesefactory.thecheeselibrary:fb-like:0.9.3'
     //faceboook 点赞
     compile project(':halopay_res')
@@ -51,5 +76,7 @@ dependencies {
     compile "com.mixpanel.android:mixpanel-android:4.+"
 //    compile "com.google.android.gms:play-services:7.5.0+"
     compile 'com.umeng.analytics:analytics:latest.integration'            //有盟
+
+    compile 'com.appsflyer:af-android-sdk:4.3.7@aar'                      //appFlyer
 }
 apply plugin: 'com.google.gms.google-services'

@@ -25,6 +25,7 @@
             android:id="@+id/rl_set_back"
             android:layout_width="@dimen/dimen_80"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/iv_set_back"
                 android:layout_width="@dimen/dimen_24"
@@ -38,9 +39,9 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:background="@drawable/default_shadow_top"
+            android:layout_height="3px"
             android:layout_alignParentBottom="true"
-            android:layout_height="3px" />
+            android:background="@drawable/default_shadow_top" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -70,13 +71,102 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_set_email"
+        android:visibility="gone"
+        android:id="@+id/rl_set_country"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_set_address"
+        android:background="#ffffff">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/bg_view"></View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:text="@string/Changecountry"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_28" />
+
+        <ImageView
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_22"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:background="@drawable/go_go" />
+
+        <ImageView
+            android:id="@+id/iv_set_country"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_22"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:background="@drawable/go_go" />
+
+        <ImageView
+            android:layout_toLeftOf="@+id/iv_set_country"
+            android:layout_width="@dimen/dimen_70"
+            android:layout_height="@dimen/dimen_35"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:background="@drawable/country_canada" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="gone"
+        android:id="@+id/rl_set_version"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_100"
+        android:layout_below="@+id/rl_set_country"
         android:layout_marginTop="@dimen/dimen_30"
         android:background="#ffffff">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_40"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:text="@string/CheckForUpdates"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_28" />
+
+        <ImageView
+            android:id="@+id/iv_set_version"
+            android:layout_width="@dimen/dimen_12"
+            android:layout_height="@dimen/dimen_22"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:background="@drawable/go_go" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/iv_set_version"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:text="V1.0.1"
+            android:textSize="@dimen/dimen_25" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_set_email"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_100"
+        android:layout_below="@+id/rl_set_version"
+        android:background="#ffffff">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/bg_view"></View>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_40"
@@ -93,32 +183,36 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_24"
             android:background="@drawable/go_go" />
+
+
     </RelativeLayout>
 
+
+
     <!--<RelativeLayout-->
-        <!--android:id="@+id/rl_set_us"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/dimen_50"-->
-        <!--android:layout_below="@+id/rl_set_help"-->
-        <!--android:layout_marginTop="@dimen/dimen_15"-->
-        <!--android:background="#ffffff">-->
+    <!--android:id="@+id/rl_set_us"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/dimen_50"-->
+    <!--android:layout_below="@+id/rl_set_help"-->
+    <!--android:layout_marginTop="@dimen/dimen_15"-->
+    <!--android:background="#ffffff">-->
 
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="@dimen/dimen_20"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginStart="@dimen/dimen_12"-->
-            <!--android:text="About us"-->
-            <!--android:textColor="@color/text_black"-->
-            <!--android:textSize="@dimen/dimen_14" />-->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="@dimen/dimen_20"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginStart="@dimen/dimen_12"-->
+    <!--android:text="About us"-->
+    <!--android:textColor="@color/text_black"-->
+    <!--android:textSize="@dimen/dimen_14" />-->
 
-        <!--<ImageView-->
-            <!--android:layout_width="@dimen/dimen_6"-->
-            <!--android:layout_height="@dimen/dimen_11"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:layout_marginEnd="@dimen/dimen_12"-->
-            <!--android:background="@drawable/go_go" />-->
+    <!--<ImageView-->
+    <!--android:layout_width="@dimen/dimen_6"-->
+    <!--android:layout_height="@dimen/dimen_11"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginEnd="@dimen/dimen_12"-->
+    <!--android:background="@drawable/go_go" />-->
     <!--</RelativeLayout>-->
 
     <TextView
@@ -126,8 +220,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_set_email"
-        android:layout_marginStart="@dimen/dimen_60"
         android:layout_marginEnd="@dimen/dimen_60"
+        android:layout_marginStart="@dimen/dimen_60"
         android:layout_marginTop="@dimen/dimen_80"
         android:background="@drawable/selector_rl_set_login"
         android:gravity="center"

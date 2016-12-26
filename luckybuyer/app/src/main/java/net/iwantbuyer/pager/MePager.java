@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -66,7 +67,6 @@ public class MePager extends BaseNoTrackPager {
     private ImageView iv_me_voice;
     private ImageView i_me_set;                  //设置
     private TextView tv_me_name;
-    private TextView tv_me_fbcode;
     private TextView tv_me_gold;
     public CustomViewPager vp_me;
     private SlidingTabLayout stl_me_vpcontrol;
@@ -113,6 +113,10 @@ public class MePager extends BaseNoTrackPager {
         } catch (Exception e) {
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
+
+        //AppFlyer 埋点
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(context, "PAGE: Me",eventValue);
 
         vp_me.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -519,7 +523,6 @@ public class MePager extends BaseNoTrackPager {
         iv_me_voice = (ImageView) inflate.findViewById(R.id.iv_me_voice);
         i_me_set = (ImageView) inflate.findViewById(R.id.i_me_set);
         tv_me_name = (TextView) inflate.findViewById(R.id.tv_me_name);
-        tv_me_fbcode = (TextView) inflate.findViewById(R.id.tv_me_fbcode);
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
         vp_me = (CustomViewPager) inflate.findViewById(R.id.vp_me);
         stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
@@ -557,7 +560,6 @@ public class MePager extends BaseNoTrackPager {
 
 
         tv_me_name.setText(name);
-        tv_me_fbcode.setText(user_id);
         tv_me_gold.setText("" + balance);
         Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@drawable/guide_first"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_guide_select"
+        android:layout_width="@dimen/dimen_470"
+        android:layout_height="@dimen/dimen_95"
+        android:layout_marginLeft="@dimen/dimen_13"
+        android:layout_marginTop="@dimen/dimen_310"
+        android:background="@drawable/guide_selector" />
+
+    <ImageView
+        android:id="@+id/iv_guide_arrow"
+        android:layout_width="@dimen/dimen_85"
+        android:layout_height="@dimen/dimen_76"
+        android:layout_below="@+id/iv_guide_select"
+        android:layout_marginLeft="@dimen/dimen_155"
+        android:layout_marginTop="@dimen/dimen_30"
+        android:background="@drawable/guide_arrow" />
+
+    <ImageView
+        android:id="@+id/iv_guide_selector"
+        android:layout_width="@dimen/dimen_360"
+        android:layout_height="@dimen/dimen_500"
+        android:layout_marginTop="@dimen/dimen_540" />
+    <ImageView
+        android:id="@+id/iv_guide_close"
+        android:layout_width="@dimen/dimen_52"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dimen_35"
+        android:layout_marginTop="@dimen/dimen_55"
+        android:background="@drawable/guide_close"
+        android:layout_height="@dimen/dimen_52" />
+
+</RelativeLayout>

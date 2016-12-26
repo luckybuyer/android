@@ -28,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -54,7 +55,9 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/9/13.
@@ -137,6 +140,11 @@ public class HomePager extends BaseNoTrackPager {
         } catch (Exception e) {
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
+
+        //AppFlyer 埋点
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:homepage",eventValue);
+
         return inflate;
     }
 
@@ -475,6 +483,10 @@ public class HomePager extends BaseNoTrackPager {
                 } catch (Exception e) {
                     Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                 }
+
+                //AppFlyer 埋点
+                Map<String, Object> eventValue = new HashMap<String, Object>();
+                AppsFlyerLib.getInstance().trackEvent(context, "Click:" + productList.get(position).getProduct().getId(),eventValue);
             }
 
             @Override

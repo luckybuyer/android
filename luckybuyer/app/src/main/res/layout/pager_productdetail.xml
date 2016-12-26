@@ -378,12 +378,6 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_20"
-                        android:background="#eeeeee"></RelativeLayout>
-
-
                     <!--&lt;!&ndash;倒计时与开奖之后显示&ndash;&gt;-->
                     <!--<RelativeLayout-->
                         <!--android:id="@+id/rl_productdetail_calculation"-->
@@ -427,6 +421,10 @@
                     <include
                         android:id="@+id/rl_productdetail_lucky"
                         layout="@layout/include"></include>
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/bg_view"
+                        android:layout_height="1px"></View>
 
                     <include
                         android:id="@+id/rl_productdetail_mybuy"
@@ -435,14 +433,48 @@
                     //防止使用 margintop出现空白区域
 
                     <RelativeLayout
+                        android:id="@+id/rl_productdetail_announced"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_10"
+                        android:layout_height="@dimen/dimen_120"
+                        android:background="@color/bg_while">
+                        <RelativeLayout
+                            android:id="@+id/rl_announced"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dimen_20"
+                            android:background="#EEEEEE">
+                        </RelativeLayout>
+                        <ImageView
+                            android:layout_marginTop="@dimen/dimen_55"
+                            android:layout_width="@dimen/dimen_24"
+                            android:layout_height="@dimen/dimen_22"
+                            android:layout_marginStart="@dimen/dimen_24"
+                            android:background="@drawable/productdetail_previous" />
+
+                        <TextView
+                            android:layout_marginTop="@dimen/dimen_50"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/dimen_44"
+                            android:layout_marginStart="@dimen/dimen_68"
+                            android:text="@string/PreviousWinners"
+                            android:textColor="#666666"
+                            android:textSize="@dimen/dimen_32" />
+
+                        <ImageView
+                            android:layout_marginTop="@dimen/dimen_55"
+                            android:layout_width="@dimen/dimen_12"
+                            android:layout_height="@dimen/dimen_22"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/dimen_24"
+                            android:background="@drawable/go_go" />
+                    </RelativeLayout>
+                    //防止使用 margintop出现空白区域
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dimen_20"
                         android:background="#EEEEEE">
                     </RelativeLayout>
-
-
                     <RelativeLayout
-                        android:id="@+id/rl_productdetail_announced"
+                        android:id="@+id/rl_productdetail_show"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_100"
                         android:background="@color/bg_while">
@@ -452,14 +484,14 @@
                             android:layout_height="@dimen/dimen_22"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dimen_24"
-                            android:background="@drawable/productdetail_previous" />
+                            android:background="@drawable/productdetail_show" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/dimen_44"
                             android:layout_centerVertical="true"
                             android:layout_marginStart="@dimen/dimen_68"
-                            android:text="@string/PreviousWinners"
+                            android:text="@string/Show"
                             android:textColor="#666666"
                             android:textSize="@dimen/dimen_32" />
 

@@ -16,12 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.Auth0;
+import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
-import com.auth0.android.lock.Theme;
-import com.auth0.android.lock.enums.SocialButtonStyle;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
@@ -95,15 +95,16 @@ public class SecondPagerActivity extends FragmentActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.activity_second_pager);
 
+
         //auth0登陆
         Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
-        this.lock = Lock.newBuilder(auth0, callback)
+        this.lock = Lock.newBuilder(auth0, call)
                 .closable(true)
-                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
-                .withSocialButtonStyle(SocialButtonStyle.BIG)
-                // Add parameters to the Lock Builder
-                .build();
-        this.lock.onCreate(this);
+//                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
+                .withAuthButtonSize(AuthButtonSize.BIG)
+//                // Add parameters to the Lock Builder
+                .useBrowser(false)
+                .build(this);
 
 
         batch_id = getIntent().getIntExtra("batch_id", -1);
@@ -210,12 +211,16 @@ public class SecondPagerActivity extends FragmentActivity {
     }
 
     //auth0登陆回调
-    private LockCallback callback = new AuthenticationCallback() {
+    private LockCallback call = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
 
             //友盟登陆通缉
             LogChannel("Login_Success");
+
+            //Appflyer 统计
+            Map<String, Object> eventValue = new HashMap<String, Object>();
+            AppsFlyerLib.getInstance().trackEvent(SecondPagerActivity.this, "LOGIN:logged_in success",eventValue);
 
             // Base64 解码：
             String token = credentials.getIdToken();
@@ -247,12 +252,21 @@ public class SecondPagerActivity extends FragmentActivity {
             // Login Cancelled response
             //友盟登陆通缉
             LogChannel("Login_Canceled");
+
+            //Appflyer 统计
+            Map<String, Object> eventValue = new HashMap<String, Object>();
+            AppsFlyerLib.getInstance().trackEvent(SecondPagerActivity.this, "LOGIN:logged_in cancel",eventValue);
         }
 
         @Override
         public void onError(LockException error) {
             //友盟登陆通缉
             LogChannel("Login_Error");
+
+            //Appflyer 统计
+            Map<String, Object> eventValue = new HashMap<String, Object>();
+            AppsFlyerLib.getInstance().trackEvent(SecondPagerActivity.this, "LOGIN:logged_in failed",eventValue);
+
             Utils.MyToast(SecondPagerActivity.this,"Login failed");
         }
     };

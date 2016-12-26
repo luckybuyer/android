@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
@@ -81,6 +82,11 @@ public class WinningPager extends BaseNoTrackPager {
         }catch (Exception e){
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
+
+        //AppFlyer 埋点
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(context, "Page:Results",eventValue);
+
         return inflate;
     }
 

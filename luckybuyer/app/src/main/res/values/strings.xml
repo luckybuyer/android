@@ -147,6 +147,16 @@
     <string name="retry">Retry</string>         <!--retry-->
     <string name="CashU">CashU</string>         <!--retry-->
     <string name="Shown">Shown</string>         <!--retry-->
+    <string name="Changecountry">Change country</string>         <!--retry-->
+    <string name="CheckForUpdates">Check for updates</string>         <!--retry-->
+    <string name="Canada">Canada</string>         <!--Canada-->
+    <string name="Unitedarabemirates">United Arab Emirates</string>         <!--United Arab Emirates-->
+    <string name="Oman">Oman</string>         <!--Oman-->
+    <string name="Qatar">Qatar</string>         <!--Qatar-->
+    <string name="Kuwait">Kuwait</string>         <!--Kuwait-->
+    <string name="Bahrain">Bahrain</string>         <!--Bahrain-->
+    <string name="SaudiArabia">Saudi Arabia</string>         <!--Saudi Arabia-->
+    <string name="Egypt">Egypt</string>         <!--Egypt-->
 
 
     <!--数字夹杂英语-->

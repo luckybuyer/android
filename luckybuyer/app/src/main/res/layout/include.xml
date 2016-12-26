@@ -7,11 +7,13 @@
     tools:context="com.example.circleimageviewdemo_1.MainActivity">
 
     <RelativeLayout
+        android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_10"
+        android:layout_height="@dimen/dimen_20"
         android:background="#eeeeee" />
 
     <ImageView
+        android:layout_below="@+id/rl"
         android:layout_width="@dimen/dimen_26"
         android:layout_height="@dimen/dimen_24"
         android:layout_marginStart="@dimen/dimen_24"
@@ -19,6 +21,7 @@
         android:background="@drawable/me_lucky" />
 
     <TextView
+        android:layout_below="@+id/rl"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
         android:layout_marginStart="@dimen/dimen_60"
@@ -29,6 +32,7 @@
         android:textSize="@dimen/dimen_26" />
 
     <TextView
+        android:layout_below="@+id/rl"
         android:id="@+id/tv_productdetail_luckynum"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
@@ -40,6 +44,7 @@
         android:textColor="#ff9c05"
         android:textSize="@dimen/dimen_26" />
     <TextView
+        android:layout_below="@+id/rl"
         android:id="@+id/tv_luckynum"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
@@ -53,7 +58,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:layout_marginTop="@dimen/dimen_100"
+        android:layout_marginTop="@dimen/dimen_120"
         android:background="@color/bg_view"></View>
 
     <net.iwantbuyer.view.RoundCornerImageView
@@ -61,7 +66,7 @@
         android:layout_width="@dimen/dimen_65"
         android:layout_height="@dimen/dimen_65"
         android:layout_marginStart="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_130"
+        android:layout_marginTop="@dimen/dimen_150"
         android:src="@drawable/default_icon" />
 
     <TextView
@@ -69,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_36"
         android:layout_marginStart="@dimen/dimen_20"
-        android:layout_marginTop="@dimen/dimen_130"
+        android:layout_marginTop="@dimen/dimen_150"
         android:layout_toEndOf="@+id/civ_productdetail_lucky"
         android:text="Type something"
         android:textColor="#666666"

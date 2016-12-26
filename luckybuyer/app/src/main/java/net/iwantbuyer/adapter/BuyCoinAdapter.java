@@ -56,7 +56,7 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
         int amount = list.get(position).getAmount();
         if(amount == 1) {
             holder.tv_buyconis_coins.setText(list.get(position).getPrice() + context.getString(R.string.Coin));
-            holder.tv_buyconis_coins.setHovered(true);
+            holder.tv_buyconis_coins.setEnabled(true);
             holder.tv_buyconis_free.setVisibility(View.GONE);
         }else {
             holder.tv_buyconis_coins.setText(list.get(position).getPrice() + context.getString(R.string.Coins));
@@ -69,15 +69,15 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
         }
 
         if(list.get(position).isHovered()) {
-            holder.tv_buyconis_coins.setHovered(true);
-            holder.rl_buycoins_coins.setHovered(true);
+            holder.tv_buyconis_coins.setEnabled(true);
+            holder.rl_buycoins_coins.setEnabled(true);
             holder.iv_buycoins_jiao.setVisibility(View.VISIBLE);
-            holder.tv_buyconis_free.setHovered(true);
+            holder.tv_buyconis_free.setEnabled(true);
         }else {
-            holder.tv_buyconis_coins.setHovered(false);
-            holder.rl_buycoins_coins.setHovered(false);
+            holder.tv_buyconis_coins.setEnabled(false);
+            holder.rl_buycoins_coins.setEnabled(false);
             holder.iv_buycoins_jiao.setVisibility(View.GONE);
-            holder.tv_buyconis_free.setHovered(false);
+            holder.tv_buyconis_free.setEnabled(false);
         }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

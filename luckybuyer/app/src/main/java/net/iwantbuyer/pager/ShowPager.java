@@ -12,10 +12,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.ShowAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
@@ -24,7 +26,9 @@ import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.view.BottomScrollView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/12/7.
@@ -64,6 +68,11 @@ public class ShowPager extends BaseNoTrackPager{
                 initData();
             }
         });
+
+        //AppFlyer 埋点
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(context, "Page: Show",eventValue);
+
         return inflate;
     }
 
@@ -71,7 +80,13 @@ public class ShowPager extends BaseNoTrackPager{
     public void initData() {
         super.initData();
         list = new ArrayList();
-        String url = MyApplication.url + "/v1/posts/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        String url = null;
+        if(context instanceof ThirdPagerActivity) {
+            url = MyApplication.url + "/v1/posts/?product_id= "+((ThirdPagerActivity)context).product_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
+        }else {
+            url = MyApplication.url + "/v1/posts/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        }
+
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -84,6 +99,7 @@ public class ShowPager extends BaseNoTrackPager{
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
                             rl_neterror.setVisibility(View.GONE);
+                            rl_loading.setVisibility(View.GONE);
                         }
                         srl_show.setRefreshing(false);
                     }
@@ -118,6 +134,10 @@ public class ShowPager extends BaseNoTrackPager{
             }
         });
 
+        //重置 请求  下拉刷新数据
+        isMoreData = true;
+        isNeedpull = true;
+        page = 2;
 
     }
 
@@ -163,6 +183,9 @@ public class ShowPager extends BaseNoTrackPager{
             }
         });
 
+        if(shownBean.getShow().size() <= 3) {
+            ll_loading_data.setVisibility(View.GONE);
+        }
         //下拉加载
         sv_show.setOnScrollToBottomLintener(new BottomScrollView.OnScrollToBottomListener() {
             @Override
@@ -173,7 +196,13 @@ public class ShowPager extends BaseNoTrackPager{
                     tv_loading_data.setText(context.getString(R.string.loading___));
 
                     isNeedpull = false;
-                    String url = MyApplication.url + "/v1/posts/?per_page=20&page="+page+"&timezone=" + MyApplication.utc;
+                    String url = null;
+                    if(context instanceof ThirdPagerActivity) {
+                        url = MyApplication.url + "/v1/posts/?product_id= "+((ThirdPagerActivity)context).product_id+"&per_page="+page+"&page=1&timezone=" + MyApplication.utc;
+                    }else {
+                        url = MyApplication.url + "/v1/posts/?per_page=20&page="+page+"&timezone=" + MyApplication.utc;
+                    }
+
                     HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string) {

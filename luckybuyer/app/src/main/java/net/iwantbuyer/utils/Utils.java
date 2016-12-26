@@ -2,8 +2,11 @@ package net.iwantbuyer.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -26,6 +29,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
+
+import net.iwantbuyer.view.CustomToast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -272,8 +277,11 @@ public class Utils {
     }
 
     public static void MyToast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        //        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 
+        int xOffset = 0, yOffset = -300;
+        CustomToast.makeText(context, message,
+                CustomToast.LENGTH_SHORT, xOffset, yOffset).show();
     }
 
     /**
@@ -461,10 +469,45 @@ public class Utils {
         final View v = ((Activity) context).getWindow().peekDecorView();
         if (v != null && v.getWindowToken() != null) {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
-            Log.e("TAG", imm.isActive()+"");
+            Log.e("TAG", imm.isActive() + "");
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
+
+    /**
+     * 判断某一个类是否存在任务栈里面
+     *
+     * @return
+     */
+    public static boolean isExsitTrack(Context context, Class<?> cls) {
+        Intent intent = new Intent(context, cls);
+        ComponentName cmpName = intent.resolveActivity(context.getPackageManager());
+        boolean flag = false;
+        if (cmpName != null) { // 说明系统中存在这个activity
+            ActivityManager am = (ActivityManager) context.getSystemService(context.ACTIVITY_SERVICE);
+            List<ActivityManager.RunningTaskInfo> taskInfoList = am.getRunningTasks(10);
+            for (ActivityManager.RunningTaskInfo taskInfo : taskInfoList) {
+                if (taskInfo.baseActivity.equals(cmpName)) { // 说明它已经启动了
+                    flag = true;
+                    break;  //跳出循环，优化效率
+                }
+            }
+        }
+        return flag;
+    }
+
+    public static boolean isInLauncher(Activity context) {
+        ActivityManager mAm = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskList = mAm.getRunningTasks(100);
+        for (ActivityManager.RunningTaskInfo rti : taskList){
+            Log.e("showRunningTasks", rti.baseActivity.getClassName() + "-----" + rti.topActivity.getClassName()); 
+            if(rti.topActivity.getClassName().equals("net.iwantbuyer.activity.SecondPagerActivity")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
 

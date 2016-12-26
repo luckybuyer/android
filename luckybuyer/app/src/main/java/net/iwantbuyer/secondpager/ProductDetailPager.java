@@ -39,6 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -47,6 +48,7 @@ import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.ProductDetailAdapter;
@@ -116,6 +118,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
     private TextView tv_productdetail_luckymany;                  //别人中奖   买了多少期
     private LinearLayout ll_loading_data;                         //下拉加载数据
     private ProgressBar pb_loading_data;
+    private RelativeLayout rl_productdetail_show;                 //点击进入show界面
     private TextView tv_loading_data;
     private View inflate;
 
@@ -218,6 +221,10 @@ public class ProductDetailPager extends BaseNoTrackPager {
         }catch (Exception e){
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
+
+        //AppFlyer 埋点
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:product",eventValue);
 
         return inflate;
     }
@@ -490,6 +497,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         tv_productdetail_luckymany = (TextView) inflate.findViewById(R.id.tv_productdetail_luckymany);
         ll_loading_data = (LinearLayout) inflate.findViewById(R.id.ll_loading_data);
         pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
+        rl_productdetail_show = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_show);
         tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
 
 
@@ -516,6 +524,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         rl_productdetail_participation_me.setOnClickListener(new MyOnClickListener());
         rl_productdetail_participation_lucky.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
+        rl_productdetail_show.setOnClickListener(new MyOnClickListener());
         rl_productdetail_back.setOnClickListener(new MyOnClickListener());
 
 
@@ -912,6 +921,11 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                     }
 
+                    //AppFlyer 埋点
+                    Map<String, Object> eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click: Get it now",eventValue);
+
+
 
                     View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
                     int height = 0;
@@ -935,6 +949,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     intent.putExtra("title", productDetailBean.getProduct().getTitle());
                     intent.putExtra("user_id", productDetailBean.getLucky_user().getId());
                     ((SecondPagerActivity) context).startActivity(intent);
+                    Log.e("TAG_game_game", productDetailBean.getId() + "");
 
                     break;
                 case R.id.rl_productdetail_participation_me:
@@ -942,6 +957,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     intent = new Intent(context, ThirdPagerActivity.class);
                     intent.putExtra("from", "participation");
                     intent.putExtra("game_id", productDetailBean.getId());
+                    Log.e("TAG_game_game", productDetailBean.getId() + "");
                     intent.putExtra("title_image", productDetailBean.getProduct().getTitle_image());
                     intent.putExtra("title", productDetailBean.getProduct().getTitle());
                     intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
@@ -974,6 +990,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     }else{
                         et_insert_count.setText( productDetailBean.getLeft_shares()  + "");
                         tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
                     }
                     break;
                 case R.id.tv_insert_two:
@@ -981,6 +998,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         et_insert_count.setText(productDetailBean.getShares_increment()*2 + "");
                     } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*2) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
+                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
                     }
                     tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_two.setHovered(true);
@@ -989,8 +1007,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case R.id.tv_insert_five:
                     if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment()*5) {
                         et_insert_count.setText(productDetailBean.getShares_increment()*5 + "");
-                    } else if (productDetailBean.getLeft_shares() < 5) {
+                    } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*5) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
+                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
                     }
                     tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_five.setHovered(true);
@@ -1001,6 +1020,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         et_insert_count.setText(productDetailBean.getShares_increment()*10 + "");
                     } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*10) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
+                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
                     }
                     tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_ten.setHovered(true);
@@ -1013,6 +1033,10 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
                     break;
                 case R.id.tv_insert_buy:
+                    //AppFlyer 埋点
+                    eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click：Total "+et_insert_count.getText().toString()+" coins ",eventValue);
+
                     String token_s = Utils.getSpData("token_num", context);
                     int token = 0;
                     if (token_s != null) {
@@ -1032,7 +1056,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
                             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                         }
 
-
+                        //AppFlyer 埋点
+                        eventValue = new HashMap<String, Object>();
+                        AppsFlyerLib.getInstance().trackEvent(context, "Page：Login",eventValue);
                     }
                     break;
                 case R.id.rl_insert_ok:
@@ -1066,6 +1092,12 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     if (show.isShowing()) {
                         show.dismiss();
                     }
+                    break;
+                case R.id.rl_productdetail_show:
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "show");
+                    intent.putExtra("product_id", productDetailBean.getProduct().getId());
+                    startActivity(intent);
                     break;
             }
         }

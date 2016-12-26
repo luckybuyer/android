@@ -112,26 +112,19 @@
                     android:textSize="@dimen/dimen_34" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_20"
-                android:layout_below="@+id/rl_buycoins_balance"
-                android:background="#F2F2F4"></RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rl_bottom">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_buycoins_charged"
                     android:layout_width="match_parent"
-                    android:background="#ffffff"
-                    android:layout_height="@dimen/dimen_100"
+                    android:background="#F2F2F4"
+                    android:layout_height="@dimen/dimen_70"
                     android:paddingStart="@dimen/dimen_24"
                     android:text="@string/Selectamount"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/dimen_28" />
 
@@ -154,28 +147,22 @@
 
                 </android.support.v7.widget.RecyclerView>
 
-                <RelativeLayout
-                    android:id="@+id/rl_method_above"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_20"
-                    android:layout_below="@+id/rv_buycoins"
-                    android:background="#F2F2F4"></RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_buycoins_method"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/rl_method_above"
-                    android:background="#ffffff"
+                    android:layout_below="@+id/rv_buycoins"
+                    android:background="#f2f2f4"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_100"
+                        android:layout_height="@dimen/dimen_70"
                         android:layout_marginStart="@dimen/dimen_24"
                         android:layout_marginEnd="@dimen/dimen_24"
-                        android:gravity="center_vertical"
-                        android:text="@string/PaymentMethod"
+                        android:gravity="center"
+                        android:text="Choose payment method"
                         android:textColor="#333333"
                         android:textSize="@dimen/dimen_28" />
 
@@ -209,12 +196,11 @@
                         <ImageView
                             android:id="@+id/iv_buycoins_goole"
                             android:layout_width="@dimen/dimen_30"
-                            android:layout_height="@dimen/dimen_19"
+                            android:layout_height="@dimen/dimen_30"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/dimen_24"
-                            android:background="@drawable/buycoins_true"
-                            android:visibility="gone" />
+                            android:background="@drawable/selector_rl_buycoins_payment_method" />
 
                         <View
                             android:layout_width="match_parent"
@@ -243,11 +229,61 @@
                         <ImageView
                             android:id="@+id/iv_buycoins_paypal"
                             android:layout_width="@dimen/dimen_30"
-                            android:layout_height="@dimen/dimen_19"
+                            android:layout_height="@dimen/dimen_30"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/dimen_24"
-                            android:background="@drawable/buycoins_true" />
+                            android:background="@drawable/selector_rl_buycoins_payment_method" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1px"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginStart="@dimen/dimen_24"
+                            android:layout_marginEnd="@dimen/dimen_24"
+                            android:background="#e5e5e5"></View>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:id="@+id/rl_buycoins_visa"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/rl_buycoins_paypal"
+                        android:layout_height="@dimen/dimen_100"
+                        android:background="#ffffff">
+
+                        <ImageView
+                            android:id="@+id/master"
+                            android:layout_width="@dimen/dimen_64"
+                            android:layout_height="@dimen/dimen_36"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/dimen_24"
+                            android:background="@drawable/buycoins_master" />
+                        <TextView
+                            android:id="@+id/or"
+                            android:layout_width="wrap_content"
+                            android:textColor="#999999"
+                            android:textSize="@dimen/dimen_25"
+                            android:text="or"
+                            android:layout_toRightOf="@+id/master"
+                            android:paddingStart="@dimen/dimen_8"
+                            android:paddingEnd="@dimen/dimen_8"
+                            android:layout_centerVertical="true"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:layout_toRightOf="@+id/or"
+                            android:layout_width="@dimen/dimen_64"
+                            android:layout_height="@dimen/dimen_36"
+                            android:layout_centerVertical="true"
+                            android:background="@drawable/buycoins_visa" />
+
+                        <ImageView
+                            android:id="@+id/iv_buycoins_visa"
+                            android:layout_width="@dimen/dimen_30"
+                            android:layout_height="@dimen/dimen_30"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/dimen_24"
+                            android:background="@drawable/selector_rl_buycoins_payment_method" />
 
                         <View
                             android:layout_width="match_parent"
@@ -263,7 +299,7 @@
                         android:id="@+id/rl_buycoins_cashu"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_100"
-                        android:layout_below="@+id/rl_buycoins_paypal"
+                        android:layout_below="@+id/rl_buycoins_visa"
                         android:background="#ffffff">
 
                         <ImageView
@@ -276,11 +312,11 @@
                         <ImageView
                             android:id="@+id/iv_buycoins_cashu"
                             android:layout_width="@dimen/dimen_30"
-                            android:layout_height="@dimen/dimen_19"
+                            android:layout_height="@dimen/dimen_30"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/dimen_24"
-                            android:background="@drawable/buycoins_true"
+                            android:background="@drawable/selector_rl_buycoins_payment_method"
                             android:visibility="gone" />
 
                         <View
@@ -323,12 +359,11 @@
                         <ImageView
                             android:id="@+id/iv_buycoins_halopay"
                             android:layout_width="@dimen/dimen_30"
-                            android:layout_height="@dimen/dimen_19"
+                            android:layout_height="@dimen/dimen_30"
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="@dimen/dimen_24"
-                            android:background="@drawable/buycoins_true"
-                            android:visibility="gone" />
+                            android:background="@drawable/selector_rl_buycoins_payment_method"/>
                     </RelativeLayout>
                 </RelativeLayout>
 
@@ -397,6 +432,7 @@
         android:visibility="gone" />
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

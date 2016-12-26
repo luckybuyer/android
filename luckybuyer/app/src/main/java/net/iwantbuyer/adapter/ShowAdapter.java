@@ -28,6 +28,8 @@ import com.bumptech.glide.request.target.Target;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
+import net.iwantbuyer.activity.SecondPagerActivity;
+import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.bean.BannersBean;
 import net.iwantbuyer.bean.ShownBean;
@@ -47,12 +49,18 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
     private Context context;
     public List<ShownBean.ShowBean> list;
     private View view;
+    boolean flag;
 
     public ShowAdapter(Context context, List list, View view_show) {
         this.context = context;
         this.list = list;
         this.view = view_show;
 //        list.add("http://static-sgp.luckybuyer.net/images/25a40675d17b41958867b3377f6bb760");
+        if(context instanceof MainActivity) {
+            flag = true;
+        }else {
+            flag = false;
+        }
     }
 
     @Override
@@ -128,7 +136,11 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.iv_show_one:
-                    startPPW((MainActivity)context,position);
+                    if(flag) {
+                        startPPW((MainActivity)context,position);
+                    }else {
+                        startPPW((ThirdPagerActivity)context,position);
+                    }
                     if(vp_show != null) {
                         vp_show.setCurrentItem(0);
                         current = 0;
@@ -136,7 +148,11 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
                     point();
                     break;
                 case R.id.iv_show_two:
-                    startPPW((MainActivity)context,position);
+                    if(flag) {
+                        startPPW((MainActivity)context,position);
+                    }else {
+                        startPPW((ThirdPagerActivity)context,position);
+                    }
                     if(vp_show != null) {
                         vp_show.setCurrentItem(1);
                         current = 1;
@@ -144,7 +160,11 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
                     point();
                     break;
                 case R.id.iv_show_three:
-                    startPPW((MainActivity)context,position);
+                    if(flag) {
+                        startPPW((MainActivity)context,position);
+                    }else {
+                        startPPW((ThirdPagerActivity)context,position);
+                    }
                     if(vp_show != null) {
                         vp_show.setCurrentItem(2);
                         current = 2;
