@@ -1,7 +1,9 @@
 package net.iwantbuyer.secondpager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -14,6 +16,8 @@ import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.base.BasePager;
 import net.iwantbuyer.utils.Utils;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by admin on 2016/9/18.
@@ -35,6 +39,7 @@ public class SetPager extends BasePager {
         ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         ((SecondPagerActivity) context).from = "";
         findView();
+
         return inflate;
     }
 
@@ -53,14 +58,27 @@ public class SetPager extends BasePager {
         rl_set_country = (RelativeLayout) inflate.findViewById(R.id.rl_set_country);
         iv_set_country = (ImageView) inflate.findViewById(R.id.iv_set_country);
 
+
+        try {
+            Field field = R.drawable.class.getField(Utils.getSpData("country",context).replace(" ","_").toLowerCase());
+            int i = field.getInt(new R.drawable());
+//            Drawable image = context.getDrawable(i);
+//            holder.iv_country_flag.setBackgroundDrawable(image);
+            iv_set_country.setImageResource(i);
+//            Log.e("TAG", image + "");
+        } catch (Exception e) {
+
+        }
+
         rl_set_address.setOnClickListener(new MyOnClickListener());
         rl_set_email.setOnClickListener(new MyOnClickListener());
 //        rl_set_us.setOnClickListener(new MyOnClickListener());
         tv_set_login.setOnClickListener(new MyOnClickListener());
         rl_set_back.setOnClickListener(new MyOnClickListener());
         rl_set_country.setOnClickListener(new MyOnClickListener());
-
         String token = Utils.getSpData("token", context);
+
+
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -111,4 +129,5 @@ public class SetPager extends BasePager {
         super.onPause();
         MobclickAgent.onPageEnd("SetPager");
     }
+
 }

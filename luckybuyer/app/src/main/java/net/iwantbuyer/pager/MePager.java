@@ -158,6 +158,7 @@ public class MePager extends BaseNoTrackPager {
 
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        Log.e("TAG_me", url);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -173,7 +174,9 @@ public class MePager extends BaseNoTrackPager {
                                         //我的中奖  接口(lucky)
                                         if (response.length() > 10) {
                                             LuckyResponse(finalToken, response);
+                                            Log.e("TAG_me", response);
                                         } else {
+                                            Log.e("TAG", "你好");
                                             rl_nodata.setVisibility(View.VISIBLE);
                                             rl_neterror.setVisibility(View.GONE);
                                             rl_loading.setVisibility(View.GONE);
@@ -226,14 +229,17 @@ public class MePager extends BaseNoTrackPager {
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (response.length() > 10) {
-                                            rl_keepout.setVisibility(View.GONE);
-                                            processData(res, response);
-                                        } else {
-                                            rl_nodata.setVisibility(View.VISIBLE);
-                                            rl_neterror.setVisibility(View.GONE);
-                                            rl_loading.setVisibility(View.GONE);
-                                        }
+                                        rl_keepout.setVisibility(View.GONE);
+                                        processData(res, response);
+//                                        if (response.length() > 10) {
+//                                            Log.e("TAG_me...", response);
+//                                            rl_keepout.setVisibility(View.GONE);
+//                                            processData(res, response);
+//                                        } else {
+//                                            rl_nodata.setVisibility(View.VISIBLE);
+//                                            rl_neterror.setVisibility(View.GONE);
+//                                            rl_loading.setVisibility(View.GONE);
+//                                        }
 
                                     }
                                 }
@@ -317,7 +323,7 @@ public class MePager extends BaseNoTrackPager {
         if (allOrderBean.getAllorder().size() < 20) {
             ll_loading_data.setVisibility(View.GONE);
         }
-        if (luckyOrderBean.getAllorder().size() < 20 && vp_me.getCurrentItem() == 1) {
+        if (resLucky.length() < 50 || luckyOrderBean.getAllorder().size() < 20 && vp_me.getCurrentItem() == 1) {
             ll_loading_data.setVisibility(View.GONE);
         }
 

@@ -7,23 +7,28 @@ import java.util.List;
  */
 public class PaySwitchBean {
 
+
     /**
-     * _resource : type of the resource
-     * broadcasts_per_page : 0
-     * broadcasts_refresh_frequency : 0
-     * exchange_rate : 0
-     * local_currency : string
-     * payment_methods : [{"method":"string","vendor":"string"}]
+     * _resource : Config
+     * auth0_client_id : 6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc
+     * auth0_domain : luckybuyer.auth0.com
+     * broadcasts_per_page : 10
+     * broadcasts_refresh_frequency : 20
+     * exchange_rate : 3.676
+     * local_currency : AED
+     * payment_methods : [{"method":null,"vendor":"android-inapp"},{"method":null,"vendor":"paypal"},{"method":null,"vendor":"halopay"},{"method":null,"vendor":"visa"}]
      */
 
     private String _resource;
-    private float broadcasts_per_page;
-    private float broadcasts_refresh_frequency;
-    private float exchange_rate;
+    private String auth0_client_id;
+    private String auth0_domain;
+    private int broadcasts_per_page;
+    private int broadcasts_refresh_frequency;
+    private double exchange_rate;
     private String local_currency;
     /**
-     * method : string
-     * vendor : string
+     * method : null
+     * vendor : android-inapp
      */
 
     private List<PaymentMethodsBean> payment_methods;
@@ -36,7 +41,23 @@ public class PaySwitchBean {
         this._resource = _resource;
     }
 
-    public float getBroadcasts_per_page() {
+    public String getAuth0_client_id() {
+        return auth0_client_id;
+    }
+
+    public void setAuth0_client_id(String auth0_client_id) {
+        this.auth0_client_id = auth0_client_id;
+    }
+
+    public String getAuth0_domain() {
+        return auth0_domain;
+    }
+
+    public void setAuth0_domain(String auth0_domain) {
+        this.auth0_domain = auth0_domain;
+    }
+
+    public int getBroadcasts_per_page() {
         return broadcasts_per_page;
     }
 
@@ -44,7 +65,7 @@ public class PaySwitchBean {
         this.broadcasts_per_page = broadcasts_per_page;
     }
 
-    public float getBroadcasts_refresh_frequency() {
+    public int getBroadcasts_refresh_frequency() {
         return broadcasts_refresh_frequency;
     }
 
@@ -52,11 +73,11 @@ public class PaySwitchBean {
         this.broadcasts_refresh_frequency = broadcasts_refresh_frequency;
     }
 
-    public float getExchange_rate() {
+    public double getExchange_rate() {
         return exchange_rate;
     }
 
-    public void setExchange_rate(int exchange_rate) {
+    public void setExchange_rate(double exchange_rate) {
         this.exchange_rate = exchange_rate;
     }
 
@@ -77,14 +98,14 @@ public class PaySwitchBean {
     }
 
     public static class PaymentMethodsBean {
-        private String method;
+        private Object method;
         private String vendor;
 
-        public String getMethod() {
+        public Object getMethod() {
             return method;
         }
 
-        public void setMethod(String method) {
+        public void setMethod(Object method) {
             this.method = method;
         }
 

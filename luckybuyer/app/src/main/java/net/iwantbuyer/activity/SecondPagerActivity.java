@@ -96,8 +96,13 @@ public class SecondPagerActivity extends FragmentActivity {
         setContentView(R.layout.activity_second_pager);
 
 
+        MyApplication.url = Utils.getSpData("service", this);
+        MyApplication.client_id = Utils.getSpData("client_id", this);
+        MyApplication.domain = Utils.getSpData("domain", this);
+
         //auth0登陆
-        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
+//        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
+        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
         this.lock = Lock.newBuilder(auth0, call)
                 .closable(true)
 //                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
@@ -116,11 +121,11 @@ public class SecondPagerActivity extends FragmentActivity {
         setData();
         //发现视图  设置监听
         findView();
-        setHeadMargin();
+//        setHeadMargin();
         selectPager();
 
         if (Utils.checkDeviceHasNavigationBar(SecondPagerActivity.this)) {
-            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(SecondPagerActivity.this));
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(SecondPagerActivity.this));
             rl_secondpager.setLayoutParams(lp);
         }
 
@@ -169,12 +174,15 @@ public class SecondPagerActivity extends FragmentActivity {
     }
 
     //选择哪个界面
+    public FragmentManager fragmentManager = getSupportFragmentManager();
     public void switchPage(int checkedId) {
         Fragment fragment = list.get(checkedId);
-        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_secondpager, fragment);
-//        fragmentTransaction.addToBackStack(null);
+        if(checkedId != 4 && checkedId != 0 && checkedId != 6) {
+            fragmentTransaction.addToBackStack(null);
+        }
+
         fragmentTransaction.commit();
     }
 
@@ -352,7 +360,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
         }
 
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         lp.topMargin = sbar;
         rl_secondpager_header.setLayoutParams(lp);
 
@@ -369,39 +377,39 @@ public class SecondPagerActivity extends FragmentActivity {
         }
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ("productdetail".equals(from)) {
-                switchPage(0);
-                from = "";
-                return false;
-            } else if ("coindetailpager".equals(from)) {
-                switchPage(5);
-                from = "";
-                return false;
-            } else if ("dispatchpager".equals(from)) {
-                switchPage(7);
-                from = "";
-                return false;
-            } else if ("setpager".equals(from)) {
-                switchPage(4);
-                from = "";
-                return false;
-            } else if ("shippingaddress".equals(from)) {
-                switchPage(9);
-                from = "";
-                return false;
-            } else if ("buycoinpager".equals(from)) {
-                switchPage(6);
-                from = "";
-                return false;
-            }
-
-            finish();
-        }
-        return super.onKeyUp(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyUp(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            if ("productdetail".equals(from)) {
+//                switchPage(0);
+//                from = "";
+//                return false;
+//            } else if ("coindetailpager".equals(from)) {
+//                switchPage(5);
+//                from = "";
+//                return false;
+//            } else if ("dispatchpager".equals(from)) {
+//                switchPage(7);
+//                from = "";
+//                return false;
+//            } else if ("setpager".equals(from)) {
+//                switchPage(4);
+//                from = "";
+//                return false;
+//            } else if ("shippingaddress".equals(from)) {
+//                switchPage(9);
+//                from = "";
+//                return false;
+//            } else if ("buycoinpager".equals(from)) {
+//                switchPage(6);
+//                from = "";
+//                return false;
+//            }
+//
+//            finish();
+//        }
+//        return super.onKeyUp(keyCode, event);
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -413,8 +421,6 @@ public class SecondPagerActivity extends FragmentActivity {
             String dataSignature = data.getStringExtra("INAPP_DATA_SIGNATURE");
 
 
-            Log.e("TAG_huidiao", purchaseData + "");
-            Log.e("TAG_huidiao", dataSignature + "");
 
 //            googleMyService(purchaseData, dataSignature);
             buyCoinPager.googleMyService(purchaseData, dataSignature);

@@ -20,17 +20,32 @@
             android:background="@drawable/home_luckybuye"
             android:textSize="@dimen/dimen_38" />
 
+        <ImageView
+            android:id="@+id/iv_home_country"
+            android:layout_width="@dimen/dimen_15"
+            android:layout_height="@dimen/dimen_10"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/dimen_30"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:background="@drawable/homepager_country" />
+
         <TextView
-            android:id="@+id/tv_home_share"
-            android:layout_width="@dimen/dimen_72"
+            android:id="@+id/tv_home_country"
+            android:layout_width="@dimen/dimen_120"
             android:layout_height="@dimen/dimen_42"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/dimen_24"
-            android:layout_marginEnd="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_14"
+            android:layout_marginBottom="@dimen/dimen_15"
+            android:layout_marginEnd="@dimen/dimen_5"
+            android:layout_toLeftOf="@+id/iv_home_country"
+
+            android:maxEms="8"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:gravity="center"
-            android:textColor="@color/text_black" />
+            android:text="Canadaxcv"
+            android:textColor="@color/ff9c05" />
 
         <ImageView
             android:layout_width="match_parent"
@@ -95,8 +110,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/dimen_36"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/dimen_16"
                         android:layout_marginEnd="@dimen/dimen_80"
+                        android:layout_marginStart="@dimen/dimen_16"
                         android:layout_marginTop="@dimen/dimen_30"
                         android:layout_toEndOf="@+id/iv_home_broadcast"
                         android:background="@color/bg_while"
@@ -247,8 +262,8 @@
                 android:layout_marginTop="@dimen/dimen_80"
                 android:background="@drawable/shape_radius_4pxoragne"
                 android:paddingBottom="@dimen/dimen_12"
-                android:paddingStart="@dimen/dimen_24"
                 android:paddingEnd="@dimen/dimen_24"
+                android:paddingStart="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
                 android:text="Retry"
                 android:textColor="@color/text_white"

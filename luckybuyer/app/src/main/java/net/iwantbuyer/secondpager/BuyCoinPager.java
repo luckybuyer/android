@@ -437,13 +437,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         wv_buycoins_cashu.setVisibility(View.GONE);
                         tv_title.setText(context.getString(R.string.BuyCoins));
                     } else if (context instanceof SecondPagerActivity) {
-                        if ("coindetailpager".equals(((SecondPagerActivity) context).from)) {
-                            ((SecondPagerActivity) context).switchPage(5);
-                        } else if ("productdetail".equals(((SecondPagerActivity) context).from)) {
-                            ((SecondPagerActivity) context).switchPage(0);
-                        }else if("buycoinpager".equals(((SecondPagerActivity) context).from)) {
-                            ((SecondPagerActivity) context).switchPage(5);
-                        }
+//                        if ("coindetailpager".equals(((SecondPagerActivity) context).from)) {
+//                            ((SecondPagerActivity) context).switchPage(5);
+//                        } else if ("productdetail".equals(((SecondPagerActivity) context).from)) {
+//                            ((SecondPagerActivity) context).switchPage(0);
+//                        }else if("buycoinpager".equals(((SecondPagerActivity) context).from)) {
+//                            ((SecondPagerActivity) context).switchPage(5);
+//                        }
+                        ((SecondPagerActivity)context).fragmentManager.popBackStack();
                     }
                     break;
                 case R.id.tv_buycoins_buy:
@@ -488,7 +489,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
                                 e.printStackTrace();
                             }
                             map.put("method", "halopay");
-
                             eventValue.put("%method","halopay");
                             AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup",eventValue);
                         } else if (iv_buycoins_goole.isEnabled()) {

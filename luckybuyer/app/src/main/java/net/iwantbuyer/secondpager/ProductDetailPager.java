@@ -1060,6 +1060,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         eventValue = new HashMap<String, Object>();
                         AppsFlyerLib.getInstance().trackEvent(context, "Page：Login",eventValue);
                     }
+
                     break;
                 case R.id.rl_insert_ok:
                     if (show.isShowing()) {

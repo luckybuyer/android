@@ -39,6 +39,7 @@ import com.umeng.analytics.MobclickAgent;
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
+import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.HomeImagePageAdapter;
 import net.iwantbuyer.adapter.HomeProductAdapter;
 import net.iwantbuyer.app.MyApplication;
@@ -48,6 +49,7 @@ import net.iwantbuyer.bean.BroadcastBean;
 import net.iwantbuyer.bean.GameProductBean;
 import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
+import net.iwantbuyer.utils.Utils;
 import net.iwantbuyer.view.AutoTextHomeView;
 import net.iwantbuyer.view.BottomScrollView;
 
@@ -75,6 +77,7 @@ public class HomePager extends BaseNoTrackPager {
     private SwipeRefreshLayout srl_home_refresh;
     private TextView tv_net_again;
     private BottomScrollView sv_home;
+    public TextView tv_home_country;
 
     //网络连接错误 与没有数据
     private RelativeLayout rl_keepout;
@@ -185,6 +188,7 @@ public class HomePager extends BaseNoTrackPager {
         srl_home_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_home_refresh);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
         sv_home = (BottomScrollView) inflate.findViewById(R.id.sv_home);
+        tv_home_country = (TextView) inflate.findViewById(R.id.tv_home_country);
 
         ll_home_loading = (LinearLayout) inflate.findViewById(R.id.ll_home_loading);
         pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
@@ -195,6 +199,8 @@ public class HomePager extends BaseNoTrackPager {
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
+
+        tv_home_country.setText(Utils.getSpData("country",context));
 
         //设置监听
         vp_home.setOnPageChangeListener(new MyOnPageChangeListener());
@@ -214,6 +220,14 @@ public class HomePager extends BaseNoTrackPager {
             public void onClick(View v) {
                 isWaiting = true;
                 initData();
+            }
+        });
+        tv_home_country.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ThirdPagerActivity.class);
+                intent.putExtra("from","countrypager");
+                startActivity(intent);
             }
         });
     }

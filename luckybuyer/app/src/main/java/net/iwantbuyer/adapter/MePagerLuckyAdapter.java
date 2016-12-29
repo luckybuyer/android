@@ -42,6 +42,9 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 
     @Override
     public int getItemViewType(int position) {
+        if(list.size() == 0) {
+            return 5;
+        }
         String status = list.get(position).getDelivery().getStatus();
         if ("pending".equals(status)) {
             return 0;
@@ -59,6 +62,11 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 
     @Override
     public MePagerLuckyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if(viewType == 5) {
+            View inflate = View.inflate(context, R.layout.item_me_luck_nodata, null);
+            ViewHolder holder = new ViewHolder(inflate);
+            return holder;
+        }
         View inflate = View.inflate(context, R.layout.item_me_all_lucky, null);
         ViewHolder viewHolder = new ViewHolder(inflate);
         return viewHolder;
@@ -66,6 +74,9 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+        if(getItemViewType(position) == 5) {
+            return;
+        }
         holder.jtv_lucky_discribe.setText(list.get(position).getGame().getProduct().getTitle() + "");
         holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id() + "");
         holder.tv_lucky_participation.setText("" + list.get(position).getGame().getLucky_order().getTotal_shares() + "");
@@ -102,7 +113,12 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
     @Override
     public int getItemCount() {
         if(list!= null) {
-            return list.size();
+            if(list.size() == 0) {
+                return 1;
+            }else {
+                return list.size();
+            }
+
         }
         return 0;
     }

@@ -42,7 +42,7 @@ public class HelpPager extends BaseNoTrackPager{
             switch (v.getId()){
                 case R.id.rl_help_back:
                     if("buycoinpager".equals(((SecondPagerActivity)context).from)) {
-                        ((SecondPagerActivity)context).switchPage(6);
+                        ((SecondPagerActivity)context).fragmentManager.popBackStack();
                     }else {
                         ((SecondPagerActivity)context).finish();
                     }

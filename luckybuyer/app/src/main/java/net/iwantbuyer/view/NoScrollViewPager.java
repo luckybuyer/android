@@ -10,7 +10,7 @@ import android.view.MotionEvent;
  */
 public class NoScrollViewPager extends ViewPager {
 
-    private boolean scrollble = true;
+    private boolean scrollble = false;
 
     public NoScrollViewPager(Context context) {
         super(context);

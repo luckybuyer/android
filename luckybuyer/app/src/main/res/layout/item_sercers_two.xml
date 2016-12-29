@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_country_united"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dimen_100"
+    android:layout_below="@+id/rl_country_canada"
+    android:background="#ffffff">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:background="@color/bg_view"
+        android:layout_height="1px"></View>
+    <ImageView
+        android:layout_below="@+id/view"
+        android:layout_marginTop="@dimen/dimen_32"
+        android:layout_marginBottom="@dimen/dimen_32"
+        android:id="@+id/iv_country_flag"
+        android:layout_width="@dimen/dimen_70"
+        android:layout_height="@dimen/dimen_35"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:background="@drawable/shape_biankuang_black"
+        android:padding="0.5px"
+        android:scaleType="fitXY"
+        android:src="@drawable/united_arab_emirates" />
+
+    <TextView
+        android:id="@+id/tv_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/dimen_24"
+        android:layout_toRightOf="@+id/iv_country_flag"
+        android:text="@string/Unitedarabemirates"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/dimen_32" />
+
+    <ImageView
+        android:id="@+id/iv_country"
+        android:layout_width="@dimen/dimen_30"
+        android:layout_height="@dimen/dimen_18"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:background="@drawable/buycoins_true"
+        android:visibility="invisible" />
+</RelativeLayout>

@@ -172,17 +172,18 @@ public class ShippingAddressPager extends BaseNoTrackPager {
                     ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
                 case R.id.rl_shipping_return:
-                    if("shippingaddress".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).from = "setpager";
-                    }
-                    if("".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).from = "setpager";
-                    }
-                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(4);
-                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(7);
-                    }
+//                    if("shippingaddress".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).from = "setpager";
+//                    }
+//                    if("".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).from = "setpager";
+//                    }
+//                    if ("setpager".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(4);
+//                    } else if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(7);
+//                    }
+                    ((SecondPagerActivity)context).fragmentManager.popBackStack();
                     break;
                 case R.id.tv_net_again:
                     initData();

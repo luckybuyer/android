@@ -62,7 +62,7 @@
     <string name="Lotterytime.">Due date: </string>                     <!--开奖时间-->
     <string name="Numberofparticipants.">Total Participation:</string>                     <!--参与次数-->
     <string name="Participationdetails">Participation details</string>                     <!--参与详情-->
-    <string name="Myparticipat.">My Ticket Numbers:</string>                     <!--我的参与-->
+    <string name="Myparticipat.">Total Participation:</string>                     <!--我的参与-->
     <string name="viewall">view all</string>                     <!--查看全部-->
     <string name="Details">Details</string>                     <!--详情-->
     <string name="Time">Date</string>                     <!--详情-->

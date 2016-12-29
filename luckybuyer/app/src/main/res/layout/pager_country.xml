@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#f9f9f9"
     android:layout_height="match_parent">
 
     <RelativeLayout
@@ -58,348 +59,128 @@
             android:background="@drawable/default_shadow_top" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_country_canada"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
+
+    <android.support.v7.widget.RecyclerView
         android:layout_below="@+id/rl_country_header"
-        android:layout_marginBottom="@dimen/dimen_20"
-        android:layout_marginTop="@dimen/dimen_20"
-        android:background="#ffffff">
+        android:id="@+id/rv_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
-        <ImageView
-            android:id="@+id/iv_country_canada"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_canada" />
 
+    <RelativeLayout
+        android:layout_below="@+id/rv_country"
+        android:layout_marginTop="@dimen/dimen_60"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_40">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_canada"
-            android:text="@string/Canada"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
-
-        <ImageView
-            android:id="@+id/iv_canada"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
+            android:textColor="#999999"
+            android:layout_centerInParent="true"
+            android:drawableLeft="@drawable/country_warn"
+            android:drawablePadding="@dimen/dimen_24"
+            android:text="One account can be used in only one country!"
+            android:textSize="@dimen/dimen_24"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/rl_country_united"
+        android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_country_canada"
-        android:background="#ffffff">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_home_header"
+        android:layout_marginTop="@dimen/dimen_128"
+        android:background="@color/f2f2f2">
 
-        <ImageView
-            android:id="@+id/iv_country_united"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_united_arab_emirates" />
-
-        <TextView
+        <RelativeLayout
+            android:id="@+id/rl_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_united"
-            android:text="@string/Unitedarabemirates"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
+            android:layout_centerInParent="true">
 
-        <ImageView
-            android:id="@+id/iv_united"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
-    </RelativeLayout>
+            <ProgressBar
+                android:id="@+id/pb_loading"
+                android:layout_width="@dimen/dimen_60"
+                android:layout_height="@dimen/dimen_60"
+                android:indeterminateDrawable="@drawable/shape_loading" />
 
-    <RelativeLayout
-        android:id="@+id/rl_country_oman"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_country_united"
-        android:background="#ffffff">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dimen_8"
+                android:layout_toEndOf="@+id/pb_loading"
+                android:text="@string/loading..."
+                android:textColor="#000000"
+                android:textSize="@dimen/dimen_32" />
+        </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/bg_view"></View>
-
-        <ImageView
-            android:id="@+id/iv_country_oman"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_oman" />
-
-        <TextView
+        <RelativeLayout
+            android:id="@+id/rl_neterror"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_oman"
-            android:text="@string/Oman"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_120"
+            android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/iv_oman"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_neterror"
+                android:layout_width="@dimen/dimen_400"
+                android:layout_height="@dimen/dimen_420"
+                android:background="@drawable/default_neterror" />
 
-    <RelativeLayout
-        android:id="@+id/rl_country_qatar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_country_oman"
-        android:background="#ffffff">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_neterror"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="@string/Networkfailure"
+                android:textColor="#acabb4"
+                android:textSize="@dimen/dimen_28" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/bg_view"></View>
+            <TextView
+                android:id="@+id/tv_net_again"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_neterror"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_80"
+                android:background="@drawable/shape_radius_4pxoragne"
+                android:paddingBottom="@dimen/dimen_12"
+                android:paddingStart="@dimen/dimen_24"
+                android:paddingEnd="@dimen/dimen_24"
+                android:paddingTop="@dimen/dimen_12"
+                android:text="Retry"
+                android:textColor="@color/text_white"
+                android:textSize="@dimen/dimen_32" />
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_country_qatar"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_qatar" />
 
-        <TextView
+        <RelativeLayout
+            android:id="@+id/rl_nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_qatar"
-            android:text="@string/Qatar"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dimen_180"
+            android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/iv_qatar"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/iv_nodata"
+                android:layout_width="@dimen/dimen_250"
+                android:layout_height="@dimen/dimen_300"
+                android:layout_marginStart="@dimen/dimen_40"
+                android:background="@drawable/default_nodata" />
 
-    <RelativeLayout
-        android:id="@+id/rl_country_kuwait"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_country_qatar"
-        android:background="#ffffff">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/bg_view"></View>
-
-        <ImageView
-            android:id="@+id/iv_country_kuwait"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_kuwait" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_kuwait"
-            android:text="@string/Kuwait"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
-
-        <ImageView
-            android:id="@+id/iv_kuwait"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_country_bahrain"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_country_kuwait"
-        android:background="#ffffff">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/bg_view"></View>
-
-        <ImageView
-            android:id="@+id/iv_country_bahrain"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_bahrain" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_bahrain"
-            android:text="@string/Bahrain"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
-
-        <ImageView
-            android:id="@+id/iv_bahrain"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_country_saudi"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_country_bahrain"
-        android:background="#ffffff">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/bg_view"></View>
-
-        <ImageView
-            android:id="@+id/iv_country_saudi"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_saudi_arabia" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_saudi"
-            android:text="@string/SaudiArabia"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
-
-        <ImageView
-            android:id="@+id/iv_saudi"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_country_egypt"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_country_saudi"
-        android:background="#ffffff">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/bg_view"></View>
-
-        <ImageView
-            android:id="@+id/iv_country_egypt"
-            android:layout_width="@dimen/dimen_70"
-            android:layout_height="@dimen/dimen_35"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:background="@drawable/shape_biankuang_black"
-            android:padding="0.5px"
-            android:scaleType="fitXY"
-            android:src="@drawable/country_egypt" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/dimen_24"
-            android:layout_toRightOf="@+id/iv_country_egypt"
-            android:text="@string/Egypt"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_32" />
-
-        <ImageView
-            android:id="@+id/iv_egypt"
-            android:visibility="gone"
-            android:layout_width="@dimen/dimen_30"
-            android:layout_height="@dimen/dimen_18"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:background="@drawable/buycoins_true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_nodata"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dimen_16"
+                android:text="@string/Nodata"
+                android:textColor="#acabb4"
+                android:textSize="@dimen/dimen_28" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

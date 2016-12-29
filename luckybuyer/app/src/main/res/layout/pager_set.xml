@@ -71,7 +71,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_set_country"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"
@@ -115,11 +114,10 @@
             android:layout_height="@dimen/dimen_35"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_24"
-            android:background="@drawable/country_canada" />
+            android:background="@drawable/canada" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_set_version"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"

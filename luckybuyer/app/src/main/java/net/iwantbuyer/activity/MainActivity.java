@@ -102,8 +102,13 @@ public class MainActivity extends FragmentActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
+        MyApplication.url = Utils.getSpData("service", this);
+        MyApplication.client_id = Utils.getSpData("client_id", this);
+        MyApplication.domain = Utils.getSpData("domain", this);
+
         //auth0登陆
-        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id), getString(R.string.auth0_domain));
+//        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
+        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
 //        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
         this.lock = Lock.newBuilder(auth0, callback)
                 .closable(true)
@@ -153,8 +158,8 @@ public class MainActivity extends FragmentActivity {
         //新手 引导页面
         if(Utils.getSpData("guide",this) == null) {
             vp_main.setAdapter(new GuideAdapter(this,vp_main));
-            vp_main.setPageTransformer(true, new DepthPageTransformer());
             Utils.setSpData("guide","noguide",this);
+            vp_main.setVisibility(View.GONE);
         }else {
             vp_main.setVisibility(View.GONE);
         }
@@ -183,41 +188,6 @@ public class MainActivity extends FragmentActivity {
         Utils.setSpData("main_pager",null,this);       //当editshow 返回时候的临时变量 一定要删除
     }
 
-    class DepthPageTransformer implements ViewPager.PageTransformer {
-        private float MIN_SCALE = 0.75f;
-
-        @SuppressLint("NewApi")
-        @Override
-        public void transformPage(View view, float position) {
-            int pageWidth = view.getWidth();
-            if (position < -1) { // [-Infinity,-1)
-                // This page is way off-screen to the left.
-                view.setAlpha(0);
-            } else if (position <= 0) { // [-1,0]
-                // Use the default slide transition when
-                // moving to the left page
-                view.setAlpha(1);
-                view.setTranslationX(0);
-                view.setScaleX(1);
-                view.setScaleY(1);
-            } else if (position <= 1) { // (0,1]
-                // Fade the page out.
-                view.setAlpha(1 - position);
-                // Counteract the default slide transition
-                view.setTranslationX(pageWidth * -position);
-                // Scale the page down (between MIN_SCALE and 1)
-                float scaleFactor = MIN_SCALE + (1 - MIN_SCALE)
-                        * (1 - Math.abs(position));
-                view.setScaleX(scaleFactor);
-                view.setScaleY(scaleFactor);
-            } else { // (1,+Infinity]
-                // This page is way off-screen to the right.
-                view.setAlpha(0);
-
-            }
-        }
-
-    }
     //设置数据
     private void setData() {
         list = new ArrayList<>();
@@ -368,6 +338,9 @@ public class MainActivity extends FragmentActivity {
                     homePager.initData();
                     if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
                         buyCoinPager.show.dismiss();
+                    }
+                    if(homePager.tv_home_country != null) {
+                        homePager.tv_home_country.setText(Utils.getSpData("country",this));
                     }
                 } else if (fg == mePager) {
 //                    mePager.initData();

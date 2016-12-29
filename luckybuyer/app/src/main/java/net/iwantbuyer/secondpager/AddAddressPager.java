@@ -421,11 +421,13 @@ public class AddAddressPager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.ll_addaddress_back:
-                    if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(7);
-                    } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {
-                        ((SecondPagerActivity) context).switchPage(9);
-                    }
+//                    if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(7);
+//                    } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {
+//                        ((SecondPagerActivity) context).switchPage(9);
+//                    }
+
+                    ((SecondPagerActivity)context).fragmentManager.popBackStack();
                     break;
                 case R.id.tv_addaddress_save:
                     selectSave();

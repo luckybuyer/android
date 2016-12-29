@@ -289,6 +289,7 @@ public class CoinDetailPager extends BasePager {
             switch (view.getId()) {
                 case R.id.ll_coindetail_back:
                     ((SecondPagerActivity) context).finish();
+//                    ((SecondPagerActivity)context).fragmentManager.popBackStack();
                     break;
                 case R.id.tv_coindetail_buycoins:
                     ((SecondPagerActivity) context).from = "coindetailpager";

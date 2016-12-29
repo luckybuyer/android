@@ -113,7 +113,8 @@ public class EditShowPager extends BaseNoTrackPager {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.ll_editshow_back:
-                    ((SecondPagerActivity)context).switchPage(7);
+//                    ((SecondPagerActivity)context).switchPage(7);
+                    ((SecondPagerActivity)context).fragmentManager.popBackStack();
                     break;
                 case R.id.tv_editshow_send:
                     if (et_editshow_discribe.getText() != null && et_editshow_discribe.getText().length() == 0) {
