@@ -109,8 +109,6 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
         try {
             Field field = R.drawable.class.getField(list.get(position).replace(" ","_").toLowerCase());
             int i = field.getInt(new R.drawable());
-//            Drawable image = context.getDrawable(i);
-//            holder.iv_country_flag.setBackgroundDrawable(image);
             holder.iv_country_flag.setImageResource(i);
 //            Log.e("TAG", image + "");
         } catch (Exception e) {

@@ -31,7 +31,7 @@ public class SetPager extends BasePager {
     private View inflate;
     private RelativeLayout rl_set_back;
     private RelativeLayout rl_set_country;
-    private ImageView iv_set_country;
+    private ImageView iv_country;
 
     @Override
     public View initView() {
@@ -56,15 +56,13 @@ public class SetPager extends BasePager {
         tv_set_login = (TextView) inflate.findViewById(R.id.tv_set_login);
         rl_set_back = (RelativeLayout) inflate.findViewById(R.id.rl_set_back);
         rl_set_country = (RelativeLayout) inflate.findViewById(R.id.rl_set_country);
-        iv_set_country = (ImageView) inflate.findViewById(R.id.iv_set_country);
+        iv_country = (ImageView) inflate.findViewById(R.id.iv_country);
 
 
         try {
             Field field = R.drawable.class.getField(Utils.getSpData("country",context).replace(" ","_").toLowerCase());
             int i = field.getInt(new R.drawable());
-//            Drawable image = context.getDrawable(i);
-//            holder.iv_country_flag.setBackgroundDrawable(image);
-            iv_set_country.setImageResource(i);
+            iv_country.setImageResource(i);
 //            Log.e("TAG", image + "");
         } catch (Exception e) {
 

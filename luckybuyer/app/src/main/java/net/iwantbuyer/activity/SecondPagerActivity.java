@@ -179,7 +179,7 @@ public class SecondPagerActivity extends FragmentActivity {
         Fragment fragment = list.get(checkedId);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_secondpager, fragment);
-        if(checkedId != 4 && checkedId != 0 && checkedId != 6) {
+        if(checkedId != 4 && checkedId != 0 && checkedId != 6 && checkedId != 11 && checkedId != 7) {
             fragmentTransaction.addToBackStack(null);
         }
 

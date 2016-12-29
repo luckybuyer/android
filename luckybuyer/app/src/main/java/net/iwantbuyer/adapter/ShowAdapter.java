@@ -81,16 +81,20 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
         holder.tv_show_name.setText(list.get(position).getUser().getProfile().getName() + "");
         holder.tv_show_time.setText(list.get(position).getCreated_at().substring(0,19).replace("T"," ") + "");
         holder.tv_show_title.setText(list.get(position).getContent());
-        Glide.with(context).load("https:"+list.get(position).getImages().get(0)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                setImage(holder.iv_show_one, resource);
-            }
-        });
+        if(list.get(position).getImages().size() ==1 ) {
+            Glide.with(context).load("https:"+list.get(position).getImages().get(0)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    setImage(holder.iv_show_one, resource);
+                }
+            });
+        }
+
         holder.iv_show_two.setVisibility(View.GONE);
         holder.iv_show_three.setVisibility(View.GONE);
         if(list.get(position).getImages().size() ==2) {
             holder.iv_show_two.setVisibility(View.VISIBLE);
+
             Glide.with(context).load("https:"+list.get(position).getImages().get(1)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

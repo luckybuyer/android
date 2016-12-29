@@ -68,6 +68,7 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
         android:layout_below="@+id/rv_country"
         android:layout_marginTop="@dimen/dimen_60"
         android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -81,8 +82,9 @@ public class CountryPager extends BasePager {
                         if (response.length() > 10) {
                             StartView(response);
                             rl_keepout.setVisibility(View.GONE);
-                            tv_country_apply.setTextColor(getResources().getColor(R.color.ff9c05));
+                            tv_country_apply.setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
                             tv_country_apply.setClickable(true);
+                            tv_country_apply.setEnabled(true);
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
                             rl_neterror.setVisibility(View.GONE);
@@ -135,6 +137,7 @@ public class CountryPager extends BasePager {
 
         tv_country_apply.setTextColor(getResources().getColor(R.color.text_gray));
         tv_country_apply.setClickable(false);
+        tv_country_apply.setEnabled(false);
 
         tv_country_apply.setOnClickListener(new MyOnClickListener());
         rl_country_back.setOnClickListener(new MyOnClickListener());
@@ -174,7 +177,7 @@ public class CountryPager extends BasePager {
             switch (v.getId()) {
                 case R.id.tv_country_apply:
 
-                    if(Utils.getSpData("country",context).equals(country)) {
+                    if(Utils.getSpData("country",context).equals(country) || "".equals(country)) {
                         Intent intent = new Intent(context,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }

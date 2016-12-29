@@ -287,8 +287,19 @@ public class WelcomeActivity extends Activity {
     String country = "";
 
     private void StartView(String response) {
+        //Appflyer 统计  进入选择国家界面
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(this, "LOGIN:logged_in success",eventValue);
+
         View inflate = View.inflate(WelcomeActivity.this, R.layout.pager_country, null);
         fl_welcome.addView(inflate);
+        if (Utils.checkDeviceHasNavigationBar(this)) {
+            RelativeLayout relativeLayout = new RelativeLayout(this);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            lp.bottomMargin = Utils.getNavigationBarHeight(this);
+            relativeLayout.setLayoutParams(lp);
+            fl_welcome.addView(relativeLayout);
+        }
         TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
         mShowAction.setDuration(500);
         fl_welcome.setAnimation(mShowAction);
@@ -348,6 +359,10 @@ public class WelcomeActivity extends Activity {
                     MyApplication.url = Utils.getSpData("service",WelcomeActivity.this);
                     startConfig();
                     rl_welcome_pb.setVisibility(View.VISIBLE);
+
+                    //Appflyer 统计  点击apply统计
+                    Map<String, Object> eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(WelcomeActivity.this, "click: splash screen_applied success",eventValue);
                     break;
                 case R.id.tv_welcome_done:
                     if(show != null && show.isShowing()) {

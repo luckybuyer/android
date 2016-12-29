@@ -109,15 +109,19 @@
             android:background="@drawable/go_go" />
 
         <ImageView
-            android:layout_toLeftOf="@+id/iv_set_country"
+            android:id="@+id/iv_country"
             android:layout_width="@dimen/dimen_70"
             android:layout_height="@dimen/dimen_35"
+            android:scaleType="fitXY"
+            android:padding="0.5px"
+            android:background="@drawable/shape_biankuang_black"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_24"
-            android:background="@drawable/canada" />
+            android:layout_toLeftOf="@+id/iv_set_country"/>
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_set_version"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"
@@ -147,24 +151,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/iv_set_version"
             android:layout_marginRight="@dimen/dimen_24"
+            android:layout_toLeftOf="@+id/iv_set_version"
             android:text="V1.0.1"
             android:textSize="@dimen/dimen_25" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/dimen_20"
         android:id="@+id/rl_set_email"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_set_version"
         android:background="#ffffff">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/bg_view"></View>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1px"-->
+            <!--android:background="@color/bg_view"></View>-->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_40"
@@ -184,7 +190,6 @@
 
 
     </RelativeLayout>
-
 
 
     <!--<RelativeLayout-->

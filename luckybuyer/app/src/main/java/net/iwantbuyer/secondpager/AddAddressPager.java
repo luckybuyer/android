@@ -617,6 +617,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                         public void run() {
                             HttpUtils.getInstance().stopNetWorkWaiting();
                             Utils.MyToast(context, "Fail to edit");
+                            Log.e("TAG_上传地址", code + message);
                         }
                     });
                 }

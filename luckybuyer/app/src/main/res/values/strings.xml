@@ -119,7 +119,7 @@
     <string name="CoinsBalance">Coins Balance</string>                     <!--金币余额-->
     <string name="Selectamount">Select the Amount</string>         <!--选择充值金额-->
     <string name="PaymentMethod">Pay By</string>         <!--支付方法-->
-    <string name="money100to115">Wow, special offer today only! 110 coins only $100！</string>         <!--充钱返金币，最高可返15个，仅限今天哦-->
+    <string name="money100to115">Wow, special offer today only! 115 coins only $100！</string>         <!--充钱返金币，最高可返15个，仅限今天哦-->
     <string name="contactemail">If you have any question you can contact us at </string>         <!--任何问题都可以通过contact@LuckyBuyer.net联系我们-->
     <string name="Success">Success</string>         <!--成功-->
     <string name="Successtext">Your payment has been processed</string>         <!--支付成功-->
