@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/dimen_50"
         android:gravity="center"
         android:text="Accounts are store specific. You may need a new account for North American Store. Proceed?"
-        android:textColor="#999999"
+        android:textColor="#666666"
         android:textSize="@dimen/dimen_30" />
 
     <View

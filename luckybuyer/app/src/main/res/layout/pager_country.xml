@@ -83,6 +83,14 @@
             android:textSize="@dimen/dimen_24"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_country_tab"
+        android:background="#000000"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_keepout"

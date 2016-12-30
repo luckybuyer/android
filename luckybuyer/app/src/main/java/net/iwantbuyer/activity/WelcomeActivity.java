@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +55,8 @@ import java.util.Map;
 public class WelcomeActivity extends Activity {
     private static final int WAHT = 1;
     private FrameLayout fl_welcome;
+    private RelativeLayout rl_main;
+    private ImageView iv_welcome;
     private RelativeLayout rl_welcome_pb;
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -75,6 +78,8 @@ public class WelcomeActivity extends Activity {
         setContentView(R.layout.activity_welcome);
 
         fl_welcome = (FrameLayout) findViewById(R.id.fl_welcome);
+        rl_main = (RelativeLayout) findViewById(R.id.rl_main);
+        iv_welcome = (ImageView) findViewById(R.id.iv_welcome);
         rl_welcome_pb = (RelativeLayout) findViewById(R.id.rl_welcome_pb);
         AppsFlyerLib.getInstance().startTracking(this.getApplication(), "GKRPFQEuht2yY8DiQdfwc8");
 
@@ -292,20 +297,27 @@ public class WelcomeActivity extends Activity {
         AppsFlyerLib.getInstance().trackEvent(this, "LOGIN:logged_in success",eventValue);
 
         View inflate = View.inflate(WelcomeActivity.this, R.layout.pager_country, null);
-        fl_welcome.addView(inflate);
+        RecyclerView rv_country = (RecyclerView) inflate.findViewById(R.id.rv_country);
+        Log.e("TAG", Utils.checkDeviceHasNavigationBar(this) + "");
         if (Utils.checkDeviceHasNavigationBar(this)) {
-            RelativeLayout relativeLayout = new RelativeLayout(this);
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-            lp.bottomMargin = Utils.getNavigationBarHeight(this);
-            relativeLayout.setLayoutParams(lp);
-            fl_welcome.addView(relativeLayout);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getScreenHeight(this));
+            fl_welcome.setLayoutParams(lp);
         }
+        if (Utils.checkDeviceHasNavigationBar(this)) {
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getScreenHeight(this));
+            lp.topMargin = Utils.getScreenHeight(this);
+            rl_main.setLayoutParams(lp);
+        }
+        rl_main.setVisibility(View.VISIBLE);
+//        iv_welcome.setBackgroundColor(getResources().getColor(R.color.text_black));
+        fl_welcome.addView(inflate);
+
         TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
         mShowAction.setDuration(500);
         fl_welcome.setAnimation(mShowAction);
         fl_welcome.setVisibility(View.VISIBLE);
 
-        RecyclerView rv_country = (RecyclerView) inflate.findViewById(R.id.rv_country);
+//        RecyclerView rv_country = (RecyclerView) inflate.findViewById(R.id.rv_country);
         RelativeLayout rl_country_back = (RelativeLayout) inflate.findViewById(R.id.rl_country_back);
         RelativeLayout rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_country_back.setVisibility(View.GONE);
