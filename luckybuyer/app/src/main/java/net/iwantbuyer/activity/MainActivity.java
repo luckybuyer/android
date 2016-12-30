@@ -27,6 +27,9 @@ import android.widget.Toast;
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.Auth0;
+import com.auth0.android.authentication.AuthenticationAPIClient;
+import com.auth0.android.facebook.FacebookAuthHandler;
+import com.auth0.android.facebook.FacebookAuthProvider;
 import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
@@ -64,6 +67,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +97,7 @@ public class MainActivity extends FragmentActivity {
 
     public int id;
 
-
+    private FacebookAuthProvider provider;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +110,22 @@ public class MainActivity extends FragmentActivity {
         MyApplication.client_id = Utils.getSpData("client_id", this);
         MyApplication.domain = Utils.getSpData("domain", this);
 
-        //auth0登陆
+
+//        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
+//        FacebookAuthProvider provider = new FacebookAuthProvider(new AuthenticationAPIClient(auth0));
+////        provider.setPermissions(Arrays.asList("public_profile", "user_photos"));
+//        FacebookAuthHandler handler = new FacebookAuthHandler(provider);
+//
+//        lock = Lock.newBuilder(auth0, callback)
+//                .withAuthHandlers(handler)
+//                .closable(true)
+////                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
+//                .withAuthButtonSize(AuthButtonSize.BIG)
+////                // Add parameters to the Lock Builder
+//                .useBrowser(false)
+//                .build(this);
+
+//        auth0登陆
 //        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
         Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
 //        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
@@ -404,6 +423,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public void onAuthentication(Credentials credentials) {
 
+
             if(Utils.isInLauncher(MainActivity.this)) {
                 return;
             }
@@ -417,6 +437,7 @@ public class MainActivity extends FragmentActivity {
 
             // Base64 解码：
             String token = credentials.getIdToken();
+            Log.e("TAG", token);
 
 //            byte[] mmmm = Base64.decode(token.getBytes(), Base64.URL_SAFE);
             byte[] mmmm = MyBase64.decode(token.getBytes());

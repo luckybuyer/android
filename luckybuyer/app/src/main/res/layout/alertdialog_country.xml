@@ -7,14 +7,14 @@
 
 
     <TextView
-        android:id="@+id/jtv_insertcoins_lessicons_discribe"
+        android:id="@+id/tv_country_warn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dimen_44"
         android:layout_marginEnd="@dimen/dimen_44"
         android:layout_marginTop="@dimen/dimen_50"
         android:gravity="center"
-        android:text="Changing country,you current account will be disabled.Are you sure you want to processed?"
+        android:text="Accounts are store specific. You may need a new account for North American Store. Proceed?"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_30" />
 

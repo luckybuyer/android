@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -38,6 +39,7 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
         }
     };
     int count;
+    private final ServerBean serverBean;
 
     public interface OnClickListener {
         void onclick(String country);
@@ -52,7 +54,7 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
 
     public ServersAdapter(Context context, String response) {
         this.context = context;
-        ServerBean serverBean = new Gson().fromJson(response, ServerBean.class);
+        serverBean = new Gson().fromJson(response, ServerBean.class);
         for (int i = 0; i < serverBean.getServers().size(); i++) {
             count = serverBean.getServers().get(0).getCountries().size();
             list.addAll(serverBean.getServers().get(i).getCountries());
@@ -77,7 +79,7 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
         } else {
             view = LayoutInflater.from(context).inflate(R.layout.item_sercers_two, null);
         }
-        MyViewHolder holder = new MyViewHolder(view);
+        MyViewHolder holder = new MyViewHolder(view,viewType);
         return holder;
     }
 
@@ -85,15 +87,19 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
     int currentPostion = -1;
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-//        if(tag < list.size()) {
-//            if (list.get(position).equals(Utils.getSpData("country", context))) {
-//                holder.iv_country.setVisibility(View.VISIBLE);
-//            }else {
-//                holder.iv_country.setVisibility(View.GONE);
-//            }
-//            tag++;
-//        }else {
-//            holder.iv_country.setVisibility(View.GONE);
+        if(getItemViewType(position) == 0) {
+            if(position > 0 && position < serverBean.getServers().get(0).getCountries().size()) {
+                holder.rl_north.setVisibility(View.GONE);
+            }
+        }
+        
+        if(getItemViewType(position) == 1 && position > 0 && getItemViewType(position -1) == 0) {
+            holder.rl_center.setVisibility(View.VISIBLE);
+        }else {
+
+        }
+//        if(getItemViewType(position) == 1 && position > center+1) {
+//            holder.rl_center.setVisibility(View.GONE);
 //        }
         if(currentPostion == position) {
             holder.iv_country.setVisibility(View.VISIBLE);
@@ -125,6 +131,17 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
                 notifyDataSetChanged();
             }
         });
+        if(getItemViewType(position) == 1) {
+            holder.rl_server_two.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickListener.onclick(list.get(position));
+                    currentPostion = position;
+                    notifyDataSetChanged();
+                }
+            });
+        }
+
     }
 
     @Override
@@ -137,12 +154,22 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
         private TextView tv_country;
         private ImageView iv_country;
         private View view;
+        private RelativeLayout rl_center;
+        private RelativeLayout rl_north;
+        private RelativeLayout rl_server_two;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView, int viewType) {
             super(itemView);
             iv_country_flag = (ImageView) itemView.findViewById(R.id.iv_country_flag);
             tv_country = (TextView) itemView.findViewById(R.id.tv_country);
             iv_country = (ImageView) itemView.findViewById(R.id.iv_country);
+            if(viewType == 0) {
+                rl_north = (RelativeLayout) itemView.findViewById(R.id.rl_north);
+            }
+            if(viewType == 1) {
+                rl_center = (RelativeLayout) itemView.findViewById(R.id.rl_center);
+                rl_server_two = (RelativeLayout) itemView.findViewById(R.id.rl_server_two);
+            }
             view = itemView;
         }
     }

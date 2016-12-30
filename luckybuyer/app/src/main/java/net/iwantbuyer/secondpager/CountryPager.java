@@ -325,8 +325,15 @@ public class CountryPager extends BasePager {
         View inflate = View.inflate(context, R.layout.alertdialog_country, null);
         TextView tv_country_cancel = (TextView) inflate.findViewById(R.id.tv_country_cancel);
         TextView tv_country_ok = (TextView) inflate.findViewById(R.id.tv_country_ok);
+        TextView tv_country_warn = (TextView) inflate.findViewById(R.id.tv_country_warn);
         tv_country_cancel.setOnClickListener(new MyOnClickListener());
         tv_country_ok.setOnClickListener(new MyOnClickListener());
+        
+        if(serverBean.getServers().get(0).getCountries().contains(country)) {
+            tv_country_warn.setText("Accounts are store specific. You may need a new account for North American Store. Proceed?");
+        }else {
+            tv_country_warn.setText("Accounts are store specific. You may need a new account for Middle East Store. Proceed?");
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(inflate);
