@@ -152,7 +152,7 @@ public class WelcomeActivity extends Activity {
 
     private void startSever() {
         //请求  充值列表
-        String url = "https://api-sg.luckybuyer.net/v1/servers/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        String url = MyApplication.url + "/v1/servers/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Log.e("TAG..", url);
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override

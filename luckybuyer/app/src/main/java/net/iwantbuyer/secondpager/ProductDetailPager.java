@@ -592,6 +592,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             rl_productdetail_indsertcoins.setVisibility(View.GONE);
             tv_productdetail_inprogress.setVisibility(View.GONE);
             tv_productdetail_issue.setVisibility(View.GONE);
+            rl_productdetail_lucky.setVisibility(View.GONE);
             tv_issue.setVisibility(View.GONE);
             pb_productdetail_progress.setVisibility(View.GONE);
             tv_productdetail_totalicon.setVisibility(View.GONE);
@@ -770,7 +771,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                     } else {
                                         ll_loading_data.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText(context.getString(R.string.nomoredata) );
+                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded) );
 
                                         TimerTask task = new TimerTask() {
                                             @Override

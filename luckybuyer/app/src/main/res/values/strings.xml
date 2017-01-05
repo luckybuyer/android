@@ -13,8 +13,10 @@
     <string name="email"><u>contact@LuckyBuyer.net</u></string>
 
     <!--facebooksdk-->
-    <string name="facebook_app_id">1333788250026847</string>
+    <!--<string name="facebook_app_id">1333788250026847</string>-->
+    <!--<string name="facebook_app_id">258798961160938</string>                       &lt;!&ndash;测试&ndash;&gt;-->
     <!--<string name="facebook_app_id">1794485687489633</string>-->
+    <string name="facebook_app_id">255982704775897</string>
 
     <!--有盟渠道号-->
     <!--<string name="channel">google_play</string>-->
@@ -69,7 +71,7 @@
     <string name="Time">Date</string>                     <!--详情-->
     <string name="People">People</string>                     <!--人次-->
     <string name="Participationnumbers">Ticket Number</string>                     <!--号码-->
-    <string name="Participationnumbers.">Ticket Number:</string>                     <!--号码-->
+    <string name="Participationnumbers.">My Ticket Number:</string>                     <!--号码-->
     <string name="facebooklike">Click like on our \"Facebook\" page and you\'ll see a notification when you win items.</string>                     <!--like lucky buyer page后，我们会实时公布开奖信息。-->
     <string name="All">All</string>                     <!--全部-->
     <string name="LuckyRecords">Prizes</string>                     <!--幸运记录-->
@@ -140,7 +142,8 @@
     <string name="Editaddress">Edit Address</string>         <!--编辑地址-->
     <string name="Addaddress">Add Address</string>         <!--增加地址-->
     <string name="loading...">loading...</string>         <!--Loading...-->
-    <string name="nomoredata">no more data</string>         <!--没有更多的数据-->
+    <string name="nomoredata">No records</string>         <!--没有更多的数据-->
+    <string name="Alreadyfullyloaded">Already fully loaded</string>         <!--没有更多的数据-->
     <string name="Importantinformation">Important information</string>         <!--重要提示-->
     <string name="USD">USD</string>         <!--USD-->
     <string name="deletesuccess">Deleted Successfully</string>         <!--删除成功-->

@@ -101,7 +101,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
                 public void onFinish() {
                     holder.tv_winning_countdown6.setText("0");
                     String token = Utils.getSpData("token", context);
-                    String url = MyApplication.url + "/v1/games/?per_page=20&page=1&timezone=" + MyApplication.utc;
+                    String url = MyApplication.url + "/v1/games/?status=closed&status=finished&per_page=20&page=1&timezone=" + MyApplication.utc;
                     Map map = new HashMap<String, String>();
                     map.put("Authorization", "Bearer " + token);
                     //请求登陆接口
@@ -118,12 +118,6 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
                                                     Gson gson = new Gson();
                                                     PreviousWinnerBean previousWinnerBean = gson.fromJson(str, PreviousWinnerBean.class);
                                                     list = previousWinnerBean.getPrevious();
-                                                    for (int i = 0;i < list.size();i++){
-                                                        if("running".equals(list.get(i).getStatus())) {
-                                                            list.remove(i);
-                                                            i--;
-                                                        }
-                                                    }
                                                     notifyDataSetChanged();
 
                                                 }

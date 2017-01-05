@@ -87,7 +87,7 @@ public class MePager extends BaseNoTrackPager {
 
     private View view_me_top;                            //让视图指定做的临时
 
-    private FBLikeView fb_shipping_facebook;
+//    private FBLikeView fb_shipping_facebook;
 
     private List vpList;
     public RecyclerView recyclerView;
@@ -158,7 +158,6 @@ public class MePager extends BaseNoTrackPager {
 
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        Log.e("TAG_me", url);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
         //请求登陆接口
@@ -174,7 +173,6 @@ public class MePager extends BaseNoTrackPager {
                                         //我的中奖  接口(lucky)
                                         if (response.length() > 10) {
                                             LuckyResponse(finalToken, response);
-                                            Log.e("TAG_me", response);
                                         } else {
                                             Log.e("TAG", "你好");
                                             rl_nodata.setVisibility(View.VISIBLE);
@@ -377,7 +375,7 @@ public class MePager extends BaseNoTrackPager {
                                                     } else {
                                                         ll_loading_data.setVisibility(View.VISIBLE);
                                                         pb_loading_data.setVisibility(View.GONE);
-                                                        tv_loading_data.setText(context.getString(R.string.nomoredata));
+                                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded));
                                                         handler.postDelayed(new Runnable() {
                                                             @Override
                                                             public void run() {
@@ -468,7 +466,7 @@ public class MePager extends BaseNoTrackPager {
                                     } else {
                                         ll_loading_data.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText(context.getString(R.string.nomoredata));
+                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded));
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
@@ -532,7 +530,7 @@ public class MePager extends BaseNoTrackPager {
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
         vp_me = (CustomViewPager) inflate.findViewById(R.id.vp_me);
         stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
-        fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
+//        fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
         sv_me = (BottomScrollView) inflate.findViewById(R.id.sv_me);
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
@@ -574,9 +572,9 @@ public class MePager extends BaseNoTrackPager {
             }
         });
 
-        fb_shipping_facebook.getLikeView().setObjectIdAndType(
-                "https://www.facebook.com/ae.luckybuyer.net",
-                LikeView.ObjectType.OPEN_GRAPH);
+//        fb_shipping_facebook.getLikeView().setObjectIdAndType(
+//                "https://www.facebook.com/ae.luckybuyer.net",
+//                LikeView.ObjectType.OPEN_GRAPH);
     }
 
     //点击监听

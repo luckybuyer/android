@@ -195,7 +195,7 @@ public class CoinDetailPager extends BasePager {
                                     } else {
                                         ll_loading_data.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText(context.getString(R.string.nomoredata));
+                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded));
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {

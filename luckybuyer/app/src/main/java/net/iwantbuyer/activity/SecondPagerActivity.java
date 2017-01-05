@@ -18,6 +18,11 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.Auth0;
+import com.auth0.android.authentication.AuthenticationAPIClient;
+import com.auth0.android.facebook.FacebookAuthHandler;
+import com.auth0.android.facebook.FacebookAuthProvider;
+import com.auth0.android.google.GoogleAuthHandler;
+import com.auth0.android.google.GoogleAuthProvider;
 import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
@@ -102,15 +107,28 @@ public class SecondPagerActivity extends FragmentActivity {
 
         //auth0登陆
 //        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
-        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
-        this.lock = Lock.newBuilder(auth0, call)
+        Auth0 auth0 = new Auth0(MyApplication.client_id,MyApplication.domain);
+
+        AuthenticationAPIClient client = new AuthenticationAPIClient(auth0);
+        FacebookAuthProvider provider = new FacebookAuthProvider(client);
+//        provider.setPermissions(Arrays.asList("public_profile", "user_photos"));
+        FacebookAuthHandler handler = new FacebookAuthHandler(provider);
+
+        GoogleAuthProvider provide = new GoogleAuthProvider("945656636977-9ag21vtt9k6do5f6nlptn0u96q10v2lh.apps.googleusercontent.com", client);
+//        provide.setScopes(new Scope(DriveScopes.DRIVE_METADATA_READONLY));
+//        provide.setRequiredPermissions(new String[]{"android.permission.GET_ACCOUNTS"});
+
+        GoogleAuthHandler handle = new GoogleAuthHandler(provide);
+
+
+        lock = Lock.newBuilder(auth0, call)
+                .withAuthHandlers(handler,handle)
                 .closable(true)
 //                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
                 .withAuthButtonSize(AuthButtonSize.BIG)
 //                // Add parameters to the Lock Builder
                 .useBrowser(false)
                 .build(this);
-
 
         batch_id = getIntent().getIntExtra("batch_id", -1);
         game_id = getIntent().getIntExtra("game_id", -1);
@@ -232,7 +250,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
             // Base64 解码：
             String token = credentials.getIdToken();
-            Log.e("TAG_TOKEN", token);
+            Log.e("TAG_TOKEN_second", token);
 
 
 //            byte[] mmmm = Base64.decode(token, Base64.URL_SAFE);
@@ -296,6 +314,13 @@ public class SecondPagerActivity extends FragmentActivity {
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(String response) {
+                SecondPagerActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(SecondPagerActivity.this,"Login in successfully");
+
+                    }
+                });
                 //埋点
                 try {
                     JSONObject props = new JSONObject();

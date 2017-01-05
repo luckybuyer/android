@@ -124,17 +124,18 @@
                     android:layout_marginTop="@dimen/dimen_7"
                     android:text="@string/facebooklike"
                     android:textColor="#666666"
+                    android:layout_marginBottom="@dimen/dimen_34"
                     android:textSize="@dimen/dimen_28" />
 
-                <com.inthecheesefactory.lib.fblike.widget.FBLikeView
-                    android:visibility="gone"
-                    android:id="@+id/fb_shipping_facebook"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_50"
-                    android:layout_alignStart="@id/jtv_shipinng_facebook"
-                    android:layout_below="@+id/jtv_shipinng_facebook"
-                    android:layout_marginBottom="@dimen/dimen_24"
-                    android:layout_marginTop="@dimen/dimen_16" />
+                <!--<com.inthecheesefactory.lib.fblike.widget.FBLikeView-->
+                    <!--android:visibility="gone"-->
+                    <!--android:id="@+id/fb_shipping_facebook"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="@dimen/dimen_50"-->
+                    <!--android:layout_alignStart="@id/jtv_shipinng_facebook"-->
+                    <!--android:layout_below="@+id/jtv_shipinng_facebook"-->
+                    <!--android:layout_marginBottom="@dimen/dimen_24"-->
+                    <!--android:layout_marginTop="@dimen/dimen_16" />-->
 
             </RelativeLayout>
 
@@ -280,7 +281,7 @@
                         android:layout_below="@+id/iv_nodata"
                         android:textSize="@dimen/dimen_28"
                         android:textColor="#acabb4"
-                        android:text="@string/Nodata"
+                        android:text="@string/nomoredata"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>

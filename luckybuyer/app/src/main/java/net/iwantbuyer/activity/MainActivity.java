@@ -1,6 +1,7 @@
 package net.iwantbuyer.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,6 +31,8 @@ import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.facebook.FacebookAuthHandler;
 import com.auth0.android.facebook.FacebookAuthProvider;
+import com.auth0.android.google.GoogleAuthHandler;
+import com.auth0.android.google.GoogleAuthProvider;
 import com.auth0.android.lock.AuthButtonSize;
 import com.auth0.android.lock.AuthenticationCallback;
 import com.auth0.android.lock.Lock;
@@ -41,6 +44,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
+
 import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -98,6 +102,7 @@ public class MainActivity extends FragmentActivity {
     public int id;
 
     private FacebookAuthProvider provider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,31 +116,43 @@ public class MainActivity extends FragmentActivity {
         MyApplication.domain = Utils.getSpData("domain", this);
 
 
+        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
+
+        AuthenticationAPIClient client = new AuthenticationAPIClient(auth0);
+        FacebookAuthProvider provider = new FacebookAuthProvider(client);
+//        provider.setPermissions(Arrays.asList("public_profile", "user_photos"));
+        FacebookAuthHandler handler = new FacebookAuthHandler(provider);
+
+        GoogleAuthProvider provide = new GoogleAuthProvider("945656636977-9ag21vtt9k6do5f6nlptn0u96q10v2lh.apps.googleusercontent.com", client);
+//        provide.setScopes(new Scope(DriveScopes.DRIVE_METADATA_READONLY));
+//        provide.setRequiredPermissions(new String[]{"android.permission.GET_ACCOUNTS"});
+
+        GoogleAuthHandler handle = new GoogleAuthHandler(provide);
+
+
+        if (lock == null) {
+            lock = Lock.newBuilder(auth0, callback)
+                    .withAuthHandlers(handler, handle)
+                    .closable(true)
+//                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
+                    .withAuthButtonSize(AuthButtonSize.BIG)
+//                // Add parameters to the Lock Builder
+                    .useBrowser(false)
+                    .build(this);
+        }
+
+
+//        auth0登陆
 //        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
-//        FacebookAuthProvider provider = new FacebookAuthProvider(new AuthenticationAPIClient(auth0));
-////        provider.setPermissions(Arrays.asList("public_profile", "user_photos"));
-//        FacebookAuthHandler handler = new FacebookAuthHandler(provider);
-//
-//        lock = Lock.newBuilder(auth0, callback)
-//                .withAuthHandlers(handler)
+//        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
+////        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
+//        this.lock = Lock.newBuilder(auth0, callback)
 //                .closable(true)
 ////                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
 //                .withAuthButtonSize(AuthButtonSize.BIG)
 ////                // Add parameters to the Lock Builder
 //                .useBrowser(false)
 //                .build(this);
-
-//        auth0登陆
-//        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
-        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
-//        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
-        this.lock = Lock.newBuilder(auth0, callback)
-                .closable(true)
-//                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
-                .withAuthButtonSize(AuthButtonSize.BIG)
-//                // Add parameters to the Lock Builder
-                .useBrowser(false)
-                .build(this);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) { // “内存重启”时调用
 
@@ -175,11 +192,11 @@ public class MainActivity extends FragmentActivity {
         findView();
 
         //新手 引导页面
-        if(Utils.getSpData("guide",this) == null) {
-            vp_main.setAdapter(new GuideAdapter(this,vp_main));
-            Utils.setSpData("guide","noguide",this);
+        if (Utils.getSpData("guide", this) == null) {
+            vp_main.setAdapter(new GuideAdapter(this, vp_main));
+            Utils.setSpData("guide", "noguide", this);
             vp_main.setVisibility(View.GONE);
-        }else {
+        } else {
             vp_main.setVisibility(View.GONE);
         }
 
@@ -203,8 +220,8 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-//        getsp();
-        Utils.setSpData("main_pager",null,this);       //当editshow 返回时候的临时变量 一定要删除
+        getsp();
+        Utils.setSpData("main_pager", null, this);       //当editshow 返回时候的临时变量 一定要删除
     }
 
     //设置数据
@@ -315,24 +332,24 @@ public class MainActivity extends FragmentActivity {
                         try {
                             JSONObject props = new JSONObject();
                             MyApplication.mixpanel.track("LOGIN:showpage", props);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                         }
                         //AppFlyer 埋点
                         Map<String, Object> eventValue = new HashMap<String, Object>();
-                        AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Page：Login",eventValue);
+                        AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Page：Login", eventValue);
                     }
                     break;
             }
         }
     }
 
-    private void setPoint(String page){
+    private void setPoint(String page) {
         //埋点
         try {
             JSONObject props = new JSONObject();
             MyApplication.mixpanel.track(page, props);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
     }
@@ -358,8 +375,8 @@ public class MainActivity extends FragmentActivity {
                     if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
                         buyCoinPager.show.dismiss();
                     }
-                    if(homePager.tv_home_country != null) {
-                        homePager.tv_home_country.setText(Utils.getSpData("country",this));
+                    if (homePager.tv_home_country != null) {
+                        homePager.tv_home_country.setText(Utils.getSpData("country", this));
                     }
                 } else if (fg == mePager) {
 //                    mePager.initData();
@@ -386,7 +403,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
                 transaction.hide(currentFragment).show(fg);
-                if(mePager != null && mePager.vp_me != null) {
+                if (mePager != null && mePager.vp_me != null) {
                     mePager.setView();
                     mePager.initData();
                 }
@@ -417,23 +434,18 @@ public class MainActivity extends FragmentActivity {
 //    }
 
 
-
+    long LoginTime;
     //auth0登陆回调
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
 
 
-            if(Utils.isInLauncher(MainActivity.this)) {
+            if (Utils.isInLauncher(MainActivity.this)) {
                 return;
             }
             //友盟登陆通缉
             LogChannel("Login_Success");
-
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in success",eventValue);
-
 
             // Base64 解码：
             String token = credentials.getIdToken();
@@ -456,30 +468,38 @@ public class MainActivity extends FragmentActivity {
             Utils.setSpData("token", token, MainActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", MainActivity.this);
 
-            Login(token);
 
+            if ((System.currentTimeMillis() - LoginTime) > 3000) {
+                Log.e("TAG_time", LoginTime + "");
+                LoginTime = System.currentTimeMillis();
+                Login(token);
+
+                //Appflyer 统计
+                Map<String, Object> eventValue = new HashMap<String, Object>();
+                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in success", eventValue);
+            }
         }
 
         @Override
         public void onCanceled() {
-            if(Utils.isInLauncher(MainActivity.this)) {
+            if (Utils.isInLauncher(MainActivity.this)) {
                 return;
             }
             //友盟登陆通缉
             LogChannel("Login_Canceled");
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Canceled",eventValue);
+//            //Appflyer 统计
+//            Map<String, Object> eventValue = new HashMap<String, Object>();
+//            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Canceled",eventValue);
 
             //Appflyer 统计
-            eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in cancel",eventValue);
+            Map<String, Object> eventValue = new HashMap<String, Object>();
+            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in cancel", eventValue);
             selectPager();
         }
 
         @Override
         public void onError(LockException error) {
-            if(Utils.isInLauncher(MainActivity.this)) {
+            if (Utils.isInLauncher(MainActivity.this)) {
                 return;
             }
             //友盟登陆通缉
@@ -487,22 +507,22 @@ public class MainActivity extends FragmentActivity {
 
             //Appflyer 统计
             Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Error",eventValue);
+            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Error", eventValue);
 
             //Appflyer 统计
             eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in failed",eventValue);
+            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in failed", eventValue);
             selectPager();
 
 
-            Utils.MyToast(MainActivity.this,"Login failed");
+            Utils.MyToast(MainActivity.this, "Login failed");
             selectPager();
         }
     };
 
     private void LogChannel(String string) {
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("channel",getString(R.string.channel));
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("channel", getString(R.string.channel));
         MobclickAgent.onEvent(this, string, map);
     }
 
@@ -519,7 +539,7 @@ public class MainActivity extends FragmentActivity {
                 try {
                     JSONObject props = new JSONObject();
                     MyApplication.mixpanel.track("LOGIN:loggedin", props);
-                }catch (Exception e){
+                } catch (Exception e) {
                     Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                 }
                 Gson gson = new Gson();
@@ -533,11 +553,12 @@ public class MainActivity extends FragmentActivity {
 
                 Log.e("TAG", user.getProfile().getPicture());
 
-                Log.e("TAG_id", id+"");
-                Log.e("TAG_login_id", login_id+"");
+                Log.e("TAG_id", id + "");
+                Log.e("TAG_login_id", login_id + "");
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Utils.MyToast(MainActivity.this, "Login in successfully");
                         //登陆成功  直接进入me页面
                         showFragment(list.get(login_id));
                         if (login_id == 1) {
@@ -550,19 +571,19 @@ public class MainActivity extends FragmentActivity {
                             rb_main_me.setChecked(true);
                             rb_main_homepager.setChecked(false);
                             rb_main_newresult.setChecked(false);
-                            if(mePager!= null && mePager.mePagerAllAdapter != null) {
+                            if (mePager != null && mePager.mePagerAllAdapter != null) {
                                 mePager.mePagerAllAdapter.list.clear();
                                 mePager.mePagerAllAdapter.notifyDataSetChanged();
                             }
-                            if(mePager!= null && mePager.mePagerLuckyAdapter != null) {
-                                mePager.mePagerLuckyAdapter .list.clear();
-                                mePager.mePagerLuckyAdapter .notifyDataSetChanged();
+                            if (mePager != null && mePager.mePagerLuckyAdapter != null) {
+                                mePager.mePagerLuckyAdapter.list.clear();
+                                mePager.mePagerLuckyAdapter.notifyDataSetChanged();
                             }
 
 //                                if(mePager != null) {
 //                                    mePager.initData();
 //                                }
-                        }else {
+                        } else {
                             rb_main_homepager.setChecked(true);
                             rb_main_buycoins.setChecked(false);
                             rb_main_me.setChecked(false);
@@ -587,7 +608,7 @@ public class MainActivity extends FragmentActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                        Utils.MyToast(MainActivity.this, "Login in failed");
                         selectPager();
                     }
                 });
@@ -637,7 +658,7 @@ public class MainActivity extends FragmentActivity {
             rb_main_newresult.setChecked(false);
             rb_main_show.setChecked(true);
             rb_main_me.setChecked(false);
-        }else if (id == 4) {
+        } else if (id == 4) {
             showFragment(list.get(0));
             rb_main_homepager.setChecked(true);
             rb_main_buycoins.setChecked(false);
@@ -653,11 +674,11 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(buyCoinPager != null && buyCoinPager.wv_buycoins_cashu != null && buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
+            if (buyCoinPager != null && buyCoinPager.wv_buycoins_cashu != null && buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
                 buyCoinPager.wv_buycoins_cashu.setVisibility(View.GONE);
                 buyCoinPager.ll_buycoins_back.setVisibility(View.GONE);
                 buyCoinPager.tv_title.setText(getString(R.string.BuyCoins));
-            }else {
+            } else {
                 if ((System.currentTimeMillis() - mExitTime) > 3000) {
                     Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
@@ -675,8 +696,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if("show".equals(Utils.getSpData("main_pager",this))) {
-            Utils.setSpData("main_pager",null,this);       //当editshow 返回时候的临时变量 一定要删除
+        if ("show".equals(Utils.getSpData("main_pager", this))) {
+            Utils.setSpData("main_pager", null, this);       //当editshow 返回时候的临时变量 一定要删除
             id = 3;
             showFragment(showPager);
             showPager.initData();
@@ -685,11 +706,11 @@ public class MainActivity extends FragmentActivity {
             rb_main_newresult.setChecked(false);
             rb_main_show.setChecked(true);
             rb_main_me.setChecked(false);
-        }else {
+        } else {
             showFragment(currentFragment);
         }
 
-        AppEventsLogger.activateApp(this);                 //facebook统计
+//        AppEventsLogger.activateApp(this);                 //facebook统计
 
         MobclickAgent.onResume(this);                      //统计时长   友盟
 
@@ -698,7 +719,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        AppEventsLogger.deactivateApp(this);
+//        AppEventsLogger.deactivateApp(this);
         MobclickAgent.onPause(this);
     }
 
@@ -756,23 +777,23 @@ public class MainActivity extends FragmentActivity {
         buyCoinPager.mHelper = null;
     }
 
-//    public void  getsp(){
-//        try {
-//            Log.e("TAGhehe", "getsp");
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "net.iwantbuyer",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                Log.e("TAGhehe", "sign");
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.e("TAGhehe:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            Log.e("TAG000", e.toString());
-//        } catch (NoSuchAlgorithmException e) {
-//            Log.e("TAG000", e.toString());
-//        }
-//    }
+    public void getsp() {
+        try {
+            Log.e("TAGhehe", "getsp");
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "net.iwantbuyer",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                Log.e("TAGhehe", "sign");
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("TAGhehe:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("TAG000", e.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("TAG000", e.toString());
+        }
+    }
 
 }

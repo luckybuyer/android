@@ -211,7 +211,7 @@ public class GuideAdapter extends PagerAdapter {
                     break;
                 case R.id.iv_guide_login:
                     //登陆
-                    context.startActivity(((MainActivity)context).lock.newIntent(((MainActivity)context)));
+//                    context.startActivity(((MainActivity)context).lock.newIntent(((MainActivity)context)));
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
