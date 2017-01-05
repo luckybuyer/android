@@ -12,8 +12,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,7 +43,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
 
-import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
+//import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
@@ -220,7 +218,7 @@ public class MainActivity extends FragmentActivity {
         }
 
 
-        getsp();
+//        getsp();
         Utils.setSpData("main_pager", null, this);       //当editshow 返回时候的临时变量 一定要删除
     }
 
@@ -749,7 +747,7 @@ public class MainActivity extends FragmentActivity {
 //            googleMyService(purchaseData, dataSignature);
 
         } else {
-            FBLikeView.onActivityResult(requestCode, resultCode, data);
+//            FBLikeView.onActivityResult(requestCode, resultCode, data);
         }
 
         // Pass on the activity result to the helper for handling
@@ -776,24 +774,24 @@ public class MainActivity extends FragmentActivity {
         }
         buyCoinPager.mHelper = null;
     }
-
-    public void getsp() {
-        try {
-            Log.e("TAGhehe", "getsp");
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "net.iwantbuyer",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                Log.e("TAGhehe", "sign");
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.e("TAGhehe:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e("TAG000", e.toString());
-        } catch (NoSuchAlgorithmException e) {
-            Log.e("TAG000", e.toString());
-        }
-    }
+//
+//    public void getsp() {
+//        try {
+//            Log.e("TAGhehe", "getsp");
+//            PackageInfo info = getPackageManager().getPackageInfo(
+//                    "net.iwantbuyer",
+//                    PackageManager.GET_SIGNATURES);
+//            for (Signature signature : info.signatures) {
+//                Log.e("TAGhehe", "sign");
+//                MessageDigest md = MessageDigest.getInstance("SHA");
+//                md.update(signature.toByteArray());
+//                Log.e("TAGhehe:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+//            }
+//        } catch (PackageManager.NameNotFoundException e) {
+//            Log.e("TAG000", e.toString());
+//        } catch (NoSuchAlgorithmException e) {
+//            Log.e("TAG000", e.toString());
+//        }
+//    }
 
 }
