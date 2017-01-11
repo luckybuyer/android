@@ -9,7 +9,7 @@
         android:id="@+id/rl_coindetail_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_128"
-        android:background="@color/bg_while">
+        android:background="@color/abc_white">
 
         <TextView
             android:id="@+id/tv_title"

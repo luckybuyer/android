@@ -267,6 +267,7 @@ public class WelcomeActivity extends Activity {
 
         Utils.setSpData("client_id",paySwitchBean.getAuth0_client_id(),WelcomeActivity.this);
         Utils.setSpData("domain",paySwitchBean.getAuth0_domain(),WelcomeActivity.this);
+        Utils.setSpData("gifts_new_user",paySwitchBean.getGifts_new_user()+"",WelcomeActivity.this);
 
         MyApplication.client_id = Utils.getSpData("client_id",this);
         MyApplication.domain = Utils.getSpData("domain",this);
@@ -294,7 +295,7 @@ public class WelcomeActivity extends Activity {
     private void StartView(String response) {
         //Appflyer 统计  进入选择国家界面
         Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(this, "LOGIN:logged_in success",eventValue);
+        AppsFlyerLib.getInstance().trackEvent(this, "Page: splash screen_select country",eventValue);
 
         View inflate = View.inflate(WelcomeActivity.this, R.layout.pager_country, null);
         RecyclerView rv_country = (RecyclerView) inflate.findViewById(R.id.rv_country);

@@ -1,17 +1,24 @@
 package net.iwantbuyer.activity;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,6 +56,9 @@ import net.iwantbuyer.secondpager.ProductInformationPager;
 import net.iwantbuyer.secondpager.SetPager;
 import net.iwantbuyer.secondpager.ShippingAddressPager;
 import net.iwantbuyer.secondpager.WinnersSharingPager;
+import net.iwantbuyer.util.IabHelper;
+import net.iwantbuyer.util.IabResult;
+import net.iwantbuyer.util.Purchase;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.MyBase64;
 import net.iwantbuyer.utils.Utils;
@@ -197,7 +207,7 @@ public class SecondPagerActivity extends FragmentActivity {
         Fragment fragment = list.get(checkedId);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_secondpager, fragment);
-        if(checkedId != 4 && checkedId != 0 && checkedId != 6 && checkedId != 11 && checkedId != 7) {
+        if(checkedId != 4 && checkedId != 0  && checkedId != 11 && checkedId != 7 && checkedId != 5) {
             fragmentTransaction.addToBackStack(null);
         }
 
@@ -232,6 +242,17 @@ public class SecondPagerActivity extends FragmentActivity {
 //                case R.id.tv_second_share:
 //                    Utils.MyToast(SecondPagerActivity.this, "SHARE");
 //                    break;
+
+                case R.id.iv_home_use:
+                    if (showUse != null && showUse.isShowing()) {
+                        showUse.dismiss();
+                    }
+                    break;
+                case R.id.iv_gift__use_close:
+                    if (showUse != null && showUse.isShowing()) {
+                        showUse.dismiss();
+                    }
+                    break;
             }
         }
     }
@@ -269,6 +290,9 @@ public class SecondPagerActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, SecondPagerActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", SecondPagerActivity.this);
+            //赠送金币成功
+            startGift();
+
             Login(token);
 
         }
@@ -317,7 +341,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 SecondPagerActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(SecondPagerActivity.this,"Login in successfully");
+                        Utils.MyToast(SecondPagerActivity.this,"Log in successfully");
 
                     }
                 });
@@ -345,10 +369,13 @@ public class SecondPagerActivity extends FragmentActivity {
                 Log.e("TAG", message);
                 Utils.setSpData("token", null, SecondPagerActivity.this);
                 Utils.setSpData("token_num", null, SecondPagerActivity.this);
-                runOnUiThread(new Runnable() {
+                runOnUiThread(
+
+
+                        new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
+                        Utils.MyToast(SecondPagerActivity.this, "Log in failed");
                     }
                 });
             }
@@ -360,7 +387,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(SecondPagerActivity.this, "Login failed, please login again");
+                        Utils.MyToast(SecondPagerActivity.this, "Log in failed");
                     }
                 });
             }
@@ -460,6 +487,109 @@ public class SecondPagerActivity extends FragmentActivity {
         } else {
             Log.e("TAG", "onActivityResult handled by IABUtil.");
         }
+    }
+
+    // Callback for when a purchase is finished
+    public IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            Log.d("TAG", "Purchase finished: " + result + ", purchase: " + purchase);
+            Log.e("TAG_点击之后", result.toString());
+            if (result.isFailure()) {
+                return;
+            }
+
+            Log.e("TAG", result.getMessage());
+            Log.e("TAG", result.toString());
+            Log.e("TAG", purchase.getSku());
+            Log.e("TAG", purchase.getOrderId().toString());
+            Log.e("TAG", purchase.getSignature().toString());
+            Log.e("TAG", purchase.getSignature().toString());
+            //消耗产品
+            try {
+                if (buyCoinPager != null && buyCoinPager.mHelper != null) {
+                    buyCoinPager.mHelper.consumeAsync(purchase, new IabHelper.OnConsumeFinishedListener() {
+                        @Override
+                        public void onConsumeFinished(Purchase purchase, IabResult result) {
+                            Log.e("TAG_消耗", result.isSuccess() + "");
+                        }
+                    });
+                }
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+
+    private void startGift() {
+        String url = MyApplication.url + "/v1/gifts/new_user/?timezone=" + MyApplication.utc;
+        Log.e("TAG_gift..", url);
+        Map map = new HashMap();
+        String mToken = Utils.getSpData("token", this);
+        map.put("Authorization", "Bearer " + mToken);
+        HttpUtils.getInstance().postRequest(url, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                SecondPagerActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StartGift();
+                    }
+                });
+
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                SecondPagerActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (code == 419) {
+                            Log.e("TAG_gift...", "已经赠送过了");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+            }
+        });
+    }
+
+    AlertDialog showUse;
+    private AlertDialog StartGift() {
+
+        Log.e("TAG_gift..", "startGift");
+        View inflate = View.inflate(this, R.layout.alertdialog_home_usegift, null);
+        ImageView iv_home_use = (ImageView) inflate.findViewById(R.id.iv_home_use);
+        ImageView iv_gift__use_close = (ImageView) inflate.findViewById(R.id.iv_gift__use_close);
+        ImageView iv_home_coin = (ImageView) inflate.findViewById(R.id.iv_home_coin);
+        iv_home_use.setOnClickListener(new MyOnClickListener());
+        iv_gift__use_close.setOnClickListener(new MyOnClickListener());
+
+        if ("2".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_two));
+        } else if ("3".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_three));
+        } else if ("4".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_four));
+        } else if ("5".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_five));
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(inflate);
+        showUse = builder.show();
+        showUse.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+        showUse.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = showUse.getWindow();
+        window.setGravity(Gravity.CENTER);
+//        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+        showUse.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return showUse;
     }
 
     @Override

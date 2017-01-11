@@ -24,7 +24,7 @@
 
     <style name="MyLockTheme" parent="Lock.Theme">
 
-        <item name="Auth0.HeaderTitle">@string/app_name</item>
+        <item name="Auth0.HeaderTitle">@string/LuckyBuyer</item>
         <item name="Auth0.HeaderTitleColor">@color/text_black</item>
         <item name="Auth0.HeaderLogo">@mipmap/ic_launcher</item>
         <item name="Auth0.HeaderBackground">@color/auth0_header</item>

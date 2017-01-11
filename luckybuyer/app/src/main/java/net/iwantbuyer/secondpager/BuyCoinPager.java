@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AFInAppEventType;
 import com.appsflyer.AppsFlyerLib;
+import com.facebook.internal.LockOnGetVariable;
 import com.google.gson.Gson;
 import com.halopay.interfaces.callback.IPayResultCallback;
 import com.halopay.sdk.main.HaloPay;
@@ -73,9 +74,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private static PayPalConfiguration config = new PayPalConfiguration()
             // 沙盒测试(ENVIRONMENT_SANDBOX)，生产环境(ENVIRONMENT_PRODUCTION)
             .environment(PayPalConfiguration.ENVIRONMENT_PRODUCTION)
+//            .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX)
             .merchantName("KangQian")
             //你创建的测试应用Client ID  
-            .clientId("Adzkv-hUMlgx54740-FtAa-crh3rG7r2V-6Ezvx5cOOyODxl1wbF_ZC1Ups9EzkHJWGd5aQWk4iSCVjf");
+            .clientId("Adzkv-hUMlgx54740-FtAa-crh3rG7r2V-6Ezvx5cOOyODxl1wbF_ZC1Ups9EzkHJWGd5aQWk4iSCVjf");     //正式
+//            .clientId("AfRWBJE7IMMtA0PeZ-fNA4VNKHQ96OzEi8zQhWiU62isFIK7u839fulj1HlwC1xQrl0PB3S4Sxfv-v_v");
 
 
     private RelativeLayout rl_buycoins_header;
@@ -144,7 +147,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
 
         //谷歌支付初始化
-        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsNdFCBJ/+rP52eYwXardjTwcX+39SQ/87d+SWnLfIH2UghectXo5yPG9FqM3Egc9R0YKtKN/KtBvnZMCQBrdNYaOc44h81fOnckBMstDskDRLnHsM6+xmOCemN14OeWLntij4IRgS75LOctWnzFf6ombNtnjvcJZ+ax60dyzKi0b/GoYP8VLvrRpzYnUuJWAohPVTfn415qOEuAXD8DGijKp7ciilv76Up5z5pRMUdbK9HVusMLECWwzoPsiPObCGLS4szYgjdD5DKVpPItV4sSsZH9kXVlxaGzm7iPxfDPE3cxy4WG1FWerxkbOxWI8jG9a/pUA3+uatapZwSMKBQIDAQAB";
+        String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiIp/UfmHgk42bRgx2E2HngH3m5iD4tBkqF98E4nO2x2Pw+bqnHCCNYVNerjdwuN3Djc0XKCC5OHKqpzpscC5hHPxSOGTDTfjN9f6i8hMeC19fuQt2J86nty8loCkP6R3FOsfI8XTXtolUaLhekVSaiZp2aE3aMlaMyggeNUclVh/PA4yhLIEY12f//upuA/gbr+8RtyQRxa0rVCkIWLP8dZI32tfLKxDYGCIBfssTKgagL+NdMqBYaQXq5rmwV2DSvTIFEfOjs99JkQYZCezgmDSJWYQtqhZ0lpUsOX9D5IlCyfp7NnVXxG6FUiAAYu4ZpkHLYE4tGFrN9YoQZ60BwIDAQAB";
         mHelper = new IabHelper(context, base64EncodedPublicKey);
         mHelper.enableDebugLogging(true);
 
@@ -315,11 +318,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
         try {
             if (flag) {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, ((SecondPagerActivity)context).mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             } else {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((MainActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((MainActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, ((MainActivity)context).mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((MainActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             }
         } catch (Exception e) {
@@ -331,35 +334,35 @@ public class BuyCoinPager extends BaseNoTrackPager {
     }
 
     // Callback for when a purchase is finished
-    public IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
-        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d("TAG", "Purchase finished: " + result + ", purchase: " + purchase);
-            Log.e("TAG_点击之后", result.toString());
-            if (result.isFailure()) {
-                return;
-            }
-
-            Log.e("TAG", result.getMessage());
-            Log.e("TAG", result.toString());
-            Log.e("TAG", purchase.getSku());
-            Log.e("TAG", purchase.getOrderId().toString());
-            Log.e("TAG", purchase.getSignature().toString());
-            Log.e("TAG", purchase.getSignature().toString());
-            //消耗产品
-            try {
-                mHelper.consumeAsync(purchase, new IabHelper.OnConsumeFinishedListener() {
-                    @Override
-                    public void onConsumeFinished(Purchase purchase, IabResult result) {
-                        Log.e("TAG_消耗", result.isSuccess() + "");
-                    }
-                });
-
-            } catch (IabHelper.IabAsyncInProgressException e) {
-                e.printStackTrace();
-            }
-
-        }
-    };
+//    public IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+//        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+//            Log.d("TAG", "Purchase finished: " + result + ", purchase: " + purchase);
+//            Log.e("TAG_点击之后", result.toString());
+//            if (result.isFailure()) {
+//                return;
+//            }
+//
+//            Log.e("TAG", result.getMessage());
+//            Log.e("TAG", result.toString());
+//            Log.e("TAG", purchase.getSku());
+//            Log.e("TAG", purchase.getOrderId().toString());
+//            Log.e("TAG", purchase.getSignature().toString());
+//            Log.e("TAG", purchase.getSignature().toString());
+//            //消耗产品
+//            try {
+//                mHelper.consumeAsync(purchase, new IabHelper.OnConsumeFinishedListener() {
+//                    @Override
+//                    public void onConsumeFinished(Purchase purchase, IabResult result) {
+//                        Log.e("TAG_消耗", result.isSuccess() + "");
+//                    }
+//                });
+//
+//            } catch (IabHelper.IabAsyncInProgressException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    };
 
 
     int money = 0;
@@ -786,6 +789,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-CLIENT-TYPE","appsflyer_android");
+        map.put("LK-APP-ID","net.iwantbuyer");
+        map.put("LK-APPSFLYER-ID",AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -925,7 +931,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     //谷歌支付成功后 调用我们自己的接口
     public void googleMyService(String purchaseData, String dataSignature) {
+        if(purchaseData == null || dataSignature == null) {
+            return;
+        }
+        Log.e("TAG_google", purchaseData);
+        Log.e("TAG_google", dataSignature);
+
         String url = MyApplication.url + "/v1/payments/android-inapp/?timezone=" + MyApplication.utc;
+        Log.e("TAG_google", url);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.accumulate("data_signature", dataSignature);
@@ -939,6 +952,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-CLIENT-TYPE","appsflyer_android");
+        map.put("LK-APP-ID","net.iwantbuyer");
+        map.put("LK-APPSFLYER-ID",AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -979,12 +995,18 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-CLIENT-TYPE","appsflyer_android");
+        map.put("LK-APP-ID","net.iwantbuyer");
+        map.put("LK-APPSFLYER-ID",AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        Log.e("TAG_paypal", json);
+        Log.e("TAG_paypal", url);
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.e("TAG_paypal", response);
                         startAlert(true);
                         tv_buycoins_balance.setText(Utils.getSpData("balance", context) + buyCoinBean.getBuycoins().get(id_coins).getAmount());
                         //重新请求一下接口
@@ -999,7 +1021,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("TAG", code + message);
+                        Log.e("TAG_paypal", code + message);
                     }
                 });
             }

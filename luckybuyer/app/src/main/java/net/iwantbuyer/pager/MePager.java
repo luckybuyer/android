@@ -35,6 +35,7 @@ import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.adapter.MePagerAllAdapter;
 import net.iwantbuyer.adapter.MePagerLuckyAdapter;
@@ -43,6 +44,7 @@ import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.AllOrderBean;
 import net.iwantbuyer.bean.CoinDetailBean;
+import net.iwantbuyer.bean.User;
 import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
@@ -71,6 +73,7 @@ public class MePager extends BaseNoTrackPager {
     public CustomViewPager vp_me;
     private SlidingTabLayout stl_me_vpcontrol;
     public BottomScrollView sv_me;
+    private LinearLayout ll_me_gold;
     public View inflate;
 
     //下拉加载更多
@@ -155,8 +158,9 @@ public class MePager extends BaseNoTrackPager {
             rl_loading.setVisibility(View.VISIBLE);
         }
 
-
         String token = Utils.getSpData("token", context);
+        Login(token);
+
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
@@ -538,6 +542,7 @@ public class MePager extends BaseNoTrackPager {
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
         view_me_top = (View) inflate.findViewById(R.id.view_me_top);
+        ll_me_gold = (LinearLayout) inflate.findViewById(R.id.ll_me_gold);
 
         ll_loading_data = (LinearLayout) inflate.findViewById(R.id.ll_loading_data);
         pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
@@ -546,8 +551,48 @@ public class MePager extends BaseNoTrackPager {
 
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
-        tv_me_gold.setOnClickListener(new MyOnClickListener());
+//        tv_me_gold.setOnClickListener(new MyOnClickListener());
+        ll_me_gold.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
+    }
+
+
+    private void Login(String token) {
+        String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
+        Map map = new HashMap<String, String>();
+        map.put("Authorization", "Bearer " + token);
+
+        //请求登陆接口
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(String response) {
+
+
+                Gson gson = new Gson();
+                User user = gson.fromJson(response, User.class);
+                Utils.setSpData("id", user.getId() + "", context);
+                Utils.setSpData("user_id", user.getAuth0_user_id(), context);
+                Utils.setSpData("balance", user.getBalance() + "", context);
+                Utils.setSpData("name", user.getProfile().getName(), context);
+                Utils.setSpData("picture", user.getProfile().getPicture(), context);
+                Utils.setSpData("social_link", user.getProfile().getSocial_link(), context);
+
+                ((MainActivity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setView();
+                    }
+                });
+            }
+
+            @Override
+            public void error(int requestCode, String message) {
+            }
+
+            @Override
+            public void failure(Exception exception) {
+            }
+        });
     }
 
     public void setView() {
@@ -596,7 +641,7 @@ public class MePager extends BaseNoTrackPager {
                     intent.putExtra("from", "setpager");
                     startActivityForResult(intent, 0);
                     break;
-                case R.id.tv_me_gold:
+                case R.id.ll_me_gold:
                     intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "coindetailpager");
                     startActivity(intent);

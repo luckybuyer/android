@@ -7,14 +7,14 @@ import java.util.List;
  */
 public class PaySwitchBean {
 
-
     /**
      * _resource : Config
-     * auth0_client_id : 6frbTA5t3o1djsPYLp0jPiDGx7cvIyVc
-     * auth0_domain : luckybuyer.auth0.com
-     * broadcasts_per_page : 10
-     * broadcasts_refresh_frequency : 20
-     * exchange_rate : 3.676
+     * auth0_client_id : HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1
+     * auth0_domain : staging-luckybuyer.auth0.com
+     * broadcasts_per_page : 20
+     * broadcasts_refresh_frequency : 10
+     * exchange_rate : null
+     * gifts_new_user : 3
      * local_currency : AED
      * payment_methods : [{"method":null,"vendor":"android-inapp"},{"method":null,"vendor":"paypal"},{"method":null,"vendor":"halopay"},{"method":null,"vendor":"visa"}]
      */
@@ -24,7 +24,8 @@ public class PaySwitchBean {
     private String auth0_domain;
     private int broadcasts_per_page;
     private int broadcasts_refresh_frequency;
-    private double exchange_rate;
+    private Object exchange_rate;
+    private int gifts_new_user;
     private String local_currency;
     /**
      * method : null
@@ -73,12 +74,20 @@ public class PaySwitchBean {
         this.broadcasts_refresh_frequency = broadcasts_refresh_frequency;
     }
 
-    public double getExchange_rate() {
+    public Object getExchange_rate() {
         return exchange_rate;
     }
 
-    public void setExchange_rate(double exchange_rate) {
+    public void setExchange_rate(Object exchange_rate) {
         this.exchange_rate = exchange_rate;
+    }
+
+    public int getGifts_new_user() {
+        return gifts_new_user;
+    }
+
+    public void setGifts_new_user(int gifts_new_user) {
+        this.gifts_new_user = gifts_new_user;
     }
 
     public String getLocal_currency() {

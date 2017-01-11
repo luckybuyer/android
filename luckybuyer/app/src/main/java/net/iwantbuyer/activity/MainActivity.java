@@ -1,22 +1,30 @@
 package net.iwantbuyer.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -58,6 +66,8 @@ import net.iwantbuyer.pager.ShowPager;
 import net.iwantbuyer.pager.WinningPager;
 import net.iwantbuyer.secondpager.BuyCoinPager;
 import net.iwantbuyer.util.IabHelper;
+import net.iwantbuyer.util.IabResult;
+import net.iwantbuyer.util.Purchase;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.MyBase64;
 import net.iwantbuyer.utils.Utils;
@@ -99,7 +109,6 @@ public class MainActivity extends FragmentActivity {
 
     public int id;
 
-    private FacebookAuthProvider provider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,16 +137,14 @@ public class MainActivity extends FragmentActivity {
         GoogleAuthHandler handle = new GoogleAuthHandler(provide);
 
 
-        if (lock == null) {
-            lock = Lock.newBuilder(auth0, callback)
-                    .withAuthHandlers(handler, handle)
-                    .closable(true)
+        lock = Lock.newBuilder(auth0, callback)
+                .withAuthHandlers(handler, handle)
+                .closable(true)
 //                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
-                    .withAuthButtonSize(AuthButtonSize.BIG)
+                .withAuthButtonSize(AuthButtonSize.BIG)
 //                // Add parameters to the Lock Builder
-                    .useBrowser(false)
-                    .build(this);
-        }
+                .useBrowser(false)
+                .build(this);
 
 
 //        auth0登陆
@@ -189,6 +196,11 @@ public class MainActivity extends FragmentActivity {
         //发现视图  设置监听
         findView();
 
+        //注册送礼包弹窗
+        if (!"0".equals(Utils.getSpData("gifts_new_user", this)) && Utils.getSpData("guide", this) == null) {
+            StartAlertDialog();
+        }
+
         //新手 引导页面
         if (Utils.getSpData("guide", this) == null) {
             vp_main.setAdapter(new GuideAdapter(this, vp_main));
@@ -220,6 +232,7 @@ public class MainActivity extends FragmentActivity {
 
 //        getsp();
         Utils.setSpData("main_pager", null, this);       //当editshow 返回时候的临时变量 一定要删除
+
     }
 
     //设置数据
@@ -338,9 +351,65 @@ public class MainActivity extends FragmentActivity {
                         AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Page：Login", eventValue);
                     }
                     break;
+                case R.id.iv_home_get:
+                    MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
+                    if (show != null && show.isShowing()) {
+                        show.dismiss();
+                    }
+
+                    //AppFlyer 埋点
+                    Map<String, Object> eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_GET IT NOW", eventValue);
+
+                    break;
+                case R.id.iv_gift_close:
+                    if (show != null && show.isShowing()) {
+                        show.dismiss();
+                    }
+                    //AppFlyer 埋点
+                    eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_closed", eventValue);
+                    break;
+                case R.id.iv_home_use:
+                    if (currentFragment == homePager) {
+                        if (showUse != null && showUse.isShowing()) {
+                            showUse.dismiss();
+                        }
+
+                        rb_main_homepager.setChecked(true);
+                        rb_main_buycoins.setChecked(false);
+                        rb_main_newresult.setChecked(false);
+                        rb_main_show.setChecked(false);
+                        rb_main_me.setChecked(false);
+
+                        id = 0;
+
+                    } else {
+                        showFragment(homePager);
+
+                        rb_main_homepager.setChecked(true);
+                        rb_main_buycoins.setChecked(false);
+                        rb_main_newresult.setChecked(false);
+                        rb_main_show.setChecked(false);
+                        rb_main_me.setChecked(false);
+
+                        id = 0;
+                        if (showUse != null && showUse.isShowing()) {
+                            showUse.dismiss();
+                        }
+                    }
+
+                    break;
+                case R.id.iv_gift__use_close:
+                    if (showUse != null && showUse.isShowing()) {
+                        showUse.dismiss();
+
+                    }
+                    break;
             }
         }
     }
+
 
     private void setPoint(String page) {
         //埋点
@@ -466,6 +535,9 @@ public class MainActivity extends FragmentActivity {
             Utils.setSpData("token", token, MainActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", MainActivity.this);
 
+            //赠送金币成功
+            startGift();
+
 
             if ((System.currentTimeMillis() - LoginTime) > 3000) {
                 Log.e("TAG_time", LoginTime + "");
@@ -503,12 +575,12 @@ public class MainActivity extends FragmentActivity {
             //友盟登陆通缉
             LogChannel("Login_Error");
 
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Error", eventValue);
+//            //Appflyer 统计
+//            Map<String, Object> eventValue = new HashMap<String, Object>();
+//            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Error", eventValue);
 
             //Appflyer 统计
-            eventValue = new HashMap<String, Object>();
+            Map<String, Object> eventValue = new HashMap<String, Object>();
             AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in failed", eventValue);
             selectPager();
 
@@ -556,7 +628,7 @@ public class MainActivity extends FragmentActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(MainActivity.this, "Login in successfully");
+                        Utils.MyToast(MainActivity.this, "Log in successfully");
                         //登陆成功  直接进入me页面
                         showFragment(list.get(login_id));
                         if (login_id == 1) {
@@ -585,11 +657,12 @@ public class MainActivity extends FragmentActivity {
                             rb_main_homepager.setChecked(true);
                             rb_main_buycoins.setChecked(false);
                             rb_main_me.setChecked(false);
+                            rb_main_show.setChecked(false);
                             rb_main_newresult.setChecked(false);
 
                         }
-                        rb_main_homepager.setChecked(false);
-                        rb_main_newresult.setChecked(false);
+//                        rb_main_homepager.setChecked(false);
+//                        rb_main_newresult.setChecked(false);
 
                     }
                 });
@@ -606,7 +679,7 @@ public class MainActivity extends FragmentActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(MainActivity.this, "Login in failed");
+                        Utils.MyToast(MainActivity.this, "Log in failed");
                         selectPager();
                     }
                 });
@@ -619,7 +692,7 @@ public class MainActivity extends FragmentActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(MainActivity.this, "Login failed, please login again");
+                        Utils.MyToast(MainActivity.this, "Log in failed");
                         selectPager();
                     }
                 });
@@ -677,6 +750,11 @@ public class MainActivity extends FragmentActivity {
                 buyCoinPager.ll_buycoins_back.setVisibility(View.GONE);
                 buyCoinPager.tv_title.setText(getString(R.string.BuyCoins));
             } else {
+                if(show != null && show.isShowing()) {
+                    //AppFlyer 埋点
+                    Map eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_closed", eventValue);
+                }
                 if ((System.currentTimeMillis() - mExitTime) > 3000) {
                     Toast.makeText(this, "click again to exit", Toast.LENGTH_SHORT).show();
                     mExitTime = System.currentTimeMillis();
@@ -761,6 +839,38 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    // Callback for when a purchase is finished
+    public IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
+        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
+            Log.d("TAG", "Purchase finished: " + result + ", purchase: " + purchase);
+            Log.e("TAG_点击之后", result.toString());
+            if (result.isFailure()) {
+                return;
+            }
+
+            Log.e("TAG", result.getMessage());
+            Log.e("TAG", result.toString());
+            Log.e("TAG", purchase.getSku());
+            Log.e("TAG", purchase.getOrderId().toString());
+            Log.e("TAG", purchase.getSignature().toString());
+            Log.e("TAG", purchase.getSignature().toString());
+            //消耗产品
+            try {
+                if (buyCoinPager != null && buyCoinPager.mHelper != null) {
+                    buyCoinPager.mHelper.consumeAsync(purchase, new IabHelper.OnConsumeFinishedListener() {
+                        @Override
+                        public void onConsumeFinished(Purchase purchase, IabResult result) {
+                            Log.e("TAG_消耗", result.isSuccess() + "");
+                        }
+                    });
+                }
+            } catch (IabHelper.IabAsyncInProgressException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
 
     @Override
     protected void onDestroy() {
@@ -774,7 +884,108 @@ public class MainActivity extends FragmentActivity {
         }
         buyCoinPager.mHelper = null;
     }
-//
+
+    AlertDialog show;
+
+    private AlertDialog StartAlertDialog() {
+        //得到屏幕的 尺寸 动态设置
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        int screenHeight = wm.getDefaultDisplay().getHeight();
+
+        View inflate = View.inflate(this, R.layout.alertdialog_home_gift, null);
+        ImageView iv_home_get = (ImageView) inflate.findViewById(R.id.iv_home_get);
+        ImageView iv_gift_close = (ImageView) inflate.findViewById(R.id.iv_gift_close);
+        iv_home_get.setOnClickListener(new MyOnclickListener());
+        iv_gift_close.setOnClickListener(new MyOnclickListener());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(inflate);
+        show = builder.show();
+        show.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = show.getWindow();
+        window.setGravity(Gravity.CENTER);
+//        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return show;
+    }
+
+    AlertDialog showUse;
+
+    private AlertDialog StartGift() {
+
+        View inflate = View.inflate(this, R.layout.alertdialog_home_usegift, null);
+        ImageView iv_home_use = (ImageView) inflate.findViewById(R.id.iv_home_use);
+        ImageView iv_gift__use_close = (ImageView) inflate.findViewById(R.id.iv_gift__use_close);
+        ImageView iv_home_coin = (ImageView) inflate.findViewById(R.id.iv_home_coin);
+        iv_home_use.setOnClickListener(new MyOnclickListener());
+        iv_gift__use_close.setOnClickListener(new MyOnclickListener());
+
+        if ("2".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_two));
+        } else if ("3".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_three));
+        } else if ("4".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_four));
+        } else if ("5".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_five));
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(inflate);
+        if(!this.isDestroyed()) {
+            showUse = builder.show();
+            showUse.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+            showUse.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Window window = showUse.getWindow();
+            window.setGravity(Gravity.CENTER);
+//        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+            showUse.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        return showUse;
+    }
+
+
+    private void startGift() {
+        String url = MyApplication.url + "/v1/gifts/new_user/?timezone=" + MyApplication.utc;
+        Log.e("TAG_gift", url);
+        Map map = new HashMap();
+        String mToken = Utils.getSpData("token", this);
+        map.put("Authorization", "Bearer " + mToken);
+        HttpUtils.getInstance().postRequest(url, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StartGift();
+                    }
+                });
+
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (code == 419) {
+                            Log.e("TAG_gift", "已经赠送过了");
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+            }
+        });
+    }
+
 //    public void getsp() {
 //        try {
 //            Log.e("TAGhehe", "getsp");

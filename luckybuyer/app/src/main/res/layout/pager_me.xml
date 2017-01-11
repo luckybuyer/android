@@ -78,18 +78,18 @@
 
 
                 <LinearLayout
-                    android:id="@+id/ll"
+                    android:id="@+id/ll_me_gold"
                     android:layout_below="@+id/tv_me_name"
                     android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="@dimen/dimen_40">
                     <TextView
                         android:id="@+id/tv_gold"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/dimen_36"
                         android:layout_below="@+id/tv_me_fbcode"
                         android:layout_centerHorizontal="true"
-                        android:text="@string/coins."
+                        android:text="coins: "
                         android:textColor="#ff9c05"
                         android:textSize="@dimen/dimen_28" />
                     <TextView
@@ -108,7 +108,7 @@
                     android:id="@+id/view_shipping"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_2"
-                    android:layout_below="@+id/ll"
+                    android:layout_below="@+id/ll_me_gold"
                     android:layout_marginStart="@dimen/dimen_70"
                     android:layout_marginEnd="@dimen/dimen_70"
                     android:layout_marginTop="@dimen/dimen_20"

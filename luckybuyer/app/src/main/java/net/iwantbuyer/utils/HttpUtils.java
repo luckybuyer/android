@@ -159,21 +159,26 @@ public class HttpUtils {
     }
 
     public void postRequest(String url, Map<String, String> map, final OnRequestListener onRequestListener) {
+
+
         FormBody.Builder builder = new FormBody.Builder();
+
+        Request.Builder builde = new Request.Builder();
+
         if(map != null) {
             Set<String> key = map.keySet();
             for (Iterator it = key.iterator(); it.hasNext(); ) {
                 String s = (String) it.next();
-                builder.add(s, map.get(s));
-                Log.e("TAG", map.get(s));
+                builde.addHeader(s, map.get(s));
             }
         }
-
         RequestBody requestBody = builder.build();
-        Request request = new Request.Builder()
+        Request request = builde
                 .url(url)
                 .post(requestBody)
                 .build();
+
+
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -245,6 +250,7 @@ public class HttpUtils {
         }
 
         Request request = builder.build();
+
 
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

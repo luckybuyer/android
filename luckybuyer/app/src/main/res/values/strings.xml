@@ -23,6 +23,7 @@
     <string name="channel">Free_Game</string>
 
     <!--英文-->
+    <string name="LuckyBuyer">LuckyBuyer</string>
     <string name="Home">Home</string>                        <!--首页-->
     <string name="PRODUCTS">PRODUCTS</string>                <!--产品-->
     <string name="BuyCoins">Top Up</string>                <!--购买金币-->

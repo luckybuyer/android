@@ -500,8 +500,9 @@ public class Utils {
         ActivityManager mAm = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> taskList = mAm.getRunningTasks(100);
         for (ActivityManager.RunningTaskInfo rti : taskList){
-            Log.e("showRunningTasks", rti.baseActivity.getClassName() + "-----" + rti.topActivity.getClassName()); 
-            if(rti.topActivity.getClassName().equals("net.iwantbuyer.activity.SecondPagerActivity")) {
+            Log.e("showRunningTasks", rti.baseActivity.getClassName() + "-----" + rti.topActivity.getClassName());
+            Log.e("showRunningTasks", rti.numActivities+"");
+            if((rti.topActivity.getClassName().equals("net.iwantbuyer.activity.SecondPagerActivity") || rti.numActivities == 3)) {
                 return true;
             }
         }
