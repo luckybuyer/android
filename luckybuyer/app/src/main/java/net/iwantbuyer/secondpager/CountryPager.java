@@ -148,6 +148,7 @@ public class CountryPager extends BasePager {
 
     private void StartView(String response) {
         response = "{\"servers\":" + response + "}";
+        Log.e("TAG_country", response);
         ServersAdapter serversAdapter = new ServersAdapter(context, response);
         rv_country.setAdapter(serversAdapter);
         rv_country.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));

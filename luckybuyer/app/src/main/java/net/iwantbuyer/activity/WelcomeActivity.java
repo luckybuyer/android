@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -50,6 +53,7 @@ import net.iwantbuyer.utils.Utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class WelcomeActivity extends Activity {
@@ -67,6 +71,10 @@ public class WelcomeActivity extends Activity {
     };
 
 
+//    private Configuration config;
+//    private Resources resources;
+//    private DisplayMetrics dm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +84,17 @@ public class WelcomeActivity extends Activity {
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_welcome);
+
+//        resources = this.getResources();
+//        dm = resources.getDisplayMetrics();
+//        config = resources.getConfiguration();
+//
+//        // 应用用户选择语言
+//        Locale locale = new Locale("ms","MY");
+//        config.locale = locale;
+////        config.locale = Locale.CHINA;
+//        resources.updateConfiguration(config, dm);
+
 
         fl_welcome = (FrameLayout) findViewById(R.id.fl_welcome);
         rl_main = (RelativeLayout) findViewById(R.id.rl_main);
@@ -112,8 +131,6 @@ public class WelcomeActivity extends Activity {
         }
 
 
-//        String str = "{\"servers\": [{\"api_server\": \"https://api-ca.luckybuyer.net/\",\"countries\": [\"Canada\"],\"h5\": \"https://ca.luckybuyer.net/\",\"region\": \"ca\"},{ \"api_server\": \"https://api-sg.luckybuyer.net/\",\"countries\": [\"Arab Emirates\",\"Canada\"],\"h5\": \"https://ae.luckybuyer.net/\",\"region\": \"ae\"}]}";
-//        StartView(str);
     }
 
     private void startMe() {
@@ -161,7 +178,7 @@ public class WelcomeActivity extends Activity {
                     @Override
                     public void run() {
                         processServicesData(response);
-                        Log.e("TAG..", response);
+                        Log.e("TAG_sever", response);
 
                     }
                 });
@@ -251,6 +268,7 @@ public class WelcomeActivity extends Activity {
 
 
     private void processServicesData(String response) {
+//        response = "[{\"api_server\": \"https://api-ca.luckybuyer.net\",\"countries\": [\"Canada\", \"Oman\", \"Qatar\", \"Bahrain\", \"Saudi Arabia\"], \"h5\": \"https://ca.luckybuyer.net\", \"name\": \"Canada\", \"region\": \"ca\"}, {\"api_server\": \"https://api-ca.luckybuyer.net\", \"countries\": [\"Canada\"], \"h5\": \"https://ca.luckybuyer.net\", \"name\": \"Canada\", \"region\": \"ca\"},{\"api_server\": \"https://api-sg.luckybuyer.net\", \"countries\": [\"United Arab Emirates\", \"Oman\", \"Qatar\", \"Bahrain\", \"Saudi Arabia\", \"Kuwait\", \"Egypt\"], \"h5\": \"https://ae.luckybuyer.net\", \"name\": \"MENA\", \"region\": \"ae\"}]";
         response = "{\"servers\":" + response + "}";
         StartView(response);
     }
@@ -268,6 +286,8 @@ public class WelcomeActivity extends Activity {
         Utils.setSpData("client_id",paySwitchBean.getAuth0_client_id(),WelcomeActivity.this);
         Utils.setSpData("domain",paySwitchBean.getAuth0_domain(),WelcomeActivity.this);
         Utils.setSpData("gifts_new_user",paySwitchBean.getGifts_new_user()+"",WelcomeActivity.this);
+        Utils.setSpData("minimum_version",paySwitchBean.getMinimum_version()+"",WelcomeActivity.this);
+        Utils.setSpData("latest_version",paySwitchBean.getLatest_version()+"",WelcomeActivity.this);
 
         MyApplication.client_id = Utils.getSpData("client_id",this);
         MyApplication.domain = Utils.getSpData("domain",this);
@@ -412,6 +432,7 @@ public class WelcomeActivity extends Activity {
         show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
+
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {

@@ -41,8 +41,18 @@ public class BuyCoinBean {
         private String _resource;
         private int amount;
         private String currency;
+        private String android_product_id;
         private String description;
         private int id;
+
+        public String getAndroid_product_id() {
+            return android_product_id;
+        }
+
+        public void setAndroid_product_id(String android_product_id) {
+            this.android_product_id = android_product_id;
+        }
+
         private String name;
         private int price;
 

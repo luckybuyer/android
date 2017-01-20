@@ -15,7 +15,7 @@
         android:layout_marginTop="@dimen/dimen_45"
         android:layout_marginBottom="@dimen/dimen_45"
         android:gravity="center"
-        android:text="please wait,the specific information is loading..."
+        android:text="@string/selectSever"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_30" />
 

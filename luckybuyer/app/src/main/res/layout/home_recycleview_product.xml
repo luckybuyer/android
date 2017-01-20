@@ -98,6 +98,6 @@
     <ImageView
         android:id="@+id/iv_product_increment"
         android:layout_marginTop="@dimen/dimen_10"
-        android:layout_width="@dimen/dimen_140"
+        android:layout_width="@dimen/dimen_155"
         android:layout_height="@dimen/dimen_40" />
 </RelativeLayout>

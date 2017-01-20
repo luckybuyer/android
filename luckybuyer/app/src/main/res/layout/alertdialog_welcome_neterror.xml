@@ -6,15 +6,6 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/tv_insertcoins_lessicons_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_40"
-        android:gravity="center"
-        android:text="Error"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_36" />
 
     <TextView
         android:id="@+id/jtv_insertcoins_lessicons_discribe"

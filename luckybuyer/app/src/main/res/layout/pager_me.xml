@@ -89,7 +89,7 @@
                         android:layout_height="@dimen/dimen_36"
                         android:layout_below="@+id/tv_me_fbcode"
                         android:layout_centerHorizontal="true"
-                        android:text="coins: "
+                        android:text="@string/coins."
                         android:textColor="#ff9c05"
                         android:textSize="@dimen/dimen_28" />
                     <TextView
@@ -117,7 +117,7 @@
                 <net.iwantbuyer.view.JustifyTextView
                     android:id="@+id/jtv_shipinng_facebook"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_86"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/view_shipping"
                     android:layout_marginStart="@dimen/dimen_84"
                     android:layout_marginEnd="@dimen/dimen_84"

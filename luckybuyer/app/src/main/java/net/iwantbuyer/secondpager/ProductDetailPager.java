@@ -672,9 +672,17 @@ public class ProductDetailPager extends BaseNoTrackPager {
         pb_productdetail_progress.setMax(productDetailBean.getShares());
         pb_productdetail_progress.setProgress(productDetailBean.getShares() - productDetailBean.getLeft_shares());
         if (productDetailBean.getShares_increment() == 5) {
-            iv_productdetail_number.setBackgroundResource(R.drawable.homepager_5);
+            if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_5);
+            }else {
+                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_5);
+            }
         } else if (productDetailBean.getShares_increment() == 10) {
-            iv_productdetail_number.setBackgroundResource(R.drawable.homepager_10);
+            if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_10);
+            }else {
+                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_10);
+            }
         }
     }
 
@@ -1275,10 +1283,14 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
         et_insert_count.setSelection(ea.length());
 
-        et_insert_count.setText(productDetailBean.getShares_increment() + "");
-        tv_insert_two.setText(productDetailBean.getShares_increment()*2 + "");
-        tv_insert_five.setText(productDetailBean.getShares_increment()*5 + "");
-        tv_insert_ten.setText(productDetailBean.getShares_increment()*10 + "");
+        if(productDetailBean != null) {
+            et_insert_count.setText(productDetailBean.getShares_increment() + "");
+            tv_insert_two.setText(productDetailBean.getShares_increment()*2 + "");
+            tv_insert_five.setText(productDetailBean.getShares_increment()*5 + "");
+            tv_insert_ten.setText(productDetailBean.getShares_increment()*10 + "");
+        }else {
+            return;
+        }
 
 
         rl_insert_delete.setOnClickListener(new MyOnClickListener());

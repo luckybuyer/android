@@ -3,51 +3,54 @@
     android:id="@+id/rl_country_canada"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/rl_country_header"
-    android:layout_marginBottom="@dimen/dimen_20"
+    android:layout_marginBottom="@dimen/dimen_1"
     android:background="#ffffff">
 
 
     <RelativeLayout
-        android:id="@+id/rl"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_20"
-        android:background="#f9f9f9"></RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_north"
+        android:id="@+id/rl_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl"
-        android:layout_marginBottom="@dimen/dimen_16"
-        android:layout_marginTop="@dimen/dimen_46">
+        android:layout_marginBottom="@dimen/dimen_16">
+
+        <RelativeLayout
+            android:id="@+id/rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_20"
+            android:background="#f9f9f9"></RelativeLayout>
 
         <View
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_40"
-            android:layout_marginRight="@dimen/dimen_20"
             android:id="@+id/view_left"
             android:layout_width="@dimen/dimen_20"
-            android:background="#Bea393"
-            android:layout_height="@dimen/dimen_3"></View>
+            android:layout_height="@dimen/dimen_3"
+            android:layout_below="@+id/rl"
+            android:layout_marginLeft="@dimen/dimen_40"
+            android:layout_marginRight="@dimen/dimen_20"
+            android:layout_marginTop="@dimen/dimen_62"
+            android:background="#Bea393"></View>
+
         <TextView
-            android:id="@+id/tv_north"
-            android:layout_toRightOf="@+id/view_left"
+            android:id="@+id/tv_severs_store"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimen_38"
+            android:layout_below="@+id/rl"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dimen_46"
+            android:layout_toRightOf="@+id/view_left"
             android:text="North America Store"
-            android:textSize="@dimen/dimen_28"
-            android:textColor="#BEA393" />
+            android:textColor="#BEA393"
+            android:textSize="@dimen/dimen_28" />
 
         <View
-            android:layout_toRightOf="@+id/tv_north"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/dimen_20"
-            android:layout_marginRight="@dimen/dimen_24"
             android:id="@+id/view_right"
             android:layout_width="@dimen/dimen_20"
-            android:background="#Bea393"
-            android:layout_height="@dimen/dimen_3"></View>
+            android:layout_height="@dimen/dimen_3"
+            android:layout_below="@+id/rl"
+            android:layout_marginLeft="@dimen/dimen_20"
+            android:layout_marginRight="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_62"
+            android:layout_toRightOf="@+id/tv_severs_store"
+            android:background="#Bea393"></View>
     </RelativeLayout>
 
 
@@ -55,7 +58,7 @@
         android:id="@+id/iv_country_flag"
         android:layout_width="@dimen/dimen_70"
         android:layout_height="@dimen/dimen_35"
-        android:layout_below="@+id/rl_north"
+        android:layout_below="@+id/rl_server"
         android:layout_marginBottom="@dimen/dimen_32"
         android:layout_marginStart="@dimen/dimen_40"
         android:layout_marginTop="@dimen/dimen_30"
@@ -69,9 +72,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/iv_country_flag"
-        android:gravity="center"
         android:layout_marginStart="@dimen/dimen_24"
         android:layout_toRightOf="@+id/iv_country_flag"
+        android:gravity="center"
         android:text="@string/Canada"
         android:textColor="@color/text_black"
         android:textSize="@dimen/dimen_32" />
@@ -81,14 +84,14 @@
         android:layout_width="@dimen/dimen_36"
         android:layout_height="@dimen/dimen_25"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dimen_24"
         android:layout_alignTop="@+id/iv_country_flag"
+        android:layout_marginRight="@dimen/dimen_24"
         android:background="@drawable/buycoins_true"
         android:visibility="invisible" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_20"
+        android:layout_height="0px"
         android:layout_below="@+id/iv_country_flag"
         android:background="#f9f9f9"></RelativeLayout>
 </RelativeLayout>

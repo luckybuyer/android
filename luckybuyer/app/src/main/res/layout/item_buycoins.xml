@@ -21,14 +21,14 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_34"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dimen_43">
 
             <TextView
                 android:id="@+id/tv_buyconis_coins"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="1 coin"
                 android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
@@ -38,7 +38,7 @@
             <TextView
                 android:id="@+id/tv_buyconis_free"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dimen_34"
+                android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/tv_buyconis_coins"
                 android:gravity="center"
                 android:text=" + 1free"

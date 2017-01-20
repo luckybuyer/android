@@ -24,7 +24,7 @@
         android:layout_marginEnd="@dimen/dimen_44"
         android:layout_marginTop="@dimen/dimen_30"
         android:gravity="center"
-        android:text="5 gold has been credited into your account, click OK to view details"
+        android:text="@string/showSuccessDiscribe"
         android:textColor="#999999"
         android:textSize="@dimen/dimen_30" />
 

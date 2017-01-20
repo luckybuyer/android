@@ -111,7 +111,7 @@ public class HomePager extends BaseNoTrackPager {
                     break;
                 case WHAT_AUTO:
                     handler.removeMessages(WHAT_AUTO);
-                    if (mStringArray != null) {
+                    if (mStringArray != null && mStringArray.size() !=0) {
                         int i = mLoopCount % mStringArray.size();
                         atv_home_marquee.next();
                         atv_home_marquee.setText(mStringArray.get(i));
@@ -150,7 +150,6 @@ public class HomePager extends BaseNoTrackPager {
 
         return inflate;
     }
-
 
     @Override
     public void initData() {
@@ -398,10 +397,9 @@ public class HomePager extends BaseNoTrackPager {
         String banner = "{\"banner\":" + response + "}";
         BannersBean bannersBean = gson.fromJson(banner, BannersBean.class);
 
-        handler.sendEmptyMessageDelayed(WHAT, 5000);       //开始轮播
         imageList = new ArrayList();
         for (int i = 0; i < bannersBean.getBanner().size(); i++) {
-            String detail_image = "http:" + bannersBean.getBanner().get(0).getImage();
+            String detail_image = "http:" + bannersBean.getBanner().get(i).getImage();
             final ImageView image_header = new ImageView(context);
             if (!((MainActivity) context).isDestroyed()) {
                 Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
@@ -435,6 +433,7 @@ public class HomePager extends BaseNoTrackPager {
         }
 
 
+        handler.sendEmptyMessageDelayed(WHAT, 100);       //开始轮播
         //设置viewpager
         vp_home.setAdapter(new HomeImagePageAdapter(imageList, context, bannersBean.getBanner()));
         if (imageList.size() <= 1) {
@@ -500,7 +499,15 @@ public class HomePager extends BaseNoTrackPager {
 
                 //AppFlyer 埋点
                 Map<String, Object> eventValue = new HashMap<String, Object>();
-                AppsFlyerLib.getInstance().trackEvent(context, "Click:" + productList.get(position).getProduct().getId(),eventValue);
+                eventValue.put("%id",productList.get(position).getProduct().getId() + "");
+                if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_my",eventValue);
+                }else if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-sg")) {
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ae",eventValue);
+                }else {
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ca",eventValue);
+                }
+
             }
 
             @Override

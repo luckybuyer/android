@@ -18,7 +18,7 @@
             android:layout_marginBottom="@dimen/dimen_16"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Select Country"
+            android:text="@string/SelectCountry"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_38" />
 
@@ -48,7 +48,7 @@
             android:layout_marginTop="@dimen/dimen_57"
             android:gravity="center"
             android:paddingBottom="@dimen/dimen_24"
-            android:text="Apply"
+            android:text="@string/Apply"
             android:textColor="@color/selecotr_addaddress_save_textcolor"
             android:textSize="@dimen/dimen_32" />
 
@@ -79,7 +79,7 @@
             android:layout_centerInParent="true"
             android:drawableLeft="@drawable/country_warn"
             android:drawablePadding="@dimen/dimen_24"
-            android:text="One account can be used in only one country!"
+            android:text="@string/oneaccountonecountry"
             android:textSize="@dimen/dimen_24"
             android:layout_height="wrap_content" />
     </RelativeLayout>
@@ -93,6 +93,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -159,7 +160,7 @@
                 android:paddingStart="@dimen/dimen_24"
                 android:paddingEnd="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>

@@ -51,7 +51,7 @@
         android:layout_marginTop="@dimen/dimen_30"
         android:layout_toStartOf="@+id/tv_productdetail_luckynum"
         android:gravity="center"
-        android:text="Lucky Number: "
+        android:text="@string/LuckyNumber."
         android:textColor="#ff9c05"
         android:textSize="@dimen/dimen_26" />
 
@@ -81,6 +81,7 @@
         android:textSize="@dimen/dimen_27" />
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_luckyid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -92,6 +93,7 @@
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />
     <TextView
+        android:visibility="gone"
         android:id="@+id/tv_productdetail_luckyid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

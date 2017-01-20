@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +18,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.style.UpdateAppearance;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -29,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsflyer.AFInAppEventParameterName;
@@ -233,6 +236,7 @@ public class MainActivity extends FragmentActivity {
 //        getsp();
         Utils.setSpData("main_pager", null, this);       //当editshow 返回时候的临时变量 一定要删除
 
+        StartUpdateAlertDialog();
     }
 
     //设置数据
@@ -279,6 +283,14 @@ public class MainActivity extends FragmentActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.rb_main_homepager:
+
+//                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+//                    try {
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+////                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+//                    } catch (android.content.ActivityNotFoundException anfe) {
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+//                    }
                     id = 0;
                     showFragment(list.get(0));
                     rb_main_homepager.setChecked(true);
@@ -404,6 +416,29 @@ public class MainActivity extends FragmentActivity {
                     if (showUse != null && showUse.isShowing()) {
                         showUse.dismiss();
 
+                    }
+                    break;
+                case R.id.tv_forceupdate_ok:
+                    String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                    }
+                    break;
+                case R.id.tv_uddate_cancel:
+                    if(updateShow != null && updateShow.isShowing()) {
+                        updateShow.dismiss();
+                    }
+                    break;
+                case R.id.tv_update_ok:
+                    appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                     }
                     break;
             }
@@ -750,7 +785,7 @@ public class MainActivity extends FragmentActivity {
                 buyCoinPager.ll_buycoins_back.setVisibility(View.GONE);
                 buyCoinPager.tv_title.setText(getString(R.string.BuyCoins));
             } else {
-                if(show != null && show.isShowing()) {
+                if (show != null && show.isShowing()) {
                     //AppFlyer 埋点
                     Map eventValue = new HashMap<String, Object>();
                     AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_closed", eventValue);
@@ -935,7 +970,7 @@ public class MainActivity extends FragmentActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(inflate);
-        if(!this.isDestroyed()) {
+        if (!this.isDestroyed()) {
             showUse = builder.show();
             showUse.setCanceledOnTouchOutside(false);   //点击外部不消失
 //        show.setCancelable(false);               //点击外部和返回按钮都不消失
@@ -984,6 +1019,60 @@ public class MainActivity extends FragmentActivity {
             public void failure(Exception exception) {
             }
         });
+    }
+
+    AlertDialog updateShow;
+    private void StartUpdateAlertDialog() {
+        String pkName = this.getPackageName();
+        int versionCode = 0;
+        try {
+            versionCode = this.getPackageManager()
+                    .getPackageInfo(pkName, 0).versionCode;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //得到屏幕的 尺寸 动态设置
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        int screenWidth = wm.getDefaultDisplay().getWidth();
+        int screenHeight = wm.getDefaultDisplay().getHeight();
+
+        View inflate = null;
+
+//        versionCode =4;
+        Log.e("TAG_版本", Utils.getSpData("latest_version",this) + Utils.getSpData("minimum_version",this));
+        boolean flag = false;
+        if(Utils.getSpData("latest_version",this) != null && versionCode == Integer.parseInt(Utils.getSpData("latest_version",this))) {
+            return;
+        }else if(Utils.getSpData("minimum_version",this) != null && versionCode < Integer.parseInt(Utils.getSpData("minimum_version",this))) {
+            inflate = View.inflate(this,R.layout.alertdialog_main_forceupdate,null);
+            TextView tv_forceupdate_ok = (TextView) inflate.findViewById(R.id.tv_forceupdate_ok);
+            tv_forceupdate_ok.setOnClickListener(new MyOnclickListener());
+            flag = true;
+        }else if(Utils.getSpData("latest_version",this) != null && versionCode < Integer.parseInt(Utils.getSpData("latest_version",this))) {
+            inflate = View.inflate(this,R.layout.alertdialog_main_update,null);
+            TextView tv_uddate_cancel = (TextView) inflate.findViewById(R.id.tv_uddate_cancel);
+            TextView tv_update_ok = (TextView) inflate.findViewById(R.id.tv_update_ok);
+            tv_uddate_cancel.setOnClickListener(new MyOnclickListener());
+            tv_update_ok.setOnClickListener(new MyOnclickListener());
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(inflate);
+        updateShow = builder.show();
+        if(flag) {
+            updateShow.setCancelable(false);               //点击外部和返回按钮都不消失
+        }else {
+           updateShow.setCanceledOnTouchOutside(false);   //点击外部不消失
+        }
+//        updateShow.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        updateShow.setCancelable(false);               //点击外部和返回按钮都不消失
+        updateShow.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = updateShow.getWindow();
+        window.setGravity(Gravity.CENTER);
+        updateShow.getWindow().setLayout(3 * screenWidth / 4, 3 * screenHeight / 10);
+        updateShow.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
 //    public void getsp() {

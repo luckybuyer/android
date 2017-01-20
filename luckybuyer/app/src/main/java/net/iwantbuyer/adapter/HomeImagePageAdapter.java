@@ -45,7 +45,7 @@ public class HomeImagePageAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
 //        super.destroyItem(container, position, object);
-//        container.removeView((View) object);
+        container.removeView((View) object);
     }
 
     @Override
@@ -53,14 +53,13 @@ public class HomeImagePageAdapter extends PagerAdapter {
 
         ImageView image=list.get(position%list.size());
         //如果View已经在之前添加到了一个父组件，则必须先remove，否则会抛出IllegalStateException。
-        ViewParent vp=image.getParent();
-        if(vp!=null){
-            ViewGroup vg=(ViewGroup) vp;
-            vg.removeView(image);
-        }
+//        ViewParent vp=image.getParent();
+//        if(vp!=null){
+//            ViewGroup vg=(ViewGroup) vp;
+//            vg.removeView(image);
+//        }
 
-        container.addView(list.get(position % list.size()));
-
+        container.addView(image);
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +72,6 @@ public class HomeImagePageAdapter extends PagerAdapter {
             }
         });
 
-        return list.get(position % list.size());
+        return image;
     }
 }

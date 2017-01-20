@@ -16,7 +16,7 @@
             android:layout_marginBottom="@dimen/dimen_16"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Previous winners"
+            android:text="@string/PreviousWinners"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_36" />
 
@@ -102,7 +102,7 @@
                 android:layout_below="@+id/iv_neterror"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:text="Network connection error"
+                android:text="@string/Networkfailure"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
 
@@ -118,7 +118,7 @@
                 android:paddingStart="@dimen/dimen_24"
                 android:paddingEnd="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>
@@ -145,7 +145,7 @@
                 android:layout_below="@+id/iv_nodata"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/dimen_16"
-                android:text="No previous lottery data"
+                android:text="@string/Nodata"
                 android:textColor="#acabb4"
                 android:textSize="@dimen/dimen_28" />
         </RelativeLayout>

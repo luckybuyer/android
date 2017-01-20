@@ -29,7 +29,7 @@
             android:layout_marginBottom="@dimen/dimen_18"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Edit Show Pager"
+            android:text="@string/EditShowPager"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_42" />
 
@@ -55,7 +55,7 @@
 
             android:paddingBottom="@dimen/dimen_24"
 
-            android:text="Send"
+            android:text="@string/Send"
 
             android:textColor="@color/selecotr_addaddress_save_textcolor"
 

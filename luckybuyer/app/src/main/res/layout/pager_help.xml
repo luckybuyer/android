@@ -18,7 +18,7 @@
             android:layout_marginBottom="@dimen/dimen_16"
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
-            android:text="Help"
+            android:text="@string/Help"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_38" />
 
@@ -59,18 +59,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_38"
-            android:text="What’s the Coins?"
+            android:text="@string/WhatCoins"
             android:textColor="#333333"
             android:textSize="@dimen/dimen_34" />
 
         <TextView
+            android:id="@+id/tv_help_coin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dimen_38"
             android:layout_marginLeft="@dimen/dimen_24"
             android:layout_marginRight="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_20"
-            android:text="Coins is a virtual currency served in LuckyBuyer purchases. They can be obtained by top-up. 1coin equals 1 USD."
+            android:text="@string/CoinsExplanMYR"
             android:textColor="#999999"
             android:textSize="@dimen/dimen_28" />
     </LinearLayout>

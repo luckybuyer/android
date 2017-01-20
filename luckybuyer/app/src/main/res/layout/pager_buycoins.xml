@@ -162,7 +162,7 @@
                         android:layout_marginStart="@dimen/dimen_24"
                         android:layout_marginEnd="@dimen/dimen_24"
                         android:gravity="center"
-                        android:text="Choose payment method"
+                        android:text="@string/Choosepayment"
                         android:textColor="#333333"
                         android:textSize="@dimen/dimen_28" />
 
@@ -345,10 +345,11 @@
                             android:layout_marginStart="@dimen/dimen_24"
                             android:gravity="center"
                             android:text="Other payments"
-                            android:textColor="#999"
+                            android:textColor="#666"
                             android:textSize="@dimen/dimen_34" />
 
                         <ImageView
+                            android:id="@+id/iv_buycoins_halopay_eg"
                             android:layout_width="@dimen/dimen_132"
                             android:layout_height="@dimen/dimen_24"
                             android:layout_centerVertical="true"

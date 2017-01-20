@@ -120,6 +120,9 @@ public class WinningPager extends BaseNoTrackPager {
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
                             rl_neterror.setVisibility(View.GONE);
+                            rl_loading.setVisibility(View.GONE);
+
+
                         }
                     }
                 });

@@ -98,7 +98,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         }else if(viewType == 2) {
             holder.tv_lucky_go.setText(context.getString(R.string.Confirmdelivery));
         }else if(viewType == 3) {
-            holder.tv_lucky_go.setText("Show it, get rewarding!");
+            holder.tv_lucky_go.setText(context.getString(R.string.Sharerewards));
         }else if (viewType == 4) {
             holder.tv_lucky_go.setText(context.getString(R.string.Shown));
         }

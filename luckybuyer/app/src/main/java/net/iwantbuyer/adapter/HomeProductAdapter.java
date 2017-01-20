@@ -18,6 +18,7 @@ import com.bumptech.glide.request.target.Target;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.bean.GameProductBean;
+import net.iwantbuyer.utils.Utils;
 
 import java.util.List;
 
@@ -64,9 +65,18 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
         });
 
         if(list.get(position).getShares_increment() == 5) {
-            holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_5);
+            if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_5);
+            }else {
+                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_5);
+            }
         }else if(list.get(position).getShares_increment() == 10) {
-            holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_10);
+            if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_10);
+            }else {
+                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_10);
+            }
+
         }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

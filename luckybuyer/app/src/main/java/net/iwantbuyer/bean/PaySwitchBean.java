@@ -7,16 +7,19 @@ import java.util.List;
  */
 public class PaySwitchBean {
 
+
     /**
      * _resource : Config
      * auth0_client_id : HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1
      * auth0_domain : staging-luckybuyer.auth0.com
      * broadcasts_per_page : 20
      * broadcasts_refresh_frequency : 10
-     * exchange_rate : null
+     * exchange_rate : 3.673
      * gifts_new_user : 3
+     * latest_version : 12
      * local_currency : AED
-     * payment_methods : [{"method":null,"vendor":"android-inapp"},{"method":null,"vendor":"paypal"},{"method":null,"vendor":"halopay"},{"method":null,"vendor":"visa"}]
+     * minimum_version : 11
+     * payment_methods : [{"method":null,"vendor":"paypal"},{"method":"alipay_cn","vendor":"payssion"},{"method":"onecard","vendor":"payssion"}]
      */
 
     private String _resource;
@@ -24,12 +27,14 @@ public class PaySwitchBean {
     private String auth0_domain;
     private int broadcasts_per_page;
     private int broadcasts_refresh_frequency;
-    private Object exchange_rate;
+    private double exchange_rate;
     private int gifts_new_user;
+    private int latest_version;
     private String local_currency;
+    private int minimum_version;
     /**
      * method : null
-     * vendor : android-inapp
+     * vendor : paypal
      */
 
     private List<PaymentMethodsBean> payment_methods;
@@ -74,11 +79,11 @@ public class PaySwitchBean {
         this.broadcasts_refresh_frequency = broadcasts_refresh_frequency;
     }
 
-    public Object getExchange_rate() {
+    public double getExchange_rate() {
         return exchange_rate;
     }
 
-    public void setExchange_rate(Object exchange_rate) {
+    public void setExchange_rate(double exchange_rate) {
         this.exchange_rate = exchange_rate;
     }
 
@@ -90,12 +95,28 @@ public class PaySwitchBean {
         this.gifts_new_user = gifts_new_user;
     }
 
+    public int getLatest_version() {
+        return latest_version;
+    }
+
+    public void setLatest_version(int latest_version) {
+        this.latest_version = latest_version;
+    }
+
     public String getLocal_currency() {
         return local_currency;
     }
 
     public void setLocal_currency(String local_currency) {
         this.local_currency = local_currency;
+    }
+
+    public int getMinimum_version() {
+        return minimum_version;
+    }
+
+    public void setMinimum_version(int minimum_version) {
+        this.minimum_version = minimum_version;
     }
 
     public List<PaymentMethodsBean> getPayment_methods() {

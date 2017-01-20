@@ -110,6 +110,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private RelativeLayout rl_nodata;
     private RelativeLayout rl_loading;
     private TextView tv_net_again;
+    private ImageView iv_buycoins_halopay_eg;
 
     private BuyCoinBean buyCoinBean;
 
@@ -136,13 +137,27 @@ public class BuyCoinPager extends BaseNoTrackPager {
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         context.startService(intent);
 
+        String country = "AE";
+        String currency = "AED";
+        String language = "EN";
+        //判断是那个服务器
+        Log.e("TAG_server", Utils.getSpData("service",context));
+        if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+            country = "MY";
+            currency = "MYR";
+        }else if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-sg")) {
+            country = "AE";
+            currency = "AED";
+        }
+
+        Log.e("TAG", country + currency);
         //holypay  支付
         if (flag) {
-            HaloPay.getInstance().init(((SecondPagerActivity) context), HaloPay.PORTRAIT, "3000600754");                 //holypay支付
-            HaloPay.getInstance().setLang(((SecondPagerActivity) context), "AE", "AED", "EN");
+            HaloPay.getInstance().init(((SecondPagerActivity) context), HaloPay.PORTRAIT, "3000600753");                 //holypay支付
+            HaloPay.getInstance().setLang(((SecondPagerActivity) context), country, currency, "EN");
         } else {
-            HaloPay.getInstance().init(((MainActivity) context), HaloPay.PORTRAIT, "3000600754");                 //holypay支付
-            HaloPay.getInstance().setLang(((MainActivity) context), "AE", "AED", "EN");
+            HaloPay.getInstance().init(((MainActivity) context), HaloPay.PORTRAIT, "3000600753");                 //holypay支付
+            HaloPay.getInstance().setLang(((MainActivity) context), country, currency, "EN");
         }
 
 
@@ -195,7 +210,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
         }
 
 
-        Log.e("TAG", iv_buycoins_goole.isHovered() + "00" + iv_buycoins_paypal.isHovered() + iv_buycoins_cashu.isHovered() + iv_buycoins_halopay.isHovered());
         //埋点
         try {
             JSONObject props = new JSONObject();
@@ -227,8 +241,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        processData(response);
-                        rl_keepout.setVisibility(View.GONE);
+                        if (response.length() > 10) {
+                            processData(response);
+                            rl_keepout.setVisibility(View.GONE);
+                        } else {
+                            rl_nodata.setVisibility(View.VISIBLE);
+                            rl_neterror.setVisibility(View.GONE);
+                            rl_loading.setVisibility(View.GONE);
+                        }
                         View view = View.inflate(context, R.layout.alertdialog_buycoins, null);
                         rl_buycoins_ok = (RelativeLayout) view.findViewById(R.id.rl_buycoins_ok);
                         rl_buycoins_ok.setOnClickListener(new MyOnClickListener());
@@ -294,7 +314,13 @@ public class BuyCoinPager extends BaseNoTrackPager {
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        iv_buycoins_halopay_eg = (ImageView) inflate.findViewById(R.id.iv_buycoins_halopay_eg);
 
+        if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+            iv_buycoins_halopay_eg.setVisibility(View.GONE);
+        }else {
+            iv_buycoins_halopay_eg.setVisibility(View.VISIBLE);
+        }
 
         //设置监听
         ll_buycoins_back.setOnClickListener(new MyOnClickListener());
@@ -318,11 +344,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
         try {
             if (flag) {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, ((SecondPagerActivity)context).mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), payKey + "", RESULT_PAYMENT_OK, ((SecondPagerActivity)context).mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             } else {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((MainActivity) context), topup_option_id + "", RESULT_PAYMENT_OK, ((MainActivity)context).mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((MainActivity) context), payKey + "", RESULT_PAYMENT_OK, ((MainActivity)context).mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((MainActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             }
         } catch (Exception e) {
@@ -367,6 +393,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     int money = 0;
     int topup_option_id = -1;
+    String payKey = "";
     int id_coins = 0;
 
     //处理数据
@@ -381,18 +408,35 @@ public class BuyCoinPager extends BaseNoTrackPager {
 //        double coins = buyCoinBean.getBuycoins().get(0).getAmount() * 3.6726;                                汇率
 //        coins = ((int) (coins * 100)) / 100;
         tv_buycoins_balance.setText(Utils.getSpData("balance", context));
-        tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(0).getPrice());
+
+        //判断服务器更改文案
+        if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+            tv_buycoins_count.setText("RM " + buyCoinBean.getBuycoins().get(0).getPrice());
+        }else {
+            tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(0).getPrice());
+        }
+
 
         money = buyCoinBean.getBuycoins().get(0).getPrice();
+//        topup_option_id = buyCoinBean.getBuycoins().get(0).getId();
         topup_option_id = buyCoinBean.getBuycoins().get(0).getId();
+        payKey = buyCoinBean.getBuycoins().get(0).getAndroid_product_id();
+        Log.e("TAG_paykey", payKey);
         buyCoinAdapter.setBuyCoinOnClickListener(new BuyCoinAdapter.BuyCoinOnClickListener() {
             @Override
             public void onClick(View view, int position) {
                 double coins = buyCoinBean.getBuycoins().get(position).getAmount() * 3.6726;
                 coins = ((int) (coins * 100)) / 100;
-                tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(position).getPrice());
+//                tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(position).getPrice());
+                if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+                    tv_buycoins_count.setText("RM " + buyCoinBean.getBuycoins().get(position).getPrice());
+                }else {
+                    tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(position).getPrice());
+                }
+
                 money = buyCoinBean.getBuycoins().get(position).getPrice();
                 topup_option_id = buyCoinBean.getBuycoins().get(position).getId();
+                payKey = buyCoinBean.getBuycoins().get(position).getAndroid_product_id();
                 Log.e("TAG_产品id", topup_option_id + "");
                 id_coins = position;
                 String coin = "";
@@ -824,9 +868,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Gson gson = new Gson();
         HaloPayBean haloPayBean = gson.fromJson(response, HaloPayBean.class);
         if (flag) {
-            HaloPay.getInstance().startPay(((SecondPagerActivity) context), "transid=" + haloPayBean.getTransaction_id() + "&appid=3000600754", new MyIPayResultCallback());
+            HaloPay.getInstance().startPay(((SecondPagerActivity) context), "transid=" + haloPayBean.getTransaction_id() + "&appid=3000600753", new MyIPayResultCallback());
         } else {
-            HaloPay.getInstance().startPay((MainActivity) context, "transid=" + haloPayBean.getTransaction_id() + "&appid=3000600754", new MyIPayResultCallback());
+            HaloPay.getInstance().startPay((MainActivity) context, "transid=" + haloPayBean.getTransaction_id() + "&appid=3000600753", new MyIPayResultCallback());
         }
     }
 
@@ -835,9 +879,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
         @Override
         public void onPayResult(int resultCode, String signvalue, String resultInfo) {
+            Log.e("TAG_halopay", resultCode + signvalue + resultInfo);
             switch (resultCode) {
                 case HaloPay.PAY_SUCCESS:
                     requestCoins();
+                    Log.e("TAG_halopay", "成功");
                     break;
                 case HaloPay.PAY_ERROR:
                     //支付失败

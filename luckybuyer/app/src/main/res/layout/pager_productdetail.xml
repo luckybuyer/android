@@ -52,7 +52,7 @@
 
                         <ImageView
                             android:id="@+id/iv_productdetail_number"
-                            android:layout_width="@dimen/dimen_140"
+                            android:layout_width="@dimen/dimen_155"
                             android:layout_height="@dimen/dimen_40"
                             android:layout_above="@+id/view"
                             android:layout_marginBottom="@dimen/dimen_100" />
@@ -62,6 +62,7 @@
                             android:layout_width="@dimen/dimen_680"
                             android:layout_height="@dimen/dimen_94"
                             android:layout_above="@+id/view"
+                            android:layout_centerVertical="true"
                             android:layout_centerHorizontal="true"
                             android:foregroundGravity="center"
                             android:padding="@dimen/dimen_10"
