@@ -656,10 +656,9 @@ public class MainActivity extends FragmentActivity {
                 Utils.setSpData("picture", user.getProfile().getPicture(), MainActivity.this);
                 Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
-                Log.e("TAG", user.getProfile().getPicture());
+                //登陆成功重新请求 banner  为了隐藏首充送礼
+//                homePager.responseBanner();
 
-                Log.e("TAG_id", id + "");
-                Log.e("TAG_login_id", login_id + "");
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -883,12 +882,6 @@ public class MainActivity extends FragmentActivity {
                 return;
             }
 
-            Log.e("TAG", result.getMessage());
-            Log.e("TAG", result.toString());
-            Log.e("TAG", purchase.getSku());
-            Log.e("TAG", purchase.getOrderId().toString());
-            Log.e("TAG", purchase.getSignature().toString());
-            Log.e("TAG", purchase.getSignature().toString());
             //消耗产品
             try {
                 if (buyCoinPager != null && buyCoinPager.mHelper != null) {

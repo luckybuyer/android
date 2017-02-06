@@ -106,6 +106,9 @@ public class HomePager extends BaseNoTrackPager {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case WHAT:
+                    if(bannersBean != null && bannersBean.getBanner().size() == 1) {
+                        return;
+                    }
                     vp_home.setCurrentItem(vp_home.getCurrentItem() + 1);
                     handler.sendEmptyMessageDelayed(WHAT, 5000);
                     break;
@@ -123,6 +126,7 @@ public class HomePager extends BaseNoTrackPager {
         }
     };
     private BroadcastBean broadcastBean;
+    private BannersBean bannersBean;
 
     @Override
     public View initView() {
@@ -261,30 +265,7 @@ public class HomePager extends BaseNoTrackPager {
 
 
         //请求 产品轮播图
-        String bannersUrl = MyApplication.url + "/v1/banners/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(bannersUrl, null, new HttpUtils.OnRequestListener() {
-            @Override
-            public void success(final String response) {
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        processBannerData(response);
-
-                    }
-                });
-            }
-
-            @Override
-            public void error(int requestCode, String message) {
-
-            }
-
-            @Override
-            public void failure(Exception exception) {
-
-            }
-
-        });
+        responseBanner();
 
         //请求  产品  列表
         String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=1&timezone=" + MyApplication.utc;
@@ -350,6 +331,34 @@ public class HomePager extends BaseNoTrackPager {
 
     }
 
+    //请求产品轮播图
+    public void responseBanner() {
+        String bannersUrl = MyApplication.url + "/v1/banners/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        HttpUtils.getInstance().getRequest(bannersUrl, null, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        processBannerData(response);
+
+                    }
+                });
+            }
+
+            @Override
+            public void error(int requestCode, String message) {
+
+            }
+
+            @Override
+            public void failure(Exception exception) {
+
+            }
+
+        });
+    }
+
     //广播请求
     private void processbroadcastData(String response) {
         response = "{\"broad\":" + response + "}";
@@ -393,9 +402,10 @@ public class HomePager extends BaseNoTrackPager {
     }
 
     private void processBannerData(String response) {
+        Log.e("TAG_banner", response);
         Gson gson = new Gson();
         String banner = "{\"banner\":" + response + "}";
-        BannersBean bannersBean = gson.fromJson(banner, BannersBean.class);
+        bannersBean = gson.fromJson(banner, BannersBean.class);
 
         imageList = new ArrayList();
         for (int i = 0; i < bannersBean.getBanner().size(); i++) {
@@ -433,7 +443,6 @@ public class HomePager extends BaseNoTrackPager {
         }
 
 
-        handler.sendEmptyMessageDelayed(WHAT, 100);       //开始轮播
         //设置viewpager
         vp_home.setAdapter(new HomeImagePageAdapter(imageList, context, bannersBean.getBanner()));
         if (imageList.size() <= 1) {
@@ -624,7 +633,7 @@ public class HomePager extends BaseNoTrackPager {
 
         @Override
         public void onPageSelected(int position) {
-            position = position % imageList.size();
+            position = position % bannersBean.getBanner().size();
             ll_home_point.getChildAt(curPostion).setEnabled(true);
             ll_home_point.getChildAt(position).setEnabled(false);
             curPostion = position;

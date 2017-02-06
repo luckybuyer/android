@@ -592,7 +592,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         if (address_id != -1) {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/" + address_id + "?timezone=" + MyApplication.utc;
-            String json = "{\"address\": \"" + et_addaddress_country.getText() + et_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String json = "{\"address\": \"" + et_addaddress_country.getText() + et_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);

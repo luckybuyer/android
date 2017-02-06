@@ -480,17 +480,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.ll_buycoins_back:
+                    if ("buycoins".equals(((SecondPagerActivity)context).from)) {
+                        ((SecondPagerActivity)context).finish();
+                        break;
+                    }
                     if (wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
                         wv_buycoins_cashu.setVisibility(View.GONE);
                         tv_title.setText(context.getString(R.string.BuyCoins));
                     } else if (context instanceof SecondPagerActivity) {
-//                        if ("coindetailpager".equals(((SecondPagerActivity) context).from)) {
-//                            ((SecondPagerActivity) context).switchPage(5);
-//                        } else if ("productdetail".equals(((SecondPagerActivity) context).from)) {
-//                            ((SecondPagerActivity) context).switchPage(0);
-//                        }else if("buycoinpager".equals(((SecondPagerActivity) context).from)) {
-//                            ((SecondPagerActivity) context).switchPage(5);
-//                        }
                         ((SecondPagerActivity)context).fragmentManager.popBackStack();
                     }
                     break;

@@ -10,8 +10,10 @@ public class BuyCoinBean {
     /**
      * _resource : type of the resource
      * amount : 0
+     * android_product_id : string
      * currency : string
      * description : string
+     * gifts_first_topup : 0
      * id : 0
      * name : string
      * price : 0
@@ -37,22 +39,13 @@ public class BuyCoinBean {
         public void setHovered(boolean hovered) {
             this.hovered = hovered;
         }
-
         private String _resource;
         private int amount;
-        private String currency;
         private String android_product_id;
+        private String currency;
         private String description;
+        private int gifts_first_topup;
         private int id;
-
-        public String getAndroid_product_id() {
-            return android_product_id;
-        }
-
-        public void setAndroid_product_id(String android_product_id) {
-            this.android_product_id = android_product_id;
-        }
-
         private String name;
         private int price;
 
@@ -72,6 +65,14 @@ public class BuyCoinBean {
             this.amount = amount;
         }
 
+        public String getAndroid_product_id() {
+            return android_product_id;
+        }
+
+        public void setAndroid_product_id(String android_product_id) {
+            this.android_product_id = android_product_id;
+        }
+
         public String getCurrency() {
             return currency;
         }
@@ -86,6 +87,14 @@ public class BuyCoinBean {
 
         public void setDescription(String description) {
             this.description = description;
+        }
+
+        public int getGifts_first_topup() {
+            return gifts_first_topup;
+        }
+
+        public void setGifts_first_topup(int gifts_first_topup) {
+            this.gifts_first_topup = gifts_first_topup;
         }
 
         public int getId() {

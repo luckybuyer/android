@@ -228,6 +228,8 @@ public class SecondPagerActivity extends FragmentActivity {
             switchPage(10);
         } else if ("helppager".equals(from)) {
             switchPage(11);
+        } else if("buycoins".equals(from)) {
+            switchPage(6);
         }
     }
 
@@ -429,9 +431,9 @@ public class SecondPagerActivity extends FragmentActivity {
         }
     }
 
-//    @Override
-//    public boolean onKeyUp(int keyCode, KeyEvent event) {
-//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            if ("productdetail".equals(from)) {
 //                switchPage(0);
 //                from = "";
@@ -457,11 +459,13 @@ public class SecondPagerActivity extends FragmentActivity {
 //                from = "";
 //                return false;
 //            }
-//
+            if ("buycoins".equals(from)) {
+                finish();
+            }
 //            finish();
-//        }
-//        return super.onKeyUp(keyCode, event);
-//    }
+        }
+        return super.onKeyUp(keyCode, event);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
