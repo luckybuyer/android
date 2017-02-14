@@ -132,6 +132,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     }
 
     private void processData(String response) {
+        Log.e("TAG+add", response);
         Gson gson = new Gson();
         response = "{\"shipping\":" + response + "}";
         ShippingAddressBean shippingAddressBean = gson.fromJson(response, ShippingAddressBean.class);
@@ -169,7 +170,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
 //                    break;
                 case R.id.tv_shipping_newadd:
                     ((SecondPagerActivity) context).switchPage(8);
-                    ((SecondPagerActivity) context).from = "shippingaddress";
+//                    ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
                 case R.id.rl_shipping_return:
 //                    if("shippingaddress".equals(((SecondPagerActivity) context).from)) {

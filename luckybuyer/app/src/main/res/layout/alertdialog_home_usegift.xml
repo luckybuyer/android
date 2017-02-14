@@ -5,22 +5,26 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_width="@dimen/dimen_600"
-        android:layout_height="@dimen/dimen_720"
+        android:layout_width="@dimen/dimen_660"
+        android:layout_height="@dimen/dimen_711"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dimen_20"
         android:background="@drawable/home_gift_use" />
+
     <ImageView
-        android:layout_width="@dimen/dimen_728"
-        android:background="@drawable/home_gift_coins"
-        android:layout_height="@dimen/dimen_704" />
+        android:id="@+id/iv_home_usegift"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_width="@dimen/dimen_660"
+        android:layout_height="@dimen/dimen_711"
+        android:background="@drawable/home_gift_coins_en" />
 
     <ImageView
         android:id="@+id/iv_home_coin"
-        android:layout_width="@dimen/dimen_48"
-        android:layout_height="@dimen/dimen_82"
-        android:layout_marginLeft="@dimen/dimen_200"
-        android:layout_marginTop="@dimen/dimen_250"
+        android:layout_width="@dimen/dimen_40"
+        android:layout_height="@dimen/dimen_70"
+        android:layout_marginLeft="@dimen/dimen_230"
+        android:layout_marginTop="@dimen/dimen_265"
         android:background="@drawable/home_gift_two" />
 
     <ImageView
@@ -28,15 +32,14 @@
         android:layout_width="@dimen/dimen_360"
         android:layout_height="@dimen/dimen_80"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_700"
-        android:background="@drawable/home_gift_usecoin" />
+        android:layout_marginTop="@dimen/dimen_660" />
 
     <ImageView
+        android:layout_marginTop="@dimen/dimen_20"
         android:id="@+id/iv_gift__use_close"
-        android:background="@drawable/guide_close"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/dimen_10"
         android:layout_width="@dimen/dimen_52"
-        android:layout_height="@dimen/dimen_52" />
+        android:layout_height="@dimen/dimen_52"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/dimen_30" />
 
 </RelativeLayout>

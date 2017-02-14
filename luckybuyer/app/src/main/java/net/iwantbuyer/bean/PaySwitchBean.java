@@ -30,6 +30,16 @@ public class PaySwitchBean {
     private double exchange_rate;
     private int gifts_new_user;
     private int latest_version;
+    private int gifts_post_share;
+
+    public int getGifts_post_share() {
+        return gifts_post_share;
+    }
+
+    public void setGifts_post_share(int gifts_post_share) {
+        this.gifts_post_share = gifts_post_share;
+    }
+
     private String local_currency;
     private int minimum_version;
     /**

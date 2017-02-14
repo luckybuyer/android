@@ -89,6 +89,7 @@ public class MePager extends BaseNoTrackPager {
     private TextView tv_net_again;
 
     private View view_me_top;                            //让视图指定做的临时
+    private TextView tv_me_id;
 
 //    private FBLikeView fb_shipping_facebook;
 
@@ -97,11 +98,12 @@ public class MePager extends BaseNoTrackPager {
     public MePagerAllAdapter mePagerAllAdapter;
     public MePagerLuckyAdapter mePagerLuckyAdapter;
 
-    private Handler handler = new Handler(){
-        public void handleMessage(Message msg){
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
 
         }
     };
+
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_me, null);
@@ -119,7 +121,7 @@ public class MePager extends BaseNoTrackPager {
 
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE: Me",eventValue);
+        AppsFlyerLib.getInstance().trackEvent(context, "PAGE: Me", eventValue);
 
         vp_me.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -151,7 +153,7 @@ public class MePager extends BaseNoTrackPager {
     @Override
     public void initData() {
         super.initData();
-        if(rl_keepout != null && rl_nodata != null && rl_neterror != null && rl_loading != null) {
+        if (rl_keepout != null && rl_nodata != null && rl_neterror != null && rl_loading != null) {
             rl_keepout.setVisibility(View.VISIBLE);
             rl_nodata.setVisibility(View.GONE);
             rl_neterror.setVisibility(View.GONE);
@@ -189,15 +191,14 @@ public class MePager extends BaseNoTrackPager {
                     }
 
                     @Override
-                    public void error(int requestCode, String message) {
-                        Log.e("TAG", requestCode + "");
-                        Log.e("TAG", message);
+                    public void error(final int requestCode, String message) {
                         ((Activity) context).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
                                 rl_loading.setVisibility(View.GONE);
+//                                Utils.MyToast(context,context.getString(R.string.Networkfailure) + requestCode + "game-orders");
                             }
                         });
                     }
@@ -210,6 +211,7 @@ public class MePager extends BaseNoTrackPager {
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
                                 rl_loading.setVisibility(View.GONE);
+                                Utils.MyToast(context,context.getString(R.string.Networkfailure));
                             }
                         });
                     }
@@ -249,7 +251,7 @@ public class MePager extends BaseNoTrackPager {
                     }
 
                     @Override
-                    public void error(int requestCode, String message) {
+                    public void error(final int requestCode, String message) {
                         Log.e("TAG", requestCode + "");
                         Log.e("TAG", message);
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -259,6 +261,7 @@ public class MePager extends BaseNoTrackPager {
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
                                 rl_loading.setVisibility(View.GONE);
+                                Utils.MyToast(context,context.getString(R.string.Networkfailure) + requestCode + "game-orders");
 
                             }
                         });
@@ -273,6 +276,7 @@ public class MePager extends BaseNoTrackPager {
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
                                 rl_loading.setVisibility(View.GONE);
+                                Utils.MyToast(context,context.getString(R.string.Networkfailure));
 
                             }
                         });
@@ -385,7 +389,7 @@ public class MePager extends BaseNoTrackPager {
                                                             public void run() {
                                                                 ll_loading_data.setVisibility(View.GONE);
                                                             }
-                                                        },3000);
+                                                        }, 3000);
                                                     }
 
                                                 }
@@ -406,7 +410,7 @@ public class MePager extends BaseNoTrackPager {
                                                 public void run() {
                                                     ll_loading_data.setVisibility(View.GONE);
                                                 }
-                                            },3000);
+                                            }, 3000);
 
                                         }
                                     });
@@ -425,7 +429,7 @@ public class MePager extends BaseNoTrackPager {
                                                 public void run() {
                                                     ll_loading_data.setVisibility(View.GONE);
                                                 }
-                                            },3000);
+                                            }, 3000);
                                         }
                                     });
                                 }
@@ -436,7 +440,7 @@ public class MePager extends BaseNoTrackPager {
                 }
 
 
-                if (isBottom && isMoreData && isNeedpull&&vp_me.getCurrentItem() == 0) {
+                if (isBottom && isMoreData && isNeedpull && vp_me.getCurrentItem() == 0) {
                     ll_loading_data.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
                     tv_loading_data.setText(context.getString(R.string.loading___));
@@ -476,7 +480,7 @@ public class MePager extends BaseNoTrackPager {
                                             public void run() {
                                                 ll_loading_data.setVisibility(View.GONE);
                                             }
-                                        },3000);
+                                        }, 3000);
                                     }
 
                                 }
@@ -496,7 +500,7 @@ public class MePager extends BaseNoTrackPager {
                                         public void run() {
                                             ll_loading_data.setVisibility(View.GONE);
                                         }
-                                    },3000);
+                                    }, 3000);
                                 }
                             });
                         }
@@ -514,7 +518,7 @@ public class MePager extends BaseNoTrackPager {
                                         public void run() {
                                             ll_loading_data.setVisibility(View.GONE);
                                         }
-                                    },3000);
+                                    }, 3000);
                                 }
                             });
 
@@ -548,6 +552,8 @@ public class MePager extends BaseNoTrackPager {
         pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
         tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
 
+        tv_me_id = (TextView) inflate.findViewById(R.id.tv_me_id);                                  //用户id
+
 
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
@@ -577,7 +583,7 @@ public class MePager extends BaseNoTrackPager {
                 Utils.setSpData("picture", user.getProfile().getPicture(), context);
                 Utils.setSpData("social_link", user.getProfile().getSocial_link(), context);
 
-                ((MainActivity)context).runOnUiThread(new Runnable() {
+                ((MainActivity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         setView();
@@ -603,11 +609,24 @@ public class MePager extends BaseNoTrackPager {
 //        view_me_top.requestFocus();
 
         String user_id = Utils.getSpData("user_id", context);
+        String id__ = Utils.getSpData("id", context);
         String balance = Utils.getSpData("balance", context);
         String name = Utils.getSpData("name", context);
         final String picture = Utils.getSpData("picture", context);
 
+        //增加id
+        int id = Integer.parseInt(id__) + 10000000;
+        String _id = "";
+        char[] id_ = (id + "").toCharArray();
+        for (int i =0;i < id_.length;i++){
+            if(i%4 == 3) {
+                _id = _id + id_[i] + "  ";
+            }else {
+                _id = _id + id_[i];
+            }
 
+        }
+        tv_me_id.setText(context.getString(R.string.ID_)  + _id);
         tv_me_name.setText(name);
         tv_me_gold.setText("" + balance);
         Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {

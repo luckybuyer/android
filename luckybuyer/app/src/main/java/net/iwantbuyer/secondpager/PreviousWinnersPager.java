@@ -20,6 +20,7 @@ import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BasePager;
 import net.iwantbuyer.bean.PreviousWinnerBean;
 import net.iwantbuyer.utils.HttpUtils;
+import net.iwantbuyer.utils.Utils;
 
 /**
  * Created by admin on 2016/9/18.
@@ -65,13 +66,14 @@ public class PreviousWinnersPager extends BasePager {
             }
 
             @Override
-            public void error(int requestCode, String message) {
+            public void error(final int requestCode, String message) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
-                        rl_loading.setVisibility(View.GONE);;
+                        rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode + "games");
                     }
                 });
             }
@@ -84,6 +86,7 @@ public class PreviousWinnersPager extends BasePager {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
                     }
                 });
 

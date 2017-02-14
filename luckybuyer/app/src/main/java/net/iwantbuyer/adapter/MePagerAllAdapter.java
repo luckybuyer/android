@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
@@ -98,10 +100,28 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        //增加id
+        int id = list.get(position).getId() + 1000000000;
+        String _id = "";
+        char[] id_ = (id + "").toCharArray();
+        for (int i =0;i < id_.length;i++){
+            if(i == 0) {
+                id_[i] = '0';
+            }
+            if(i%4 == 2) {
+                _id = _id + id_[i] + "  ";
+            }else {
+                _id = _id + id_[i];
+            }
+
+        }
+
+        String real_id = context.getString(R.string.ordernumber_)  + "1000\t0000\t0" + _id;
+        holder.tv_me_ordernum.setText(real_id);
         type = getItemViewType(position);
         if (type == 0) {
             String picture = "https:" + list.get(position).getGame().getProduct().getTitle_image();
-            Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+            Glide.with(context).load(picture).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                     holder.iv_all_icon.setImageBitmap(resource);
@@ -176,16 +196,18 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                                 }
 
                                 @Override
-                                public void error(int requestCode, String message) {
+                                public void error(final int requestCode, String message) {
                                     ((Activity) context).runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            Utils.MyToast(context,context.getString(R.string.Networkfailure) + requestCode + "game-orders");
                                         }
                                     });
                                 }
 
                                 @Override
                                 public void failure(Exception exception) {
+                                    Utils.MyToast(context,context.getString(R.string.Networkfailure));
                                 }
                             }
 
@@ -225,14 +247,28 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             });
 
             String status = list.get(position).getDelivery().getStatus();
+            String type = list.get(position).getDelivery().getType();
             if ("pending".equals(status)) {
-                holder.tv_lucky_go.setText(context.getString(R.string.confirmshippingaddress));
+                if("virtual_mobile".equals(type)) {
+                    holder.tv_lucky_go.setText(context.getString(R.string.editphoneoperator));
+                }else {
+                    holder.tv_lucky_go.setText(context.getString(R.string.confirmshippingaddress));
+                }
             } else if ("processing".equals(status)) {
-                holder.tv_lucky_go.setText(context.getString(R.string.Waitingforshippment));
+                if("virtual_mobile".equals(type)) {
+                    holder.tv_lucky_go.setText(context.getString(R.string.WaitingforProcessing));
+                }else {
+                    holder.tv_lucky_go.setText(context.getString(R.string.Waitingforshippment));
+                }
             } else if ("shipping".equals(status)) {
                 holder.tv_lucky_go.setText(context.getString(R.string.Confirmdelivery));
             } else if ("finished".equals(status)) {
-                holder.tv_lucky_go.setText("Show it, get rewarding!");
+                if(Utils.getSpData("gifts_post_share",context) != null && Utils.getSpData("gifts_post_share",context).equals("0")) {
+                    holder.tv_lucky_go.setText(context.getString(R.string.goshare));
+                }else {
+                    holder.tv_lucky_go.setText(context.getString(R.string.Sharerewards));
+                }
+
             } else if ("shared".equals(status)) {
                 holder.tv_lucky_go.setText(context.getString(R.string.Shown));
             }
@@ -376,6 +412,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private ProgressBar pb_all_progress;
         private RelativeLayout rl_all_continue;
         private RelativeLayout rl_top;
+        private TextView tv_me_ordernum;
         //countdown
         private ImageView iv_countdown_icon;
         private JustifyTextView jtv_countdown_discribe;
@@ -405,6 +442,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 
         public ViewHolder(View itemView, int type) {
             super(itemView);
+            tv_me_ordernum = (TextView) itemView.findViewById(R.id.tv_me_ordernum);
             if (type == 0) {
                 iv_all_icon = (ImageView) itemView.findViewById(R.id.iv_all_icon);
                 jtv_all_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_all_discribe);

@@ -153,6 +153,16 @@ public class AllOrderBean implements Serializable{
             private int id;
             private String status;
             private String url;
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            private String type;
             /**
              * _resource : type of the resource
              * created_at : 2016-10-08T01:41:31.255Z

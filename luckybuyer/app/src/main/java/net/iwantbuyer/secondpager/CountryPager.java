@@ -59,6 +59,7 @@ public class CountryPager extends BasePager {
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_country, null);
         findView();
+        tv_country_apply.setVisibility(View.GONE);
         return inflate;
     }
 
@@ -82,9 +83,9 @@ public class CountryPager extends BasePager {
                         if (response.length() > 10) {
                             StartView(response);
                             rl_keepout.setVisibility(View.GONE);
-                            tv_country_apply.setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
-                            tv_country_apply.setClickable(true);
-                            tv_country_apply.setEnabled(true);
+//                            tv_country_apply.setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
+//                            tv_country_apply.setClickable(true);
+//                            tv_country_apply.setEnabled(true);
                         } else {
                             rl_nodata.setVisibility(View.VISIBLE);
                             rl_neterror.setVisibility(View.GONE);
@@ -103,6 +104,7 @@ public class CountryPager extends BasePager {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode + "servers");
                     }
                 });
             }
@@ -115,6 +117,7 @@ public class CountryPager extends BasePager {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
                     }
                 });
 
@@ -135,11 +138,11 @@ public class CountryPager extends BasePager {
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
 
-        tv_country_apply.setTextColor(getResources().getColor(R.color.text_gray));
-        tv_country_apply.setClickable(false);
-        tv_country_apply.setEnabled(false);
-
-        tv_country_apply.setOnClickListener(new MyOnClickListener());
+//        tv_country_apply.setTextColor(getResources().getColor(R.color.text_gray));
+//        tv_country_apply.setClickable(false);
+//        tv_country_apply.setEnabled(false);
+//
+//        tv_country_apply.setOnClickListener(new MyOnClickListener());
         rl_country_back.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
     }
@@ -148,6 +151,7 @@ public class CountryPager extends BasePager {
 
     private void StartView(String response) {
         response = "{\"servers\":" + response + "}";
+        serverBean = new Gson().fromJson(response, ServerBean.class);
         Log.e("TAG_country", response);
         ServersAdapter serversAdapter = new ServersAdapter(context, response);
         rv_country.setAdapter(serversAdapter);
@@ -157,13 +161,21 @@ public class CountryPager extends BasePager {
             @Override
             public void onclick(String country) {
                 CountryPager.this.country = country;
+
+                ((ThirdPagerActivity)context).country = country;
+                for (int i = 0;i < serverBean.getServers().size();i++){
+                    if (serverBean.getServers().get(i).getCountries().contains(country)) {
+                        ((ThirdPagerActivity)context).server = serverBean.getServers().get(i).getApi_server();
+                        ((ThirdPagerActivity)context).store = serverBean.getServers().get(i).getName();
+                    }
+                }
+
+                ((ThirdPagerActivity)context).fragmentManager.popBackStack();
             }
         });
 
-        TextView tv_country_apply = (TextView) inflate.findViewById(R.id.tv_country_apply);
-        tv_country_apply.setOnClickListener(new MyOnClickListener());
-
-        serverBean = new Gson().fromJson(response, ServerBean.class);
+//        TextView tv_country_apply = (TextView) inflate.findViewById(R.id.tv_country_apply);
+//        tv_country_apply.setOnClickListener(new MyOnClickListener());
 
     }
 
@@ -176,28 +188,28 @@ public class CountryPager extends BasePager {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.tv_country_apply:
+//                case R.id.tv_country_apply:
+//
+//                    if(Utils.getSpData("country",context).equals(country) || "".equals(country)) {
+//                        Intent intent = new Intent(context,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        startActivity(intent);
+//                    }
+//                    for (int i = 0; i < serverBean.getServers().size(); i++) {
+//                        if (serverBean.getServers().get(i).getCountries().contains(country)) {
+//                            if (serverBean.getServers().get(i).getApi_server().equals(Utils.getSpData("service", context))) {
+//                                Utils.setSpData("country",country,context);
+//                                Intent intent = new Intent(context,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                startActivity(intent);
+//                            } else {
+//                                StartAlertDialog();
+//                                position = i;
+//                                return;
+//                            }
+//
+//                        }
+//                    }
 
-                    if(Utils.getSpData("country",context).equals(country) || "".equals(country)) {
-                        Intent intent = new Intent(context,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }
-                    for (int i = 0; i < serverBean.getServers().size(); i++) {
-                        if (serverBean.getServers().get(i).getCountries().contains(country)) {
-                            if (serverBean.getServers().get(i).getApi_server().equals(Utils.getSpData("service", context))) {
-                                Utils.setSpData("country",country,context);
-                                Intent intent = new Intent(context,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            } else {
-                                StartAlertDialog();
-                                position = i;
-                                return;
-                            }
-
-                        }
-                    }
-
-                    break;
+//                    break;
                 case R.id.rl_country_back:
                     ((ThirdPagerActivity) context).finish();
                     break;

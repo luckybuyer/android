@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="net.iwantbuyer">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -26,7 +27,7 @@
         android:name="net.iwantbuyer.app.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="luckybuyer"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -87,10 +88,11 @@
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationName"
-            android:value="@string/app_name" />
+            android:value="luckybuyer" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
+            tools:ignore="ManifestResource"
             android:value="@string/facebook_app_id" />
 
         <provider
@@ -206,7 +208,7 @@
             android:value="584f6d37b27b0a635d0010a1" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="@string/channel" />
+            android:value="Free_Game" />
         <!--AppFlyer-->
         <receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"

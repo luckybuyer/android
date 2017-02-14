@@ -11,7 +11,26 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_me_ordernum"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_90"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:gravity="center_vertical"
+        android:textColor="#666666"
+        android:text="Order Number:1000 0000 000 133"
+        android:textSize="@dimen/dimen_30" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/tv_me_ordernum"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:background="@color/bg_view"></View>
+
     <RelativeLayout
+        android:layout_below="@+id/tv_me_ordernum"
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -114,6 +133,7 @@
 
 
     <TextView
+        android:layout_below="@+id/tv_me_ordernum"
         android:id="@+id/tv_countdown_shares"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_32"
@@ -264,6 +284,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:layout_below="@+id/tv_me_ordernum"
         android:id="@+id/rl_countdown_continue"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_48"

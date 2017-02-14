@@ -124,7 +124,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     //倒計時  開獎
     private RelativeLayout rl_productdetail_countdown;
-//    private RelativeLayout rl_productdetail_calculation;
+    //    private RelativeLayout rl_productdetail_calculation;
     private TextView tv_productdetail_countdownissue;
     private LinearLayout ll_productdetail_buyit;
 
@@ -171,7 +171,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case WHAT_AUTO:
                     if (bcList != null) {
                         handler.removeCallbacksAndMessages(null);
-                        if(bcList.size() != 0) {
+                        if (bcList.size() != 0) {
                             int i = mLoopCount % bcList.size();
                             atv_productdetail_broadcast.next();
                             atv_productdetail_broadcast.setText(bcList.get(i));
@@ -179,7 +179,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                             handler.sendEmptyMessageDelayed(WHAT_AUTO, 3000);
                         }
 
-                        if(tv_insert_two != null && tv_insert_five != null && tv_insert_ten != null && tv_insert_all != null) {
+                        if (tv_insert_two != null && tv_insert_five != null && tv_insert_ten != null && tv_insert_all != null) {
                             tv_insert_two.setHovered(false);
                             tv_insert_five.setHovered(false);
                             tv_insert_ten.setHovered(false);
@@ -207,10 +207,10 @@ public class ProductDetailPager extends BaseNoTrackPager {
         inflate = View.inflate(context, R.layout.pager_productdetail, null);
         ((SecondPagerActivity) context).from = null;
         findView();
-                srl_productdetail_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        srl_productdetail_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                    initData();
+                initData();
             }
         });
 
@@ -218,13 +218,13 @@ public class ProductDetailPager extends BaseNoTrackPager {
         try {
             JSONObject props = new JSONObject();
             MyApplication.mixpanel.track("PAGE:product", props);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
         }
 
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:product",eventValue);
+        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:product", eventValue);
 
         return inflate;
     }
@@ -333,7 +333,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
         HttpUtils.getInstance().getRequest(MyBuyUrl, map, new HttpUtils.OnRequestListener() {
                     @Override
                     public void success(final String response) {
-
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
                                     @Override
@@ -345,13 +344,26 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     }
 
                     @Override
-                    public void error(int requestCode, String message) {
-
+                    public void error(final int requestCode, String message) {
+                        ((Activity) context).runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                    }
+                                }
+                        );
                     }
 
                     @Override
                     public void failure(Exception exception) {
-
+                        ((Activity) context).runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                                    }
+                                }
+                        );
                     }
                 }
 
@@ -371,13 +383,25 @@ public class ProductDetailPager extends BaseNoTrackPager {
             }
 
             @Override
-            public void error(int code, String message) {
-
+            public void error(final int code, String message) {
+                ((Activity) context).runOnUiThread(
+                        new Runnable() {
+                            @Override
+                            public void run() {
+//                                Utils.MyToast(context, context.getString(R.string.Networkfailure) + code + "games");
+                            }
+                        }
+                );
             }
 
             @Override
             public void failure(Exception exception) {
-
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                    }
+                });
             }
         });
 
@@ -440,7 +464,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
                         //皇冠图片
                         if (broadcastBean.getBroad().get(finalI).getContent().contains("Congratulations!")) {
-                            Drawable d = ContextCompat.getDrawable(context,R.drawable.me_lucky);
+                            Drawable d = ContextCompat.getDrawable(context, R.drawable.me_lucky);
                             d.setBounds(0, 0, 36, 30);//设置图片大小
                             sb.append(expristion);
                             sb.setSpan(new ImageSpan(d), len, sb.length(), Spannable.SPAN_COMPOSING);
@@ -501,7 +525,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
         tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
 
 
-
         srl_productdetail_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_productdetail_refresh);
 
         //倒计时  開獎
@@ -532,9 +555,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
             @Override
             public void onScroll(int l, int t, int oldl, int oldt) {
                 int y = (int) (t / 2);
-                if(y <= 255) {
+                if (y <= 255) {
                     rl_productdetail_header.setBackgroundColor(Color.argb(y, 255, 255, 255));
-                }else if(y > 255) {
+                } else if (y > 255) {
                     rl_productdetail_header.setBackgroundColor(Color.argb(255, 255, 255, 255));
                 }
             }
@@ -672,16 +695,40 @@ public class ProductDetailPager extends BaseNoTrackPager {
         pb_productdetail_progress.setMax(productDetailBean.getShares());
         pb_productdetail_progress.setProgress(productDetailBean.getShares() - productDetailBean.getLeft_shares());
         if (productDetailBean.getShares_increment() == 5) {
-            if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
-                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_5);
-            }else {
-                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_5);
+            if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_zh_5);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_ms_5);
+                }else {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_5);
+                }
+            } else {
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_zh_5);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_ms_5);
+                }else {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_5);
+                }
             }
         } else if (productDetailBean.getShares_increment() == 10) {
-            if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
-                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_10);
-            }else {
-                iv_productdetail_number.setBackgroundResource(R.drawable.homepager_10);
+            if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_zh_10);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_ms_10);
+                }else {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_10);
+                };
+            } else {
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_zh_10);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_ms_10);
+                }else {
+                    iv_productdetail_number.setBackgroundResource(R.drawable.homepager_my_10);
+                };
             }
         }
     }
@@ -708,8 +755,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
         }
         String str = "";
         int count = 0;
-        for (int i =0;i < myBuyBean.getMybuy().size();i++){
-            for (int j = 0;j < myBuyBean.getMybuy().get(i).getNumbers().size();j++){
+        for (int i = 0; i < myBuyBean.getMybuy().size(); i++) {
+            for (int j = 0; j < myBuyBean.getMybuy().get(i).getNumbers().size(); j++) {
                 str += myBuyBean.getMybuy().get(i).getNumbers().get(j) + " ";
                 count += 1;
             }
@@ -729,7 +776,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         final String productorder = "{\"productorder\":" + response + "}";
         ProductOrderBean productOrderBean = gson.fromJson(productorder, ProductOrderBean.class);
 
-        if(productOrderBean.getProductorder().size() < 20) {
+        if (productOrderBean.getProductorder().size() < 20) {
             ll_loading_data.setVisibility(View.GONE);
         }
 
@@ -751,9 +798,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 if (isBottom && isMoreData && isNeedpull) {
                     ll_loading_data.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
-                    tv_loading_data.setText(context.getString(R.string.loading___) );
+                    tv_loading_data.setText(context.getString(R.string.loading___));
                     isNeedpull = false;
-                    String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page= "+page+"&timezone=" + MyApplication.utc;
+                    String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page= " + page + "&timezone=" + MyApplication.utc;
                     Log.e("TAG_产品详情", url);
                     HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
                         @Override
@@ -771,7 +818,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                                 productDetailAdapter.notifyDataSetChanged();
                                             }
                                         }
-                                        if(productOrderBean.getProductorder().size() < 20) {
+                                        if (productOrderBean.getProductorder().size() < 20) {
                                             isMoreData = false;
                                             ll_loading_data.setVisibility(View.GONE);
                                         }
@@ -779,7 +826,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                     } else {
                                         ll_loading_data.setVisibility(View.VISIBLE);
                                         pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded) );
+                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded));
 
                                         TimerTask task = new TimerTask() {
                                             @Override
@@ -803,7 +850,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText(context.getString(R.string.Networkfailure) );
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     TimerTask task = new TimerTask() {
                                         @Override
                                         public void run() {
@@ -824,7 +871,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                                 public void run() {
                                     isNeedpull = true;
                                     pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText(context.getString(R.string.Networkfailure) );
+                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
                                     TimerTask task = new TimerTask() {
                                         @Override
                                         public void run() {
@@ -902,7 +949,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             SecondPagerActivity activity = (SecondPagerActivity) context;
             switch (view.getId()) {
                 case R.id.rl_productdetail_back:
-                    ((SecondPagerActivity)context).finish();
+                    ((SecondPagerActivity) context).finish();
                     break;
                 case R.id.rl_productdetail_announced:          //往期回顾
                     Intent intent = new Intent(context, ThirdPagerActivity.class);
@@ -912,8 +959,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     break;
                 case R.id.tv_productdetal_again:      //buy  it  now
                     Log.e("TAG_gameid", ((SecondPagerActivity) context).game_id + "");
-                    ((SecondPagerActivity)context).batch_id = productDetailBean.getBatch_id();
-                    ((SecondPagerActivity)context).game_id = -1;
+                    ((SecondPagerActivity) context).batch_id = productDetailBean.getBatch_id();
+                    ((SecondPagerActivity) context).game_id = -1;
                     NewData();
 //                    initData();
                     break;
@@ -926,21 +973,20 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     try {
                         JSONObject props = new JSONObject();
                         MyApplication.mixpanel.track("CLICK:get_it_by1dollar", props);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                     }
 
                     //AppFlyer 埋点
                     Map<String, Object> eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click: Get it now",eventValue);
-
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click: Get it now", eventValue);
 
 
                     View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
                     int height = 0;
-                    if(productDetailBean != null && productDetailBean.getShares_increment() < 5) {
+                    if (productDetailBean != null && productDetailBean.getShares_increment() < 5) {
                         height = (int) getResources().getDimension(R.dimen.dimen_540);
-                    }else {
+                    } else {
                         height = (int) getResources().getDimension(R.dimen.dimen_605);
                     }
 //                    int dip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, height, getResources().getDisplayMetrics());
@@ -976,75 +1022,75 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case R.id.rl_insert_delete:
                     int count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
                     if (count > productDetailBean.getShares_increment()) {
-                        if(count % productDetailBean.getShares_increment() == 0) {
+                        if (count % productDetailBean.getShares_increment() == 0) {
                             et_insert_count.setText(count - productDetailBean.getShares_increment() + "");
-                        }else {
+                        } else {
                             Log.e("TAG_delete", count + "----" + count / productDetailBean.getShares_increment());
                             et_insert_count.setText(count - count % productDetailBean.getShares_increment() + "");
                         }
 
                     }
-                    tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                    tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     break;
                 case R.id.rl_insert_add:
                     count = Integer.parseInt(String.valueOf(et_insert_count.getText()));
-                    if (count < productDetailBean.getLeft_shares()-productDetailBean.getShares_increment() ) {
-                        if(count % productDetailBean.getShares_increment() == 0) {
-                            et_insert_count.setText(count + productDetailBean.getShares_increment()  + "");
-                        }else {
-                            et_insert_count.setText(count/productDetailBean.getShares_increment()*productDetailBean.getShares_increment() + productDetailBean.getShares_increment() + "");
-                            Log.e("TAG_add", count%productDetailBean.getShares_increment() + "");
+                    if (count < productDetailBean.getLeft_shares() - productDetailBean.getShares_increment()) {
+                        if (count % productDetailBean.getShares_increment() == 0) {
+                            et_insert_count.setText(count + productDetailBean.getShares_increment() + "");
+                        } else {
+                            et_insert_count.setText(count / productDetailBean.getShares_increment() * productDetailBean.getShares_increment() + productDetailBean.getShares_increment() + "");
+                            Log.e("TAG_add", count % productDetailBean.getShares_increment() + "");
                         }
-                        tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
-                    }else{
-                        et_insert_count.setText( productDetailBean.getLeft_shares()  + "");
-                        tv_insert_buy.setText(context.getString(R.string.Total) +" "+ et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
-                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
+                        tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                    } else {
+                        et_insert_count.setText(productDetailBean.getLeft_shares() + "");
+                        tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                        Utils.MyToast(context, "only " + productDetailBean.getLeft_shares() + " left");
                     }
                     break;
                 case R.id.tv_insert_two:
-                    if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment()*2) {
-                        et_insert_count.setText(productDetailBean.getShares_increment()*2 + "");
-                    } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*2) {
+                    if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment() * 2) {
+                        et_insert_count.setText(productDetailBean.getShares_increment() * 2 + "");
+                    } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment() * 2) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
-                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
+                        Utils.MyToast(context, "only " + productDetailBean.getLeft_shares() + " left");
                     }
-                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                    tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_two.setHovered(true);
-                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO, 500);
                     break;
                 case R.id.tv_insert_five:
-                    if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment()*5) {
-                        et_insert_count.setText(productDetailBean.getShares_increment()*5 + "");
-                    } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*5) {
+                    if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment() * 5) {
+                        et_insert_count.setText(productDetailBean.getShares_increment() * 5 + "");
+                    } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment() * 5) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
-                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
+                        Utils.MyToast(context, "only " + productDetailBean.getLeft_shares() + " left");
                     }
-                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                    tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_five.setHovered(true);
-                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO, 500);
                     break;
                 case R.id.tv_insert_ten:
-                    if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment()*10) {
-                        et_insert_count.setText(productDetailBean.getShares_increment()*10 + "");
-                    } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment()*10) {
+                    if (productDetailBean.getLeft_shares() >= productDetailBean.getShares_increment() * 10) {
+                        et_insert_count.setText(productDetailBean.getShares_increment() * 10 + "");
+                    } else if (productDetailBean.getLeft_shares() < productDetailBean.getShares_increment() * 10) {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
-                        Utils.MyToast(context,"only "+productDetailBean.getLeft_shares()+" left");
+                        Utils.MyToast(context, "only " + productDetailBean.getLeft_shares() + " left");
                     }
-                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                    tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_ten.setHovered(true);
-                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO, 500);
                     break;
                 case R.id.tv_insert_all:
                     et_insert_count.setText(productDetailBean.getLeft_shares() + "");
-                    tv_insert_buy.setText(context.getString(R.string.Total) +" " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
+                    tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                     tv_insert_all.setHovered(true);
-                    handler.sendEmptyMessageDelayed(WHAT_AUTO,500);
+                    handler.sendEmptyMessageDelayed(WHAT_AUTO, 500);
                     break;
                 case R.id.tv_insert_buy:
                     //AppFlyer 埋点
                     eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click：Total "+et_insert_count.getText().toString()+" coins ",eventValue);
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click：Total " + et_insert_count.getText().toString() + " coins ", eventValue);
 
                     String token_s = Utils.getSpData("token_num", context);
                     int token = 0;
@@ -1061,13 +1107,13 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         try {
                             JSONObject props = new JSONObject();
                             MyApplication.mixpanel.track("LOGIN:showpage", props);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Log.e("MYAPP", "Unable to add properties to JSONObject", e);
                         }
 
                         //AppFlyer 埋点
                         eventValue = new HashMap<String, Object>();
-                        AppsFlyerLib.getInstance().trackEvent(context, "Page：Login",eventValue);
+                        AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
                     }
 
                     break;
@@ -1117,7 +1163,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         tv_insert_buy.setClickable(false);
         int money = Integer.parseInt(et_insert_count.getText().toString());
 
-        if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0")||money%productDetailBean.getShares_increment() != 0) {
+        if (et_insert_count.getText() == null || et_insert_count.getText().length() == 0 || et_insert_count.getText().toString().equals("0") || money % productDetailBean.getShares_increment() != 0) {
             rl_insert_warn.setVisibility(View.VISIBLE);
             iv_insert_warn.setVisibility(View.VISIBLE);
             tv_insert_warn.setEnabled(true);
@@ -1129,7 +1175,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         }
         //加载进度条 暗示用户  正在购买
         pb_insert.setVisibility(View.VISIBLE);
-        tv_insert_buy.setBackgroundColor(Color.argb(255,226,226,226));
+        tv_insert_buy.setBackgroundColor(Color.argb(255, 226, 226, 226));
         //购买商品接口
         int shares = Integer.parseInt(et_insert_count.getText().toString());
 
@@ -1159,6 +1205,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         if (code == 409) {
                             startPrompt(message, false);
                             tv_insert_buy.setClickable(true);
+                        } else {
                         }
                     }
                 });
@@ -1166,14 +1213,21 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
             @Override
             public void failure(Exception exception) {
-                tv_insert_buy.setClickable(true);
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                        tv_insert_buy.setClickable(true);
+
+                    }
+                });
             }
         });
     }
 
     private void startPrompt(String message, boolean flag) {
         View inflate = View.inflate(context, R.layout.alertdialog_insertcoins, null);
-        if(flag == true) {
+        if (flag == true) {
             TextView tv_insertcoins_title = (TextView) inflate.findViewById(R.id.tv_insertcoins_title);
             JustifyTextView jtv_insertcoins_discribe = (JustifyTextView) inflate.findViewById(R.id.jtv_insertcoins_discribe);
             RelativeLayout rl_insert_ok = (RelativeLayout) inflate.findViewById(R.id.rl_insert_ok);
@@ -1224,7 +1278,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             }
         }
 
-        if(popupWindow.isShowing()) {
+        if (popupWindow.isShowing()) {
             popupWindow.dismiss();
         }
 
@@ -1270,11 +1324,25 @@ public class ProductDetailPager extends BaseNoTrackPager {
         iv_insert_warn = (ImageView) PPW.findViewById(R.id.iv_insert_warn);
         pb_insert = (ProgressBar) PPW.findViewById(R.id.pb_insert);
 
-        if(productDetailBean != null && productDetailBean.getShares_increment() == 5) {
-            tv_insert_warn.setText(context.getString(R.string.FiveTimes) + "5");
-        }else if(productDetailBean != null && productDetailBean.getShares_increment() == 10) {
-            tv_insert_warn.setText(context.getString(R.string.FiveTimes) + "10");
-        }else {
+        if (productDetailBean != null && productDetailBean.getShares_increment() == 5) {
+            //中文与 英语马来语语法不一样 需要进行判断
+            if (Utils.getSpData("locale", context) != null && "zh".equals(Utils.getSpData("locale", context).split("-")[0] + "")) {
+                tv_insert_warn.setText(context.getString(R.string.FiveTimes));
+            } else if (Utils.getSpData("locale", context) == null && getResources().getConfiguration().locale.getLanguage().contains("zh")) {
+                tv_insert_warn.setText(context.getString(R.string.FiveTimes));
+            } else {
+                tv_insert_warn.setText(context.getString(R.string.FiveTimes) + "5");
+            }
+
+        } else if (productDetailBean != null && productDetailBean.getShares_increment() == 10) {
+            if (Utils.getSpData("locale", context) != null && "zh".equals(Utils.getSpData("locale", context).split("-")[0] + "")) {
+                tv_insert_warn.setText(context.getString(R.string.TenTimes));
+            } else if (Utils.getSpData("locale", context) == null && getResources().getConfiguration().locale.getLanguage().contains("zh")) {
+                tv_insert_warn.setText(context.getString(R.string.TenTimes));
+            } else {
+                tv_insert_warn.setText(context.getString(R.string.TenTimes) + "10");
+            }
+        } else {
             rl_insert_warn.setVisibility(View.GONE);
         }
 
@@ -1283,12 +1351,12 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
         et_insert_count.setSelection(ea.length());
 
-        if(productDetailBean != null) {
+        if (productDetailBean != null) {
             et_insert_count.setText(productDetailBean.getShares_increment() + "");
-            tv_insert_two.setText(productDetailBean.getShares_increment()*2 + "");
-            tv_insert_five.setText(productDetailBean.getShares_increment()*5 + "");
-            tv_insert_ten.setText(productDetailBean.getShares_increment()*10 + "");
-        }else {
+            tv_insert_two.setText(productDetailBean.getShares_increment() * 2 + "");
+            tv_insert_five.setText(productDetailBean.getShares_increment() * 5 + "");
+            tv_insert_ten.setText(productDetailBean.getShares_increment() * 10 + "");
+        } else {
             return;
         }
 
@@ -1318,7 +1386,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         et_insert_count.setText(productDetailBean.getLeft_shares() + "");
 
                     }
-                    tv_insert_buy.setText(context.getString(R.string.Total) + " "  + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins) );
+                    tv_insert_buy.setText(context.getString(R.string.Total) + " " + et_insert_count.getText().toString() + " " + context.getString(R.string.Coins));
                 }
                 if ("".equals(et_insert_count.getText().toString())) {
                     balanceCount = 0;
@@ -1408,6 +1476,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
             }
         });
     }
+
     @Override
     public void onResume() {
         super.onResume();

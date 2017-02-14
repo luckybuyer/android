@@ -94,6 +94,7 @@ public class SetPager extends BasePager {
                 case R.id.rl_set_email:
                     Intent data=new Intent(Intent.ACTION_SENDTO);
                     data.setData(Uri.parse("mailto:contact@luckybuyer.net"));
+                    data.putExtra(Intent.EXTRA_SUBJECT,Utils.getSpData("id",context) + "");
                     startActivity(data);
                     break;
 //                case R.id.rl_set_us:
@@ -109,7 +110,7 @@ public class SetPager extends BasePager {
                     break;
                 case R.id.rl_set_country:
                     intent = new Intent(context, ThirdPagerActivity.class);
-                    intent.putExtra("from","countrypager");
+                    intent.putExtra("from","clpager");
                     startActivity(intent);
                     break;
             }

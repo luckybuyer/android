@@ -101,7 +101,7 @@ public class CoinDetailPager extends BasePager {
                     }
 
                     @Override
-                    public void error(int requestCode, String message) {
+                    public void error(final int requestCode, String message) {
                         Log.e("TAG", requestCode + "");
                         Log.e("TAG", message);
                         ((Activity) context).runOnUiThread(new Runnable() {
@@ -110,6 +110,7 @@ public class CoinDetailPager extends BasePager {
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
                                 rl_loading.setVisibility(View.GONE);
+                                Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode + "gold-records");
 
                             }
                         });
@@ -123,6 +124,7 @@ public class CoinDetailPager extends BasePager {
                                 rl_nodata.setVisibility(View.GONE);
                                 rl_neterror.setVisibility(View.VISIBLE);
                                 rl_loading.setVisibility(View.GONE);
+                                Utils.MyToast(context, context.getString(R.string.Networkfailure));
 
                             }
                         });

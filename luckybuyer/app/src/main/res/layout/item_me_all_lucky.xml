@@ -11,7 +11,26 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_me_ordernum"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_90"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:gravity="center_vertical"
+        android:textColor="#666666"
+        android:text="Order Number:1000 0000 000 133"
+        android:textSize="@dimen/dimen_30" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/tv_me_ordernum"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_marginRight="@dimen/dimen_24"
+        android:background="@color/bg_view"></View>
+
     <RelativeLayout
+        android:layout_below="@+id/tv_me_ordernum"
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -114,6 +133,7 @@
 
 
     <ImageView
+        android:layout_below="@+id/tv_me_ordernum"
         android:layout_width="@dimen/dimen_26"
         android:layout_height="@dimen/dimen_22"
         android:layout_marginStart="@dimen/dimen_24"
@@ -121,6 +141,8 @@
         android:background="@drawable/me_lucky" />
 
     <TextView
+        android:id="@+id/tv_winner"
+        android:layout_below="@+id/tv_me_ordernum"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
         android:layout_marginBottom="@dimen/dimen_30"
@@ -131,16 +153,19 @@
         android:textSize="@dimen/dimen_26" />
 
     <TextView
+        android:layout_below="@+id/tv_me_ordernum"
         android:id="@+id/tv_lucky_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimen_155"
+        android:layout_toRightOf="@+id/tv_winner"
+        android:layout_marginStart="@dimen/dimen_10"
         android:layout_marginTop="@dimen/dimen_280"
         android:text="yangshuyu"
         android:textColor="#ff9c05"
         android:textSize="@dimen/dimen_26" />
 
     <RelativeLayout
+        android:layout_below="@+id/tv_me_ordernum"
         android:id="@+id/rl_lucky_address"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_40"
@@ -175,7 +200,7 @@
         android:layout_height="@dimen/dimen_54"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_270"
+        android:layout_marginTop="@dimen/dimen_350"
         android:visibility="gone"
         android:background="#ff311a"
 

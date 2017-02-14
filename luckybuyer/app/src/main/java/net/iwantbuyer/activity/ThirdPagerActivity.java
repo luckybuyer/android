@@ -10,7 +10,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.pager.ShowPager;
+import net.iwantbuyer.secondpager.ClPager;
 import net.iwantbuyer.secondpager.CountryPager;
+import net.iwantbuyer.secondpager.LanguagePager;
 import net.iwantbuyer.secondpager.ParticipationPager;
 import net.iwantbuyer.secondpager.PreviousWinnersPager;
 import net.iwantbuyer.utils.StatusBarUtils;
@@ -29,6 +31,12 @@ public class ThirdPagerActivity extends FragmentActivity {
     public int product_id = -1;                            //show界面
 
     public int batch_id;
+    public FragmentManager fragmentManager;
+
+    public String language;
+    public String country;
+    public String server;
+    public String store;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +57,7 @@ public class ThirdPagerActivity extends FragmentActivity {
     //设置数据
     private void setData() {
         list = new ArrayList<>();
-        //往期中奖页面
+        //往期中奖页面                     0
         list.add(new PreviousWinnersPager());
         //参与详情页面                     1
         list.add(new ParticipationPager());
@@ -57,6 +65,10 @@ public class ThirdPagerActivity extends FragmentActivity {
         list.add(new ShowPager());
         //国家设置页面                     3
         list.add(new CountryPager());
+        //选择国家或者语言                 4
+        list.add(new ClPager());
+        //语言设置页面                     4
+        list.add(new LanguagePager());
     }
 
     private void selectPager() {
@@ -69,15 +81,20 @@ public class ThirdPagerActivity extends FragmentActivity {
             switchPage(2);
         }else if("countrypager".equals(from)) {
             switchPage(3);
+        }else if("clpager".equals(from)) {
+            switchPage(4);
         }
     }
 
     //选择哪个界面
     public void switchPage(int checkedId) {
         Fragment fragment = list.get(checkedId);
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_third, fragment);
+        if(checkedId != 0 && checkedId != 1  && checkedId != 2 && checkedId != 4) {
+            fragmentTransaction.addToBackStack(null);
+        }
         fragmentTransaction.commit();
     }
 

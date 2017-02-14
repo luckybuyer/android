@@ -87,7 +87,7 @@
             android:layout_marginStart="@dimen/dimen_30"
             android:layout_marginTop="@dimen/dimen_8"
             android:layout_toEndOf="@+id/rl_participation_icon"
-            android:text="@string/Participationnumbers."
+            android:text="@string/MyParticipations"
             android:textColor="#999999"
             android:textSize="@dimen/dimen_26" />
         <TextView
@@ -178,6 +178,7 @@
             android:layout_marginEnd="@dimen/dimen_24"
             android:layout_marginTop="@dimen/dimen_2" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
@@ -245,7 +246,7 @@
                 android:paddingStart="@dimen/dimen_24"
                 android:paddingEnd="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>

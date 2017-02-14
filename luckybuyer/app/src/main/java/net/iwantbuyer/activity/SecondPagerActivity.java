@@ -78,7 +78,7 @@ public class SecondPagerActivity extends FragmentActivity {
     private RelativeLayout rl_secondpager;
     //    private TextView tv_second_share;
     private TextView tv_second_back;
-    private List<Fragment> list;
+    public List<Fragment> list;
     public int batch_id;
     public int game_id;
 
@@ -159,6 +159,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
     }
 
+    DispatchPager dispatchPager;
     //设置数据
     private void setData() {
         list = new ArrayList<>();
@@ -178,7 +179,8 @@ public class SecondPagerActivity extends FragmentActivity {
         buyCoinPager = new BuyCoinPager();
         list.add(buyCoinPager);
         //物流分发界面                     7
-        list.add(new DispatchPager());
+        dispatchPager = new DispatchPager();
+        list.add(dispatchPager);
         //增加地址页面                     8
         list.add(new AddAddressPager());
         //选择地址页面                     9
@@ -203,8 +205,10 @@ public class SecondPagerActivity extends FragmentActivity {
 
     //选择哪个界面
     public FragmentManager fragmentManager = getSupportFragmentManager();
+    Fragment fragment;
     public void switchPage(int checkedId) {
-        Fragment fragment = list.get(checkedId);
+        fragment = list.get(checkedId);
+        Log.e("TAG_isadd", fragment.isAdded() + "");
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_secondpager, fragment);
         if(checkedId != 4 && checkedId != 0  && checkedId != 11 && checkedId != 7 && checkedId != 5) {
@@ -343,7 +347,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 SecondPagerActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(SecondPagerActivity.this,"Log in successfully");
+                        Utils.MyToast(SecondPagerActivity.this,SecondPagerActivity.this.getString(R.string.loginsuccess));
 
                     }
                 });
@@ -366,7 +370,7 @@ public class SecondPagerActivity extends FragmentActivity {
             }
 
             @Override
-            public void error(int requestCode, String message) {
+            public void error(final int requestCode, String message) {
                 Log.e("TAG", requestCode + "");
                 Log.e("TAG", message);
                 Utils.setSpData("token", null, SecondPagerActivity.this);
@@ -377,7 +381,7 @@ public class SecondPagerActivity extends FragmentActivity {
                         new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(SecondPagerActivity.this, "Log in failed");
+                        Utils.MyToast(SecondPagerActivity.this, SecondPagerActivity.this.getString(R.string.loginfailed) + requestCode + "me");
                     }
                 });
             }
@@ -389,7 +393,7 @@ public class SecondPagerActivity extends FragmentActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(SecondPagerActivity.this, "Log in failed");
+                        Utils.MyToast(SecondPagerActivity.this, SecondPagerActivity.this.getString(R.string.loginfailed));
                     }
                 });
             }
@@ -462,6 +466,12 @@ public class SecondPagerActivity extends FragmentActivity {
             if ("buycoins".equals(from)) {
                 finish();
             }
+
+            //为了 解决华为手机 出现  Fragment already added IllegalStateException
+            if(fragment == dispatchPager) {
+                finish();
+                return false;
+            }
 //            finish();
         }
         return super.onKeyUp(keyCode, event);
@@ -525,8 +535,12 @@ public class SecondPagerActivity extends FragmentActivity {
         }
     };
 
-
+    boolean fl = true;
     private void startGift() {
+        if(fl = false) {
+            return;
+        }
+        fl = false;
         String url = MyApplication.url + "/v1/gifts/new_user/?timezone=" + MyApplication.utc;
         Log.e("TAG_gift..", url);
         Map map = new HashMap();
@@ -551,6 +565,8 @@ public class SecondPagerActivity extends FragmentActivity {
                     public void run() {
                         if (code == 419) {
                             Log.e("TAG_gift...", "已经赠送过了");
+                        }else {
+                            Utils.MyToast(SecondPagerActivity.this,SecondPagerActivity.this.getString(R.string.Networkfailure)+ code + "gifts");
                         }
                     }
                 });

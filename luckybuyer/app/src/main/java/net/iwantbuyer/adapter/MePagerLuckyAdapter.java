@@ -18,6 +18,7 @@ import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.bean.AllOrderBean;
+import net.iwantbuyer.utils.Utils;
 import net.iwantbuyer.view.JustifyTextView;
 
 import java.util.List;
@@ -91,14 +92,27 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
 //            }
 //        });
         int viewType = getItemViewType(position);
+        String type = list.get(position).getDelivery().getType();
         if(viewType == 0) {
-            holder.tv_lucky_go.setText(context.getString(R.string.confirmshippingaddress));
+            if("virtual_mobile".equals(type)) {
+                holder.tv_lucky_go.setText(context.getString(R.string.editphoneoperator));
+            }else {
+                holder.tv_lucky_go.setText(context.getString(R.string.confirmshippingaddress));
+            }
         }else if(viewType ==1) {
-            holder.tv_lucky_go.setText(context.getString(R.string.Waitingforshippment));
+            if("virtual_mobile".equals(type)) {
+                holder.tv_lucky_go.setText(context.getString(R.string.WaitingforProcessing));
+            }else {
+                holder.tv_lucky_go.setText(context.getString(R.string.Waitingforshippment));
+            }
         }else if(viewType == 2) {
             holder.tv_lucky_go.setText(context.getString(R.string.Confirmdelivery));
         }else if(viewType == 3) {
-            holder.tv_lucky_go.setText(context.getString(R.string.Sharerewards));
+            if(Utils.getSpData("gifts_post_share",context) != null && Utils.getSpData("gifts_post_share",context).equals("0")) {
+                holder.tv_lucky_go.setText(context.getString(R.string.goshare));
+            }else {
+                holder.tv_lucky_go.setText(context.getString(R.string.Sharerewards));
+            }
         }else if (viewType == 4) {
             holder.tv_lucky_go.setText(context.getString(R.string.Shown));
         }
@@ -108,6 +122,24 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         holder.rl_lucky_address.setOnClickListener(new MyOnClickListener(position));
         holder.rl_top.setOnClickListener(new MyOnClickListener(position));
 
+        //增加id
+        int id = list.get(position).getId() + 1000000000;
+        String _id = "";
+        char[] id_ = (id + "").toCharArray();
+        for (int i =0;i < id_.length;i++){
+            if(i == 0) {
+                id_[i] = '0';
+            }
+            if(i%4 == 2) {
+                _id = _id + id_[i] + "  ";
+            }else {
+                _id = _id + id_[i];
+            }
+
+        }
+
+        String real_id = context.getString(R.string.ordernumber_)  + "1000\t0000\t0" + _id;
+        holder.tv_me_ordernum.setText(real_id);
     }
 
     @Override
@@ -182,9 +214,11 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
         private TextView tv_lucky_go;
         private RelativeLayout rl_lucky_address;
         private RelativeLayout rl_top;
+        private TextView tv_me_ordernum;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            tv_me_ordernum = (TextView) itemView.findViewById(R.id.tv_me_ordernum);
             iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
             jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
             tv_lucky_issue = (TextView) itemView.findViewById(R.id.tv_lucky_issue);

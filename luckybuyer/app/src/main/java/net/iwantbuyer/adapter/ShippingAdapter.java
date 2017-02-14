@@ -22,6 +22,7 @@ import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.bean.ShippingAddressBean;
+import net.iwantbuyer.secondpager.DispatchPager;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
 import net.iwantbuyer.view.JustifyTextView;
@@ -111,10 +112,11 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                                     handler.sendEmptyMessage(WHAT);
 
                                     HttpUtils.getInstance().stopNetWorkWaiting();
-                                    Utils.MyToast(context, "Set Success");
+                                    Utils.MyToast(context, context.getString(R.string.setsuccess));
 
                                     if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
                                         ((SecondPagerActivity) context).switchPage(7);
+                                        ((DispatchPager)(((SecondPagerActivity) context).list.get(7))).initData();
                                     }
                                 }
                             });
@@ -128,7 +130,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                                 @Override
                                 public void run() {
                                     HttpUtils.getInstance().stopNetWorkWaiting();
-                                    Utils.MyToast(context, "Setup failed");
+                                    Utils.MyToast(context,context.getString(R.string.Networkfailure) + code + "address");
                                 }
                             });
                         }
@@ -136,7 +138,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                         @Override
                         public void failure(Exception exception) {
                             HttpUtils.getInstance().stopNetWorkWaiting();
-                            Utils.MyToast(context, "Setup failed");
+                            Utils.MyToast(context, context.getString(R.string.Networkfailure));
                         }
 
 
@@ -145,7 +147,6 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                 case R.id.tv_shipping_edit:
                     ((SecondPagerActivity) context).switchPage(8);
                     ((SecondPagerActivity) context).address_id = list.get(position).getId();
-                    ((SecondPagerActivity) context).from = "shippingaddress";
                     break;
                 case R.id.tv_shipping_delete:
                     StartAlertDialog(position);
@@ -187,6 +188,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                                         notifyDataSetChanged();
                                     }
                                     HttpUtils.getInstance().stopNetWorkWaiting();
+
                                 }
                             });
                         }
@@ -201,7 +203,6 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     break;
             }
         }
-
     }
 
     private AlertDialog show;

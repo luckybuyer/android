@@ -237,6 +237,16 @@ public class HomePager extends BaseNoTrackPager {
 
 
     private void startRequestGame() {
+        String spString = Utils.getSpData("locale", context);
+        String language = "en";
+        if (spString != null && "ms".equals(spString.split("-")[0] + "")) {
+            language = "ms";
+        } else if (spString != null && "zh".equals(spString.split("-")[0] + "")) {
+            language = "zh";
+        } else if (spString != null && "en".equals(spString.split("-")[0] + "")) {
+            language = "en";
+        }
+
         //请求  广播列表
         String broadcastUrl = MyApplication.url + "/v1/broadcasts/?per_page=20&page=1&timezone=" + MyApplication.utc;
         HttpUtils.getInstance().getRequest(broadcastUrl, null, new HttpUtils.OnRequestListener() {
@@ -252,13 +262,23 @@ public class HomePager extends BaseNoTrackPager {
             }
 
             @Override
-            public void error(int requestCode, String message) {
+            public void error(final int requestCode, String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
+                    }
+                });
             }
 
             @Override
             public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
+                    }
+                });
             }
 
         });
@@ -347,13 +367,23 @@ public class HomePager extends BaseNoTrackPager {
             }
 
             @Override
-            public void error(int requestCode, String message) {
+            public void error(final int requestCode, String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
+                    }
+                });
             }
 
             @Override
             public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
 
+                    }
+                });
             }
 
         });

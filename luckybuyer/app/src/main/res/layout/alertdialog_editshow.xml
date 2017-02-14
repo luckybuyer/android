@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_110"
             android:gravity="center"
-            android:text="Camera"
+            android:text="@string/Camera"
             android:textColor="#0076ff"
             android:textSize="@dimen/dimen_32" />
         <View
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_110"
             android:gravity="center"
-            android:text="Photo Library"
+            android:text="@string/Photos"
             android:textColor="#0076ff"
             android:textSize="@dimen/dimen_32" />
     </LinearLayout>
@@ -44,7 +44,7 @@
         android:layout_height="@dimen/dimen_110"
         android:background="@drawable/shape_radius_4px"
         android:gravity="center"
-        android:text="Cancel"
+        android:text="@string/Cancel"
         android:textColor="#0076ff"
         android:textSize="@dimen/dimen_32" />
 

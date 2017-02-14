@@ -129,7 +129,7 @@ public class WinningPager extends BaseNoTrackPager {
             }
 
             @Override
-            public void error(int code, String message) {
+            public void error(final int code, String message) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -137,6 +137,7 @@ public class WinningPager extends BaseNoTrackPager {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context,context.getString(R.string.Networkfailure) + code + "games");
                     }
                 });
             }
@@ -150,6 +151,7 @@ public class WinningPager extends BaseNoTrackPager {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context,context.getString(R.string.Networkfailure));
                     }
                 });
             }

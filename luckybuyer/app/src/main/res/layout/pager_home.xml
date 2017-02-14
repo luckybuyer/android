@@ -21,6 +21,7 @@
             android:textSize="@dimen/dimen_38" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/iv_home_country"
             android:layout_width="@dimen/dimen_15"
             android:layout_height="@dimen/dimen_10"
@@ -31,6 +32,7 @@
             android:background="@drawable/homepager_country" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_home_country"
             android:layout_width="@dimen/dimen_120"
             android:layout_height="@dimen/dimen_42"
@@ -265,7 +267,7 @@
                 android:paddingEnd="@dimen/dimen_24"
                 android:paddingStart="@dimen/dimen_24"
                 android:paddingTop="@dimen/dimen_12"
-                android:text="Retry"
+                android:text="@string/retry"
                 android:textColor="@color/text_white"
                 android:textSize="@dimen/dimen_32" />
         </RelativeLayout>

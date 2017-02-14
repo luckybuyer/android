@@ -60,13 +60,15 @@
 
 
     <ScrollView
-        android:layout_below="@+id/rl_dispatch_header"
         android:id="@+id/sv_dispatch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_dispatch_header">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <RelativeLayout
                 android:id="@+id/rl_dispatch_icon"
                 android:layout_width="@dimen/dimen_140"
@@ -82,7 +84,7 @@
                     android:background="@drawable/default_icon" />
             </RelativeLayout>
 
-            <net.iwantbuyer.view.JustifyTextView
+            <TextView
                 android:id="@+id/jtv_dispatch_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -326,6 +328,7 @@
                     android:text="@string/Confirmdelivery"
                     android:textColor="#cccccc"
                     android:textSize="@dimen/dimen_26" />
+
                 <View
                     android:id="@+id/view_delivered"
                     android:layout_width="1px"
@@ -382,19 +385,17 @@
                     android:textSize="@dimen/dimen_26" />
 
                 <TextView
-                    android:layout_below="@+id/tv_dispatch_show"
                     android:id="@+id/tv_dispatch_5coins"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/dimen_36"
+                    android:layout_below="@+id/tv_dispatch_show"
                     android:layout_marginStart="@dimen/dimen_18"
                     android:layout_toEndOf="@+id/iv_disaptch_show"
-                    android:text="@string/showitget5"
                     android:textColor="#cccccc"
                     android:textSize="@dimen/dimen_22" />
             </RelativeLayout>
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tv_dispatch_isshow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -408,13 +409,14 @@
                 android:paddingTop="@dimen/dimen_6"
                 android:text="@string/Show"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/dimen_30" />
+                android:textSize="@dimen/dimen_30"
+                android:visibility="gone" />
 
             <RelativeLayout
-                android:background="#f2f2f4"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_120"
                 android:layout_below="@+id/rl_show"
-                android:layout_height="@dimen/dimen_120"></RelativeLayout>
+                android:background="#f2f2f4"></RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
@@ -425,12 +427,12 @@
         android:background="#F2F2F4"></RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_dispatch_participate"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_88"
         android:layout_alignParentBottom="true"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_dispatch_again"
@@ -452,6 +454,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

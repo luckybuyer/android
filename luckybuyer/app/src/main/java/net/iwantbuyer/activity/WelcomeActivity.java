@@ -286,6 +286,7 @@ public class WelcomeActivity extends Activity {
         Utils.setSpData("client_id",paySwitchBean.getAuth0_client_id(),WelcomeActivity.this);
         Utils.setSpData("domain",paySwitchBean.getAuth0_domain(),WelcomeActivity.this);
         Utils.setSpData("gifts_new_user",paySwitchBean.getGifts_new_user()+"",WelcomeActivity.this);
+        Utils.setSpData("gifts_post_share",paySwitchBean.getGifts_post_share()+"",WelcomeActivity.this);
         Utils.setSpData("minimum_version",paySwitchBean.getMinimum_version()+"",WelcomeActivity.this);
         Utils.setSpData("latest_version",paySwitchBean.getLatest_version()+"",WelcomeActivity.this);
 

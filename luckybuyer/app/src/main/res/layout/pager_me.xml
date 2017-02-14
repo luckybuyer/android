@@ -9,15 +9,15 @@
 
     <net.iwantbuyer.view.BottomScrollView
         android:id="@+id/sv_me"
-        android:fillViewport="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <RelativeLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
             <View
@@ -26,10 +26,10 @@
                 android:layout_height="1px"></View>
 
             <RelativeLayout
-                android:layout_below="@+id/view_me_top"
                 android:id="@+id/rl_me_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/view_me_top"
                 android:background="#E9E6E8">
 
                 <net.iwantbuyer.view.CircleImageView
@@ -77,12 +77,23 @@
                     android:textSize="@dimen/dimen_30" />
 
 
-                <LinearLayout
-                    android:id="@+id/ll_me_gold"
+                <TextView
+                    android:id="@+id/tv_me_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_me_name"
                     android:layout_centerHorizontal="true"
+                    android:text="ID:1000 0001"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/dimen_26" />
+
+                <LinearLayout
+                    android:id="@+id/ll_me_gold"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_40">
+                    android:layout_height="@dimen/dimen_40"
+                    android:layout_below="@+id/tv_me_id"
+                    android:layout_centerHorizontal="true">
+
                     <TextView
                         android:id="@+id/tv_gold"
                         android:layout_width="wrap_content"
@@ -92,13 +103,14 @@
                         android:text="@string/coins."
                         android:textColor="#ff9c05"
                         android:textSize="@dimen/dimen_28" />
+
                     <TextView
                         android:id="@+id/tv_me_gold"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/dimen_36"
                         android:layout_below="@+id/tv_me_fbcode"
-                        android:layout_toEndOf="@+id/tv_gold"
                         android:layout_centerHorizontal="true"
+                        android:layout_toEndOf="@+id/tv_gold"
                         android:text="998"
                         android:textColor="#ff9c05"
                         android:textSize="@dimen/dimen_28" />
@@ -109,8 +121,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_2"
                     android:layout_below="@+id/ll_me_gold"
-                    android:layout_marginStart="@dimen/dimen_70"
                     android:layout_marginEnd="@dimen/dimen_70"
+                    android:layout_marginStart="@dimen/dimen_70"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:background="#cccccc"></View>
 
@@ -119,23 +131,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_shipping"
-                    android:layout_marginStart="@dimen/dimen_84"
+                    android:layout_marginBottom="@dimen/dimen_34"
                     android:layout_marginEnd="@dimen/dimen_84"
+                    android:layout_marginStart="@dimen/dimen_84"
                     android:layout_marginTop="@dimen/dimen_7"
                     android:text="@string/facebooklike"
                     android:textColor="#666666"
-                    android:layout_marginBottom="@dimen/dimen_34"
                     android:textSize="@dimen/dimen_28" />
 
                 <!--<com.inthecheesefactory.lib.fblike.widget.FBLikeView-->
-                    <!--android:visibility="gone"-->
-                    <!--android:id="@+id/fb_shipping_facebook"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="@dimen/dimen_50"-->
-                    <!--android:layout_alignStart="@id/jtv_shipinng_facebook"-->
-                    <!--android:layout_below="@+id/jtv_shipinng_facebook"-->
-                    <!--android:layout_marginBottom="@dimen/dimen_24"-->
-                    <!--android:layout_marginTop="@dimen/dimen_16" />-->
+                <!--android:visibility="gone"-->
+                <!--android:id="@+id/fb_shipping_facebook"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="@dimen/dimen_50"-->
+                <!--android:layout_alignStart="@id/jtv_shipinng_facebook"-->
+                <!--android:layout_below="@+id/jtv_shipinng_facebook"-->
+                <!--android:layout_marginBottom="@dimen/dimen_24"-->
+                <!--android:layout_marginTop="@dimen/dimen_16" />-->
 
             </RelativeLayout>
 
@@ -161,88 +173,93 @@
 
             <net.iwantbuyer.view.CustomViewPager
                 android:id="@+id/vp_me"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stl_me_vpcontrol"
-                android:background="#ffffff"/>
+                android:background="#ffffff"
+                android:focusable="false"
+                android:focusableInTouchMode="false" />
 
             <LinearLayout
                 android:id="@+id/ll_loading_data"
-                android:layout_below="@+id/vp_me"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_100"
+                android:layout_below="@+id/vp_me"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_height="@dimen/dimen_100">
+                android:orientation="horizontal">
+
                 <ProgressBar
-                    android:indeterminateDrawable="@drawable/pb_loading_data"
                     android:id="@+id/pb_loading_data"
                     android:layout_width="@dimen/dimen_40"
-                    android:layout_height="@dimen/dimen_40" />
+                    android:layout_height="@dimen/dimen_40"
+                    android:indeterminateDrawable="@drawable/pb_loading_data" />
+
                 <TextView
                     android:id="@+id/tv_loading_data"
-                    android:layout_marginStart="@dimen/dimen_16"
-                    android:textSize="@dimen/dimen_30"
-                    android:text="@string/loading..."
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_16"
+                    android:text="@string/loading..."
+                    android:textSize="@dimen/dimen_30" />
             </LinearLayout>
 
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/rl_keepout"
-                android:background="@color/f2f2f2"
                 android:layout_width="match_parent"
-                android:layout_below="@+id/rl_me_title"
+                android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
-                android:layout_height="match_parent">
+                android:layout_below="@+id/rl_me_title"
+                android:background="@color/f2f2f2"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:id="@+id/rl_loading"
                     android:layout_width="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true">
+
                     <ProgressBar
-                        android:indeterminateDrawable="@drawable/shape_loading"
                         android:id="@+id/pb_loading"
                         android:layout_width="@dimen/dimen_60"
-                        android:layout_height="@dimen/dimen_60" />
+                        android:layout_height="@dimen/dimen_60"
+                        android:indeterminateDrawable="@drawable/shape_loading" />
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/dimen_8"
                         android:layout_toEndOf="@+id/pb_loading"
-                        android:layout_width="wrap_content"
-                        android:textColor="#000000"
                         android:text="@string/loading..."
-                        android:textSize="@dimen/dimen_32"
-                        android:layout_height="wrap_content" />
+                        android:textColor="#000000"
+                        android:textSize="@dimen/dimen_32" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/rl_neterror"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dimen_50"
-                    android:layout_height="wrap_content">
+                    android:visibility="gone">
+
                     <ImageView
                         android:id="@+id/iv_neterror"
                         android:layout_width="@dimen/dimen_300"
-                        android:background="@drawable/default_neterror"
-                        android:layout_height="@dimen/dimen_315" />
+                        android:layout_height="@dimen/dimen_315"
+                        android:background="@drawable/default_neterror" />
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_neterror"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dimen_16"
-                        android:layout_below="@+id/iv_neterror"
-                        android:textSize="@dimen/dimen_28"
-                        android:textColor="#acabb4"
                         android:text="@string/Networkfailure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textColor="#acabb4"
+                        android:textSize="@dimen/dimen_28" />
+
                     <TextView
                         android:id="@+id/tv_net_again"
                         android:layout_width="wrap_content"
@@ -252,38 +269,39 @@
                         android:layout_marginTop="@dimen/dimen_80"
                         android:background="@drawable/shape_radius_4pxoragne"
                         android:paddingBottom="@dimen/dimen_12"
-                        android:paddingStart="@dimen/dimen_24"
                         android:paddingEnd="@dimen/dimen_24"
+                        android:paddingStart="@dimen/dimen_24"
                         android:paddingTop="@dimen/dimen_12"
-                        android:text="Retry"
+                        android:text="@string/retry"
                         android:textColor="@color/text_white"
                         android:textSize="@dimen/dimen_32" />
                 </RelativeLayout>
 
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rl_nodata"
-                    android:layout_centerHorizontal="true"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/dimen_50"
-                    android:layout_height="wrap_content">
+                    android:visibility="gone">
+
                     <ImageView
-                        android:layout_marginStart="@dimen/dimen_40"
                         android:id="@+id/iv_nodata"
                         android:layout_width="@dimen/dimen_250"
-                        android:background="@drawable/default_nodata"
-                        android:layout_height="@dimen/dimen_300" />
+                        android:layout_height="@dimen/dimen_300"
+                        android:layout_marginStart="@dimen/dimen_40"
+                        android:background="@drawable/default_nodata" />
 
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/iv_nodata"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dimen_16"
-                        android:layout_below="@+id/iv_nodata"
-                        android:textSize="@dimen/dimen_28"
-                        android:textColor="#acabb4"
                         android:text="@string/nomoredata"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:textColor="#acabb4"
+                        android:textSize="@dimen/dimen_28" />
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>

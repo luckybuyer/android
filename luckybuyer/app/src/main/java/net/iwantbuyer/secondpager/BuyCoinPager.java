@@ -141,11 +141,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
         String currency = "AED";
         String language = "EN";
         //判断是那个服务器
-        Log.e("TAG_server", Utils.getSpData("service",context));
-        if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+        Log.e("TAG_server", Utils.getSpData("service", context));
+        if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
             country = "MY";
             currency = "MYR";
-        }else if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-sg")) {
+        } else if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-sg")) {
             country = "AE";
             currency = "AED";
         }
@@ -181,7 +181,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
         //判断打开哪些方法
         String method = Utils.getSpData("paymentmethod", context);
-        if (method.contains("android-inapp")) {
+        if (method.contains("halopay")) {
             rl_buycoins_google.setVisibility(View.VISIBLE);
             iv_buycoins_goole.setEnabled(true);
             iv_buycoins_paypal.setEnabled(false);
@@ -220,7 +220,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:topup",eventValue);
+        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:topup", eventValue);
 
         return inflate;
     }
@@ -250,21 +250,25 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             rl_loading.setVisibility(View.GONE);
                         }
                         View view = View.inflate(context, R.layout.alertdialog_buycoins, null);
-                        rl_buycoins_ok = (RelativeLayout) view.findViewById(R.id.rl_buycoins_ok);
-                        rl_buycoins_ok.setOnClickListener(new MyOnClickListener());
-                        show = StartAlertDialog(view);
+//                        rl_buycoins_ok = (RelativeLayout) view.findViewById(R.id.rl_buycoins_ok);
+//                        rl_buycoins_ok.setOnClickListener(new MyOnClickListener());
+//                        show = StartAlertDialog(view);
                     }
                 });
             }
 
             @Override
-            public void error(int requestCode, String message) {
+            public void error(final int requestCode, String message) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode);
+
+
                     }
                 });
             }
@@ -277,6 +281,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
                     }
                 });
 
@@ -316,9 +321,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
         iv_buycoins_halopay_eg = (ImageView) inflate.findViewById(R.id.iv_buycoins_halopay_eg);
 
-        if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+        if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
             iv_buycoins_halopay_eg.setVisibility(View.GONE);
-        }else {
+        } else {
             iv_buycoins_halopay_eg.setVisibility(View.VISIBLE);
         }
 
@@ -344,11 +349,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
         try {
             if (flag) {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), payKey + "", RESULT_PAYMENT_OK, ((SecondPagerActivity)context).mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), payKey + "", RESULT_PAYMENT_OK, ((SecondPagerActivity) context).mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((SecondPagerActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             } else {
                 mHelper.flagEndAsync();
-                mHelper.launchPurchaseFlow(((MainActivity) context), payKey + "", RESULT_PAYMENT_OK, ((MainActivity)context).mPurchaseFinishedListener);
+                mHelper.launchPurchaseFlow(((MainActivity) context), payKey + "", RESULT_PAYMENT_OK, ((MainActivity) context).mPurchaseFinishedListener);
 //                mHelper.launchPurchaseFlow(((MainActivity) context), "test_two", RESULT_PAYMENT_OK, mPurchaseFinishedListener);
             }
         } catch (Exception e) {
@@ -410,9 +415,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         tv_buycoins_balance.setText(Utils.getSpData("balance", context));
 
         //判断服务器更改文案
-        if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+        if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
             tv_buycoins_count.setText("RM " + buyCoinBean.getBuycoins().get(0).getPrice());
-        }else {
+        } else {
             tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(0).getPrice());
         }
 
@@ -428,9 +433,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 double coins = buyCoinBean.getBuycoins().get(position).getAmount() * 3.6726;
                 coins = ((int) (coins * 100)) / 100;
 //                tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(position).getPrice());
-                if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
+                if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
                     tv_buycoins_count.setText("RM " + buyCoinBean.getBuycoins().get(position).getPrice());
-                }else {
+                } else {
                     tv_buycoins_count.setText("$" + buyCoinBean.getBuycoins().get(position).getPrice());
                 }
 
@@ -459,11 +464,12 @@ public class BuyCoinPager extends BaseNoTrackPager {
         });
     }
 
-    public void setAppflyerPoint(String coins){
+    public void setAppflyerPoint(String coins) {
         //AppFlyer 埋点
-        Map<String, Object>  eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context,  coins ,eventValue);
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(context, coins, eventValue);
     }
+
     public void setPoint(String coins) {
         //埋点
         try {
@@ -480,15 +486,15 @@ public class BuyCoinPager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.ll_buycoins_back:
-                    if ("buycoins".equals(((SecondPagerActivity)context).from)) {
-                        ((SecondPagerActivity)context).finish();
+                    if ("buycoins".equals(((SecondPagerActivity) context).from)) {
+                        ((SecondPagerActivity) context).finish();
                         break;
                     }
                     if (wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
                         wv_buycoins_cashu.setVisibility(View.GONE);
                         tv_title.setText(context.getString(R.string.BuyCoins));
                     } else if (context instanceof SecondPagerActivity) {
-                        ((SecondPagerActivity)context).fragmentManager.popBackStack();
+                        ((SecondPagerActivity) context).fragmentManager.popBackStack();
                     }
                     break;
                 case R.id.tv_buycoins_buy:
@@ -523,8 +529,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             }
                             map.put("method", "paypal");
 
-                            eventValue.put("%method","paypal");
-                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup",eventValue);
+                            eventValue.put("%method", "paypal");
+                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
                         } else if (iv_buycoins_halopay.isEnabled()) {
                             StartHalopay();
                             try {
@@ -533,8 +539,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
                                 e.printStackTrace();
                             }
                             map.put("method", "halopay");
-                            eventValue.put("%method","halopay");
-                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup",eventValue);
+                            eventValue.put("%method", "halopay");
+                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
                         } else if (iv_buycoins_goole.isEnabled()) {
                             startRegistered();
                             try {
@@ -544,8 +550,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             }
                             map.put("method", "google_pay");
 
-                            eventValue.put("%method","google_pay");
-                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup",eventValue);
+                            eventValue.put("%method", "google_pay");
+                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
                         } else if (iv_buycoins_cashu.isEnabled()) {
                             startCashu();
                             try {
@@ -555,9 +561,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             }
                             map.put("method", "cashu");
 
-                            eventValue.put("%method","cashu");
-                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup",eventValue);
-                        }else if(iv_buycoins_visa.isEnabled()) {
+                            eventValue.put("%method", "cashu");
+                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
+                        } else if (iv_buycoins_visa.isEnabled()) {
                             PayPalPayment payment = new PayPalPayment(new BigDecimal(money + ""), buyCoinBean.getBuycoins().get(id_coins).getCurrency(), "LuckyBuyer",
                                     PayPalPayment.PAYMENT_INTENT_SALE);
                             Intent intent = new Intent(context, PaymentActivity.class);
@@ -570,8 +576,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             }
                             map.put("method", "visa");
 
-                            eventValue.put("%method","Master or Visa");
-                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup",eventValue);
+                            eventValue.put("%method", "Master or Visa");
+                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
                         }
 
                         //埋点
@@ -590,12 +596,12 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             }
                             //AppFlyer 埋点
                             eventValue = new HashMap<String, Object>();
-                            AppsFlyerLib.getInstance().trackEvent(context, "Page：Login",eventValue);
+                            AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
                         } else if (context instanceof MainActivity) {
                             context.startActivity(((MainActivity) context).lock.newIntent(((MainActivity) context)));
                             //AppFlyer 埋点
                             eventValue = new HashMap<String, Object>();
-                            AppsFlyerLib.getInstance().trackEvent(context, "Page：Login",eventValue);
+                            AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
                         }
                     }
 
@@ -613,7 +619,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     setPoint("CLICK:halopay");
                     //AppFlyer 埋点
                     eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context,  "CLICK: Halo pay" ,eventValue);
+                    AppsFlyerLib.getInstance().trackEvent(context, "CLICK: Halo pay", eventValue);
                     break;
                 case R.id.rl_buycoins_paypal:
 //                    iv_buycoins_halopay.setVisibility(View.GONE);
@@ -628,7 +634,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     setPoint("CLICK:paypal");
                     //AppFlyer 埋点
                     eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context,  "CLICK:Paypal" ,eventValue);
+                    AppsFlyerLib.getInstance().trackEvent(context, "CLICK:Paypal", eventValue);
                     break;
                 case R.id.rl_buycoins_google:
 //                    iv_buycoins_cashu.setVisibility(View.GONE);
@@ -643,7 +649,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     setPoint("CLICK:google_pay");
                     //AppFlyer 埋点
                     eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context,  "CLICK:Google Pay" ,eventValue);
+                    AppsFlyerLib.getInstance().trackEvent(context, "CLICK:Google Pay", eventValue);
 
                     break;
                 case R.id.rl_buycoins_cashu:
@@ -669,14 +675,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     iv_buycoins_goole.setEnabled(false);
                     iv_buycoins_visa.setEnabled(true);
                     eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context,  "CLICK: Master or Visa" ,eventValue);
+                    AppsFlyerLib.getInstance().trackEvent(context, "CLICK: Master or Visa", eventValue);
                     setPoint("CLICK:visa");
                     break;
-                case R.id.rl_buycoins_ok:
-                    if (show != null && show.isShowing()) {
-                        show.dismiss();
-                    }
-                    break;
+//                case R.id.rl_buycoins_ok:
+//                    if (show != null && show.isShowing()) {
+//                        show.dismiss();
+//                    }
+//                    break;
                 case R.id.tv_net_again:
                     initData();
                     break;
@@ -697,7 +703,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
                     } else {
                         Intent intent = new Intent(context, SecondPagerActivity.class);
-                        intent.putExtra("from","helppager");
+                        intent.putExtra("from", "helppager");
                         startActivity(intent);
                     }
                     break;
@@ -824,15 +830,18 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     //paysession 支付
     private void StartHalopay() {
+        tv_buycoins_buy.setEnabled(false);
+        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.VISIBLE);
+        tv_buycoins_buy.setBackgroundResource(R.color.D12F1D);
         String url = MyApplication.url + "/v1/payments/halopay/?timezone=" + MyApplication.utc;
 //        String json = "{\"failure_url\": \"http://net.luckybuyer.failure\",\"method\": \"alipay_cn\",\"success_url\": \"http://net.luckybuyer.success\",\"topup_option_id\": " + topup_option_id + "}";
         String json = "{ \"topup_option_id\": " + topup_option_id + "}";
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-CLIENT-TYPE","appsflyer_android");
-        map.put("LK-APP-ID","net.iwantbuyer");
-        map.put("LK-APPSFLYER-ID",AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        map.put("LK-CLIENT-TYPE", "appsflyer_android");
+        map.put("LK-APP-ID", "net.iwantbuyer");
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -840,6 +849,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                     @Override
                     public void run() {
                         processHalopay(response);
+                        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.GONE);
+                        tv_buycoins_buy.setBackgroundResource(R.color.all_orange);
+                        tv_buycoins_buy.setEnabled(true);
                     }
                 });
             }
@@ -849,14 +861,25 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("TAG", code + message);
+                        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.GONE);
+                        tv_buycoins_buy.setBackgroundResource(R.color.all_orange);
+                        tv_buycoins_buy.setEnabled(true);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + code);
                     }
                 });
             }
 
             @Override
             public void failure(Exception exception) {
-
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.GONE);
+                        tv_buycoins_buy.setBackgroundResource(R.color.all_orange);
+                        tv_buycoins_buy.setEnabled(true);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                    }
+                });
             }
         });
     }
@@ -974,7 +997,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     //谷歌支付成功后 调用我们自己的接口
     public void googleMyService(String purchaseData, String dataSignature) {
-        if(purchaseData == null || dataSignature == null) {
+        if (purchaseData == null || dataSignature == null) {
             return;
         }
         Log.e("TAG_google", purchaseData);
@@ -995,9 +1018,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-CLIENT-TYPE","appsflyer_android");
-        map.put("LK-APP-ID","net.iwantbuyer");
-        map.put("LK-APPSFLYER-ID",AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        map.put("LK-CLIENT-TYPE", "appsflyer_android");
+        map.put("LK-APP-ID", "net.iwantbuyer");
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -1019,14 +1042,19 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("TAG", code + message);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + code);
                     }
                 });
             }
 
             @Override
             public void failure(Exception exception) {
-
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                    }
+                });
             }
         });
     }
@@ -1038,9 +1066,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-CLIENT-TYPE","appsflyer_android");
-        map.put("LK-APP-ID","net.iwantbuyer");
-        map.put("LK-APPSFLYER-ID",AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        map.put("LK-CLIENT-TYPE", "appsflyer_android");
+        map.put("LK-APP-ID", "net.iwantbuyer");
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         Log.e("TAG_paypal", json);
         Log.e("TAG_paypal", url);
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
@@ -1064,14 +1092,19 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("TAG_paypal", code + message);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + code);
                     }
                 });
             }
 
             @Override
             public void failure(Exception exception) {
-
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                    }
+                });
             }
         });
     }
@@ -1105,6 +1138,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
             @Override
             public void error(int requestCode, String message) {
+
             }
 
             @Override

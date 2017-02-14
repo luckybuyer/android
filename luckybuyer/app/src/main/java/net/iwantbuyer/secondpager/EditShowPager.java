@@ -118,9 +118,9 @@ public class EditShowPager extends BaseNoTrackPager {
                     break;
                 case R.id.tv_editshow_send:
                     if (et_editshow_discribe.getText() != null && et_editshow_discribe.getText().length() == 0) {
-                        Utils.MyToast(context, "PLease input content");
+                        Utils.MyToast(context, context.getString(R.string.editshowrequred));
                     } else if (list.size() < 2) {
-                        Utils.MyToast(context, "Upload at least one image");
+                        Utils.MyToast(context, context.getString(R.string.editshowone));
                     } else {
                         sendShow();
                     }
@@ -181,8 +181,13 @@ public class EditShowPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("TAG", response);
-                        startSuccessAlertDialog();
+                        if(Utils.getSpData("gifts_post_share",context) != null && Utils.getSpData("gifts_post_share",context).equals("0")) {
+                            Utils.MyToast(context,context.getString(R.string.shoSuccess));
+                            Utils.setSpData("main_pager", "show", context);
+                            ((SecondPagerActivity) context).finish();
+                        }else {
+                            startSuccessAlertDialog();
+                        }
                         if(mPopupWindow != null && mPopupWindow.isShowing()) {
                             mPopupWindow.dismiss();
                         }
@@ -196,8 +201,7 @@ public class EditShowPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("TAG", code + message);
-                        Utils.MyToast(context,"upload failed");
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + code + "posts");
                         if(mPopupWindow != null && mPopupWindow.isShowing()) {
                             mPopupWindow.dismiss();
                         }
@@ -210,7 +214,7 @@ public class EditShowPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.MyToast(context,"upload failed");
+                        Utils.MyToast(context,context.getString(R.string.Networkfailure));
                         if(mPopupWindow != null && mPopupWindow.isShowing()) {
                             mPopupWindow.dismiss();
                         }
@@ -312,7 +316,11 @@ public class EditShowPager extends BaseNoTrackPager {
         View inflate = View.inflate(context, R.layout.alertdialog_show_success, null);
         TextView tv_editshow_success_cancel = (TextView) inflate.findViewById(R.id.tv_editshow_success_cancel);
         TextView tv_editshow_success_ok = (TextView) inflate.findViewById(R.id.tv_editshow_success_ok);
+        TextView jtv_insertcoins_lessicons_discribe = (TextView) inflate.findViewById(R.id.jtv_insertcoins_lessicons_discribe);
 
+        if(Utils.getSpData("gifts_post_share",context) != null && !Utils.getSpData("gifts_post_share",context).equals("0")) {
+            jtv_insertcoins_lessicons_discribe.setText(Utils.getSpData("gifts_post_share",context)+ " "+context.getString(R.string.showSuccessDiscribe));
+        }
         tv_editshow_success_ok.setOnClickListener(new MyOnClickListener());
         tv_editshow_success_cancel.setOnClickListener(new MyOnClickListener());
 

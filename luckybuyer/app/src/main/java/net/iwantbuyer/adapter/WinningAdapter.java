@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
@@ -72,7 +73,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.jtv_winning_title.setText(list.get(position).getProduct().getTitle());
         holder.item_winning_issue.setText("" + list.get(position).getIssue_id());
-        Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+        Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 holder.iv_winning_icon.setImageBitmap(resource);
@@ -126,16 +127,23 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
                                 }
 
                                 @Override
-                                public void error(int requestCode, String message) {
+                                public void error(final int requestCode, String message) {
                                     ((Activity) context).runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            Utils.MyToast(context,context.getString(R.string.Networkfailure) + requestCode + "games");
                                         }
                                     });
                                 }
 
                                 @Override
                                 public void failure(Exception exception) {
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Utils.MyToast(context,context.getString(R.string.Networkfailure));
+                                        }
+                                    });
                                 }
                             }
 

@@ -25,6 +25,7 @@ import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BasePager;
 import net.iwantbuyer.bean.ProductOrderBean;
 import net.iwantbuyer.utils.HttpUtils;
+import net.iwantbuyer.utils.Utils;
 
 /**
  * Created by admin on 2016/10/17.
@@ -90,6 +91,7 @@ public class ParticipationPager extends BasePager{
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode + "games");
                     }
                 });
             }
@@ -103,6 +105,7 @@ public class ParticipationPager extends BasePager{
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
                     }
                 });
 

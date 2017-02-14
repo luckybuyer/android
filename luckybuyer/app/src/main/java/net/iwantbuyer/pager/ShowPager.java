@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -23,6 +24,7 @@ import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.ShownBean;
 import net.iwantbuyer.utils.HttpUtils;
+import net.iwantbuyer.utils.Utils;
 import net.iwantbuyer.view.BottomScrollView;
 
 import java.util.ArrayList;
@@ -108,7 +110,7 @@ public class ShowPager extends BaseNoTrackPager{
             }
 
             @Override
-            public void error(int requestCode, String message) {
+            public void error(final int requestCode, String message) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -116,6 +118,7 @@ public class ShowPager extends BaseNoTrackPager{
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context,context.getString(R.string.Networkfailure) + requestCode + "posts");
                     }
                 });
             }
@@ -129,6 +132,7 @@ public class ShowPager extends BaseNoTrackPager{
                         rl_nodata.setVisibility(View.GONE);
                         rl_neterror.setVisibility(View.VISIBLE);
                         rl_loading.setVisibility(View.GONE);
+                        Utils.MyToast(context,context.getString(R.string.Networkfailure));
                     }
                 });
             }
@@ -198,7 +202,8 @@ public class ShowPager extends BaseNoTrackPager{
                     isNeedpull = false;
                     String url = null;
                     if(context instanceof ThirdPagerActivity) {
-                        url = MyApplication.url + "/v1/posts/?product_id= "+((ThirdPagerActivity)context).product_id+"&per_page="+page+"&page=1&timezone=" + MyApplication.utc;
+                        url = MyApplication.url + "/v1/posts/?product_id= "+((ThirdPagerActivity)context).product_id+"&per_page=20&page="+page+"&timezone=" + MyApplication.utc;
+                        Log.e("TAG_晒单数据", url);
                     }else {
                         url = MyApplication.url + "/v1/posts/?per_page=20&page="+page+"&timezone=" + MyApplication.utc;
                     }

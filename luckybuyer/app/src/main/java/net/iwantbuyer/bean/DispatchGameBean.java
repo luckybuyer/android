@@ -138,6 +138,15 @@ public class DispatchGameBean {
         private String status;
         private String url;
         private List<?> status_changes;
+        private String type;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public String get_resource() {
             return _resource;
@@ -199,7 +208,16 @@ public class DispatchGameBean {
             private String address;
             private String name;
             private String phone;
+            private String vendor;
             private Object zipcode;
+
+            public String getVendor() {
+                return vendor;
+            }
+
+            public void setVendor(String vendor) {
+                this.vendor = vendor;
+            }
 
             public String getAddress() {
                 return address;

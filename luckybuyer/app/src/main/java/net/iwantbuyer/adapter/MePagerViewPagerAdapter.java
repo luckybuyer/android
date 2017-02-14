@@ -5,6 +5,8 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.iwantbuyer.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +21,8 @@ public class MePagerViewPagerAdapter extends PagerAdapter {
     public MePagerViewPagerAdapter(Context context, List list) {
         this.context = context;
         this.list = list;
-        titleList.add("\n\n\n\nAll\n\n\n");
-        titleList.add("Prizes");
+        titleList.add("\n\n\n\n"+context.getString(R.string.All)+"\n\n\n");
+        titleList.add(context.getString(R.string.LuckyRecords));
 //        titleList.add("    Show   ");
 //        titleList.add("   Hisory  ");
     }

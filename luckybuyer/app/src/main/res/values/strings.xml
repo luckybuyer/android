@@ -43,7 +43,8 @@
     <string name="ParticipationRecord">All purchase</string>              <!--参与记录-->
     <string name="GetItNow">Get It Now</string>              <!--现在购买-->
     <string name="Play1coin">Play 1 coin, get 1 chance! Now with free shipping！</string>              <!--花费一枚金币，就有一次获奖机会！而且免运费！-->
-    <string name="FiveTimes">Quantity of purchased items must be multiples of </string>              <!--必须是五的倍数-->
+    <string name="FiveTimes">Quantity of purchased items must be multiples of&#160;</string>              <!--必须是五的倍数-->
+    <string name="TenTimes">Quantity of purchased items must be multiples of&#160;</string>              <!--必须是五的倍数-->
     <string name="allremain">All Remained</string>              <!--买下剩下的所有-->
 
     <string name="selectquantity">Please select the quantity</string>              <!--请选择数量  在popupwindow上面-->
@@ -67,11 +68,11 @@
     <string name="Numberofparticipants.">Total Participation:&#160;</string>                     <!--参与次数-->
     <string name="Participationdetails">Participation Details</string>                     <!--参与详情-->
     <string name="Myparticipat.">Total Participation:&#160;</string>                     <!--我的参与-->
-    <string name="viewall">view all</string>                     <!--查看全部-->
+    <string name="viewall">View all</string>                     <!--查看全部-->
     <string name="Details">Details</string>                     <!--详情-->
     <string name="Time">Date</string>                     <!--详情-->
     <string name="People">Total Coins</string>                     <!--人次-->
-    <string name="Participationnumbers">Ticket Number</string>                     <!--号码-->
+    <string name="Participationnumbers">Ticket Numbers</string>                     <!--号码-->
     <string name="Participationnumbers.">My Ticket Number:&#160;</string>                     <!--号码-->
     <string name="facebooklike">Click \"like\" on our Facebook page and you\'ll see a notification when you win items.</string>                     <!--like lucky buyer page后，我们会实时公布开奖信息。-->
     <string name="All">All</string>                     <!--全部-->
@@ -79,7 +80,7 @@
     <string name="Participantagain">Participant Again</string>                     <!--再次参与-->
     <string name="Continue">Continue</string>                     <!--继续购买-->
     <string name="confirmaddress">Please confirm your shipping address</string>                     <!--确认地址-->
-    <string name="confirmshippingaddress">confirm shipping address</string>                     <!--确认收获地址-->
+    <string name="confirmshippingaddress">Confirm shipping address</string>                     <!--确认收获地址-->
     <string name="Waitingforshippment">Waiting for shippment</string>                     <!--商品派发-->
     <string name="Confirmdelivery">Confirm Delivery</string>                     <!--确认收货-->
     <string name="Delivered">Completed</string>                     <!--已收货-->
@@ -89,7 +90,7 @@
     <string name="Ordertracking">Order Tracking</string>                     <!--商品追踪-->
     <string name="youwonthisproduct">Congratulations! You win!</string>                     <!--恭喜您获得该商品-->
     <string name="Chooseaddress">Choose a shipping address</string>                     <!--选择收货地址-->
-    <string name="Alternativeaddress">Alternative address</string>                     <!--切换地址-->
+    <string name="Alternativeaddress"> Change address</string>                     <!--切换地址-->
     <string name="Currentaddress">Use this address</string>                     <!--使用该地址-->
     <string name="NewAddress">New Address</string>                     <!--添加地址-->
     <string name="Myshippingaddress">My shipping address</string>                     <!--我的收获地址-->
@@ -111,9 +112,6 @@
     <string name="Enterstreet">Enter street</string>                     <!--输入街道-->
     <string name="EnterBuilding">Enter Building Name/No.</string>                     <!--输入小区名字-->
     <string name="EnterMobile">Enter Mobile number</string>                     <!--输入手机号码-->
-    <string name="LocationType">Location Type</string>                     <!--位置类型-->
-    <string name="Home_position">Home</string>                     <!--家-->
-    <string name="Business">Business</string>                     <!--公司-->
     <string name="Save">Save</string>                     <!--保存-->
     <string name="addresswarn">Once the receipient address is confirmed the product will be shipped. The address can not be changed after that.</string>                     <!--确认地址后商品很快会被派发，此期间地址不可更换哦-->
     <string name="Settings">Settings</string>                     <!--设置-->
@@ -138,8 +136,8 @@
     <string name="coins">coins</string>         <!--Coins-->
     <string name="coins.">coins:&#160;</string>         <!--Coins-->
     <string name="selected">selected</string>         <!--选择-->
-    <string name="delete">delete</string>         <!--删除-->
-    <string name="edit">edit</string>         <!--编辑-->
+    <string name="delete">Delete</string>         <!--删除-->
+    <string name="edit">Edit</string>         <!--编辑-->
     <string name="Editaddress">Edit Address</string>         <!--编辑地址-->
     <string name="Addaddress">Add Address</string>         <!--增加地址-->
     <string name="loading...">loading...</string>         <!--Loading...-->
@@ -148,7 +146,7 @@
     <string name="Importantinformation">Important information</string>         <!--重要提示-->
     <string name="USD">USD</string>         <!--USD-->
     <string name="deletesuccess">Deleted Successfully</string>         <!--删除成功-->
-    <string name="setsuccess">Set Successfully</string>         <!--设置成功-->
+    <string name="setsuccess">Successfully set address</string>         <!--设置成功-->
     <string name="retry">Retry</string>         <!--retry-->
     <string name="CashU">CashU</string>         <!--retry-->
     <string name="Shown">Shared</string>         <!--retry-->
@@ -170,16 +168,16 @@
     <string name="No">No</string>                                                              <!--更新-->
     <string name="Yes">Yes</string>                                                              <!--更新-->
     <string name="Sending">Sending...</string>                                                              <!--show 界面的发送-->
-    <string name="shoSuccess">Shared Success</string>                                                              <!--show 界面的发送-->
-    <string name="showSuccessDiscribe">5 gold has been credited into your account.</string>     <!--晒单成功描述-->                                                           <!--show 界面的发送-->
+    <string name="shoSuccess">Shared Success&#160;</string>                                                              <!--show 界面的发送-->
+    <string name="showSuccessDiscribe">&#160;gold has been credited into your account.</string>     <!--晒单成功描述-->                                                           <!--show 界面的发送-->
     <string name="LuckyNumber.">Lucky Number:&#160;</string>     <!--晒单成功描述-->                                        <!--错误-->
     <string name="welcomediscribe">Quantity of purchased items must be a multiple of 5</string>                        <!--引导页面描述-->                                        <!--错误-->
     <string name="Fold">Fold</string>                                                                                    <!--participation页面-->
     <string name="unFold">Unfold</string>                                                                                    <!--participation页面-->
     <string name="SelectCountry">Select Country</string>                                                                 <!--选择国家标题-->
     <string name="Apply">Apply</string>                                                                 <!--选择国家标题-->
-    <string name="oneaccountonecountry">One account can be used in only one country!</string>           <!--一个账户一个国家-->                                                       <!--选择国家标题-->
-    <string name="showitget5">Share it, you will get 5 coins rewarding!</string>           <!--一个账户一个国家-->                                                       <!--选择国家标题-->
+    <string name="showitstart">Share it, you will get</string>           <!--一个账户一个国家-->                                                       <!--选择国家标题-->
+    <string name="showitlast"> coins rewarding!</string>           <!--一个账户一个国家-->                                                       <!--选择国家标题-->
     <string name="EditShowPager">Edit Share Page</string>           <!--一个账户一个国家-->                                                       <!--选择国家标题-->
     <string name="Send">Send</string>                                                                     <!--选择国家标题-->
     <string name="Help">Help</string>                                                                     <!--选择国家标题-->
@@ -187,8 +185,37 @@
     <string name="CoinsExplanMYR">Coins are the virtual currency of LuckyBuyer. You can get coins when you top-up your account or unwrap the gift package. 1coin is equivalent to 1 MYR.</string>                 <!--金币解释-->
     <string name="CoinsExplanUSD">Coins are the virtual currency of LuckyBuyer. You can get coins when you top-up your account or unwrap the gift package. 1coin is equivalent to 1 USD.</string>                 <!--金币解释-->
     <string name="ParticipationDetails">Participation Details</string>                 <!--金币解释-->
-    <string name="Nopreviouslotterydata">No previous lottery data</string>                 <!--金币解释-->
     <string name="Sharerewards">Share it, get rewards!</string>                 <!--金币解释-->
+    <string name="CountryLanguage">Country &amp; Language</string>
+    <string name="SelectLanguage">Select Language</string>
+    <string name="ordernumber.">Order Number:&#160;</string>
+    <string name="ID.">ID:&#160;</string>
+    <string name="phonenum.">Phone Number:&#160;</string>
+    <string name="operator.">Operator:&#160;</string>
+    <string name="OtherPayments">Other Payments</string>
+    <string name="EditShowHint">Share your award-winning speech</string>
+    <string name="Camera">Camera</string>
+    <string name="Photos">Photos</string>
+    <string name="Shared">Shared</string>
+    <string name="OneStorestart">Accounts are store specific. You may need a new account for</string>
+    <string name="OneStoreend">. Proceed?</string>
+    <string name="editshowrequred">This field is required</string>
+    <string name="editshowone">Upload at least one image</string>
+    <string name="goshare">Share your prize</string>
+    <string name="editphoneoperator">Please complete information</string>
+    <string name="Submit">Submit</string>
+    <string name="WaitingforProcessing">Waiting for Processing</string>
+    <string name="language">language</string>
+    <string name="MyParticipations">My Participations:&#160;</string>
+    <string name="loginsuccess">Logged in successfully</string>
+    <string name="loginfailed">Logged in failed</string>
+    <string name="Clickexit">Click again to exit</string>
+    <string name="completeinformation">Please complete information</string>
+    <string name="numbernullwarn">Phone number is required</string>
+    <string name="operatornummwarn">Operator is required</string>
+    <string name="defaultaddress">Default Address</string>
+    <string name="ZipCode">Postcode</string>
+
 
 
     <!--数字夹杂英语-->
@@ -202,7 +229,6 @@
     <!--一金币-->
     <string name="onecoin">1 coin</string>
     <!--10 coins + 1 free-->
-    <string name="front_coins"></string>
     <string name="coins_coins">coins</string>
     <string name="one_free_coins">1 free</string>
     <string name="free_coins">free</string>

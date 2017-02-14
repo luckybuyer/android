@@ -28,9 +28,12 @@ import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
+import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.AddAddressAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
+import net.iwantbuyer.base.BasePager;
+import net.iwantbuyer.bean.Address;
 import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.SoftKeyboardUtil;
@@ -48,7 +51,7 @@ public class AddAddressPager extends BaseNoTrackPager {
     private TextView tv_addaddress_save;                          //保存地址
     private LinearLayout ll_addaddress_back;
 
-    private RelativeLayout rl_addaddress_locationtype;
+    //    private RelativeLayout rl_addaddress_locationtype;
     private EditText et_addaddress_firstname;
     private EditText et_addaddress_lastname;
     private EditText et_addaddress_country;
@@ -59,7 +62,7 @@ public class AddAddressPager extends BaseNoTrackPager {
     private EditText et_addaddress_shippingnote;                 //装运通知单
     private EditText et_addaddress_mobile;
 
-    private TextView tv_addaddress_locationtype;
+    //    private TextView tv_addaddress_locationtype;
     private TextView tv_addaddress_firstname;
     private TextView tv_addaddress_lastname;
     private TextView tv_addaddress_topcountry;
@@ -67,7 +70,7 @@ public class AddAddressPager extends BaseNoTrackPager {
     private TextView tv_addaddress_toparea;
     private TextView tv_addaddress_topstrest;
     private TextView tv_addaddress_topbuilding;
-    private TextView tv_addaddress_toptype;
+    //    private TextView tv_addaddress_toptype;
     private TextView tv_addaddress_topmobile;
 
 
@@ -76,7 +79,7 @@ public class AddAddressPager extends BaseNoTrackPager {
     private TextView tv_addaddress_area;
     private TextView tv_addaddress_street;
     private TextView tv_addaddress_build;
-    private TextView tv_addaddress_type;
+    //    private TextView tv_addaddress_type;
     private TextView tv_addaddress_mobile;
 
     private View view_addaddress_firstname;
@@ -129,8 +132,8 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_shippingnote = (EditText) inflate.findViewById(R.id.et_addaddress_shippingnote);
         et_addaddress_mobile = (EditText) inflate.findViewById(R.id.et_addaddress_mobile);
 
-        rl_addaddress_locationtype = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress_locationtype);
-        tv_addaddress_locationtype = (TextView) inflate.findViewById(R.id.tv_addaddress_locationtype);
+//        rl_addaddress_locationtype = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress_locationtype);
+//        tv_addaddress_locationtype = (TextView) inflate.findViewById(R.id.tv_addaddress_locationtype);
         tv_addaddress_firstname = (TextView) inflate.findViewById(R.id.tv_addaddress_firstname);
         tv_addaddress_lastname = (TextView) inflate.findViewById(R.id.tv_addaddress_lastname);
         tv_addaddress_topcountry = (TextView) inflate.findViewById(R.id.tv_addaddress_topcountry);
@@ -138,7 +141,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         tv_addaddress_toparea = (TextView) inflate.findViewById(R.id.tv_addaddress_toparea);
         tv_addaddress_topstrest = (TextView) inflate.findViewById(R.id.tv_addaddress_topstrest);
         tv_addaddress_topbuilding = (TextView) inflate.findViewById(R.id.tv_addaddress_topbuilding);
-        tv_addaddress_toptype = (TextView) inflate.findViewById(R.id.tv_addaddress_toptype);
+//        tv_addaddress_toptype = (TextView) inflate.findViewById(R.id.tv_addaddress_toptype);
         tv_addaddress_topmobile = (TextView) inflate.findViewById(R.id.tv_addaddress_topmobile);
 
 
@@ -147,7 +150,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         tv_addaddress_area = (TextView) inflate.findViewById(R.id.tv_addaddress_area);
         tv_addaddress_street = (TextView) inflate.findViewById(R.id.tv_addaddress_street);
         tv_addaddress_build = (TextView) inflate.findViewById(R.id.tv_addaddress_build);
-        tv_addaddress_type = (TextView) inflate.findViewById(R.id.tv_addaddress_type);
+//        tv_addaddress_type = (TextView) inflate.findViewById(R.id.tv_addaddress_type);
         tv_addaddress_mobile = (TextView) inflate.findViewById(R.id.tv_addaddress_mobile);
 
 
@@ -158,7 +161,6 @@ public class AddAddressPager extends BaseNoTrackPager {
         view_addaddress_area = (View) inflate.findViewById(R.id.view_addaddress_area);
         view_addaddress_street = (View) inflate.findViewById(R.id.view_addaddress_street);
         view_addaddress_build = (View) inflate.findViewById(R.id.view_addaddress_build);
-        view_addaddress_locationtype = (View) inflate.findViewById(R.id.view_addaddress_locationtype);
         view_addaddress_mobile = (View) inflate.findViewById(R.id.view_addaddress_mobile);
 
 
@@ -169,7 +171,7 @@ public class AddAddressPager extends BaseNoTrackPager {
 
         ll_addaddress_back.setOnClickListener(new MyOnClickListener());
         tv_addaddress_save.setOnClickListener(new MyOnClickListener());
-        rl_addaddress_locationtype.setOnClickListener(new MyOnClickListener());
+//        rl_addaddress_locationtype.setOnClickListener(new MyOnClickListener());
 
 
         et_addaddress_firstname.requestFocus();
@@ -180,7 +182,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_lastname.setHint("Type in last name");
+                    et_addaddress_lastname.setHint(context.getString(R.string.lastname));
                 } else {
                     et_addaddress_lastname.setHint("");
                 }
@@ -191,7 +193,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_firstname.setHint("Type in first name");
+                    et_addaddress_firstname.setHint(context.getString(R.string.firstname));
                     Log.e("TAG", "丢失焦点");
                 } else {
                     et_addaddress_firstname.setHint("");
@@ -203,7 +205,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_area.setHint("Type in area");
+                    et_addaddress_area.setHint(context.getString(R.string.Enterarea));
                 } else {
                     et_addaddress_area.setHint("");
                     Log.e("TAG", "area 获取焦点");
@@ -226,9 +228,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_firstname.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_firstname.setVisibility(View.GONE);
                 }
             }
@@ -247,9 +249,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_lastname.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_lastname.setVisibility(View.GONE);
                 }
             }
@@ -268,9 +270,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_topcountry.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_topcountry.setVisibility(View.GONE);
                 }
             }
@@ -290,9 +292,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_topcity.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_topcity.setVisibility(View.GONE);
                 }
             }
@@ -311,9 +313,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_toparea.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_toparea.setVisibility(View.GONE);
                 }
             }
@@ -333,9 +335,9 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_topstrest.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_topstrest.setVisibility(View.GONE);
                 }
             }
@@ -354,34 +356,34 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_topbuilding.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_topbuilding.setVisibility(View.GONE);
                 }
             }
         });
         //locationtype 的长度监听
-        tv_addaddress_locationtype.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
-                    tv_addaddress_toptype.setVisibility(View.VISIBLE);
-                }else {
-                    tv_addaddress_toptype.setVisibility(View.GONE);
-                }
-            }
-        });
+//        tv_addaddress_locationtype.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if(s.toString().length()>0) {
+//                    tv_addaddress_toptype.setVisibility(View.VISIBLE);
+//                }else {
+//                    tv_addaddress_toptype.setVisibility(View.GONE);
+//                }
+//            }
+//        });
         //mobile 的长度监听
         et_addaddress_mobile.addTextChangedListener(new TextWatcher() {
             @Override
@@ -396,14 +398,13 @@ public class AddAddressPager extends BaseNoTrackPager {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().length()>0) {
+                if (s.toString().length() > 0) {
                     tv_addaddress_topmobile.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     tv_addaddress_topmobile.setVisibility(View.GONE);
                 }
             }
         });
-
 
 
         if (address_id != -1) {
@@ -427,27 +428,27 @@ public class AddAddressPager extends BaseNoTrackPager {
 //                        ((SecondPagerActivity) context).switchPage(9);
 //                    }
 
-                    ((SecondPagerActivity)context).fragmentManager.popBackStack();
+                    ((SecondPagerActivity) context).fragmentManager.popBackStack();
                     break;
                 case R.id.tv_addaddress_save:
                     selectSave();
 //                    startSaveOrEdit();
                     break;
-                case R.id.rl_addaddress_locationtype:
-                    startLocationType();
-                    break;
-                case R.id.tv_addaddress_home:
-                    tv_addaddress_locationtype.setText(context.getString(R.string.Home));
-                    if(mPopupWindow.isShowing()) {
-                        mPopupWindow.dismiss();
-                    }
-                    break;
-                case R.id.tv_addaddress_business:
-                    tv_addaddress_locationtype.setText(context.getString(R.string.Business));
-                    if(mPopupWindow.isShowing()) {
-                        mPopupWindow.dismiss();
-                    }
-                    break;
+//                case R.id.rl_addaddress_locationtype:
+//                    startLocationType();
+//                    break;
+//                case R.id.tv_addaddress_home:
+//                    tv_addaddress_locationtype.setText(context.getString(R.string.Home));
+//                    if(mPopupWindow.isShowing()) {
+//                        mPopupWindow.dismiss();
+//                    }
+//                    break;
+//                case R.id.tv_addaddress_business:
+//                    tv_addaddress_locationtype.setText(context.getString(R.string.Business));
+//                    if(mPopupWindow.isShowing()) {
+//                        mPopupWindow.dismiss();
+//                    }
+//                    break;
             }
         }
     }
@@ -456,14 +457,14 @@ public class AddAddressPager extends BaseNoTrackPager {
     private void startLocationType() {
         int width = Utils.getScreenWidth(context);
         int height = Utils.getScreenHeight(context);
-        View view = View.inflate(context,R.layout.ppw_locationtype,null);
+        View view = View.inflate(context, R.layout.ppw_locationtype, null);
         TextView tv_addaddress_home = (TextView) view.findViewById(R.id.tv_addaddress_home);
         TextView tv_addaddress_business = (TextView) view.findViewById(R.id.tv_addaddress_business);
 
         tv_addaddress_home.setOnClickListener(new MyOnClickListener());
         tv_addaddress_business.setOnClickListener(new MyOnClickListener());
 
-        mPopupWindow = new PopupWindow(view, width, 13*height/80);
+        mPopupWindow = new PopupWindow(view, width, 13 * height / 80);
         mPopupWindow.setFocusable(true);
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         mPopupWindow.setFocusable(true);
@@ -472,24 +473,24 @@ public class AddAddressPager extends BaseNoTrackPager {
 
         int[] location = new int[2];
         view_addaddress_locationtype.getLocationOnScreen(location);
-        if(height - location[1] > 13*height/80) {
-            mPopupWindow.showAsDropDown(view_addaddress_locationtype,0,-13*height/80);
-        }else {
+        if (height - location[1] > 13 * height / 80) {
+            mPopupWindow.showAsDropDown(view_addaddress_locationtype, 0, -13 * height / 80);
+        } else {
             mPopupWindow.showAsDropDown(view_addaddress_locationtype);
         }
 
 
         // 设置背景颜色变暗
-        WindowManager.LayoutParams lp = ((SecondPagerActivity)context).getWindow().getAttributes();
+        WindowManager.LayoutParams lp = ((SecondPagerActivity) context).getWindow().getAttributes();
         lp.alpha = 0.6f;
-        ((SecondPagerActivity)context).getWindow().setAttributes(lp);
+        ((SecondPagerActivity) context).getWindow().setAttributes(lp);
         mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             @Override
             public void onDismiss() {
-                WindowManager.LayoutParams lp = ((SecondPagerActivity)context).getWindow().getAttributes();
+                WindowManager.LayoutParams lp = ((SecondPagerActivity) context).getWindow().getAttributes();
                 lp.alpha = 1f;
-                ((SecondPagerActivity)context).getWindow().setAttributes(lp);
+                ((SecondPagerActivity) context).getWindow().setAttributes(lp);
             }
         });
 
@@ -559,15 +560,15 @@ public class AddAddressPager extends BaseNoTrackPager {
                     view_addaddress_build.setEnabled(false);
                     tv_addaddress_build.setVisibility(View.VISIBLE);
                 }
-            case R.id.tv_addaddress_locationtype:
-                if (tv_addaddress_locationtype.getText() != null && tv_addaddress_locationtype.getText().length() > 0) {
-                    count++;
-                    view_addaddress_locationtype.setEnabled(true);
-                    tv_addaddress_type.setVisibility(View.GONE);
-                } else {
-                    view_addaddress_build.setEnabled(false);
-                    tv_addaddress_type.setVisibility(View.VISIBLE);
-                }
+//            case R.id.tv_addaddress_locationtype:
+//                if (tv_addaddress_locationtype.getText() != null && tv_addaddress_locationtype.getText().length() > 0) {
+//                    count++;
+//                    view_addaddress_locationtype.setEnabled(true);
+//                    tv_addaddress_type.setVisibility(View.GONE);
+//                } else {
+//                    view_addaddress_build.setEnabled(false);
+//                    tv_addaddress_type.setVisibility(View.VISIBLE);
+//                }
             case R.id.et_addaddress_mobile:
                 if (et_addaddress_mobile.getText() != null && et_addaddress_mobile.getText().length() > 0) {
                     count++;
@@ -577,13 +578,18 @@ public class AddAddressPager extends BaseNoTrackPager {
                     view_addaddress_mobile.setEnabled(false);
                     tv_addaddress_mobile.setVisibility(View.VISIBLE);
                 }
-                break;
-        }
+            case R.id.et_addaddress_shippingnote:
+                if (et_addaddress_shippingnote.getText() != null && et_addaddress_shippingnote.getText().length() > 0) {
+                    count++;
+                    break;
+                }
 
+        }
+        Log.e("TAG", count + "" + et_addaddress_shippingnote.getText().toString());
         if (count == 9) {
             startSaveOrEdit();
-        } else {
-
+        } else if (count < 9) {
+            Utils.MyToast(context, context.getString(R.string.completeinformation));
         }
     }
 
@@ -592,7 +598,14 @@ public class AddAddressPager extends BaseNoTrackPager {
         if (address_id != -1) {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/" + address_id + "?timezone=" + MyApplication.utc;
-            String json = "{\"address\": \"" + et_addaddress_country.getText() + et_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String addre = et_addaddress_country.getText() + "," + et_addaddress_city.getText() + "," + et_addaddress_area.getText() + "," + et_addaddress_street.getText() + "," + et_addaddress_build.getText();
+            String json = "{\"address\": \"" + addre + "\",\"name\": \"" + et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            Address address = new Address();
+            address.setAddress(addre);
+            address.setName(et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText());
+            address.setPhone(et_addaddress_mobile.getText() + "");
+            address.setZipcode(et_addaddress_shippingnote.getText().toString() + "");
+            json = address.toString();
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
@@ -603,8 +616,8 @@ public class AddAddressPager extends BaseNoTrackPager {
                         @Override
                         public void run() {
                             HttpUtils.getInstance().stopNetWorkWaiting();
-                            ((SecondPagerActivity) context).switchPage(9);
-                            Utils.MyToast(context, "Successfully modified");
+                            ((SecondPagerActivity) context).fragmentManager.popBackStack();
+                            Utils.MyToast(context, context.getString(R.string.setsuccess));
                         }
                     });
 
@@ -615,9 +628,9 @@ public class AddAddressPager extends BaseNoTrackPager {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.e("TAG", code + message);
                             HttpUtils.getInstance().stopNetWorkWaiting();
-                            Utils.MyToast(context, "Fail to edit");
-                            Log.e("TAG_上传地址", code + message);
+                            Utils.MyToast(context, context.getString(R.string.Networkfailure) + code + "address");
                         }
                     });
                 }
@@ -625,13 +638,22 @@ public class AddAddressPager extends BaseNoTrackPager {
                 @Override
                 public void failure(Exception exception) {
                     HttpUtils.getInstance().stopNetWorkWaiting();
-                    Utils.MyToast(context, "Fail to edit");
+                    Utils.MyToast(context, context.getString(R.string.Networkfailure));
                 }
             });
         } else {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
-            String json = "{\"address\": \"" + et_addaddress_country.getText() + et_addaddress_city.getText() + et_addaddress_area.getText() + et_addaddress_street.getText() + et_addaddress_build.getText() + "\",\"name\": \"" + et_addaddress_lastname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String addre = et_addaddress_country.getText() + "," + et_addaddress_city.getText() + "," + et_addaddress_area.getText() + "," + et_addaddress_street.getText() + "," + et_addaddress_build.getText();
+            String json = "{\"address\": \"" + addre + "\",\"name\": \"" + et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+
+            Address address = new Address();
+            address.setAddress(addre);
+            address.setName(et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText());
+            address.setPhone(et_addaddress_mobile.getText() + "");
+            address.setZipcode(et_addaddress_shippingnote.getText().toString() + "");
+            json = address.toString();
+
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
@@ -642,12 +664,8 @@ public class AddAddressPager extends BaseNoTrackPager {
                         @Override
                         public void run() {
                             HttpUtils.getInstance().stopNetWorkWaiting();
-                            if ("dispatchpager".equals(((SecondPagerActivity) context).from)) {
-                                ((SecondPagerActivity) context).switchPage(7);
-                            } else if ("shippingaddress".equals(((SecondPagerActivity) context).from)) {
-                                ((SecondPagerActivity) context).switchPage(9);
-                            }
-                            Utils.MyToast(context, "Saved successfully");
+                            ((SecondPagerActivity) context).fragmentManager.popBackStack();
+                            Utils.MyToast(context, context.getString(R.string.setsuccess));
                         }
                     });
 
@@ -660,7 +678,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                         public void run() {
                             HttpUtils.getInstance().stopNetWorkWaiting();
                             Log.e("TAG", code + message);
-                            Utils.MyToast(context, "The network connection failed. Please try again");
+                            Utils.MyToast(context, context.getString(R.string.Networkfailure) + code + "address");
                         }
                     });
                 }
@@ -668,7 +686,7 @@ public class AddAddressPager extends BaseNoTrackPager {
                 @Override
                 public void failure(Exception exception) {
                     HttpUtils.getInstance().stopNetWorkWaiting();
-                    Utils.MyToast(context, "The network connection failed. Please try again");
+                    Utils.MyToast(context, context.getString(R.string.Networkfailure));
                 }
             });
         }
@@ -715,6 +733,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
+
     @Override
     public void onResume() {
         super.onResume();

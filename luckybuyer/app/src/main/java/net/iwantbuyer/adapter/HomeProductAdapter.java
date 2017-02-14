@@ -66,15 +66,39 @@ public class HomeProductAdapter extends RecyclerView.Adapter<HomeProductAdapter.
 
         if(list.get(position).getShares_increment() == 5) {
             if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
-                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_5);
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_zh_5);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_ms_5);
+                }else {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_5);
+                }
             }else {
-                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_5);
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_zh_10);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_ms_10);
+                }else {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_10);
+                }
             }
         }else if(list.get(position).getShares_increment() == 10) {
             if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
-                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_10);
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_zh_10);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_ms_10);
+                }else {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_10);
+                }
             }else {
-                holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_10);
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_zh_10);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_ms_10);
+                }else {
+                    holder.iv_product_increment.setBackgroundResource(R.drawable.homepager_my_10);
+                }
             }
 
         }

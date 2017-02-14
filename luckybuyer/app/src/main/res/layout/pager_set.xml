@@ -87,7 +87,7 @@
             android:layout_height="@dimen/dimen_40"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dimen_24"
-            android:text="@string/Changecountry"
+            android:text="@string/CountryLanguage"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_28" />
 

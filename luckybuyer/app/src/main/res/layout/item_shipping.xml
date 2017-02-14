@@ -71,9 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/jtv_shipping_detailed"
         android:layout_marginStart="@dimen/dimen_8"
-        android:layout_marginTop="@dimen/dimen_16"
+        android:layout_marginTop="@dimen/dimen_20"
         android:layout_toEndOf="@+id/cb_shipping_select"
-        android:text="@string/selected"
+        android:text="@string/defaultaddress"
         android:textColor="@color/ff9c05"
         android:textSize="@dimen/dimen_24" />
 

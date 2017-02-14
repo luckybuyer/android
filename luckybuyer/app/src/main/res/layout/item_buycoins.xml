@@ -32,8 +32,7 @@
                 android:gravity="center"
                 android:text="1 coin"
                 android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:textSize="@dimen/dimen_32"
-                android:textStyle="bold" />
+                android:textSize="@dimen/dimen_28" />
 
             <TextView
                 android:id="@+id/tv_buyconis_free"
@@ -43,7 +42,7 @@
                 android:gravity="center"
                 android:text=" + 1free"
                 android:textColor="@drawable/selector_textcolor_tv_buyconis_coins"
-                android:textSize="@dimen/dimen_32" />
+                android:textSize="@dimen/dimen_28" />
 
         </RelativeLayout>
 
