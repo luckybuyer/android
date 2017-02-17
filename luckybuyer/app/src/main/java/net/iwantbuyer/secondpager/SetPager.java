@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
@@ -120,13 +119,11 @@ public class SetPager extends BasePager {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("SetPager");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("SetPager");
     }
 
 }

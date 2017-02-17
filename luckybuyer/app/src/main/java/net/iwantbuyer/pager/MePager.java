@@ -31,8 +31,6 @@ import com.bumptech.glide.request.target.Target;
 import com.facebook.share.widget.LikeView;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
-import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
@@ -688,13 +686,11 @@ public class MePager extends BaseNoTrackPager {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("MePager");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("MePager");
     }
 
     //根据版本判断是否 需要设置据顶部状态栏高度

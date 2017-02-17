@@ -37,7 +37,6 @@ import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.lock.adapters.Country;
 import com.auth0.android.lock.adapters.CountryAdapter;
 import com.google.gson.Gson;
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.adapter.GuideAdapter;
@@ -301,13 +300,11 @@ public class WelcomeActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);                      //统计时长   友盟
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);                      //统计时长   友盟
     }
 
 

@@ -38,7 +38,6 @@ import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
@@ -583,7 +582,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         //埋点
                         MyApplication.mixpanel.track("CLICK:buy", props);
 
-                        MobclickAgent.onEvent(context, "Buy", map);
                     } else {
                         if (context instanceof SecondPagerActivity) {
                             context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
@@ -1151,13 +1149,11 @@ public class BuyCoinPager extends BaseNoTrackPager {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("BuyCoinPager");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("BuyCoinPager");
     }
 
     @Override

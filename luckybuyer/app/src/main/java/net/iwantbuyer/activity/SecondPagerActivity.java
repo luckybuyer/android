@@ -37,7 +37,6 @@ import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
 import com.google.gson.Gson;
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
@@ -330,7 +329,6 @@ public class SecondPagerActivity extends FragmentActivity {
     private void LogChannel(String string) {
         HashMap<String,String> map = new HashMap<String,String>();
         map.put("channel",getString(R.string.channel));
-        MobclickAgent.onEvent(this, string, map);
     }
 
     //Auth0登陆成功后  调用我们自己的api
@@ -615,12 +613,10 @@ public class SecondPagerActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);                      //统计时长   友盟
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPause(this);                      //统计时长   友盟
     }
 }

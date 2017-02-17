@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
@@ -196,12 +195,10 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("ShippingAddressPager");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("ShippingAddressPager");
     }
 }
