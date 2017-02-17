@@ -73,7 +73,6 @@ dependencies {
     //埋点   别坑爹
     compile 'com.mixpanel.android:mixpanel-android:4.+'
     //    compile "com.google.android.gms:play-services:7.5.0+"
-    compile 'com.umeng.analytics:analytics:latest.integration'
     //有盟
     compile 'com.appsflyer:af-android-sdk:4.3.7@aar'
     //appFlyer

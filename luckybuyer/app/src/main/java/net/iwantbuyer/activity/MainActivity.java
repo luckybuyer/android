@@ -59,7 +59,6 @@ import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
 
 //import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.adapter.GuideAdapter;
@@ -552,8 +551,6 @@ public class MainActivity extends FragmentActivity {
             if (Utils.isInLauncher(MainActivity.this)) {
                 return;
             }
-            //友盟登陆通缉
-            LogChannel("Login_Success");
 
             // Base64 解码：
             String token = credentials.getIdToken();
@@ -597,7 +594,6 @@ public class MainActivity extends FragmentActivity {
                 return;
             }
             //友盟登陆通缉
-            LogChannel("Login_Canceled");
 //            //Appflyer 统计
 //            Map<String, Object> eventValue = new HashMap<String, Object>();
 //            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Canceled",eventValue);
@@ -614,7 +610,6 @@ public class MainActivity extends FragmentActivity {
                 return;
             }
             //友盟登陆通缉
-            LogChannel("Login_Error");
 
 //            //Appflyer 统计
 //            Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -626,16 +621,11 @@ public class MainActivity extends FragmentActivity {
             selectPager();
 
 
-            Utils.MyToast(MainActivity.this, "Login failed");
+            Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.loginfailed));
             selectPager();
         }
     };
 
-    private void LogChannel(String string) {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("channel", getString(R.string.channel));
-        MobclickAgent.onEvent(this, string, map);
-    }
 
     //auth0登陆成功后  登陆我们自己的api
     private void Login(String token) {
@@ -841,7 +831,6 @@ public class MainActivity extends FragmentActivity {
 
 //        AppEventsLogger.activateApp(this);                 //facebook统计
 
-        MobclickAgent.onResume(this);                      //统计时长   友盟
 
     }
 
@@ -849,7 +838,6 @@ public class MainActivity extends FragmentActivity {
     protected void onPause() {
         super.onPause();
 //        AppEventsLogger.deactivateApp(this);
-        MobclickAgent.onPause(this);
     }
 
     @Override

@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
@@ -737,13 +736,11 @@ public class AddAddressPager extends BaseNoTrackPager {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("AddAddressPager");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("AddAddressPager");
     }
 
 }

@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
-import com.umeng.analytics.MobclickAgent;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.adapter.WinningAdapter;
@@ -297,12 +296,10 @@ public class WinningPager extends BaseNoTrackPager {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("WinningPager");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("WinningPager");
     }
 }

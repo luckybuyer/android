@@ -149,6 +149,14 @@
                 <!--android:layout_marginBottom="@dimen/dimen_24"-->
                 <!--android:layout_marginTop="@dimen/dimen_16" />-->
 
+                <com.facebook.share.widget.LikeView
+                    android:id="@+id/lv_me"
+                    android:layout_width="@dimen/dimen_100"
+                    android:layout_height="@dimen/dimen_30"
+                    android:layout_alignBottom="@+id/jtv_shipinng_facebook"
+                    android:layout_alignRight="@+id/view_shipping"
+                    android:layout_alignEnd="@+id/view_shipping"></com.facebook.share.widget.LikeView>
+
             </RelativeLayout>
 
 
