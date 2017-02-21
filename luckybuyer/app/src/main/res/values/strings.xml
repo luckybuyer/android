@@ -215,7 +215,9 @@
     <string name="operatornummwarn">Operator is required</string>
     <string name="defaultaddress">Default Address</string>
     <string name="ZipCode">Postcode</string>
-
+    <string name="News">消息</string>
+    <string name="warnnotifi">打开消息通知，当您中奖时我们会及时通知您。</string>
+    <string name="goset"><u>去打开</u></string>
 
 
     <!--数字夹杂英语-->
@@ -232,4 +234,5 @@
     <string name="coins_coins">coins</string>
     <string name="one_free_coins">1 free</string>
     <string name="free_coins">free</string>
+
 </resources>

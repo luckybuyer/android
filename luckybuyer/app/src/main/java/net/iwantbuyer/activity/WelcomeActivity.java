@@ -36,6 +36,7 @@ import android.widget.TextView;
 import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.lock.adapters.Country;
 import com.auth0.android.lock.adapters.CountryAdapter;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -129,7 +130,7 @@ public class WelcomeActivity extends Activity {
             handler.sendEmptyMessageDelayed(WAHT, 3000);
         }
 
-
+        Log.e("TAG_appflyerID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
     }
 
     private void startMe() {

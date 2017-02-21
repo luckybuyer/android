@@ -64,7 +64,6 @@ public class HomeImagePageAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        Log.e("TAG_listsize", list.size() + "");
         if (list.size() < 2) {
             return list.size();
         }
