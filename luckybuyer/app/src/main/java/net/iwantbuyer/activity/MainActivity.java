@@ -1,27 +1,23 @@
 package net.iwantbuyer.activity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.style.UpdateAppearance;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,7 +34,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
@@ -52,18 +47,23 @@ import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
-import com.facebook.appevents.AppEventsConstants;
-import com.facebook.appevents.AppEventsLogger;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.facebook.internal.LockOnGetVariable;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
 
 //import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
 import net.iwantbuyer.R;
-import net.iwantbuyer.adapter.GuideAdapter;
 import net.iwantbuyer.app.MyApplication;
-import net.iwantbuyer.bean.BuyCoinBean;
+import net.iwantbuyer.bean.DispatchGameBean;
+import net.iwantbuyer.bean.FCMBean;
 import net.iwantbuyer.bean.TokenBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.pager.HomePager;
@@ -71,6 +71,7 @@ import net.iwantbuyer.pager.MePager;
 import net.iwantbuyer.pager.ShowPager;
 import net.iwantbuyer.pager.WinningPager;
 import net.iwantbuyer.secondpager.BuyCoinPager;
+import net.iwantbuyer.secondpager.DispatchPager;
 import net.iwantbuyer.util.IabHelper;
 import net.iwantbuyer.util.IabResult;
 import net.iwantbuyer.util.Purchase;
@@ -82,21 +83,16 @@ import net.iwantbuyer.view.NoScrollViewPager;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.TimeZone;
 
 public class MainActivity extends FragmentActivity {
 
     private FrameLayout fl_main;
     public RadioGroup rg_main;
-    private NoScrollViewPager vp_main;
     private List<Fragment> list;
     public Lock lock;
 
@@ -121,6 +117,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -155,17 +152,6 @@ public class MainActivity extends FragmentActivity {
                 .build(this);
 
 
-//        auth0登陆
-//        Auth0 auth0 = new Auth0(getString(R.string.auth0_client_id_text), getString(R.string.auth0_domain_text));
-//        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
-////        Auth0 auth0 = new Auth0("HmF3R6dz0qbzGQoYtTuorgSmzgu6Aua1", "staging-luckybuyer.auth0.com");
-//        this.lock = Lock.newBuilder(auth0, callback)
-//                .closable(true)
-////                .withTheme(Theme.newBuilder().withDarkPrimaryColor(R.color.text_black).withHeaderColor(R.color.auth0_header).withHeaderLogo(R.mipmap.ic_launcher).withHeaderTitle(R.string.app_name).withHeaderTitleColor(R.color.text_black).withPrimaryColor(R.color.bg_ff4f3c).build())
-//                .withAuthButtonSize(AuthButtonSize.BIG)
-////                // Add parameters to the Lock Builder
-//                .useBrowser(false)
-//                .build(this);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) { // “内存重启”时调用
 
@@ -211,23 +197,13 @@ public class MainActivity extends FragmentActivity {
 
         //新手 引导页面
         if (Utils.getSpData("guide", this) == null) {
-            vp_main.setAdapter(new GuideAdapter(this, vp_main));
             Utils.setSpData("guide", "noguide", this);
-            vp_main.setVisibility(View.GONE);
-        } else {
-            vp_main.setVisibility(View.GONE);
         }
-
 
         rb_main_homepager.setChecked(true);
         if (Utils.checkDeviceHasNavigationBar(MainActivity.this)) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(MainActivity.this));
             rl_main.setLayoutParams(lp);
-        }
-        if (Utils.checkDeviceHasNavigationBar(MainActivity.this)) {
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-            lp.bottomMargin = Utils.getNavigationBarHeight(MainActivity.this);
-            vp_main.setLayoutParams(lp);
         }
 
         HaloPay.getInstance().init(this, HaloPay.PORTRAIT, "3000600754");
@@ -242,6 +218,8 @@ public class MainActivity extends FragmentActivity {
         Utils.setSpData("main_pager", null, this);       //当editshow 返回时候的临时变量 一定要删除
 
         StartUpdateAlertDialog();
+
+
     }
 
     //设置数据
@@ -256,7 +234,6 @@ public class MainActivity extends FragmentActivity {
 
     //试图初始化 与设置监听
     private void findView() {
-        vp_main = (NoScrollViewPager) findViewById(R.id.vp_main);
         fl_main = (FrameLayout) findViewById(R.id.fl_main);
         rg_main = (RadioGroup) findViewById(R.id.rg_main);
         rb_main_homepager = (RadioButton) findViewById(R.id.rb_main_homepager);
@@ -433,7 +410,7 @@ public class MainActivity extends FragmentActivity {
                     }
                     break;
                 case R.id.tv_uddate_cancel:
-                    if(updateShow != null && updateShow.isShowing()) {
+                    if (updateShow != null && updateShow.isShowing()) {
                         updateShow.dismiss();
                     }
                     break;
@@ -445,6 +422,21 @@ public class MainActivity extends FragmentActivity {
                     } catch (android.content.ActivityNotFoundException anfe) {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                     }
+                    break;
+                case R.id.iv_winning_close:
+                    if (winningShow != null && winningShow.isShowing()) {
+                        winningShow.dismiss();
+                    }
+                    break;
+                case R.id.iv_winning_go:
+                    if (winningShow != null && winningShow.isShowing()) {
+                        winningShow.dismiss();
+                    }
+
+                    Intent intent = new Intent(MainActivity.this, SecondPagerActivity.class);
+                    intent.putExtra("from", "dispatchpager");
+                    intent.putExtra("dispatch_game_id", order_id);
+                    startActivity(intent);
                     break;
             }
         }
@@ -528,30 +520,10 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-//    //选择哪个界面
-//    public void switchPage(int checkedId) {
-//        Fragment fragment = list.get(checkedId);
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.fl_main, fragment);
-////        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commitAllowingStateLoss();
-////        fragmentTransaction.addToBackStack(null);
-////        fragmentTransaction.commit();
-//    }
-
-
-    long LoginTime;
     //auth0登陆回调
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
-
-
-            if (Utils.isInLauncher(MainActivity.this)) {
-                return;
-            }
-
             // Base64 解码：
             String token = credentials.getIdToken();
             Log.e("TAG", token);
@@ -576,16 +548,16 @@ public class MainActivity extends FragmentActivity {
             //赠送金币成功
             startGift();
 
+            //FCM注册
+            FCMregist(token);
 
-            if ((System.currentTimeMillis() - LoginTime) > 3000) {
-                Log.e("TAG_time", LoginTime + "");
-                LoginTime = System.currentTimeMillis();
-                Login(token);
+            Login(token);
 
-                //Appflyer 统计
-                Map<String, Object> eventValue = new HashMap<String, Object>();
-                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in success", eventValue);
-            }
+            //Appflyer 统计
+            Map<String, Object> eventValue = new HashMap<String, Object>();
+            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in success", eventValue);
+
+
         }
 
         @Override
@@ -593,9 +565,6 @@ public class MainActivity extends FragmentActivity {
             if (Utils.isInLauncher(MainActivity.this)) {
                 return;
             }
-//            //Appflyer 统计
-//            Map<String, Object> eventValue = new HashMap<String, Object>();
-//            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Canceled",eventValue);
 
             //Appflyer 统计
             Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -609,20 +578,56 @@ public class MainActivity extends FragmentActivity {
                 return;
             }
 
-//            //Appflyer 统计
-//            Map<String, Object> eventValue = new HashMap<String, Object>();
-//            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Login_Error", eventValue);
-
             //Appflyer 统计
             Map<String, Object> eventValue = new HashMap<String, Object>();
             AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in failed", eventValue);
             selectPager();
 
 
-            Utils.MyToast(MainActivity.this, "Login failed");
+            Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.loginfailed));
             selectPager();
         }
     };
+
+    //FCM注册
+    private void FCMregist(String mToken) {
+        String token = Utils.getSpData("refreshedToken",this);
+        Log.e("TAG", token + "--------" + mToken);
+        if(mToken == null || "".equals(mToken) || token == null) {
+            return;
+        }
+        String lang = Utils.getSpData("locale", this);
+        if(lang != null && !lang.equals("")) {
+            lang = lang.split("-")[0] + "";
+        }
+        String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + MyApplication.utc;
+
+        FCMBean fcm = new FCMBean(lang,"android",token);
+        String json = fcm.toString();
+        Log.e("TAG_FCM", url + json);
+        Map map = new HashMap();
+        map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("TAG_FCM", code + message);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+            }
+        });
+    }
 
 
     //auth0登陆成功后  登陆我们自己的api
@@ -630,6 +635,7 @@ public class MainActivity extends FragmentActivity {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -648,6 +654,7 @@ public class MainActivity extends FragmentActivity {
                 Utils.setSpData("balance", user.getBalance() + "", MainActivity.this);
                 Utils.setSpData("name", user.getProfile().getName(), MainActivity.this);
                 Utils.setSpData("picture", user.getProfile().getPicture(), MainActivity.this);
+                Log.e("TAG", user.getProfile().getPicture() + "" + user.getProfile().getName());
                 Utils.setSpData("social_link", user.getProfile().getSocial_link(), MainActivity.this);
 
                 //登陆成功重新请求 banner  为了隐藏首充送礼
@@ -804,10 +811,10 @@ public class MainActivity extends FragmentActivity {
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = resources.getConfiguration();
 
-        Log.e("TAG_locale", Utils.getSpData("locale",MainActivity.this)+"");
-        String spString = Utils.getSpData("locale",MainActivity.this);
+        Log.e("TAG_locale", Utils.getSpData("locale", MainActivity.this) + "");
+        String spString = Utils.getSpData("locale", MainActivity.this);
         Log.e("TAG_spString", spString + "");
-        if(spString != null) {
+        if (spString != null) {
             config.locale = new Locale(spString.split("-")[0], spString.split("-")[1]);
             Locale.setDefault(config.locale);
             resources.updateConfiguration(config, dm);
@@ -829,12 +836,18 @@ public class MainActivity extends FragmentActivity {
 
 //        AppEventsLogger.activateApp(this);                 //facebook统计
 
+        //通过广播将firebase传递过来的消息传到ui县城
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("Message");
+        registerReceiver(MessageReceiver, filter);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 //        AppEventsLogger.deactivateApp(this);
+        unregisterReceiver(MessageReceiver);
     }
 
     @Override
@@ -873,6 +886,13 @@ public class MainActivity extends FragmentActivity {
             super.onActivityResult(requestCode, resultCode, data);
         } else {
             Log.e("TAG", "onActivityResult handled by IABUtil.");
+        }
+
+        if (resultCode == 6) {
+            Intent intent = new Intent(MainActivity.this, SecondPagerActivity.class);
+            intent.putExtra("from", "dispatchpager");
+            intent.putExtra("dispatch_game_id", data.getIntExtra("order_id", -1));
+            startActivity(intent);
         }
     }
 
@@ -1000,8 +1020,9 @@ public class MainActivity extends FragmentActivity {
     }
 
     boolean fl = true;
+
     private void startGift() {
-        if(fl = false) {
+        if (fl = false) {
             return;
         }
         fl = false;
@@ -1009,6 +1030,7 @@ public class MainActivity extends FragmentActivity {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().postRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -1028,8 +1050,8 @@ public class MainActivity extends FragmentActivity {
                     public void run() {
                         if (code == 419) {
                             Log.e("TAG_gift", "已经赠送过了");
-                        }else {
-                            Utils.MyToast(MainActivity.this,MainActivity.this.getString(R.string.Networkfailure)+ code + "gifts");
+                        } else {
+                            Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.Networkfailure) + code + "gifts");
                         }
 
                     }
@@ -1043,6 +1065,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     AlertDialog updateShow;
+
     private void StartUpdateAlertDialog() {
         String pkName = this.getPackageName();
         int versionCode = 0;
@@ -1061,17 +1084,17 @@ public class MainActivity extends FragmentActivity {
 
         View inflate = null;
 
-        Log.e("TAG_版本", Utils.getSpData("latest_version",this) + Utils.getSpData("minimum_version",this));
+        Log.e("TAG_版本", Utils.getSpData("latest_version", this) + Utils.getSpData("minimum_version", this));
         boolean flag = false;
-        if(Utils.getSpData("latest_version",this) != null && versionCode >= Integer.parseInt(Utils.getSpData("latest_version",this))) {
+        if (Utils.getSpData("latest_version", this) != null && versionCode >= Integer.parseInt(Utils.getSpData("latest_version", this))) {
             return;
-        }else if(Utils.getSpData("minimum_version",this) != null && versionCode < Integer.parseInt(Utils.getSpData("minimum_version",this))) {
-            inflate = View.inflate(this,R.layout.alertdialog_main_forceupdate,null);
+        } else if (Utils.getSpData("minimum_version", this) != null && versionCode < Integer.parseInt(Utils.getSpData("minimum_version", this))) {
+            inflate = View.inflate(this, R.layout.alertdialog_main_forceupdate, null);
             TextView tv_forceupdate_ok = (TextView) inflate.findViewById(R.id.tv_forceupdate_ok);
             tv_forceupdate_ok.setOnClickListener(new MyOnclickListener());
             flag = true;
-        }else if(Utils.getSpData("latest_version",this) != null && versionCode < Integer.parseInt(Utils.getSpData("latest_version",this))) {
-            inflate = View.inflate(this,R.layout.alertdialog_main_update,null);
+        } else if (Utils.getSpData("latest_version", this) != null && versionCode < Integer.parseInt(Utils.getSpData("latest_version", this))) {
+            inflate = View.inflate(this, R.layout.alertdialog_main_update, null);
             TextView tv_uddate_cancel = (TextView) inflate.findViewById(R.id.tv_uddate_cancel);
             TextView tv_update_ok = (TextView) inflate.findViewById(R.id.tv_update_ok);
             tv_uddate_cancel.setOnClickListener(new MyOnclickListener());
@@ -1081,10 +1104,10 @@ public class MainActivity extends FragmentActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(inflate);
         updateShow = builder.show();
-        if(flag) {
+        if (flag) {
             updateShow.setCancelable(false);               //点击外部和返回按钮都不消失
-        }else {
-           updateShow.setCanceledOnTouchOutside(false);   //点击外部不消失
+        } else {
+            updateShow.setCanceledOnTouchOutside(false);   //点击外部不消失
         }
         updateShow.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Window window = updateShow.getWindow();
@@ -1093,7 +1116,7 @@ public class MainActivity extends FragmentActivity {
         updateShow.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-//    public void getsp() {
+    //    public void getsp() {
 //        try {
 //            Log.e("TAGhehe", "getsp");
 //            PackageInfo info = getPackageManager().getPackageInfo(
@@ -1111,5 +1134,45 @@ public class MainActivity extends FragmentActivity {
 //            Log.e("TAG000", e.toString());
 //        }
 //    }
+    AlertDialog winningShow;
+    int order_id = 0;
+    private BroadcastReceiver MessageReceiver = new BroadcastReceiver() {
 
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String response = intent.getStringExtra("response");
+            Gson gson = new Gson();
+            DispatchGameBean dispatchGameBean = gson.fromJson(response, DispatchGameBean.class);
+            order_id = dispatchGameBean.getId();
+
+            View view = View.inflate(MainActivity.this, R.layout.alertdialog_winning, null);
+            ImageView iv_winning_close = (ImageView) view.findViewById(R.id.iv_winning_close);
+            ImageView iv_winning_win = (ImageView) view.findViewById(R.id.iv_winning_win);
+            final ImageView iv_winning_icon = (ImageView) view.findViewById(R.id.iv_winning_icon);
+            TextView tv_winning_code = (TextView) view.findViewById(R.id.tv_winning_code);
+            TextView tv_winning_discribe = (TextView) view.findViewById(R.id.tv_winning_discribe);
+            ImageView iv_winning_go = (ImageView) view.findViewById(R.id.iv_winning_go);
+
+            if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                iv_winning_win.setBackgroundResource(R.drawable.winning_zh);
+            }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                iv_winning_win.setBackgroundResource(R.drawable.winning_ms);
+            }else {
+                iv_winning_win.setBackgroundResource(R.drawable.winning_en);
+            }
+            Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    iv_winning_icon.setImageBitmap(resource);
+                }
+            });
+            tv_winning_code.setText(dispatchGameBean.getGame().getIssue_id() + "");
+            tv_winning_discribe.setText(dispatchGameBean.getGame().getProduct().getTitle() + "");
+            iv_winning_close.setOnClickListener(new MyOnclickListener());
+            iv_winning_go.setOnClickListener(new MyOnclickListener());
+
+            winningShow = Utils.StartAlertDialog(MainActivity.this, view, Utils.getScreenWidth(context) * 3 / 4, Utils.getStatusHeight(context) * 3 / 4);
+
+        }
+    };
 }

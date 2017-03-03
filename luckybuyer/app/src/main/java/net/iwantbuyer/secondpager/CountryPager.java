@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -35,6 +36,9 @@ import net.iwantbuyer.bean.PaySwitchBean;
 import net.iwantbuyer.bean.ServerBean;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/12/22.
@@ -73,8 +77,9 @@ public class CountryPager extends BasePager {
 
         //请求  充值列表
         String url = MyApplication.url + "/v1/servers/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        Log.e("TAG..", url);
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {

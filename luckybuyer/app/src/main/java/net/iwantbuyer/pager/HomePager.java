@@ -248,7 +248,9 @@ public class HomePager extends BaseNoTrackPager {
 
         //请求  广播列表
         String broadcastUrl = MyApplication.url + "/v1/broadcasts/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(broadcastUrl, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(broadcastUrl, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -288,7 +290,9 @@ public class HomePager extends BaseNoTrackPager {
 
         //请求  产品  列表
         String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=1&timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map ma = new HashMap();
+        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -353,7 +357,9 @@ public class HomePager extends BaseNoTrackPager {
     //请求产品轮播图
     public void responseBanner() {
         String bannersUrl = MyApplication.url + "/v1/banners/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(bannersUrl, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(bannersUrl, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -477,9 +483,10 @@ public class HomePager extends BaseNoTrackPager {
         if (imageList.size() <= 1) {
             handler.removeMessages(WHAT);
             vp_home.setCurrentItem(0);
-        } else {
-            vp_home.setCurrentItem(imageList.size() * 100);
         }
+//        else {
+//            vp_home.setCurrentItem(imageList.size() * 100);
+//        }
 
     }
 
@@ -565,8 +572,9 @@ public class HomePager extends BaseNoTrackPager {
 
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=" + page + "&timezone=" + MyApplication.utc;
-                    Log.e("TAG", url);
-                    HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+                    Map map = new HashMap();
+                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string) {
                             ((Activity) context).runOnUiThread(new Runnable() {

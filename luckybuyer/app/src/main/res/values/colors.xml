@@ -34,6 +34,7 @@
     <color name="ff9c05">#ff9c05</color>
     <color name="f2f2f2">#f2f2f2</color>
     <color name="D12F1D">#D12F1D</color>
+    <color name="background">#ECEEF3</color>
 
     <color name="auth0_header">#F0F0F0</color>
 </resources>

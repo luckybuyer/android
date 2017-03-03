@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.flyco.tablayout.widget.MsgView;
 import com.google.gson.Gson;
 
@@ -28,12 +29,15 @@ import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
+import net.iwantbuyer.bean.FCMBean;
 import net.iwantbuyer.bean.PaySwitchBean;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
@@ -47,6 +51,7 @@ public class ClPager extends BaseNoTrackPager {
     private TextView tv_cl_country;
     private TextView tv_cl_language;
     private TextView tv_cl_apply;
+    private TextView tv_set_title;
     private RelativeLayout rl_cl_back;
     private View inflate;
 
@@ -72,6 +77,7 @@ public class ClPager extends BaseNoTrackPager {
         tv_cl_country = (TextView) inflate.findViewById(R.id.tv_cl_country);
         tv_cl_language = (TextView) inflate.findViewById(R.id.tv_cl_language);
         tv_cl_apply = (TextView) inflate.findViewById(R.id.tv_cl_apply);
+        tv_set_title = (TextView) inflate.findViewById(R.id.tv_set_title);
         rl_cl_back = (RelativeLayout) inflate.findViewById(R.id.rl_cl_back);
 
         rl_cl_country.setOnClickListener(new MyOnClickListener());
@@ -81,6 +87,15 @@ public class ClPager extends BaseNoTrackPager {
     }
 
     private void setView() {
+        String servicecount = Utils.getSpData("servicecount", context);
+        if ("1".equals(servicecount)) {
+            rl_cl_country.setVisibility(View.GONE);
+            tv_set_title.setText(context.getString(R.string.Language));
+        } else {
+            rl_cl_country.setVisibility(View.VISIBLE);
+            tv_set_title.setText(context.getString(R.string.CountryLanguage));
+        }
+
         try {
             Field field = R.drawable.class.getField(Utils.getSpData("country", context).replace(" ", "_").toLowerCase());
             int i = field.getInt(new R.drawable());
@@ -90,7 +105,7 @@ public class ClPager extends BaseNoTrackPager {
 
         }
 
-        if(((ThirdPagerActivity) context).country != null) {
+        if (((ThirdPagerActivity) context).country != null) {
             try {
                 Field field = R.drawable.class.getField(((ThirdPagerActivity) context).country.replace(" ", "_").toLowerCase());
                 int i = field.getInt(new R.drawable());
@@ -119,7 +134,7 @@ public class ClPager extends BaseNoTrackPager {
             tv_cl_language.setText("Malaysia");
         } else if (spString != null && "zh".equals(spString.split("-")[0] + "")) {
             tv_cl_language.setText("中文");
-        } else if(spString != null && "en".equals(spString.split("-")[0] + "")) {
+        } else if (spString != null && "en".equals(spString.split("-")[0] + "")) {
             tv_cl_language.setText("English");
         }
 
@@ -152,25 +167,12 @@ public class ClPager extends BaseNoTrackPager {
                     break;
                 case R.id.tv_cl_apply:
 
-                    if(((ThirdPagerActivity) context).server == null) {
-                        String spString = Utils.getSpData("locale", context);
-                        if (((ThirdPagerActivity) context).language != null) {
-                            cLanguage(((ThirdPagerActivity) context).language, ((ThirdPagerActivity) context).country);
-                        } else if (spString != null) {
-                            cLanguage((spString.split("-")[0] + ""), ((ThirdPagerActivity) context).country);
-                        }
-                        Intent intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                    }else if (((ThirdPagerActivity) context).server != null && ((ThirdPagerActivity) context).server.equals(Utils.getSpData("service", context))) {
+                    if (((ThirdPagerActivity) context).server == null) {
+                        HttpUtils.getInstance().startNetworkWaiting(context);
+                        FCMregist();
+                    } else if (((ThirdPagerActivity) context).server != null && ((ThirdPagerActivity) context).server.equals(Utils.getSpData("service", context))) {
                         Utils.setSpData("country", ((ThirdPagerActivity) context).country, context);
-                        String spString = Utils.getSpData("locale", context);
-                        if (((ThirdPagerActivity) context).language != null) {
-                            cLanguage(((ThirdPagerActivity) context).language, ((ThirdPagerActivity) context).country);
-                        } else if (spString != null) {
-                            cLanguage((spString.split("-")[0] + ""), ((ThirdPagerActivity) context).country);
-                        }
-                        Intent intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+                        FCMregist();
                     } else {
                         StartAlertDialog();
                         return;
@@ -184,7 +186,7 @@ public class ClPager extends BaseNoTrackPager {
                 case R.id.tv_country_ok:
                     if (show != null && show.isShowing()) {
                         startWaitDialog();
-                        startConfig(((ThirdPagerActivity)context).server);
+                        startConfig(((ThirdPagerActivity) context).server);
                         show.dismiss();
                     }
                     break;
@@ -194,33 +196,171 @@ public class ClPager extends BaseNoTrackPager {
                     }
                     break;
                 case R.id.rl_cl_back:
-                    ((ThirdPagerActivity)context).finish();
+                    ((ThirdPagerActivity) context).finish();
                     break;
             }
         }
     }
 
+    //FCM注册
+    private void FCMregist() {
+        String token = Utils.getSpData("refreshedToken", context);
+        String mToken = Utils.getSpData("token", context);
+        if (mToken == null || "".equals(mToken) || token == null) {
+            return;
+        }
+        Utils.setSpData("refreshedToken", token, context);
+
+        TimeZone tz = TimeZone.getDefault();
+        String str;
+        String lang;
+        String spString = Utils.getSpData("locale", context);
+        if (((ThirdPagerActivity) context).language != null) {
+            lang = ((ThirdPagerActivity) context).language;
+            str = tz.getID() + "&lang=" + lang;
+        } else if(spString != null) {
+            lang = (spString.split("-")[0] + "");
+            str = tz.getID() + "&lang=" + (spString.split("-")[0] + "");
+        }else {
+            str = MyApplication.utc;
+            lang = Utils.getSpData("locale", context);
+            if (lang != null && !lang.equals("")) {
+                lang = lang.split("-")[0] + "";
+            }
+        }
+        String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + str;
+        FCMBean fcm = new FCMBean(lang, "android", token);
+        String json = fcm.toString();
+        Log.e("TAG_clpager", url + json);
+        Map map = new HashMap();
+        map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                ((ThirdPagerActivity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (code == 204) {
+                            String spString = Utils.getSpData("locale", context);
+                            if (((ThirdPagerActivity) context).language != null) {
+                                cLanguage(((ThirdPagerActivity) context).language, ((ThirdPagerActivity) context).country);
+                            } else if (spString != null) {
+                                cLanguage((spString.split("-")[0] + ""), ((ThirdPagerActivity) context).country);
+                            }
+                            Intent intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        } else {
+                            HttpUtils.getInstance().stopNetWorkWaiting();
+                            Utils.MyToast(context, context.getString(R.string.Networkfailure) + code);
+                        }
+                        Log.e("TAG_clpager", code  + message);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((ThirdPagerActivity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                    }
+                });
+            }
+        });
+    }
+
+    //FCM注册
+    private void FCM(final PaySwitchBean paySwitchBean, final String method) {
+        String token = Utils.getSpData("refreshedToken", context);
+        String mToken = Utils.getSpData("token", context);
+        if (mToken == null || "".equals(mToken) || token == null) {
+            return;
+        }
+        Utils.setSpData("refreshedToken", token, context);
+        TimeZone tz = TimeZone.getDefault();
+        String str;
+        String lang;
+        String spString = Utils.getSpData("locale", context);
+        if (((ThirdPagerActivity) context).language != null) {
+            lang = ((ThirdPagerActivity) context).language;
+            str = tz.getID() + "&lang=" + lang;
+        } else if(spString != null) {
+            lang = (spString.split("-")[0] + "");
+            str = tz.getID() + "&lang=" + (spString.split("-")[0] + "");
+        }else {
+            str = MyApplication.utc;
+            lang = Utils.getSpData("locale", context);
+            if (lang != null && !lang.equals("")) {
+                lang = lang.split("-")[0] + "";
+            }
+        }
+
+        String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + str;
+        FCMBean fcm = new FCMBean(lang, "android", token);
+        String json = fcm.toString();
+
+        Map map = new HashMap();
+        map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                ((ThirdPagerActivity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (code == 204) {
+                            setinformation(paySwitchBean, method);
+                        } else {
+                            StartErrorDialog();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((ThirdPagerActivity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        StartErrorDialog();
+                    }
+                });
+            }
+        });
+    }
+
     //根据国家与语言 来改变语言
     private void cLanguage(String language, String country) {
-        if("ms".equals(language)) {
+        if ("ms".equals(language)) {
             country = "MY";
             Locale locale = new Locale(language, country);
             config.locale = locale;
             resources.updateConfiguration(config, dm);
 
-            Utils.setSpData("locale",language + "-" + country,context);
-        }else if("zh".equals(language)) {
+            Utils.setSpData("locale", language + "-" + country, context);
+        } else if ("zh".equals(language)) {
             country = "CN";
             Locale locale = new Locale(language, country);
             config.locale = locale;
             resources.updateConfiguration(config, dm);
 
-            Utils.setSpData("locale",language + "-" + country,context);
-        }else {
+            Utils.setSpData("locale", language + "-" + country, context);
+        } else {
             Locale locale = new Locale("en");
             config.locale = locale;
             resources.updateConfiguration(config, dm);
-            Utils.setSpData("locale",language + "-" + country,context);
+            Utils.setSpData("locale", language + "-" + country, context);
         }
 
 
@@ -272,8 +412,9 @@ public class ClPager extends BaseNoTrackPager {
 
     private AlertDialog show_wait;
     AlertDialog show_error;
+
     private void startWaitDialog() {
-//得到屏幕的 尺寸 动态设置
+        //得到屏幕的 尺寸 动态设置
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         int screenWidth = wm.getDefaultDisplay().getWidth();
         int screenHeight = wm.getDefaultDisplay().getHeight();
@@ -350,16 +491,20 @@ public class ClPager extends BaseNoTrackPager {
     }
 
     private void processData(String response) {
-        Log.e("TAG", response);
         Gson gson = new Gson();
         PaySwitchBean paySwitchBean = gson.fromJson(response, PaySwitchBean.class);
         String method = "";
         for (int i = 0; i < paySwitchBean.getPayment_methods().size(); i++) {
             method += paySwitchBean.getPayment_methods().get(i).getVendor();
         }
+        FCM(paySwitchBean, method);
+    }
+
+    //设置各种信息
+    private void setinformation(PaySwitchBean paySwitchBean, String method) {
         Utils.setSpData("paymentmethod", method, context);
-        Utils.setSpData("service", ((ThirdPagerActivity)context).server, context);
-        Utils.setSpData("country", ((ThirdPagerActivity)context).country, context);
+        Utils.setSpData("service", ((ThirdPagerActivity) context).server, context);
+        Utils.setSpData("country", ((ThirdPagerActivity) context).country, context);
         Utils.setSpData("client_id", paySwitchBean.getAuth0_client_id(), context);
         Utils.setSpData("domain", paySwitchBean.getAuth0_domain(), context);
 
@@ -370,12 +515,6 @@ public class ClPager extends BaseNoTrackPager {
         Utils.setSpData("token", null, context);
         Utils.setSpData("token_num", null, context);
 
-        // 杀掉进程
-//        android.os.Process.killProcess(android.os.Process.myPid());
-//        System.exit(0);
-//
-//        Intent intent = new Intent(context, MainActivity.class);
-//        startActivity(intent);
 
         String spString = Utils.getSpData("locale", context);
         if (((ThirdPagerActivity) context).language != null) {
@@ -384,7 +523,14 @@ public class ClPager extends BaseNoTrackPager {
             cLanguage((spString.split("-")[0] + ""), ((ThirdPagerActivity) context).country);
         }
 
-        Intent intent = new Intent(context,MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        if (((ThirdPagerActivity) context).language != null) {
+            cLanguage(((ThirdPagerActivity) context).language, ((ThirdPagerActivity) context).country);
+        } else if (spString != null) {
+            cLanguage((spString.split("-")[0] + ""), ((ThirdPagerActivity) context).country);
+        }
+
+        Intent intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

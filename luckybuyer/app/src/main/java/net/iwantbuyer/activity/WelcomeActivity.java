@@ -5,22 +5,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,30 +23,22 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
-import com.auth0.android.lock.adapters.Country;
-import com.auth0.android.lock.adapters.CountryAdapter;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
-import net.iwantbuyer.adapter.GuideAdapter;
 import net.iwantbuyer.adapter.ServersAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.bean.PaySwitchBean;
 import net.iwantbuyer.bean.ServerBean;
 import net.iwantbuyer.bean.User;
-import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class WelcomeActivity extends Activity {
@@ -121,9 +107,6 @@ public class WelcomeActivity extends Activity {
             MyApplication.client_id = Utils.getSpData("client_id",this);
             MyApplication.domain = Utils.getSpData("domain",this);
 
-            Log.e("TAG_url", MyApplication.url);
-            Log.e("TAG_client_id", MyApplication.client_id);
-            Log.e("TAG_domain", MyApplication.domain);
             startConfig();
             startMe();
             handler.sendEmptyMessageDelayed(WAHT, 3000);
@@ -138,6 +121,7 @@ public class WelcomeActivity extends Activity {
             String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
+            map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
             //请求登陆接口
             HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                 @Override
@@ -169,15 +153,16 @@ public class WelcomeActivity extends Activity {
     private void startSever() {
         //请求  充值列表
         String url = MyApplication.url + "/v1/servers/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        Log.e("TAG..", url);
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 WelcomeActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         processServicesData(response);
-                        Log.e("TAG_sever", response);
 
                     }
                 });
@@ -222,8 +207,9 @@ public class WelcomeActivity extends Activity {
 
         String url;//请求  充值列表
         url = MyApplication.url + "/v1/config/android-iwantbuyer-v" + versionName;
-        Log.e("TAG_url", url);
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 WelcomeActivity.this.runOnUiThread(new Runnable() {
@@ -268,8 +254,18 @@ public class WelcomeActivity extends Activity {
 
     private void processServicesData(String response) {
 //        response = "[{\"api_server\": \"https://api-ca.luckybuyer.net\",\"countries\": [\"Canada\", \"Oman\", \"Qatar\", \"Bahrain\", \"Saudi Arabia\"], \"h5\": \"https://ca.luckybuyer.net\", \"name\": \"Canada\", \"region\": \"ca\"}, {\"api_server\": \"https://api-ca.luckybuyer.net\", \"countries\": [\"Canada\"], \"h5\": \"https://ca.luckybuyer.net\", \"name\": \"Canada\", \"region\": \"ca\"},{\"api_server\": \"https://api-sg.luckybuyer.net\", \"countries\": [\"United Arab Emirates\", \"Oman\", \"Qatar\", \"Bahrain\", \"Saudi Arabia\", \"Kuwait\", \"Egypt\"], \"h5\": \"https://ae.luckybuyer.net\", \"name\": \"MENA\", \"region\": \"ae\"}]";
+//        response = "[{\"api_server\": \"https://api-my.luckybuyer.net\", \"countries\": [\"Malaysia\"], \"h5\": \"https://my.luckybuyer.net\", \"name\": \"Southeast Asia Store\", \"region\": \"my\"}, {\"api_server\": \"https://api-ca.luckybuyer.net\", \"countries\": [\"Canada\"], \"h5\": \"https://ca.luckybuyer.net\", \"name\": \"North America Store\", \"region\": \"ca\"}]";
         response = "{\"servers\":" + response + "}";
-        StartView(response);
+        Gson gson = new Gson();
+        ServerBean serverbean = gson.fromJson(response,ServerBean.class);
+        if(serverbean.getServers().size() > 1) {
+            StartView(response);
+        }else {
+            MyApplication.url = serverbean.getServers().get(0).getApi_server();
+            Utils.setSpData("service",serverbean.getServers().get(0).getApi_server(),WelcomeActivity.this);
+            Utils.setSpData("servicecount","1",this);
+            startConfig();
+        }
     }
 
     private void processData(String response) {
@@ -292,9 +288,6 @@ public class WelcomeActivity extends Activity {
         MyApplication.client_id = Utils.getSpData("client_id",this);
         MyApplication.domain = Utils.getSpData("domain",this);
 
-        Log.e("TAG_url", MyApplication.url);
-        Log.e("TAG_client_id", MyApplication.client_id);
-        Log.e("TAG_domain", MyApplication.domain);
     }
 
     @Override
@@ -317,7 +310,6 @@ public class WelcomeActivity extends Activity {
 
         View inflate = View.inflate(WelcomeActivity.this, R.layout.pager_country, null);
         RecyclerView rv_country = (RecyclerView) inflate.findViewById(R.id.rv_country);
-        Log.e("TAG", Utils.checkDeviceHasNavigationBar(this) + "");
         if (Utils.checkDeviceHasNavigationBar(this)) {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getScreenHeight(this));
             fl_welcome.setLayoutParams(lp);
@@ -381,7 +373,6 @@ public class WelcomeActivity extends Activity {
                             Utils.setSpData("country",country,WelcomeActivity.this);
                             Utils.setSpData("service",serverBean.getServers().get(i).getApi_server(),WelcomeActivity.this);
                         }
-
                     }
                     TranslateAnimation mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 1.0f);
                     mShowAction.setDuration(500);

@@ -65,6 +65,16 @@
                     android:layout_toEndOf="@+id/civ_me_header"
                     android:background="@drawable/me_set" />
 
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_me_news"
+                    android:layout_width="@dimen/dimen_62"
+                    android:layout_height="@dimen/dimen_62"
+                    android:layout_marginStart="@dimen/dimen_110"
+                    android:layout_marginTop="@dimen/dimen_210"
+                    android:layout_toEndOf="@+id/civ_me_header"
+                    android:background="@drawable/me_set" />
+
                 <TextView
                     android:id="@+id/tv_me_name"
                     android:layout_width="wrap_content"
@@ -148,6 +158,14 @@
                 <!--android:layout_below="@+id/jtv_shipinng_facebook"-->
                 <!--android:layout_marginBottom="@dimen/dimen_24"-->
                 <!--android:layout_marginTop="@dimen/dimen_16" />-->
+
+                <!--<com.facebook.share.widget.LikeView-->
+                    <!--android:id="@+id/lv_me"-->
+                    <!--android:layout_width="@dimen/dimen_100"-->
+                    <!--android:layout_height="@dimen/dimen_30"-->
+                    <!--android:layout_alignBottom="@+id/jtv_shipinng_facebook"-->
+                    <!--android:layout_alignRight="@+id/view_shipping"-->
+                    <!--android:layout_alignEnd="@+id/view_shipping"></com.facebook.share.widget.LikeView>-->
 
             </RelativeLayout>
 

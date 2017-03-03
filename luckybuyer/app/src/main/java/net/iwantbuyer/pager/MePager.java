@@ -8,9 +8,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
@@ -28,20 +25,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.facebook.share.widget.LikeView;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
+import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.MePagerAllAdapter;
 import net.iwantbuyer.adapter.MePagerLuckyAdapter;
 import net.iwantbuyer.adapter.MePagerViewPagerAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.AllOrderBean;
-import net.iwantbuyer.bean.CoinDetailBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
@@ -66,6 +62,7 @@ public class MePager extends BaseNoTrackPager {
     private CircleImageView civ_me_header;
     private ImageView iv_me_voice;
     private ImageView i_me_set;                  //设置
+    private ImageView iv_me_news;
     private TextView tv_me_name;
     private TextView tv_me_gold;
     public CustomViewPager vp_me;
@@ -144,6 +141,10 @@ public class MePager extends BaseNoTrackPager {
             }
         });
 
+//        LikeView likeView = (LikeView) inflate.findViewById(R.id.lv_me);
+//        likeView.setObjectIdAndType(
+//                "https://www.facebook.com/luckybuyer.net",
+//                LikeView.ObjectType.PAGE);
         return inflate;
     }
 
@@ -164,6 +165,7 @@ public class MePager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
@@ -223,6 +225,7 @@ public class MePager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
@@ -356,6 +359,7 @@ public class MePager extends BaseNoTrackPager {
                     Map map = new HashMap<String, String>();
                     String token = Utils.getSpData("token", context);
                     map.put("Authorization", "Bearer " + token);
+                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
                     //请求登陆接口
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                                 @Override
@@ -449,6 +453,7 @@ public class MePager extends BaseNoTrackPager {
                     Log.e("TAG", url);
                     Map map = new HashMap<String, String>();
                     map.put("Authorization", "Bearer " + token);
+                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string) {
@@ -532,6 +537,7 @@ public class MePager extends BaseNoTrackPager {
         civ_me_header = (CircleImageView) inflate.findViewById(R.id.civ_me_header);
         iv_me_voice = (ImageView) inflate.findViewById(R.id.iv_me_voice);
         i_me_set = (ImageView) inflate.findViewById(R.id.i_me_set);
+        iv_me_news = (ImageView) inflate.findViewById(R.id.iv_me_news);
         tv_me_name = (TextView) inflate.findViewById(R.id.tv_me_name);
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
         vp_me = (CustomViewPager) inflate.findViewById(R.id.vp_me);
@@ -554,6 +560,7 @@ public class MePager extends BaseNoTrackPager {
 
 
         i_me_set.setOnClickListener(new MyOnClickListener());
+        iv_me_news.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
 //        tv_me_gold.setOnClickListener(new MyOnClickListener());
         ll_me_gold.setOnClickListener(new MyOnClickListener());
@@ -565,7 +572,7 @@ public class MePager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -627,12 +634,15 @@ public class MePager extends BaseNoTrackPager {
         tv_me_id.setText(context.getString(R.string.ID_)  + _id);
         tv_me_name.setText(name);
         tv_me_gold.setText("" + balance);
-        Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                civ_me_header.setImageBitmap(resource);
-            }
-        });
+        if(!((MainActivity)context).isDestroyed()) {
+            Glide.with(context).load(picture).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    civ_me_header.setImageBitmap(resource);
+                }
+            });
+        }
+
 
 //        fb_shipping_facebook.getLikeView().setObjectIdAndType(
 //                "https://www.facebook.com/ae.luckybuyer.net",
@@ -662,6 +672,11 @@ public class MePager extends BaseNoTrackPager {
                     intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "coindetailpager");
                     startActivity(intent);
+                    break;
+                case R.id.iv_me_news:
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "news");
+                    startActivityForResult(intent,6);
                     break;
                 case R.id.tv_net_again:
                     initData();

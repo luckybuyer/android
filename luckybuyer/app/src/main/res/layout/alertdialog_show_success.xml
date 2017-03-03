@@ -42,14 +42,13 @@
 
         <TextView
             android:id="@+id/tv_editshow_success_cancel"
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:layout_centerInParent="true"
             android:paddingBottom="@dimen/dimen_25"
             android:paddingTop="@dimen/dimen_25"
-            android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/Cancel"
+            android:text="@string/OK"
             android:textColor="#ff9c06"
             android:textSize="@dimen/dimen_34" />
         <View
@@ -58,13 +57,13 @@
             android:layout_height="@dimen/dimen_40"></View>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_editshow_success_ok"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:paddingBottom="@dimen/dimen_25"
             android:paddingTop="@dimen/dimen_25"
-            android:layout_weight="1"
             android:gravity="center"
             android:text="@string/OK"
             android:textColor="#ff9c06"

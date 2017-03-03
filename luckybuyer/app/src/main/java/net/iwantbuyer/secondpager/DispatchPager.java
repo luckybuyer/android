@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -85,7 +86,6 @@ public class DispatchPager extends BaseNoTrackPager {
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_dispatch, null);
-        ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         ((SecondPagerActivity) context).from = "dispatchpager";
         findView();
         ((SecondPagerActivity) context).from = "";
@@ -112,8 +112,10 @@ public class DispatchPager extends BaseNoTrackPager {
 
         String token = Utils.getSpData("token", context);
         String url = MyApplication.url + "/v1/game-orders/" + dispatch_game_id + "?timezone=" + MyApplication.utc;
+        Log.e("TAG_orderid", url);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
@@ -158,7 +160,6 @@ public class DispatchPager extends BaseNoTrackPager {
                         });
                     }
                 }
-
         );
     }
 
@@ -487,6 +488,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().patchJson(url, json, map, new HttpUtils.OnRequestListener() {
@@ -576,6 +578,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().patchJson(url, json, map, new HttpUtils.OnRequestListener() {

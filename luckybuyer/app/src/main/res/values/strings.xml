@@ -125,7 +125,7 @@
     <string name="money100to115">Wow, special offer today only! 115 coins only $100！</string>         <!--充钱返金币，最高可返15个，仅限今天哦-->
     <string name="contactemail">If you have any question you can contact us at </string>         <!--任何问题都可以通过contact@LuckyBuyer.net联系我们-->
     <string name="Success">Success</string>         <!--成功-->
-    <string name="Successtext">Your payment has been processed</string>         <!--支付成功-->
+    <string name="Successtext">Your payment is being processing and you will be notified once it succeeds</string>         <!--支付成功-->
     <string name="Buyfailed">Buy failed</string>         <!--支付失败-->
     <string name="Buyfailedtext">You may try again.</string>         <!--支付失败-->
     <string name="CoinsDetails">Details</string>         <!--金币详情-->
@@ -206,6 +206,7 @@
     <string name="Submit">Submit</string>
     <string name="WaitingforProcessing">Waiting for Processing</string>
     <string name="language">language</string>
+    <string name="Language">Language</string>
     <string name="MyParticipations">My Participations:&#160;</string>
     <string name="loginsuccess">Logged in successfully</string>
     <string name="loginfailed">Logged in failed</string>
@@ -215,6 +216,12 @@
     <string name="operatornummwarn">Operator is required</string>
     <string name="defaultaddress">Default Address</string>
     <string name="ZipCode">Postcode</string>
+    <string name="News">Message</string>
+    <string name="warnnotifi">you will be noticed when you win.</string>
+    <string name="winning_you">Congratulations! You won round</string>
+    <string name="winning_period"></string>
+    <string name="receive_now">GET IT NOW</string>
+    <string name="logout_error" />
 
 
 
@@ -222,8 +229,8 @@
     <!--Total 5 coins-->
     <string name="total_num">total</string>
     <string name="coins_num">coins</string>
-    <string name="Coin">Coin</string>
-    <string name="Coins">Coins</string>
+    <string name="Coin">&#160;Coin</string>
+    <string name="Coins">&#160;Coins</string>
     <string name="Total">Total</string>
 
     <!--一金币-->
@@ -231,5 +238,7 @@
     <!--10 coins + 1 free-->
     <string name="coins_coins">coins</string>
     <string name="one_free_coins">1 free</string>
-    <string name="free_coins">free</string>
+    <string name="free_coins">&#160;free</string>
+
+
 </resources>

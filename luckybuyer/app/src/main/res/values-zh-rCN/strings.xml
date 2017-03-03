@@ -126,7 +126,7 @@
     <string name="money100to115">充钱返金币，最高可返15个，仅限今天哦</string>         <!--充钱返金币，最高可返15个，仅限今天哦-->
     <string name="contactemail">任何问题都可以联系我们通过 </string>         <!--任何问题都可以通过contact@LuckyBuyer.net联系我们-->
     <string name="Success">支付成功</string>         <!--成功-->
-    <string name="Successtext">您的支付订单已被处理</string>         <!--支付成功-->
+    <string name="Successtext">系统处理中，金币到账时我们会及时提醒你</string>         <!--支付成功-->
     <string name="Buyfailed">支付失败</string>         <!--支付失败-->
     <string name="Buyfailedtext">请再试一次</string>         <!--支付失败-->
     <string name="CoinsDetails">详情</string>         <!--金币详情-->
@@ -168,7 +168,7 @@
     <string name="Update">升级</string>                                                              <!--更新-->
     <string name="No">不要</string>                                                              <!--更新-->
     <string name="Yes">好的</string>                                                              <!--更新-->
-    <string name="Sending">发送中</string>                                                              <!--show 界面的发送-->
+    <string name="Sending">发送中..</string>                                                              <!--show 界面的发送-->
     <string name="shoSuccess">晒单成功&#160;</string>                                                              <!--show 界面的发送-->
     <string name="showSuccessDiscribe">&#160;个金币已到账</string>     <!--晒单成功描述-->                                                           <!--show 界面的发送-->
     <string name="LuckyNumber.">幸运号码：</string>     <!--晒单成功描述-->                                        <!--错误-->
@@ -207,6 +207,7 @@
     <string name="Submit">提交</string>
     <string name="WaitingforProcessing">等待处理中</string>
     <string name="language">语言</string>
+    <string name="Language">语言</string>
     <string name="MyParticipations">我参与了：</string>
     <string name="loginsuccess">登录成功</string>
     <string name="loginfailed">登录失败</string>
@@ -216,6 +217,8 @@
     <string name="operatornummwarn">运营商不能为空</string>
     <string name="defaultaddress">默认地址</string>
     <string name="ZipCode">邮编</string>
+    <string name="News">消息</string>
+    <string name="warnnotifi">打开消息通知，当您中奖时我们会及时通知您。</string>
 
     <!--数字夹杂英语-->
     <!--Total 5 coins-->
@@ -231,4 +234,9 @@
     <string name="coins_coins">金币</string>
     <string name="one_free_coins">1个免费</string>
     <string name="free_coins">免费</string>
+    <string name="winning_you">恭喜你赢得了第</string>
+    <string name="winning_period">期</string>
+    <string name="receive_now">立&#160;即&#160;领&#160;取</string>
+    <string name="logout_error">退出登陆失败</string>
+
 </resources>

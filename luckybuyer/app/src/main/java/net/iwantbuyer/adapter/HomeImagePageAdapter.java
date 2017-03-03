@@ -1,5 +1,6 @@
 package net.iwantbuyer.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -64,7 +65,6 @@ public class HomeImagePageAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        Log.e("TAG_listsize", list.size() + "");
         if (list.size() < 2) {
             return list.size();
         }

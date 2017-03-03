@@ -202,7 +202,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
     @Override
     public View initView() {
-        ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         inflate = View.inflate(context, R.layout.pager_productdetail, null);
         ((SecondPagerActivity) context).from = null;
         findView();
@@ -271,7 +270,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
 
         String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "?timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map map =new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -328,6 +329,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         String token = Utils.getSpData("token", context);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(MyBuyUrl, map, new HttpUtils.OnRequestListener() {
                     @Override
@@ -370,7 +372,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
 
         String listUrl = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(listUrl, null, new HttpUtils.OnRequestListener() {
+        Map ma = new HashMap();
+        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(listUrl, ma, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -406,7 +410,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
         //请求  广播列表
         String broadcastUrl = MyApplication.url + "/v1/broadcasts/?per_page=20&page=1&timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(broadcastUrl, null, new HttpUtils.OnRequestListener() {
+        Map m = new HashMap();
+        m.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(broadcastUrl, m, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -800,8 +806,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     tv_loading_data.setText(context.getString(R.string.loading___));
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page= " + page + "&timezone=" + MyApplication.utc;
-                    Log.e("TAG_产品详情", url);
-                    HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+                    Map map = new HashMap();
+                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string) {
                             ((Activity) context).runOnUiThread(new Runnable() {
@@ -954,7 +961,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     Intent intent = new Intent(context, ThirdPagerActivity.class);
                     intent.putExtra("from", "previous");
                     intent.putExtra("batch_id", productDetailBean.getBatch_id());
-                    startActivity(intent);
+//                    startActivity(intent);
+                    startActivityForResult(intent,8);
                     break;
                 case R.id.tv_productdetal_again:      //buy  it  now
                     Log.e("TAG_gameid", ((SecondPagerActivity) context).game_id + "");
@@ -1183,6 +1191,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -1421,7 +1430,9 @@ public class ProductDetailPager extends BaseNoTrackPager {
         }
         int batch_id = ((SecondPagerActivity) context).batch_id;
         String url = MyApplication.url + "/v1/games/?status=running&batch_id=" + batch_id + "&per_page=20&page=1&timezone=" + MyApplication.utc;
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {

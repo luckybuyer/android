@@ -2,7 +2,11 @@ package net.iwantbuyer.activity;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.CountDownTimer;
@@ -36,10 +40,18 @@ import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
+import net.iwantbuyer.bean.DispatchGameBean;
+import net.iwantbuyer.bean.FCMBean;
 import net.iwantbuyer.bean.ShippingAddressBean;
 import net.iwantbuyer.bean.TokenBean;
 import net.iwantbuyer.bean.User;
@@ -73,10 +85,8 @@ import java.util.Map;
 
 public class SecondPagerActivity extends FragmentActivity {
 
-    public RelativeLayout rl_secondpager_header;
     private RelativeLayout rl_secondpager;
     //    private TextView tv_second_share;
-    private TextView tv_second_back;
     public List<Fragment> list;
     public int batch_id;
     public int game_id;
@@ -156,6 +166,31 @@ public class SecondPagerActivity extends FragmentActivity {
             rl_secondpager.setLayoutParams(lp);
         }
 
+        String notification = getIntent().getStringExtra("notification");
+        if(notification != null && notification.equals("nihao")) {
+            switchPage(11);
+        }
+
+        Log.e("TAG_FCM", getIntent().getExtras()+"");
+        if(getIntent().getExtras() != null) {
+            String event= getIntent().getExtras().getString("event");
+            if(event != null && event.equals("user_won")) {                                //进入产品详情页面
+                dispatch_game_id = Integer.parseInt(getIntent().getExtras().getString("order_id"));
+                switchPage(7);
+            }else if(event != null && event.equals("game_closed")) {                       //进入产品详情页面
+                Log.e("TAG", getIntent().getStringExtra("game_id"));
+                game_id = Integer.parseInt(getIntent().getExtras().getString("game_id"));
+                switchPage(0);
+            }else if(event != null && event.equals("delivery_shipping")) {                 //进入dispatch页面
+                dispatch_game_id = Integer.parseInt(getIntent().getExtras().getString("order_id"));
+                switchPage(7);
+            }else if(event != null && event.equals("delivery_finished")) {                      //进入编辑晒单页面
+                order_id = Integer.parseInt(getIntent().getExtras().getString("order_id"));
+                switchPage(10);
+            }else if(event != null && event.equals("payment_succeeded")) {                 //进入金币详情页面
+                switchPage(5);
+            }
+        }
     }
 
     DispatchPager dispatchPager;
@@ -193,12 +228,8 @@ public class SecondPagerActivity extends FragmentActivity {
 
     //发现视图  设置监听
     private void findView() {
-        rl_secondpager_header = (RelativeLayout) findViewById(R.id.rl_secondpager_header);
         rl_secondpager = (RelativeLayout) findViewById(R.id.rl_secondpager);
 //        tv_second_share = (TextView) findViewById(R.id.tv_second_share);
-        tv_second_back = (TextView) findViewById(R.id.tv_second_back);
-
-        tv_second_back.setOnClickListener(new MyOnClickListener());
 //        tv_second_share.setOnClickListener(new MyOnClickListener());
     }
 
@@ -210,7 +241,7 @@ public class SecondPagerActivity extends FragmentActivity {
         Log.e("TAG_isadd", fragment.isAdded() + "");
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_secondpager, fragment);
-        if(checkedId != 4 && checkedId != 0  && checkedId != 11 && checkedId != 7 && checkedId != 5) {
+        if(checkedId != 4 && checkedId != 0  && checkedId != 11 && checkedId != 7 && checkedId != 5 && checkedId != 10) {
             fragmentTransaction.addToBackStack(null);
         }
 
@@ -241,9 +272,6 @@ public class SecondPagerActivity extends FragmentActivity {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.tv_second_back:
-                    finish();
-                    break;
 //                case R.id.tv_second_share:
 //                    Utils.MyToast(SecondPagerActivity.this, "SHARE");
 //                    break;
@@ -258,6 +286,19 @@ public class SecondPagerActivity extends FragmentActivity {
                         showUse.dismiss();
                     }
                     break;
+                case R.id.iv_winning_close:
+                    if (winningShow != null && winningShow.isShowing()) {
+                        winningShow.dismiss();
+                    }
+                    break;
+                case R.id.iv_winning_go:
+                    if (winningShow != null && winningShow.isShowing()) {
+                        winningShow.dismiss();
+                    }
+                    if(fragment.getClass().getSimpleName() != null && !fragment.getClass().getSimpleName().equals(new DispatchPager().getClass().getSimpleName())) {
+                        switchPage(7);
+                    }
+                    break;
             }
         }
     }
@@ -266,9 +307,6 @@ public class SecondPagerActivity extends FragmentActivity {
     private LockCallback call = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
-
-            //友盟登陆通缉
-            LogChannel("Login_Success");
 
             //Appflyer 统计
             Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -300,13 +338,12 @@ public class SecondPagerActivity extends FragmentActivity {
 
             Login(token);
 
+            FCMregist(token);
         }
 
         @Override
         public void onCanceled() {
             // Login Cancelled response
-            //友盟登陆通缉
-            LogChannel("Login_Canceled");
 
             //Appflyer 统计
             Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -315,8 +352,6 @@ public class SecondPagerActivity extends FragmentActivity {
 
         @Override
         public void onError(LockException error) {
-            //友盟登陆通缉
-            LogChannel("Login_Error");
 
             //Appflyer 统计
             Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -326,9 +361,44 @@ public class SecondPagerActivity extends FragmentActivity {
         }
     };
 
-    private void LogChannel(String string) {
-        HashMap<String,String> map = new HashMap<String,String>();
-        map.put("channel",getString(R.string.channel));
+    //FCM注册
+    private void FCMregist(String mToken) {
+        String token = Utils.getSpData("refreshedToken",this);
+        mToken = Utils.getSpData("token", this);
+        if(mToken == null || "".equals(mToken) || token == null) {
+            return;
+        }
+        Utils.setSpData("refreshedToken",token,this);
+        String lang = Utils.getSpData("locale", this);
+        if(lang != null && !lang.equals("")) {
+            lang = lang.split("-")[0] + "";
+        }
+        String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + MyApplication.utc;
+        FCMBean fcm = new FCMBean(lang,"android",token);
+        String json = fcm.toString();
+
+        Map map = new HashMap();
+        map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                SecondPagerActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("TAG_FCM", code + message);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+            }
+        });
     }
 
     //Auth0登陆成功后  调用我们自己的api
@@ -336,8 +406,7 @@ public class SecondPagerActivity extends FragmentActivity {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-
-        Log.e("TAG", "登陆成功");
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -416,10 +485,6 @@ public class SecondPagerActivity extends FragmentActivity {
 
         }
 
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        lp.topMargin = sbar;
-        rl_secondpager_header.setLayoutParams(lp);
-
     }
 
     @Override
@@ -478,6 +543,7 @@ public class SecondPagerActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("TAG——requestcode", requestCode + "" + resultCode);
         if (requestCode == 1001) {
             //google play 支付
             int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
@@ -499,23 +565,22 @@ public class SecondPagerActivity extends FragmentActivity {
         } else {
             Log.e("TAG", "onActivityResult handled by IABUtil.");
         }
+
+        //推送过来中奖 在secondpagerActivity页面
+        if(resultCode == 6) {
+            dispatch_game_id = data.getIntExtra("order_id",-1);
+            if(fragment.getClass().getSimpleName() != null && !fragment.getClass().getSimpleName().equals(new DispatchPager().getClass().getSimpleName())) {
+                switchPage(7);
+            }
+        }
     }
 
     // Callback for when a purchase is finished
     public IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d("TAG", "Purchase finished: " + result + ", purchase: " + purchase);
-            Log.e("TAG_点击之后", result.toString());
             if (result.isFailure()) {
                 return;
             }
-
-            Log.e("TAG", result.getMessage());
-            Log.e("TAG", result.toString());
-            Log.e("TAG", purchase.getSku());
-            Log.e("TAG", purchase.getOrderId().toString());
-            Log.e("TAG", purchase.getSignature().toString());
-            Log.e("TAG", purchase.getSignature().toString());
             //消耗产品
             try {
                 if (buyCoinPager != null && buyCoinPager.mHelper != null) {
@@ -544,6 +609,7 @@ public class SecondPagerActivity extends FragmentActivity {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().postRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -613,10 +679,62 @@ public class SecondPagerActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //通过广播将firebase传递过来的消息传到ui县城
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("Message");
+        registerReceiver(MessageReceiver, filter);
+        Log.e("TAG_onresume", "onresume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        unregisterReceiver(MessageReceiver);
     }
+
+    AlertDialog winningShow;
+    private BroadcastReceiver MessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String response = intent.getStringExtra("response");
+            if(response != null) {
+                Gson gson = new Gson();
+                Log.e("TAG_fcc", response + "");
+                DispatchGameBean dispatchGameBean = gson.fromJson(response, DispatchGameBean.class);
+                dispatch_game_id = dispatchGameBean.getId();
+
+                View view = View.inflate(SecondPagerActivity.this, R.layout.alertdialog_winning, null);
+                ImageView iv_winning_close = (ImageView) view.findViewById(R.id.iv_winning_close);
+                ImageView iv_winning_win = (ImageView) view.findViewById(R.id.iv_winning_win);
+                final ImageView iv_winning_icon = (ImageView) view.findViewById(R.id.iv_winning_icon);
+                TextView tv_winning_code = (TextView) view.findViewById(R.id.tv_winning_code);
+                TextView tv_winning_discribe = (TextView) view.findViewById(R.id.tv_winning_discribe);
+                ImageView iv_winning_go = (ImageView) view.findViewById(R.id.iv_winning_go);
+
+                if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+                    iv_winning_win.setBackgroundResource(R.drawable.winning_zh);
+                }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+                    iv_winning_win.setBackgroundResource(R.drawable.winning_ms);
+                }else {
+                    iv_winning_win.setBackgroundResource(R.drawable.winning_en);
+                }
+
+                Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        iv_winning_icon.setImageBitmap(resource);
+                    }
+                });
+                Log.e("TAG", dispatchGameBean.getGame().getIssue_id() + "");
+                tv_winning_code.setText(dispatchGameBean.getGame().getIssue_id() + "");
+                tv_winning_discribe.setText(dispatchGameBean.getGame().getProduct().getTitle() + "");
+                iv_winning_close.setOnClickListener(new MyOnClickListener());
+                iv_winning_go.setOnClickListener(new MyOnClickListener());
+
+                winningShow = Utils.StartAlertDialog(SecondPagerActivity.this, view, Utils.getScreenWidth(context) * 3 / 4, Utils.getStatusHeight(context) * 3 / 4);
+            }
+
+        }
+    };
 }

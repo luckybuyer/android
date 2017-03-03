@@ -3,6 +3,7 @@ package net.iwantbuyer.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -25,6 +27,7 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
@@ -508,7 +511,32 @@ public class Utils {
         }
         return false;
     }
+    public static int getActivityCount(Activity context) {
+        ActivityManager mAm = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> taskList = mAm.getRunningTasks(100);
+        int count = 0;
+        for (ActivityManager.RunningTaskInfo rti : taskList){
+            count = rti.numActivities;
+        }
+        Log.e("TAG_count",count+"");
+        return count;
+    }
 
+    //开启AlertDialog
+    public static AlertDialog StartAlertDialog(Context context,View view,int width,int height) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view);
+        AlertDialog show = builder.show();
+        show.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = show.getWindow();
+        window.setGravity(Gravity.CENTER);
+//        show.getWindow().setLayout(width, height);
+        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        return show;
+    }
 }
 
 
