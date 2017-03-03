@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
+import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.bean.AllOrderBean;
 import net.iwantbuyer.utils.Utils;
 import net.iwantbuyer.view.JustifyTextView;
@@ -170,7 +171,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
             },500);
             switch (view.getId()){
                 case R.id.tv_lucky_goview:
-                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    Intent intent = new Intent(context, ThirdPagerActivity.class);
                     intent.putExtra("from","participation");
                     intent.putExtra("game_id", list.get(position).getGame().getId());
                     intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
@@ -178,7 +179,7 @@ public class MePagerLuckyAdapter extends RecyclerView.Adapter<MePagerLuckyAdapte
                     ((MainActivity)context).startActivity(intent);
                     break;
                 case R.id.iv_lucky_goview:
-                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent = new Intent(context, ThirdPagerActivity.class);
                     intent.putExtra("from","participation");
                     intent.putExtra("game_id", list.get(position).getGame().getId());
                     intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());

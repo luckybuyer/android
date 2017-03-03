@@ -125,7 +125,7 @@
     <string name="money100to115">Wow, tawaran khas hari ini sahaja! 115 syiling hanya $ 100!</string>         <!--充钱返金币，最高可返15个，仅限今天哦-->
     <string name="contactemail">Jika anda mempunyai sebarang pertanyaan sila hubungi kami </string>         <!--任何问题都可以通过contact@LuckyBuyer.net联系我们-->
     <string name="Success">Kejayaan</string>         <!--成功-->
-    <string name="Successtext">Bayaran anda telah diproses</string>         <!--支付成功-->
+    <string name="Successtext">Pbayaran tengah diproses.Kami akan memaklumkan anda ia bjaya</string>         <!--支付成功-->
     <string name="Buyfailed">Pembayaran gagal</string>         <!--支付失败-->
     <string name="Buyfailedtext">Sila cuba lagi.</string>         <!--支付失败-->
     <string name="CoinsDetails">Butiran</string>         <!--金币详情-->
@@ -207,6 +207,7 @@
     <string name="Submit">Hantar</string>
     <string name="WaitingforProcessing">Menunggu Pemprosesan</string>
     <string name="language">bahasa</string>
+    <string name="Language">Bahasa</string>
     <string name="MyParticipations">Penyertaan Saya:&#160;</string>
     <string name="loginsuccess">Log masuk berjaya</string>
     <string name="loginfailed">Log masuk gagal</string>
@@ -216,13 +217,19 @@
     <string name="operatornummwarn">Operator diperlukan</string>
     <string name="defaultaddress">Alamat lalai</string>
     <string name="ZipCode">Poskod</string>
+    <string name="News">Mesej</string>
+    <string name="warnnotifi">Kami akan maklumkan kpd anda apbl anda menang</string>
+    <string name="winning_you">Tahniah,anda memenangi psgn ke </string>
+    <string name="winning_period"></string>
+    <string name="receive_now">DAPATKAN SEKARANG</string>
+    <string name="logout_error" />
 
     <!--数字夹杂英语-->
     <!--Total 5 coins-->
     <string name="total_num">tumlah</string>
     <string name="coins_num">syiling</string>
-    <string name="Coin">Duit Syiling</string>
-    <string name="Coins">Syiling</string>
+    <string name="Coin">&#160;Duit</string>
+    <string name="Coins">&#160;Duit</string>
     <string name="Total">Jumlah</string>
 
     <!--一金币-->
@@ -230,5 +237,6 @@
     <!--10 coins + 1 free-->
     <string name="coins_coins">syiling</string>
     <string name="one_free_coins">percuma 1</string>
-    <string name="free_coins">percuma</string>
+    <string name="free_coins">&#160;percuma</string>
+
 </resources>

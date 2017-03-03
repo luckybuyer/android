@@ -124,10 +124,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
         inflate = View.inflate(context, R.layout.pager_buycoins, null);
 
         flag = context instanceof SecondPagerActivity;
-        if (context instanceof SecondPagerActivity) {
-            ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
-        }
-
 
         findView();
 
@@ -148,8 +144,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
             country = "AE";
             currency = "AED";
         }
-
-        Log.e("TAG", country + currency);
         //holypay  支付
         if (flag) {
             HaloPay.getInstance().init(((SecondPagerActivity) context), HaloPay.PORTRAIT, "3000600753");                 //holypay支付
@@ -158,7 +152,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
             HaloPay.getInstance().init(((MainActivity) context), HaloPay.PORTRAIT, "3000600753");                 //holypay支付
             HaloPay.getInstance().setLang(((MainActivity) context), country, currency, "EN");
         }
-
 
         //谷歌支付初始化
         String base64EncodedPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiIp/UfmHgk42bRgx2E2HngH3m5iD4tBkqF98E4nO2x2Pw+bqnHCCNYVNerjdwuN3Djc0XKCC5OHKqpzpscC5hHPxSOGTDTfjN9f6i8hMeC19fuQt2J86nty8loCkP6R3FOsfI8XTXtolUaLhekVSaiZp2aE3aMlaMyggeNUclVh/PA4yhLIEY12f//upuA/gbr+8RtyQRxa0rVCkIWLP8dZI32tfLKxDYGCIBfssTKgagL+NdMqBYaQXq5rmwV2DSvTIFEfOjs99JkQYZCezgmDSJWYQtqhZ0lpUsOX9D5IlCyfp7NnVXxG6FUiAAYu4ZpkHLYE4tGFrN9YoQZ60BwIDAQAB";
@@ -180,7 +173,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
         //判断打开哪些方法
         String method = Utils.getSpData("paymentmethod", context);
-        if (method.contains("halopay")) {
+        if (method.contains("android-inapp")) {
             rl_buycoins_google.setVisibility(View.VISIBLE);
             iv_buycoins_goole.setEnabled(true);
             iv_buycoins_paypal.setEnabled(false);
@@ -234,6 +227,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
         rl_loading.setVisibility(View.VISIBLE);
 
         String url = MyApplication.url + "/v1/topup-options/?per_page=20&page=1&timezone=" + MyApplication.utc;
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
@@ -901,7 +896,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
             switch (resultCode) {
                 case HaloPay.PAY_SUCCESS:
                     requestCoins();
-                    Log.e("TAG_halopay", "成功");
+                    startAlert(true);
                     break;
                 case HaloPay.PAY_ERROR:
                     //支付失败
@@ -998,8 +993,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
         if (purchaseData == null || dataSignature == null) {
             return;
         }
-        Log.e("TAG_google", purchaseData);
-        Log.e("TAG_google", dataSignature);
+
+        startAlert(true);
 
         String url = MyApplication.url + "/v1/payments/android-inapp/?timezone=" + MyApplication.utc;
         Log.e("TAG_google", url);
@@ -1112,6 +1107,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override

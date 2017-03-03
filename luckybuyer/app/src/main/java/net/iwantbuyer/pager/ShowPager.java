@@ -88,7 +88,10 @@ public class ShowPager extends BaseNoTrackPager{
             url = MyApplication.url + "/v1/posts/?per_page=20&page=1&timezone=" + MyApplication.utc;
         }
 
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -207,7 +210,10 @@ public class ShowPager extends BaseNoTrackPager{
                         url = MyApplication.url + "/v1/posts/?per_page=20&page="+page+"&timezone=" + MyApplication.utc;
                     }
 
-                    HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+                    Map map = new HashMap();
+                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
+                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string) {
                             ((Activity) context).runOnUiThread(new Runnable() {

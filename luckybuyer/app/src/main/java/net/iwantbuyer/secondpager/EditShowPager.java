@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.appsflyer.AppsFlyerLib;
+
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.adapter.EditShowAdapter;
@@ -174,6 +176,7 @@ public class EditShowPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {

@@ -16,10 +16,24 @@
 
 package net.iwantbuyer.sever;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
+
+import net.iwantbuyer.R;
+import net.iwantbuyer.activity.SecondPagerActivity;
+import net.iwantbuyer.app.MyApplication;
+import net.iwantbuyer.bean.FCMBean;
+import net.iwantbuyer.utils.HttpUtils;
+import net.iwantbuyer.utils.MyBase64;
+import net.iwantbuyer.utils.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
@@ -36,7 +50,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        Log.e("TAG_firebase", "Refreshed token: " + refreshedToken);
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
@@ -54,6 +68,34 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      * @param token The new token.
      */
     private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
+        Utils.setSpData("refreshedToken",token,this);
+        String mToken = Utils.getSpData("token", this);
+        if(mToken == null || "".equals(mToken) || token == null) {
+            return;
+        }
+        String lang = Utils.getSpData("locale", this);
+        if(lang != null && !lang.equals("")) {
+            lang = lang.split("-")[0] + "";
+        }
+        String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + MyApplication.utc;
+        FCMBean fcm = new FCMBean(lang,"android",token);
+        String json = fcm.toString();
+
+        Map map = new HashMap();
+        map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+            }
+
+            @Override
+            public void failure(Exception exception) {
+            }
+        });
     }
 }

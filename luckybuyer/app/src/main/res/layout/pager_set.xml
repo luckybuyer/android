@@ -83,6 +83,7 @@
             android:background="@color/bg_view"></View>
 
         <TextView
+            android:id="@+id/tv_set_cl"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_40"
             android:layout_centerVertical="true"

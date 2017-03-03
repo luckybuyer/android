@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/dimen_6"
             android:layout_toRightOf="@+id/tv_notification_warn"
-            android:text="@string/goset"
+            android:text="nihao"
             android:textColor="#86534d"
             android:textSize="@dimen/dimen_22" />
 

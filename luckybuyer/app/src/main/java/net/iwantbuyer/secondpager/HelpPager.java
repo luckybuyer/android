@@ -24,7 +24,6 @@ public class HelpPager extends BaseNoTrackPager{
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_help,null);
-        ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         findView();
         setView();
         return inflate;

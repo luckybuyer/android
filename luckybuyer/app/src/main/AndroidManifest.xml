@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <!--支付权限-->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
@@ -36,7 +36,14 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="net.iwantbuyer.activity.SecondPagerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="secondpager" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
         <activity
             android:name="net.iwantbuyer.activity.ThirdPagerActivity"
             android:screenOrientation="portrait" />
@@ -49,6 +56,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
 
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
@@ -92,8 +110,8 @@
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            tools:ignore="ManifestResource"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"
+            tools:ignore="ManifestResource" />
 
         <provider
             android:name="com.facebook.FacebookContentProvider"

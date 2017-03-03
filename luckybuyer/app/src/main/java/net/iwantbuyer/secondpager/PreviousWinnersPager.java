@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -20,6 +21,9 @@ import net.iwantbuyer.base.BasePager;
 import net.iwantbuyer.bean.PreviousWinnerBean;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by admin on 2016/9/18.
@@ -50,8 +54,9 @@ public class PreviousWinnersPager extends BasePager {
         rl_neterror.setVisibility(View.GONE);
         rl_loading.setVisibility(View.VISIBLE);
         String url = MyApplication.url + "/v1/games/?status=finished&batch_id="+ ((ThirdPagerActivity)context).batch_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
-        Log.e("TAG", url);
-        HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 ((Activity) context).runOnUiThread(new Runnable() {

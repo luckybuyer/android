@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -46,7 +47,6 @@ public class ShippingAddressPager extends BaseNoTrackPager {
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_shipping, null);
-        ((SecondPagerActivity) context).rl_secondpager_header.setVisibility(View.GONE);
         findView();
         return inflate;
     }
@@ -63,6 +63,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         String token = Utils.getSpData("token", context);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(MyBuyUrl, map, new HttpUtils.OnRequestListener() {
                     @Override
