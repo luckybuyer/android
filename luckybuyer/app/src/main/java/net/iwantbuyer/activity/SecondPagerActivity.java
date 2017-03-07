@@ -557,7 +557,7 @@ public class SecondPagerActivity extends FragmentActivity {
         }
 
         // Pass on the activity result to the helper for handling
-        if (buyCoinPager != null && buyCoinPager.mHelper != null && !buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
+        if (requestCode != 770 && requestCode != 0 && buyCoinPager != null && buyCoinPager.mHelper != null && !buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
             // not handled, so handle it ourselves (here's where you'd
             // perform any handling of activity results not related to in-app
             // billing...

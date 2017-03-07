@@ -33,6 +33,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import net.iwantbuyer.R;
 import net.iwantbuyer.view.CustomToast;
 
 import java.io.ByteArrayInputStream;
@@ -362,7 +363,7 @@ public class Utils {
         mPopupWindow.setFocusable(true);
         mPopupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
         mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
+        mPopupWindow.setAnimationStyle(R.style.popwin_anim_style);
         ColorDrawable dw = new ColorDrawable(0xb0000000);
         mPopupWindow.setFocusable(true);
         mPopupWindow.setBackgroundDrawable(dw);

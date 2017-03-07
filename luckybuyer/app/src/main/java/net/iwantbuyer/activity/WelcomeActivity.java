@@ -70,15 +70,6 @@ public class WelcomeActivity extends Activity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_welcome);
 
-//        resources = this.getResources();
-//        dm = resources.getDisplayMetrics();
-//        config = resources.getConfiguration();
-//
-//        // 应用用户选择语言
-//        Locale locale = new Locale("ms","MY");
-//        config.locale = locale;
-////        config.locale = Locale.CHINA;
-//        resources.updateConfiguration(config, dm);
 
 
         fl_welcome = (FrameLayout) findViewById(R.id.fl_welcome);

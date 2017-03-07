@@ -239,6 +239,7 @@
     <string name="coins_coins">coins</string>
     <string name="one_free_coins">1 free</string>
     <string name="free_coins">&#160;free</string>
+    <string name="seletebuycoinsmethod">Choose Payment Method</string>
 
 
 </resources>

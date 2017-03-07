@@ -57,6 +57,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.halopay.sdk.main.HaloPay;
+import com.payssion.android.sdk.PayssionActivity;
+import com.payssion.android.sdk.model.PayResponse;
 
 //import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
@@ -853,6 +855,13 @@ public class MainActivity extends FragmentActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.e("TAG_payssion", resultCode + "");
+        if(requestCode == PayssionActivity.RESULT_OK) {
+            if (null != data) {
+                PayResponse response = (PayResponse)data.getSerializableExtra(PayssionActivity.RESULT_DATA);
+                Log.e("TAG_pay", response.toString() + "");
+            }
+        }
         if (resultCode == 0 && data != null && "homepager".equals(data.getStringExtra("go"))) {
             rg_main.check(0);
 //            switchPage(0);
@@ -879,7 +888,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         // Pass on the activity result to the helper for handling
-        if (buyCoinPager != null && buyCoinPager.mHelper != null && !buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
+        if (requestCode != 770 && requestCode != 0 && buyCoinPager != null && buyCoinPager.mHelper != null && !buyCoinPager.mHelper.handleActivityResult(requestCode, resultCode, data)) {
             // not handled, so handle it ourselves (here's where you'd
             // perform any handling of activity results not related to in-app
             // billing...
@@ -899,8 +908,6 @@ public class MainActivity extends FragmentActivity {
     // Callback for when a purchase is finished
     public IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d("TAG", "Purchase finished: " + result + ", purchase: " + purchase);
-            Log.e("TAG_点击之后", result.toString());
             if (result.isFailure()) {
                 return;
             }

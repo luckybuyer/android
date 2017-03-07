@@ -93,6 +93,16 @@
         <activity
             android:name="com.auth0.android.provider.WebAuthActivity"
             android:theme="@style/Lock.Theme" />
+
+        <activity
+            android:name="com.payssion.android.sdk.PayssionActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.PayssionTrans"/>
+        <activity
+            android:name="com.payssion.android.sdk.PaymentWebActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <!-- 支付 -->
         <activity
             android:name="com.paypal.android.sdk.payments.PaymentActivity"

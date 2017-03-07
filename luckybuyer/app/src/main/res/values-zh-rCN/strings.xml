@@ -238,5 +238,6 @@
     <string name="winning_period">期</string>
     <string name="receive_now">立&#160;即&#160;领&#160;取</string>
     <string name="logout_error">退出登陆失败</string>
+    <string name="seletebuycoinsmethod">Choose Payment Method</string>
 
 </resources>
