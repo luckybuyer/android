@@ -20,9 +20,11 @@ import com.paypal.android.sdk.payments.PaymentActivity;
 import net.iwantbuyer.R;
 import net.iwantbuyer.bean.BuyCoinBean;
 import net.iwantbuyer.bean.BuyCoinsMethodBean;
+import net.iwantbuyer.utils.Utils;
 
 import org.json.JSONException;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -63,13 +65,19 @@ public class BuyCoinMethodAdapter extends RecyclerView.Adapter<BuyCoinMethodAdap
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         if ("android-inapp".equals(list.get(position).getMethod())) {
             holder.iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_google);
-        } else if ("paypal".equals(list.get(position).getMethod())) {
-            holder.iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_paypal);
-        } else if ("visa".equals(list.get(position).getMethod())) {
-            holder.iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_visa);
-        } else if ("halopay".equals(list.get(position).getMethod())) {
-            holder.iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_cashu);
+        } else {
+            try {
+                Field field = R.drawable.class.getField("buycoins_" + list.get(position).getMethod());
+                int i = field.getInt(new R.drawable());
+                holder.iv_buycoins_method_pay.setBackgroundResource(i);
+//            Log.e("TAG", image + "");
+            } catch (Exception e) {
+
+            }
         }
+
+        String str = getMethodName(list.get(position).getMethod() + "");
+        holder.tv_buycoins_method.setText(str);
         if (list.get(position).isFlag()) {
             holder.iv_buycoins_method_mark.setVisibility(View.VISIBLE);
         } else {
@@ -95,6 +103,9 @@ public class BuyCoinMethodAdapter extends RecyclerView.Adapter<BuyCoinMethodAdap
                 } else if ("visa".equals(method)) {
                     Map eventValue = new HashMap<String, Object>();
                     AppsFlyerLib.getInstance().trackEvent(context, "CLICK: Master or Visa", eventValue);
+                }else {
+                    Map eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(context, list.get(position).getMethod() + "", eventValue);
                 }
                 for (int i = 0; i < list.size(); i++) {
                     list.get(i).setFlag(false);
@@ -110,15 +121,64 @@ public class BuyCoinMethodAdapter extends RecyclerView.Adapter<BuyCoinMethodAdap
         return list.size();
     }
 
+    private String getMethodName(String meth) {
+        String methed = "";
+        switch (meth) {
+            case "android-inapp":
+                methed = "Google Play";
+                break;
+            case "halopay":
+                methed = "Other payment";
+                break;
+            case "visa":
+                methed = "Other payment";
+                break;
+            case "7eleven_my":
+                methed = "7-eleven";
+                break;
+            case "affinepg_my":
+                methed = "Affin Bank";
+                break;
+            case "amb_my":
+                methed = "Am online";
+                break;
+            case "cimb_my":
+                methed = "CIMB Clicks";
+                break;
+            case "epay_my":
+                methed = "epay";
+                break;
+            case "esapay_my":
+                methed = "Esapay";
+                break;
+            case "hlb_my":
+                methed = "Hong Leong";
+                break;
+            case "maybank2u_my":
+                methed = "Maybank2u";
+                break;
+            case "rhb_my":
+                methed = "RHB Now";
+                break;
+            case "webcash_my":
+                methed = "Webcash";
+                break;
+        }
+
+        return methed;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView iv_buycoins_method_pay;
         private ImageView iv_buycoins_method_mark;
+        private TextView tv_buycoins_method;
         private View view;
 
         public ViewHolder(View itemView) {
             super(itemView);
             iv_buycoins_method_pay = (ImageView) itemView.findViewById(R.id.iv_buycoins_method_pay);
             iv_buycoins_method_mark = (ImageView) itemView.findViewById(R.id.iv_buycoins_method_mark);
+            tv_buycoins_method = (TextView) itemView.findViewById(R.id.tv_buycoins_method);
             view = itemView;
         }
     }

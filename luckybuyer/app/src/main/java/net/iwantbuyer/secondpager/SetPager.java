@@ -159,7 +159,7 @@ public class SetPager extends BasePager {
                             Utils.setSpData("token_num", null, context);
                             ((SecondPagerActivity) context).finish();
                         } else {
-                            Utils.MyToast(context, "推出登陆失败");
+                            Utils.MyToast(context, "退出登陆失败");
                         }
                         HttpUtils.getInstance().stopNetWorkWaiting();
 

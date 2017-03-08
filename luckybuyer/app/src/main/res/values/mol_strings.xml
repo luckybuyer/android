@@ -1,0 +1,38 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="mol_app_name">MolPayment</string>
+    <string name="mol_expense">Hay Day</string>
+    
+    <string name="mol_total_money">Mol Indonesia</string>
+    <string name="mol_pay_text">PAY</string>
+    
+    <string name="mol_close">OK</string>
+	<string name="mol_cancle">CANCEL</string>
+	
+	<string name="mol_login">LOGIN</string>
+	
+	<string name="mol_pay_no">NO</string>
+	<string name="mol_pay_yes">YES</string>
+	
+	<string name="mol_serial_no">serial no</string>
+	<string name="mol_pin">pin</string>
+	<string name="mol_pin_input_title">Purchase Mobo Coins.</string>
+	
+	<string name="mol_login_title">MOL Account</string>
+	<string name="mol_email">email</string>
+	<string name="mol_password">password</string>
+	
+	<string name="mol_wall_select">Payment Options</string>
+	<string name="mol_wall_description">Select wallet to pay.</string>
+	
+	<string name="mol_example">Example:</string>
+	<string name="mol_p2g_desine_1">Do you want to buy this product for 1.00 MYR, It will be charge on you phone?</string>
+	<string name="mol_p2g_desine_2">It will be charge on you phone.</string>
+	<string name="mol_phone_num">Mobile number</string>
+	<string name="mol_p2g_success">Thank you for using Easy2Pay!</string>
+	<string name="mol_wati_dialog_info">Please wait.</string>
+	<string name="mol_ssl_warnings_header">There are problems with the security certificate for this site.</string>
+	<string name="mol_ssl_continue">Continue</string>
+	<string name="mol_ssl_cancel">Cancel</string>
+	<string name="mol_security_warning">Security warning.</string>
+</resources>

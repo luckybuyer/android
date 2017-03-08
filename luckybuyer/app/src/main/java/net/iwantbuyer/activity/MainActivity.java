@@ -1000,7 +1000,9 @@ public class MainActivity extends FragmentActivity {
         iv_home_use.setOnClickListener(new MyOnclickListener());
         iv_gift__use_close.setOnClickListener(new MyOnclickListener());
 
-        if ("2".equals(Utils.getSpData("gifts_new_user", this))) {
+        if ("1".equals(Utils.getSpData("gifts_new_user", this))) {
+            iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_one));
+        } else if ("2".equals(Utils.getSpData("gifts_new_user", this))) {
             iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_two));
         } else if ("3".equals(Utils.getSpData("gifts_new_user", this))) {
             iv_home_coin.setBackground(ContextCompat.getDrawable(this, R.drawable.home_gift_three));

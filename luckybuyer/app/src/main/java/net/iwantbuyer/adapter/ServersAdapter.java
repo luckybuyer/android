@@ -106,7 +106,6 @@ public class ServersAdapter extends RecyclerView.Adapter<ServersAdapter.MyViewHo
                 holder.tv_severs_store.setText(serverBean.getServers().get(i).getName()+"");
             }
         }
-
         if (!flag) {
             holder.rl_server.setVisibility(View.GONE);
         } else {

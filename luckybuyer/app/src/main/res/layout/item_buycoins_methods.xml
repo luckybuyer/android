@@ -7,20 +7,31 @@
 
     <ImageView
         android:id="@+id/iv_buycoins_method_pay"
-        android:layout_width="@dimen/dimen_170"
-        android:layout_height="@dimen/dimen_34"
-        android:layout_marginTop="@dimen/dimen_34"
+        android:layout_width="@dimen/dimen_140"
+        android:layout_height="@dimen/dimen_48"
+        android:layout_marginBottom="@dimen/dimen_26"
         android:layout_marginStart="@dimen/dimen_24"
-        android:layout_marginBottom="@dimen/dimen_34"
+        android:layout_marginTop="@dimen/dimen_26"
         android:background="@drawable/buycoins_google" />
+
+    <TextView
+        android:id="@+id/tv_buycoins_method"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dimen_24"
+        android:layout_toRightOf="@+id/iv_buycoins_method_pay"
+        android:text="@string/Googleplay"
+        android:textColor="#666666"
+        android:textSize="@dimen/dimen_32" />
 
     <ImageView
         android:id="@+id/iv_buycoins_method_mark"
         android:layout_width="@dimen/dimen_36"
         android:layout_height="@dimen/dimen_25"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/dimen_35"
         android:layout_marginEnd="@dimen/dimen_24"
+        android:layout_marginTop="@dimen/dimen_35"
         android:background="@drawable/buycoins_true" />
 
     <View

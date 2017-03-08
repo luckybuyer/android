@@ -239,5 +239,6 @@
     <string name="one_free_coins">percuma 1</string>
     <string name="free_coins">&#160;percuma</string>
     <string name="seletebuycoinsmethod">Choose Payment Method</string>
+    <string name="Googleplay">谷歌支付</string>
 
 </resources>

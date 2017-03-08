@@ -260,12 +260,16 @@ public class WelcomeActivity extends Activity {
     }
 
     private void processData(String response) {
-        Log.e("TAG", response);
         Gson gson = new Gson();
         PaySwitchBean paySwitchBean = gson.fromJson(response, PaySwitchBean.class);
         String method = "";
         for (int i = 0; i < paySwitchBean.getPayment_methods().size(); i++) {
-            method += paySwitchBean.getPayment_methods().get(i).getVendor();
+            if(i == 0) {
+                method += paySwitchBean.getPayment_methods().get(i).getVendor();
+            }else {
+                method += "." + paySwitchBean.getPayment_methods().get(i).getVendor();
+            }
+
         }
         Utils.setSpData("paymentmethod", method, this);
 

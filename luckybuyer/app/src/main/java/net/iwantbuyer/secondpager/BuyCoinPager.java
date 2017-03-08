@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,8 +29,12 @@ import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
+import com.halopay.androidlocation.NetworkLocationManager;
 import com.halopay.interfaces.callback.IPayResultCallback;
 import com.halopay.sdk.main.HaloPay;
+import com.mol.payment.MOLConst;
+import com.mol.payment.MOLPayment;
+import com.mol.payment.PaymentListener;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
 import com.paypal.android.sdk.payments.PayPalService;
@@ -60,9 +65,11 @@ import net.iwantbuyer.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +110,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
     private RelativeLayout rl_buycoins_google;
     private RelativeLayout rl_buycoins_method;
     private ImageView iv_buycoins_method_pay;
+    private TextView tv_buycoins_method;
 
     private BuyCoinBean buyCoinBean;
 
@@ -194,6 +202,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
         AppsFlyerLib.getInstance().trackEvent(context, "PAGE:topup", eventValue);
+        MOLPayment.setTestMode(true);
+//        processMol("string");
 
         return inflate;
     }
@@ -280,6 +290,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 //        rv_buycoins_methods = (RecyclerView) inflate.findViewById(R.id.rv_buycoins_methods);
         rl_buycoins_method = (RelativeLayout) inflate.findViewById(R.id.rl_buycoins_method);
         iv_buycoins_method_pay = (ImageView) inflate.findViewById(R.id.iv_buycoins_method_pay);
+        tv_buycoins_method = (TextView) inflate.findViewById(R.id.tv_buycoins_method);
 
 
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
@@ -395,17 +406,23 @@ public class BuyCoinPager extends BaseNoTrackPager {
     }
 
     public void setView(String methods) {
+        if (methods == null) {
+            return;
+        }
         if (methods.equals("android-inapp")) {
             iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_google);
-        }else if (methods.equals("paypal")) {
-            iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_paypal);
-        } else if (methods.equals("visa")) {
-            iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_visa);
-        } else if (methods.equals("cashu")) {
-            iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoin_cashu);
-        }else if (methods.contains("halopay")) {
-            iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoin_cashu);
+        } else {
+            try {
+                Field field = R.drawable.class.getField("buycoins_" + methods);
+                int i = field.getInt(new R.drawable());
+                iv_buycoins_method_pay.setBackgroundResource(i);
+//            Log.e("TAG", image + "");
+            } catch (Exception e) {
+
+            }
         }
+        String str = getMethodName(methods + "");
+        tv_buycoins_method.setText(str);
     }
 
 
@@ -498,6 +515,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
                             eventValue.put("%method", "Master or Visa");
                             AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
+                        } else if (method != null && method.contains("_")) {
+                            startPayssion(method);
+                            eventValue.put("%method", method);
+                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
                         }
 
                         //埋点
@@ -576,16 +597,20 @@ public class BuyCoinPager extends BaseNoTrackPager {
             BuyCoinPager.this.method = method;
             if ("android-inapp".equals(method)) {
                 iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_google);
-            } else if ("halopay".equals(method)) {
-                iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_cashu);
-            } else if ("paypal".equals(method)) {
-                iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_paypal);
-            } else if ("visa".equals(method)) {
-                iv_buycoins_method_pay.setBackgroundResource(R.drawable.buycoins_visa);
+            } else {
+                try {
+                    Field field = R.drawable.class.getField("buycoins_" + method);
+                    int i = field.getInt(new R.drawable());
+                    iv_buycoins_method_pay.setBackgroundResource(i);
+                } catch (Exception e) {
+
+                }
             }
             if (ppw != null && ppw.isShowing()) {
                 ppw.dismiss();
             }
+            String str = getMethodName(method + "");
+            tv_buycoins_method.setText(str);
             Utils.setSpData("buymethod", method, context);
         }
     }
@@ -1080,7 +1105,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         .setAPIKey("4ab54b3610cb2f43") //Your API Key
                         .setAmount(payssionIdBean.getAmount())
                         .setCurrency(payssionIdBean.getCurrency())
-//                        .setPMId("qiwi")
+                        .setPMId(method)
                         .setDescription("luckybuyer")
                         .setOrderId(payssionIdBean.getOrder_id()) //Your order id
                         .setSecretKey("8b9361c007c2df3eeb579a0523abd851"));
@@ -1092,6 +1117,38 @@ public class BuyCoinPager extends BaseNoTrackPager {
             ((MainActivity) context).startActivityForResult(intent, 0);
         }
 
+    }
+
+    private final static String Secret_Key = "Ziu61T9xY227aazS530Pk8C5424y663r";
+    private final static String Application_Code = "3f2504e04f8911d39a0c0305e82c3301";
+
+    //进行Mol支付
+    private void processMol(String response) {
+        MOLPayment molPayment = new MOLPayment(context, Secret_Key, Application_Code);
+        Bundle inputBundle = new Bundle();
+        inputBundle.putString(MOLConst.B_Key_ReferenceId, "RID" + (System.currentTimeMillis() & 0xFFFFFFFFL));    // Required
+        inputBundle.putLong(MOLConst.B_Key_Amount, 5000);                        // Required
+        inputBundle.putString(MOLConst.B_Key_CurrencyCode, "MYR");                // Required
+        inputBundle.putString(MOLConst.B_Key_CustomerId, "12321144221");        // Required
+        inputBundle.putString(MOLConst.B_Key_Description, "50000 Diamond");    // Optional
+        try {
+            molPayment.pay(context, inputBundle, new PaymentListener() {
+                @Override
+                public void onBack(int action, Bundle outputBundle) {
+                    // TODO Auto-generated method stub
+                    showInfo(outputBundle.toString());
+                }
+            });
+        } catch (Exception e) {
+            showInfo(e.getMessage());
+        }
+    }
+
+    private void showInfo(String con) {
+        new AlertDialog.Builder(context)
+                .setTitle("Payment Result")
+                .setMessage(con)
+                .setPositiveButton("OK", null).show();
     }
 
     private PopupWindow ppw;
@@ -1112,40 +1169,15 @@ public class BuyCoinPager extends BaseNoTrackPager {
         list.clear();
         //判断打开哪些方法
         String methods = Utils.getSpData("paymentmethod", context);
-        if (methods.contains("android-inapp")) {
-            if ("android-inapp".equals(method)) {
-                list.add(new BuyCoinsMethodBean(true, "android-inapp"));
-            } else {
-                list.add(new BuyCoinsMethodBean(false, "android-inapp"));
-            }
-        }
-        if (methods.contains("paypal")) {
-            if ("paypal".equals(method)) {
-                list.add(new BuyCoinsMethodBean(true, "paypal"));
-            } else {
-                list.add(new BuyCoinsMethodBean(false, "paypal"));
-            }
-        }
-        if (methods.contains("visa")) {
-            if ("visa".equals(method)) {
-                list.add(new BuyCoinsMethodBean(true, "visa"));
-            } else {
-                list.add(new BuyCoinsMethodBean(false, "visa"));
-            }
-        }
-        if (methods.contains("cashu")) {
-            if ("cashu".equals(method)) {
-                list.add(new BuyCoinsMethodBean(true, "cashu"));
-            } else {
-                list.add(new BuyCoinsMethodBean(false, "cashu"));
-            }
-        }
+        if (methods != null && methods.length() > 0) {
+            String[] split = methods.split("\\.");
+            for (int i = 0; i < split.length; i++) {
+                if (method != null && split[i].equals(method)) {
+                    list.add(new BuyCoinsMethodBean(true, split[i]));
+                } else {
+                    list.add(new BuyCoinsMethodBean(false, split[i]));
+                }
 
-        if (methods.contains("halopay")) {
-            if ("halopay".equals(method)) {
-                list.add(new BuyCoinsMethodBean(true, "halopay"));
-            } else {
-                list.add(new BuyCoinsMethodBean(false, "halopay"));
             }
         }
 
@@ -1153,6 +1185,53 @@ public class BuyCoinPager extends BaseNoTrackPager {
         rv_buycoins_method.setAdapter(buyCoinMethodAdapter);
         rv_buycoins_method.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         buyCoinMethodAdapter.setBuyCoinMethodOnClickListener(new MyBuyMethodcoinsListener());
+    }
+
+    private String getMethodName(String meth) {
+        String methed = "";
+        switch (meth) {
+            case "android-inapp":
+                methed = "Google Play";
+                break;
+            case "halopay":
+                methed = "Other payment";
+                break;
+            case "visa":
+                methed = "Other payment";
+                break;
+            case "7eleven_my":
+                methed = "7-eleven";
+                break;
+            case "affinepg_my":
+                methed = "Affin Bank";
+                break;
+            case "amb_my":
+                methed = "Am online";
+                break;
+            case "cimb_my":
+                methed = "CIMB Clicks";
+                break;
+            case "epay_my":
+                methed = "epay";
+                break;
+            case "esapay_my":
+                methed = "Esapay";
+                break;
+            case "hlb_my":
+                methed = "Hong Leong";
+                break;
+            case "maybank2u_my":
+                methed = "Maybank2u";
+                break;
+            case "rhb_my":
+                methed = "RHB Now";
+                break;
+            case "webcash_my":
+                methed = "Webcash";
+                break;
+        }
+
+        return methed;
     }
 
     @Override
