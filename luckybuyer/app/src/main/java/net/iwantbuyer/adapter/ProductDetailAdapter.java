@@ -77,24 +77,6 @@ public class ProductDetailAdapter extends RecyclerView.Adapter<ProductDetailAdap
             Glide.with(context).load(imgUrl).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                    int imageWidth = resource.getWidth();
-//                    int imageHeight = resource.getHeight();
-////                                int imageHeight = resource.getWidth()*9/16;
-////                                int width=ScreenUtils.getScreenWidth(NewsInfoActivity.this);
-//                    //得到屏幕的 尺寸 动态设置
-//                    WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-//                    int screenWidth = wm.getDefaultDisplay().getWidth();
-//                    int screenHeight = wm.getDefaultDisplay().getHeight();
-//                    int height = screenWidth * imageHeight/ imageWidth;
-////                                Log.e("TAG", "height"+height);
-//                    Log.e("TAG--", "imageWidth"+imageWidth);
-//                    Log.e("TAG--", "imageHeight"+imageHeight);
-//                    ViewGroup.LayoutParams para = holder.civ_productdetail.getLayoutParams();
-////                                para.width=width;
-//                    para.height = imageWidth;
-//                    holder.civ_productdetail.setLayoutParams(para);
-//                    Glide.with(context).load(imgUrl).asBitmap().into(holder.civ_productdetail);
-
                     holder.civ_productdetail.setImageBitmap(resource);
                 }
             });

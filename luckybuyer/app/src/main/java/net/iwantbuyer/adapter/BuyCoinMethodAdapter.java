@@ -103,9 +103,12 @@ public class BuyCoinMethodAdapter extends RecyclerView.Adapter<BuyCoinMethodAdap
                 } else if ("visa".equals(method)) {
                     Map eventValue = new HashMap<String, Object>();
                     AppsFlyerLib.getInstance().trackEvent(context, "CLICK: Master or Visa", eventValue);
+                }else if(method.contains("_")) {
+                    Map eventValue = new HashMap<String, Object>();
+                    AppsFlyerLib.getInstance().trackEvent(context, "CLICK: Payssion", eventValue);
                 }else {
                     Map eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context, list.get(position).getMethod() + "", eventValue);
+                    AppsFlyerLib.getInstance().trackEvent(context, "CLICK: Mol", eventValue);
                 }
                 for (int i = 0; i < list.size(); i++) {
                     list.get(i).setFlag(false);
@@ -127,11 +130,17 @@ public class BuyCoinMethodAdapter extends RecyclerView.Adapter<BuyCoinMethodAdap
             case "android-inapp":
                 methed = "Google Play";
                 break;
+            case "fpx_my":
+                methed = "Myclear FPX";
+                break;
             case "halopay":
                 methed = "Other payment";
                 break;
             case "visa":
                 methed = "Other payment";
+                break;
+            case "mol_wallet":
+                methed = "MOLWallet";
                 break;
             case "7eleven_my":
                 methed = "7-eleven";
@@ -162,6 +171,9 @@ public class BuyCoinMethodAdapter extends RecyclerView.Adapter<BuyCoinMethodAdap
                 break;
             case "webcash_my":
                 methed = "Webcash";
+                break;
+            case "paypal":
+                methed = "paypal";
                 break;
         }
 

@@ -84,7 +84,7 @@ public class ProductDetailBean {
 
     private ProductBean product;
     private int result_countdown;
-    private int share_price;
+    private double share_price;
     private int shares;
     private String start_at;
     private String status;
@@ -186,7 +186,7 @@ public class ProductDetailBean {
         this.result_countdown = result_countdown;
     }
 
-    public int getShare_price() {
+    public double getShare_price() {
         return share_price;
     }
 

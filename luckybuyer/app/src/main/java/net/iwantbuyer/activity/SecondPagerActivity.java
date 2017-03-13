@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -52,6 +53,7 @@ import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.bean.DispatchGameBean;
 import net.iwantbuyer.bean.FCMBean;
+import net.iwantbuyer.bean.GiftHasGiven;
 import net.iwantbuyer.bean.ShippingAddressBean;
 import net.iwantbuyer.bean.TokenBean;
 import net.iwantbuyer.bean.User;
@@ -299,6 +301,17 @@ public class SecondPagerActivity extends FragmentActivity {
                         switchPage(7);
                     }
                     break;
+
+                case R.id.tv_cheat_devicehas:
+                    if(deviceHasGift != null && deviceHasGift.isShowing()) {
+                        deviceHasGift.dismiss();
+                    }
+                    break;
+                case R.id.iv_cheat_close:
+                    if(deviceHasGift != null && deviceHasGift.isShowing()) {
+                        deviceHasGift.dismiss();
+                    }
+                    break;
             }
         }
     }
@@ -333,8 +346,6 @@ public class SecondPagerActivity extends FragmentActivity {
 
             Utils.setSpData("token", token, SecondPagerActivity.this);
             Utils.setSpData("token_num", tokenBean.getExp() + "", SecondPagerActivity.this);
-            //赠送金币成功
-            startGift();
 
             Login(token);
 
@@ -434,6 +445,13 @@ public class SecondPagerActivity extends FragmentActivity {
                 Utils.setSpData("name", user.getProfile().getName(), SecondPagerActivity.this);
                 Utils.setSpData("picture", user.getProfile().getPicture(), SecondPagerActivity.this);
                 Utils.setSpData("social_link", user.getProfile().getSocial_link(), SecondPagerActivity.this);
+
+                //判断是否  新手 送礼包
+                Log.e("TAG_gift", user.isHas_given_new_user_gift() + "");
+                if(!user.isHas_given_new_user_gift()) {
+                    startGift();
+                }
+
             }
 
             @Override
@@ -501,31 +519,6 @@ public class SecondPagerActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            if ("productdetail".equals(from)) {
-//                switchPage(0);
-//                from = "";
-//                return false;
-//            } else if ("coindetailpager".equals(from)) {
-//                switchPage(5);
-//                from = "";
-//                return false;
-//            } else if ("dispatchpager".equals(from)) {
-//                switchPage(7);
-//                from = "";
-//                return false;
-//            } else if ("setpager".equals(from)) {
-//                switchPage(4);
-//                from = "";
-//                return false;
-//            } else if ("shippingaddress".equals(from)) {
-//                switchPage(9);
-//                from = "";
-//                return false;
-//            } else if ("buycoinpager".equals(from)) {
-//                switchPage(6);
-//                from = "";
-//                return false;
-//            }
             if ("buycoins".equals(from)) {
                 finish();
             }
@@ -598,19 +591,25 @@ public class SecondPagerActivity extends FragmentActivity {
         }
     };
 
-    boolean fl = true;
     private void startGift() {
-        if(fl = false) {
+        Log.e("TAG_giftis", Utils.isEmulator() + "");
+        if(Utils.isEmulator()) {
+            //是虚拟机需要怎么处理
             return;
         }
-        fl = false;
-        String url = MyApplication.url + "/v1/gifts/new_user/?timezone=" + MyApplication.utc;
-        Log.e("TAG_gift..", url);
+
+        TelephonyManager telephonemanager = (TelephonyManager) SecondPagerActivity.this
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        String imei = telephonemanager.getDeviceId();
+
+        String url = MyApplication.url + "/v1/gifts/new-user2/?timezone=" + MyApplication.utc;
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
-        HttpUtils.getInstance().postRequest(url, map, new HttpUtils.OnRequestListener() {
+        String json = "{\"device_id\": \""+imei+"\"}";
+
+        HttpUtils.getInstance().postJson(url, json,map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 SecondPagerActivity.this.runOnUiThread(new Runnable() {
@@ -627,10 +626,17 @@ public class SecondPagerActivity extends FragmentActivity {
                 SecondPagerActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (code == 419) {
-                            Log.e("TAG_gift...", "已经赠送过了");
-                        }else {
-                            Utils.MyToast(SecondPagerActivity.this,SecondPagerActivity.this.getString(R.string.Networkfailure)+ code + "gifts");
+                        Log.e("TAG_gift", code + message);
+                        if (code == 409) {
+                            Gson gson = new Gson();
+                            GiftHasGiven giftHasGiven = gson.fromJson(message, GiftHasGiven.class);
+                            if("GiftGivenToUser".equals(giftHasGiven.getType())) {
+
+                            }else if("GiftGivenToDevice".equals(giftHasGiven.getType())) {
+                                startDeviceHasGift();
+                            }
+                        } else {
+                            Utils.MyToast(SecondPagerActivity.this, SecondPagerActivity.this.getString(R.string.Networkfailure) + code + "gifts");
                         }
                     }
                 });
@@ -676,6 +682,29 @@ public class SecondPagerActivity extends FragmentActivity {
 //        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
         showUse.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return showUse;
+    }
+
+    AlertDialog deviceHasGift;
+    private AlertDialog startDeviceHasGift(){
+        View inflate = View.inflate(this, R.layout.alertdialog_home_cheat, null);
+        TextView tv_cheat_devicehas = (TextView) inflate.findViewById(R.id.tv_cheat_devicehas);
+        ImageView iv_cheat_close = (ImageView) inflate.findViewById(R.id.iv_cheat_close);
+        tv_cheat_devicehas.setOnClickListener(new MyOnClickListener());
+        iv_cheat_close.setOnClickListener(new MyOnClickListener());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(inflate);
+        if (!this.isDestroyed()) {
+            deviceHasGift = builder.show();
+            deviceHasGift.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+            deviceHasGift.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Window window = deviceHasGift.getWindow();
+            window.setGravity(Gravity.CENTER);
+//        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+            deviceHasGift.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        return deviceHasGift;
     }
 
     @Override

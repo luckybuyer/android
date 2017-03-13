@@ -194,28 +194,28 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_lucky_continue"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_54"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_350"
-        android:visibility="gone"
-        android:background="#ff311a"
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_lucky_continue"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="@dimen/dimen_54"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginEnd="@dimen/dimen_24"-->
+        <!--android:layout_marginTop="@dimen/dimen_350"-->
+        <!--android:visibility="gone"-->
+        <!--android:background="#ff311a"-->
 
-        android:gravity="center">
+        <!--android:gravity="center">-->
 
-        <TextView
-            android:paddingStart="@dimen/dimen_8"
-            android:paddingEnd="@dimen/dimen_8"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Participantagain"
-            android:textColor="@color/text_white"
-            android:textSize="@dimen/dimen_28" />
-    </RelativeLayout>
+        <!--<TextView-->
+            <!--android:paddingStart="@dimen/dimen_8"-->
+            <!--android:paddingEnd="@dimen/dimen_8"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/Participantagain"-->
+            <!--android:textColor="@color/text_white"-->
+            <!--android:textSize="@dimen/dimen_28" />-->
+    <!--</RelativeLayout>-->
 
     <View
         android:layout_width="match_parent"

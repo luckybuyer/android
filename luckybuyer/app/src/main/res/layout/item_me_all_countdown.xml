@@ -283,28 +283,28 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_below="@+id/tv_me_ordernum"
-        android:id="@+id/rl_countdown_continue"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_48"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_265"
-        android:background="#ff311a"
-        android:gravity="center">
+    <!--<RelativeLayout-->
+        <!--android:layout_below="@+id/tv_me_ordernum"-->
+        <!--android:id="@+id/rl_countdown_continue"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="@dimen/dimen_48"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginEnd="@dimen/dimen_24"-->
+        <!--android:layout_marginTop="@dimen/dimen_265"-->
+        <!--android:background="#ff311a"-->
+        <!--android:gravity="center">-->
 
-        <TextView
+        <!--<TextView-->
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingStart="@dimen/dimen_8"
-            android:paddingEnd="@dimen/dimen_8"
-            android:text="@string/Participantagain"
-            android:textColor="@color/text_white"
-            android:textSize="@dimen/dimen_28" />
-    </RelativeLayout>
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingStart="@dimen/dimen_8"-->
+            <!--android:paddingEnd="@dimen/dimen_8"-->
+            <!--android:text="@string/Participantagain"-->
+            <!--android:textColor="@color/text_white"-->
+            <!--android:textSize="@dimen/dimen_28" />-->
+    <!--</RelativeLayout>-->
 
     <View
         android:layout_width="match_parent"

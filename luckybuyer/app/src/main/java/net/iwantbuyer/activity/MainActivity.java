@@ -1,5 +1,7 @@
 package net.iwantbuyer.activity;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -66,6 +69,7 @@ import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.bean.DispatchGameBean;
 import net.iwantbuyer.bean.FCMBean;
+import net.iwantbuyer.bean.GiftHasGiven;
 import net.iwantbuyer.bean.TokenBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.pager.HomePager;
@@ -268,13 +272,6 @@ public class MainActivity extends FragmentActivity {
             switch (v.getId()) {
                 case R.id.rb_main_homepager:
 
-//                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
-//                    try {
-//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-////                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-//                    } catch (android.content.ActivityNotFoundException anfe) {
-//                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-//                    }
                     id = 0;
                     showFragment(list.get(0));
                     rb_main_homepager.setChecked(true);
@@ -440,6 +437,17 @@ public class MainActivity extends FragmentActivity {
                     intent.putExtra("dispatch_game_id", order_id);
                     startActivity(intent);
                     break;
+
+                case R.id.tv_cheat_devicehas:
+                    if(deviceHasGift != null && deviceHasGift.isShowing()) {
+                        deviceHasGift.dismiss();
+                    }
+                    break;
+                case R.id.iv_cheat_close:
+                    if(deviceHasGift != null && deviceHasGift.isShowing()) {
+                        deviceHasGift.dismiss();
+                    }
+                    break;
             }
         }
     }
@@ -548,7 +556,7 @@ public class MainActivity extends FragmentActivity {
             Utils.setSpData("token_num", tokenBean.getExp() + "", MainActivity.this);
 
             //赠送金币成功
-            startGift();
+//            startGift();
 
             //FCM注册
             FCMregist(token);
@@ -576,6 +584,7 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public void onError(LockException error) {
+            Log.e("TAG_error", error.getMessage());
             if (Utils.isInLauncher(MainActivity.this)) {
                 return;
             }
@@ -662,48 +671,7 @@ public class MainActivity extends FragmentActivity {
                 //登陆成功重新请求 banner  为了隐藏首充送礼
 //                homePager.responseBanner();
 
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.loginsuccess));
-                        //登陆成功  直接进入me页面
-                        showFragment(list.get(login_id));
-                        if (login_id == 1) {
-                            rb_main_buycoins.setChecked(true);
-                            rb_main_me.setChecked(false);
-                            rb_main_homepager.setChecked(false);
-                            rb_main_newresult.setChecked(false);
-                        } else if (login_id == 4) {
-                            rb_main_buycoins.setChecked(false);
-                            rb_main_me.setChecked(true);
-                            rb_main_homepager.setChecked(false);
-                            rb_main_newresult.setChecked(false);
-                            if (mePager != null && mePager.mePagerAllAdapter != null) {
-                                mePager.mePagerAllAdapter.list.clear();
-                                mePager.mePagerAllAdapter.notifyDataSetChanged();
-                            }
-                            if (mePager != null && mePager.mePagerLuckyAdapter != null) {
-                                mePager.mePagerLuckyAdapter.list.clear();
-                                mePager.mePagerLuckyAdapter.notifyDataSetChanged();
-                            }
-
-//                                if(mePager != null) {
-//                                    mePager.initData();
-//                                }
-                        } else {
-                            rb_main_homepager.setChecked(true);
-                            rb_main_buycoins.setChecked(false);
-                            rb_main_me.setChecked(false);
-                            rb_main_show.setChecked(false);
-                            rb_main_newresult.setChecked(false);
-
-                        }
-//                        rb_main_homepager.setChecked(false);
-//                        rb_main_newresult.setChecked(false);
-
-                    }
-                });
-
+                goPager(user);
 
             }
 
@@ -731,6 +699,56 @@ public class MainActivity extends FragmentActivity {
                         selectPager();
                     }
                 });
+            }
+        });
+    }
+
+    //请求我们自己的me 接口后  所进行的操作
+    private void goPager(final User user) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("TAG_gift", user.isHas_given_new_user_gift() + "");
+                if(!user.isHas_given_new_user_gift()) {
+                    startGift();
+                }
+
+                Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.loginsuccess));
+                //登陆成功  直接进入me页面
+                showFragment(list.get(login_id));
+                if (login_id == 1) {
+                    rb_main_buycoins.setChecked(true);
+                    rb_main_me.setChecked(false);
+                    rb_main_homepager.setChecked(false);
+                    rb_main_newresult.setChecked(false);
+                } else if (login_id == 4) {
+                    rb_main_buycoins.setChecked(false);
+                    rb_main_me.setChecked(true);
+                    rb_main_homepager.setChecked(false);
+                    rb_main_newresult.setChecked(false);
+                    if (mePager != null && mePager.mePagerAllAdapter != null) {
+                        mePager.mePagerAllAdapter.list.clear();
+                        mePager.mePagerAllAdapter.notifyDataSetChanged();
+                    }
+                    if (mePager != null && mePager.mePagerLuckyAdapter != null) {
+                        mePager.mePagerLuckyAdapter.list.clear();
+                        mePager.mePagerLuckyAdapter.notifyDataSetChanged();
+                    }
+
+//                                if(mePager != null) {
+//                                    mePager.initData();
+//                                }
+                } else {
+                    rb_main_homepager.setChecked(true);
+                    rb_main_buycoins.setChecked(false);
+                    rb_main_me.setChecked(false);
+                    rb_main_show.setChecked(false);
+                    rb_main_newresult.setChecked(false);
+
+                }
+//                        rb_main_homepager.setChecked(false);
+//                        rb_main_newresult.setChecked(false);
+
             }
         });
     }
@@ -1028,25 +1046,58 @@ public class MainActivity extends FragmentActivity {
         return showUse;
     }
 
-    boolean fl = true;
+    AlertDialog deviceHasGift;
+
+    private AlertDialog startDeviceHasGift(){
+
+        View inflate = View.inflate(this, R.layout.alertdialog_home_cheat, null);
+        TextView tv_cheat_devicehas = (TextView) inflate.findViewById(R.id.tv_cheat_devicehas);
+        ImageView iv_cheat_close = (ImageView) inflate.findViewById(R.id.iv_cheat_close);
+        tv_cheat_devicehas.setOnClickListener(new MyOnclickListener());
+        iv_cheat_close.setOnClickListener(new MyOnclickListener());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(inflate);
+        if (!this.isDestroyed()) {
+            deviceHasGift = builder.show();
+            deviceHasGift.setCanceledOnTouchOutside(false);   //点击外部不消失
+//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+            deviceHasGift.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Window window = deviceHasGift.getWindow();
+            window.setGravity(Gravity.CENTER);
+//        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+            deviceHasGift.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+        return deviceHasGift;
+    }
+
 
     private void startGift() {
-        if (fl = false) {
-            return;
+        Log.e("TAG_giftis", Utils.isEmulator() + "");
+        if(Utils.isEmulator()) {
+            //是虚拟机需要怎么处理
+           return;
         }
-        fl = false;
-        String url = MyApplication.url + "/v1/gifts/new_user/?timezone=" + MyApplication.utc;
+
+        TelephonyManager telephonemanager = (TelephonyManager) MainActivity.this
+                .getSystemService(Context.TELEPHONY_SERVICE);
+        String imei = telephonemanager.getDeviceId();
+
+        String url = MyApplication.url + "/v1/gifts/new-user2/?timezone=" + MyApplication.utc;
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
-        HttpUtils.getInstance().postRequest(url, map, new HttpUtils.OnRequestListener() {
+        String json = "{\"device_id\": \""+imei+"\"}";
+        HttpUtils.getInstance().postJson(url,json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        StartGift();
+                        if(!Utils.isInLauncher(MainActivity.this)) {
+                            StartGift();
+                        }
                     }
                 });
 
@@ -1057,8 +1108,17 @@ public class MainActivity extends FragmentActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if (code == 419) {
-                            Log.e("TAG_gift", "已经赠送过了");
+                        Log.e("TAG_gift", code + message);
+                        if (code == 409) {
+                            Gson gson = new Gson();
+                            GiftHasGiven giftHasGiven = gson.fromJson(message, GiftHasGiven.class);
+                            if("GiftGivenToUser".equals(giftHasGiven.getType())) {
+                                
+                            }else if("GiftGivenToDevice".equals(giftHasGiven.getType())) {
+                                if(!Utils.isInLauncher(MainActivity.this)) {
+                                    startDeviceHasGift();
+                                }
+                            }
                         } else {
                             Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.Networkfailure) + code + "gifts");
                         }

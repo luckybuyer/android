@@ -1414,7 +1414,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
     }
 
     private String newData;
-
+    private String status = "running";
     //请求最新数据
     private void NewData() {
         if (((SecondPagerActivity) context).game_id == -1) {
@@ -1428,8 +1428,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 }
             }
         }
-        int batch_id = ((SecondPagerActivity) context).batch_id;
-        String url = MyApplication.url + "/v1/games/?status=running&batch_id=" + batch_id + "&per_page=20&page=1&timezone=" + MyApplication.utc;
+        final int batch_id = ((SecondPagerActivity) context).batch_id;
+        String url = MyApplication.url + "/v1/games/?status="+status+"&batch_id=" + batch_id + "&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
@@ -1442,14 +1442,13 @@ public class ProductDetailPager extends BaseNoTrackPager {
                             ll_productdetail_buyit.setVisibility(View.VISIBLE);
                             newData = response.replace("[", "");
                             newData = newData.replace("]", "");
-
+                            Log.e("TAG_newdata",newData );
                         } else {
                             ll_productdetail_buyit.setVisibility(View.GONE);
                         }
                         rl_keepout.setVisibility(View.GONE);
-
                         if (((SecondPagerActivity) context).game_id == -1) {
-                            if (((SecondPagerActivity) context).batch_id != -1) {
+                            if (((SecondPagerActivity) context).batch_id != -1  && newData != null && newData.length() > 10) {
                                 ll_productdetail_buyit.setVisibility(View.GONE);
                                 rl_productdetail_indsertcoins.setVisibility(View.VISIBLE);
                                 processData(newData);

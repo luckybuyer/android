@@ -54,6 +54,7 @@ import net.iwantbuyer.bean.BuyCoinBean;
 import net.iwantbuyer.bean.BuyCoinsMethodBean;
 import net.iwantbuyer.bean.CashuBean;
 import net.iwantbuyer.bean.HaloPayBean;
+import net.iwantbuyer.bean.MolBean;
 import net.iwantbuyer.bean.PayssionBean;
 import net.iwantbuyer.bean.PayssionIdBean;
 import net.iwantbuyer.bean.User;
@@ -123,6 +124,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
     List list;
     private String view;
 
+    String country = "MY";
+    String currency = "MYR";
+
     @Override
     public View initView() {
         inflate = View.inflate(context, R.layout.pager_buycoins, null);
@@ -136,8 +140,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         context.startService(intent);
 
-        String country = "AE";
-        String currency = "AED";
+
         //判断是那个服务器
         Log.e("TAG_server", Utils.getSpData("service", context));
         if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
@@ -338,6 +341,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
     int money = 0;
     int topup_option_id = -1;
     String payKey = "";
+    String icon_discribe = "";
     int id_coins = 0;
 
     //处理数据
@@ -364,6 +368,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         money = buyCoinBean.getBuycoins().get(0).getPrice();
 //        topup_option_id = buyCoinBean.getBuycoins().get(0).getId();
         topup_option_id = buyCoinBean.getBuycoins().get(0).getId();
+        icon_discribe = buyCoinBean.getBuycoins().get(0).getDescription();
         payKey = buyCoinBean.getBuycoins().get(0).getAndroid_product_id();
         Log.e("TAG_paykey", payKey);
         buyCoinAdapter.setBuyCoinOnClickListener(new BuyCoinAdapter.BuyCoinOnClickListener() {
@@ -380,6 +385,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
                 money = buyCoinBean.getBuycoins().get(position).getPrice();
                 topup_option_id = buyCoinBean.getBuycoins().get(position).getId();
+                icon_discribe = buyCoinBean.getBuycoins().get(position).getDescription();
                 payKey = buyCoinBean.getBuycoins().get(position).getAndroid_product_id();
                 id_coins = position;
                 String coin = "";
@@ -395,6 +401,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 }
                 //AppFlyer 埋点
                 setAppflyerPoint(coin);
+
             }
         });
     }
@@ -514,6 +521,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             }
 
                             eventValue.put("%method", "Master or Visa");
+                            AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
+                        } else if ("mol_wallet".equals(method)) {
+                            startMol();
+                            eventValue.put("%method", method);
                             AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
                         } else if (method != null && method.contains("_")) {
                             startPayssion(method);
@@ -1105,7 +1116,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         .setAPIKey("4ab54b3610cb2f43") //Your API Key
                         .setAmount(payssionIdBean.getAmount())
                         .setCurrency(payssionIdBean.getCurrency())
-                        .setPMId(method)
+                        .setPMId("maxis_my")
                         .setDescription("luckybuyer")
                         .setOrderId(payssionIdBean.getOrder_id()) //Your order id
                         .setSecretKey("8b9361c007c2df3eeb579a0523abd851"));
@@ -1119,37 +1130,95 @@ public class BuyCoinPager extends BaseNoTrackPager {
 
     }
 
-    private final static String Secret_Key = "Ziu61T9xY227aazS530Pk8C5424y663r";
-    private final static String Application_Code = "3f2504e04f8911d39a0c0305e82c3301";
+    private final static String Secret_Key = "bNCnV1CJ5nyRDNX45YMAel6wynuOEGsm";
+    private final static String Application_Code = "wqfQDcfm5Q1ugqF45GpazO6Z1QXrhgVP";
+
+    private void startMol() {
+        tv_buycoins_buy.setEnabled(false);
+        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.VISIBLE);
+        tv_buycoins_buy.setBackgroundResource(R.color.D12F1D);
+
+        String url = MyApplication.url + "/v1/payments/mol/mobile/?timezone=" + MyApplication.url;
+
+        String json = "{\"topup_option_id\": " + topup_option_id + "}";
+        Map map = new HashMap();
+        String mToken = Utils.getSpData("token", context);
+        map.put("Authorization", "Bearer " + mToken);
+        map.put("LK-CLIENT-TYPE", "appsflyer_android");
+        map.put("LK-APP-ID", "net.iwantbuyer");
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("TAG_MOL", response);
+                        processMol(response);
+                        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.GONE);
+                        tv_buycoins_buy.setBackgroundResource(R.color.all_orange);
+                        tv_buycoins_buy.setEnabled(true);
+                    }
+                });
+            }
+
+            @Override
+            public void error(final int code, final String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.GONE);
+                        tv_buycoins_buy.setBackgroundResource(R.color.all_orange);
+                        tv_buycoins_buy.setEnabled(true);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure) + code);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.GONE);
+                        tv_buycoins_buy.setBackgroundResource(R.color.all_orange);
+                        tv_buycoins_buy.setEnabled(true);
+                        Utils.MyToast(context, context.getString(R.string.Networkfailure));
+                    }
+                });
+            }
+        });
+    }
 
     //进行Mol支付
     private void processMol(String response) {
+//        String Secret_Key = "Ziu61T9xY227aazS530Pk8C5424y663r";
+//        String Application_Code = "3f2504e04f8911d39a0c0305e82c3301";
+
+        Gson gson = new Gson();
+        MolBean molbean = gson.fromJson(response, MolBean.class);
         MOLPayment molPayment = new MOLPayment(context, Secret_Key, Application_Code);
         Bundle inputBundle = new Bundle();
-        inputBundle.putString(MOLConst.B_Key_ReferenceId, "RID" + (System.currentTimeMillis() & 0xFFFFFFFFL));    // Required
-        inputBundle.putLong(MOLConst.B_Key_Amount, 5000);                        // Required
-        inputBundle.putString(MOLConst.B_Key_CurrencyCode, "MYR");                // Required
-        inputBundle.putString(MOLConst.B_Key_CustomerId, "12321144221");        // Required
-        inputBundle.putString(MOLConst.B_Key_Description, "50000 Diamond");    // Optional
+        inputBundle.putString(MOLConst.B_Key_ReferenceId, molbean.getReference_id());    // Required
+        inputBundle.putLong(MOLConst.B_Key_Amount, molbean.getAmount() * 100);                        // Required
+        inputBundle.putString(MOLConst.B_Key_CurrencyCode, molbean.getCurrency());                // Required
+        inputBundle.putString(MOLConst.B_Key_CustomerId, Utils.getSpData("id", context) + "");        // Required
+        inputBundle.putString(MOLConst.B_Key_Description, icon_discribe);    // Optional
+        Log.e("TAG_mol", molbean.getReference_id());
         try {
             molPayment.pay(context, inputBundle, new PaymentListener() {
                 @Override
                 public void onBack(int action, Bundle outputBundle) {
                     // TODO Auto-generated method stub
-                    showInfo(outputBundle.toString());
+                    if ("A10000".equals(outputBundle.get("result"))) {
+                        startAlert(true);
+                    }
                 }
             });
         } catch (Exception e) {
-            showInfo(e.getMessage());
         }
     }
 
-    private void showInfo(String con) {
-        new AlertDialog.Builder(context)
-                .setTitle("Payment Result")
-                .setMessage(con)
-                .setPositiveButton("OK", null).show();
-    }
 
     private PopupWindow ppw;
 
@@ -1193,8 +1262,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
             case "android-inapp":
                 methed = "Google Play";
                 break;
+            case "fpx_my":
+                methed = "Myclear FPX";
+                break;
             case "halopay":
                 methed = "Other payment";
+                break;
+            case "mol_wallet":
+                methed = "MOLWallet";
                 break;
             case "visa":
                 methed = "Other payment";
@@ -1228,6 +1303,9 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 break;
             case "webcash_my":
                 methed = "Webcash";
+                break;
+            case "paypal":
+                methed = "paypal";
                 break;
         }
 

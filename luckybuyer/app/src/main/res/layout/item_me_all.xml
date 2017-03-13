@@ -200,23 +200,23 @@
         android:textColor="@color/text_gray"
         android:textSize="@dimen/dimen_24" />
 
-    <RelativeLayout
-        android:id="@+id/rl_all_continue"
-        android:layout_width="@dimen/dimen_152"
-        android:layout_height="@dimen/dimen_54"
-        android:layout_alignBottom="@id/pb_all_progress"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dimen_24"
-        android:background="#ff311a"
-        android:gravity="center">
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_all_continue"-->
+        <!--android:layout_width="@dimen/dimen_152"-->
+        <!--android:layout_height="@dimen/dimen_54"-->
+        <!--android:layout_alignBottom="@id/pb_all_progress"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_marginEnd="@dimen/dimen_24"-->
+        <!--android:background="#ff311a"-->
+        <!--android:gravity="center">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Continue"
-            android:textColor="@color/text_white"
-            android:textSize="@dimen/dimen_28" />
-    </RelativeLayout>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/Continue"-->
+            <!--android:textColor="@color/text_white"-->
+            <!--android:textSize="@dimen/dimen_28" />-->
+    <!--</RelativeLayout>-->
 
 
 </RelativeLayout>

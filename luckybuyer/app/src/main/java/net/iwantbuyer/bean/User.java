@@ -6,24 +6,27 @@ package net.iwantbuyer.bean;
 public class User {
 
     /**
-     * _resource : User
-     * auth0_user_id : facebook|118093991983735
+     * _resource : type of the resource
+     * auth0_user_id : string
      * balance : 0
-     * id : 3
-     * profile : {"locale":"zh_CN","name":"杨树宇","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F","picture_large":"https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg","social_link":"https://www.facebook.com/app_scoped_user_id/118093991983735/","timezone":"+08:00"}
+     * has_given_new_user_gift : true
+     * has_topup : true
+     * id : 0
+     * profile : {"locale":"string","name":"string","picture":"string","social_link":"string","timezone":"string"}
      */
 
     private String _resource;
     private String auth0_user_id;
     private int balance;
+    private boolean has_given_new_user_gift;
+    private boolean has_topup;
     private int id;
     /**
-     * locale : zh_CN
-     * name : 杨树宇
-     * picture : https://scontent.xx.fbcdn.net/v/t1.0-1/c15.0.50.50/p50x50/10354686_10150004552801856_220367501106153455_n.jpg?oh=b1d33c3a4d6d57cbfe57dbee85ceef4b&oe=5873202F
-     * picture_large : https://scontent.xx.fbcdn.net/t31.0-1/10506738_10150004552801856_220367501106153455_o.jpg
-     * social_link : https://www.facebook.com/app_scoped_user_id/118093991983735/
-     * timezone : +08:00
+     * locale : string
+     * name : string
+     * picture : string
+     * social_link : string
+     * timezone : string
      */
 
     private ProfileBean profile;
@@ -52,6 +55,22 @@ public class User {
         this.balance = balance;
     }
 
+    public boolean isHas_given_new_user_gift() {
+        return has_given_new_user_gift;
+    }
+
+    public void setHas_given_new_user_gift(boolean has_given_new_user_gift) {
+        this.has_given_new_user_gift = has_given_new_user_gift;
+    }
+
+    public boolean isHas_topup() {
+        return has_topup;
+    }
+
+    public void setHas_topup(boolean has_topup) {
+        this.has_topup = has_topup;
+    }
+
     public int getId() {
         return id;
     }
@@ -72,7 +91,6 @@ public class User {
         private String locale;
         private String name;
         private String picture;
-        private String picture_large;
         private String social_link;
         private String timezone;
 
@@ -98,14 +116,6 @@ public class User {
 
         public void setPicture(String picture) {
             this.picture = picture;
-        }
-
-        public String getPicture_large() {
-            return picture_large;
-        }
-
-        public void setPicture_large(String picture_large) {
-            this.picture_large = picture_large;
         }
 
         public String getSocial_link() {

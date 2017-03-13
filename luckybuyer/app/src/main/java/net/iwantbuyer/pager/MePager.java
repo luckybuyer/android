@@ -2,6 +2,7 @@ package net.iwantbuyer.pager;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -25,6 +26,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.share.widget.LikeView;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 
@@ -140,11 +144,13 @@ public class MePager extends BaseNoTrackPager {
 
             }
         });
-
-//        LikeView likeView = (LikeView) inflate.findViewById(R.id.lv_me);
-//        likeView.setObjectIdAndType(
-//                "https://www.facebook.com/luckybuyer.net",
-//                LikeView.ObjectType.PAGE);
+        FacebookSdk.sdkInitialize(context);
+        AppEventsLogger.activateApp(context);
+//        FacebookSdk.isInitialized()
+        LikeView likeView = (LikeView) inflate.findViewById(R.id.lv_me);
+        likeView.setObjectIdAndType(
+                "https://www.facebook.com/luckybuyer.net",
+                LikeView.ObjectType.PAGE);
         return inflate;
     }
 

@@ -151,25 +151,12 @@
                 <LinearLayout
                     android:id="@+id/ll_buycoins_method"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dimen_20"
                     android:layout_below="@+id/rv_buycoins"
                     android:background="#f2f2f4"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_70"
-                        android:layout_marginEnd="@dimen/dimen_24"
-                        android:layout_marginStart="@dimen/dimen_24"
-                        android:gravity="center"
-                        android:text="@string/Choosepayment"
-                        android:textColor="#333333"
-                        android:textSize="@dimen/dimen_28" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/bg_view"></View>
                 </LinearLayout>
 
                 <!--<android.support.v7.widget.RecyclerView-->
@@ -189,11 +176,11 @@
 
                     <ImageView
                         android:id="@+id/iv_buycoins_google"
-                        android:layout_width="@dimen/dimen_170"
-                        android:layout_height="@dimen/dimen_34"
-                        android:layout_marginTop="@dimen/dimen_34"
+                        android:layout_width="@dimen/dimen_145"
+                        android:layout_height="@dimen/dimen_50"
+                        android:layout_marginTop="@dimen/dimen_25"
                         android:layout_marginStart="@dimen/dimen_24"
-                        android:layout_marginBottom="@dimen/dimen_34"
+                        android:layout_marginBottom="@dimen/dimen_25"
                         android:background="@drawable/buycoins_google" />
 
                     <ImageView
