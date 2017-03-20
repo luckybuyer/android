@@ -1,7 +1,7 @@
 package net.iwantbuyer.secondpager;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -187,7 +187,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
             rl_buycoins_method.setVisibility(View.VISIBLE);
         }
 
-        if (Utils.getSpData("buymethod", context) == null) {
+        if (Utils.getSpData("buymethod", context) == null || meth.equals("android-inapp")) {
             method = "android-inapp";
         } else {
             method = Utils.getSpData("buymethod", context);
@@ -500,6 +500,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                             AppsFlyerLib.getInstance().trackEvent(context, "CLICK: topup", eventValue);
                         } else if ("cashu".equals(method)) {
                             startCashu();
+
                             try {
                                 props.put("%method", "cashu");
                             } catch (JSONException e) {
@@ -860,7 +861,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Window window = show.getWindow();
         window.setGravity(Gravity.CENTER);
-        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
+        show.getWindow().setLayout(3 * screenWidth / 4, LinearLayout.LayoutParams.WRAP_CONTENT);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
@@ -1112,14 +1113,14 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Intent intent = new Intent(context, PayssionActivity.class);
         intent.putExtra(PayssionActivity.ACTION_REQUEST,
                 new PayRequest()
-                        .setLiveMode(false) //false if you are using sandbox environment
-                        .setAPIKey("4ab54b3610cb2f43") //Your API Key
+                        .setLiveMode(true) //false if you are using sandbox environment
+                        .setAPIKey("82323460c3e4a7ab") //Your API Key
                         .setAmount(payssionIdBean.getAmount())
                         .setCurrency(payssionIdBean.getCurrency())
-                        .setPMId("maxis_my")
+                        .setPMId(method)
                         .setDescription("luckybuyer")
                         .setOrderId(payssionIdBean.getOrder_id()) //Your order id
-                        .setSecretKey("8b9361c007c2df3eeb579a0523abd851"));
+                        .setSecretKey("32be922cd8d27d5717cbe313a6493964"));
 //                        .setPayerEmail("example@demo.com")
 //                        .setPayerName("example name"));
         if (context instanceof SecondPagerActivity) {
@@ -1229,7 +1230,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         if (context instanceof SecondPagerActivity) {
             ppw = Utils.startPPW(((SecondPagerActivity) context), view, width, 3 * height / 5);
         } else {
-            ppw = Utils.startPPW(((MainActivity) context), view, width, 3 * height / 5);
+            ppw = Utils.startPPW(((MainActivity) context), view, width, 2 * height / 3);
         }
         RecyclerView rv_buycoins_method = (RecyclerView) view.findViewById(R.id.rv_buycoins_method);
         ImageView iv_buycoins_close = (ImageView) view.findViewById(R.id.iv_buycoins_close);
@@ -1303,6 +1304,15 @@ public class BuyCoinPager extends BaseNoTrackPager {
                 break;
             case "webcash_my":
                 methed = "Webcash";
+                break;
+            case "digi_my":
+                methed = "DIGI";
+                break;
+            case "maxis_my":
+                methed = "Maxis";
+                break;
+            case "celcom_my":
+                methed = "Celcom";
                 break;
             case "paypal":
                 methed = "paypal";

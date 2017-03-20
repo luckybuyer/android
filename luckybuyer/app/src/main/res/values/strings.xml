@@ -241,5 +241,11 @@
     <string name="free_coins">&#160;free</string>
     <string name="seletebuycoinsmethod">Choose Payment Method</string>
     <string name="Googleplay">谷歌支付</string>
+    <string name="WaitingforProcessingwarn">Please be kindly noted that our working time is 9:00 am Monday to 6:00 pm Friday. So your order will be processed once we start work. Thanks for your patience.</string>
+    <string name="dvicehasgift">We found that the device you used has been regsitered on Lucky Buyer. One device can only be given free gift coins for once!</string>
+    <string name="Name">Name</string>
+    <string name="EnterAddress">Please enter address</string>
+    <string name="Address">Address</string>
+    <string name="Postcode">Post code</string>
 
 </resources>

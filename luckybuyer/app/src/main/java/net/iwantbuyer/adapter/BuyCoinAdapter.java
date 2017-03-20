@@ -73,11 +73,13 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
             holder.rl_buycoins_coins.setEnabled(true);
             holder.iv_buycoins_jiao.setVisibility(View.VISIBLE);
             holder.tv_buyconis_free.setEnabled(true);
+            holder.rl_buycoins_coins.setHovered(true);
         }else {
             holder.tv_buyconis_coins.setEnabled(false);
             holder.rl_buycoins_coins.setEnabled(false);
             holder.iv_buycoins_jiao.setVisibility(View.GONE);
             holder.tv_buyconis_free.setEnabled(false);
+            holder.rl_buycoins_coins.setHovered(false);
         }
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override

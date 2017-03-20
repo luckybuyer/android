@@ -183,7 +183,7 @@
     <string name="Send">发送</string>                                                                     <!--选择国家标题-->
     <string name="Help">帮助</string>                                                                     <!--选择国家标题-->
     <string name="WhatCoins">金币是什么？</string>                                                                     <!--选择国家标题-->
-    <string name="CoinsExplanMYR">金币是LuckyBuyer的虚拟货币。 您可以可以通过充值获得。 1金币等于1马元哦。</string>                 <!--金币解释-->
+    <string name="CoinsExplanMYR">金币是LuckyBuyer的虚拟货币。 您可以可以通过充值获得。 1金币等于1马币哦。</string>                 <!--金币解释-->
     <string name="CoinsExplanUSD">金币是LuckyBuyer的虚拟货币。 您可以可以通过充值获得。 1金币等于1美元哦。</string>                 <!--金币解释-->
     <string name="ParticipationDetails">参与详情</string>                 <!--金币解释-->
     <string name="Sharerewards">晒单有奖</string>                 <!--金币解释-->
@@ -240,5 +240,10 @@
     <string name="logout_error">退出登陆失败</string>
     <string name="seletebuycoinsmethod">Choose Payment Method</string>
     <string name="Googleplay">谷歌支付</string>
+    <string name="WaitingforProcessingwarn">我们的派奖时间为周一至周五上午10点至下午6点，所以您收到奖品的时间可能会有延迟，请多多谅解哦</string>
+    <string name="dvicehasgift">检测到您在此设备上已经注册过账号，同一个设备目前只能送一次金币哦</string>
+    <string name="Name">Name</string>
+    <string name="Address">Address</string>
+    <string name="Postcode">Post code</string>
 
 </resources>

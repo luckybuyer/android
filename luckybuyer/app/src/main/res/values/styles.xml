@@ -31,6 +31,7 @@
         <item name="Auth0.DarkPrimaryColor">@color/text_black</item>
         <item name="Auth0.PrimaryColor">@color/bg_ff4f3c</item>
     </style>
+
     <style name="Theme.PayssionTrans" parent="Theme.AppCompat.Light">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -45,4 +46,6 @@
         <item name="android:windowEnterAnimation">@anim/ppwshow</item>
         <item name="android:windowExitAnimation">@anim/ppwhide</item>
     </style>
+
+    　　
 </resources>

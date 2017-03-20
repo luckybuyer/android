@@ -1,7 +1,7 @@
 package net.iwantbuyer.activity;
 
 import android.annotation.TargetApi;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -598,16 +598,16 @@ public class SecondPagerActivity extends FragmentActivity {
             return;
         }
 
-        TelephonyManager telephonemanager = (TelephonyManager) SecondPagerActivity.this
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        String imei = telephonemanager.getDeviceId();
-
+//        TelephonyManager telephonemanager = (TelephonyManager) SecondPagerActivity.this
+//                .getSystemService(Context.TELEPHONY_SERVICE);
+//        String imei = telephonemanager.getDeviceId();
+        String token = Utils.getSpData("refreshedToken", this);
         String url = MyApplication.url + "/v1/gifts/new-user2/?timezone=" + MyApplication.utc;
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
-        String json = "{\"device_id\": \""+imei+"\"}";
+        String json = "{\"device_id\": \""+token+"\"}";
 
         HttpUtils.getInstance().postJson(url, json,map, new HttpUtils.OnRequestListener() {
             @Override

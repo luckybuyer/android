@@ -2,7 +2,7 @@ package net.iwantbuyer.activity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -225,7 +225,6 @@ public class MainActivity extends FragmentActivity {
 
         StartUpdateAlertDialog();
 
-
     }
 
     //设置数据
@@ -439,12 +438,12 @@ public class MainActivity extends FragmentActivity {
                     break;
 
                 case R.id.tv_cheat_devicehas:
-                    if(deviceHasGift != null && deviceHasGift.isShowing()) {
+                    if (deviceHasGift != null && deviceHasGift.isShowing()) {
                         deviceHasGift.dismiss();
                     }
                     break;
                 case R.id.iv_cheat_close:
-                    if(deviceHasGift != null && deviceHasGift.isShowing()) {
+                    if (deviceHasGift != null && deviceHasGift.isShowing()) {
                         deviceHasGift.dismiss();
                     }
                     break;
@@ -602,18 +601,18 @@ public class MainActivity extends FragmentActivity {
 
     //FCM注册
     private void FCMregist(String mToken) {
-        String token = Utils.getSpData("refreshedToken",this);
+        String token = Utils.getSpData("refreshedToken", this);
         Log.e("TAG", token + "--------" + mToken);
-        if(mToken == null || "".equals(mToken) || token == null) {
+        if (mToken == null || "".equals(mToken) || token == null) {
             return;
         }
         String lang = Utils.getSpData("locale", this);
-        if(lang != null && !lang.equals("")) {
+        if (lang != null && !lang.equals("")) {
             lang = lang.split("-")[0] + "";
         }
         String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + MyApplication.utc;
 
-        FCMBean fcm = new FCMBean(lang,"android",token);
+        FCMBean fcm = new FCMBean(lang, "android", token);
         String json = fcm.toString();
         Log.e("TAG_FCM", url + json);
         Map map = new HashMap();
@@ -709,7 +708,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void run() {
                 Log.e("TAG_gift", user.isHas_given_new_user_gift() + "");
-                if(!user.isHas_given_new_user_gift()) {
+                if (!user.isHas_given_new_user_gift()) {
                     startGift();
                 }
 
@@ -874,9 +873,9 @@ public class MainActivity extends FragmentActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e("TAG_payssion", resultCode + "");
-        if(requestCode == PayssionActivity.RESULT_OK) {
+        if (requestCode == PayssionActivity.RESULT_OK) {
             if (null != data) {
-                PayResponse response = (PayResponse)data.getSerializableExtra(PayssionActivity.RESULT_DATA);
+                PayResponse response = (PayResponse) data.getSerializableExtra(PayssionActivity.RESULT_DATA);
                 Log.e("TAG_pay", response.toString() + "");
             }
         }
@@ -985,15 +984,15 @@ public class MainActivity extends FragmentActivity {
         iv_gift_close.setOnClickListener(new MyOnclickListener());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setView(inflate);
         show = builder.show();
         show.setCanceledOnTouchOutside(false);   //点击外部不消失
 //        show.setCancelable(false);               //点击外部和返回按钮都不消失
-        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Window window = show.getWindow();
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setGravity(Gravity.CENTER);
 //        show.getWindow().setLayout(3 * screenWidth / 4, 1 * screenHeight / 2);
-        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         return show;
     }
 
@@ -1048,7 +1047,7 @@ public class MainActivity extends FragmentActivity {
 
     AlertDialog deviceHasGift;
 
-    private AlertDialog startDeviceHasGift(){
+    private AlertDialog startDeviceHasGift() {
 
         View inflate = View.inflate(this, R.layout.alertdialog_home_cheat, null);
         TextView tv_cheat_devicehas = (TextView) inflate.findViewById(R.id.tv_cheat_devicehas);
@@ -1074,28 +1073,26 @@ public class MainActivity extends FragmentActivity {
 
     private void startGift() {
         Log.e("TAG_giftis", Utils.isEmulator() + "");
-        if(Utils.isEmulator()) {
+        if (Utils.isEmulator()) {
             //是虚拟机需要怎么处理
-           return;
+            return;
         }
 
-        TelephonyManager telephonemanager = (TelephonyManager) MainActivity.this
-                .getSystemService(Context.TELEPHONY_SERVICE);
-        String imei = telephonemanager.getDeviceId();
 
+        String token = Utils.getSpData("refreshedToken", this);
         String url = MyApplication.url + "/v1/gifts/new-user2/?timezone=" + MyApplication.utc;
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
-        String json = "{\"device_id\": \""+imei+"\"}";
-        HttpUtils.getInstance().postJson(url,json, map, new HttpUtils.OnRequestListener() {
+        String json = "{\"device_id\": \"" + token + "\"}";
+        HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response) {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        if(!Utils.isInLauncher(MainActivity.this)) {
+                        if (!Utils.isInLauncher(MainActivity.this)) {
                             StartGift();
                         }
                     }
@@ -1112,10 +1109,10 @@ public class MainActivity extends FragmentActivity {
                         if (code == 409) {
                             Gson gson = new Gson();
                             GiftHasGiven giftHasGiven = gson.fromJson(message, GiftHasGiven.class);
-                            if("GiftGivenToUser".equals(giftHasGiven.getType())) {
-                                
-                            }else if("GiftGivenToDevice".equals(giftHasGiven.getType())) {
-                                if(!Utils.isInLauncher(MainActivity.this)) {
+                            if ("GiftGivenToUser".equals(giftHasGiven.getType())) {
+
+                            } else if ("GiftGivenToDevice".equals(giftHasGiven.getType())) {
+                                if (!Utils.isInLauncher(MainActivity.this)) {
                                     startDeviceHasGift();
                                 }
                             }
@@ -1222,11 +1219,11 @@ public class MainActivity extends FragmentActivity {
             TextView tv_winning_discribe = (TextView) view.findViewById(R.id.tv_winning_discribe);
             ImageView iv_winning_go = (ImageView) view.findViewById(R.id.iv_winning_go);
 
-            if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("zh")) {
+            if (Utils.getSpData("locale", context) != null && Utils.getSpData("locale", context).contains("zh")) {
                 iv_winning_win.setBackgroundResource(R.drawable.winning_zh);
-            }else if(Utils.getSpData("locale",context) !=null && Utils.getSpData("locale",context).contains("ms")) {
+            } else if (Utils.getSpData("locale", context) != null && Utils.getSpData("locale", context).contains("ms")) {
                 iv_winning_win.setBackgroundResource(R.drawable.winning_ms);
-            }else {
+            } else {
                 iv_winning_win.setBackgroundResource(R.drawable.winning_en);
             }
             Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {

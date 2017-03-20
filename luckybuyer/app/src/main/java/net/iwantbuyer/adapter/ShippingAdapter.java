@@ -1,7 +1,7 @@
 package net.iwantbuyer.adapter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
@@ -231,7 +232,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Window window = show.getWindow();
         window.setGravity(Gravity.CENTER);
-        show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
+        show.getWindow().setLayout(3 * screenWidth / 4, LinearLayout.LayoutParams.WRAP_CONTENT);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 

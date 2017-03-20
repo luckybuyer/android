@@ -168,7 +168,8 @@
     <ProgressBar
         android:id="@+id/pb_all_progress"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="@dimen/dimen_450"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="@dimen/dimen_24"
         android:layout_height="@dimen/dimen_14"
         android:layout_below="@id/tv_all_shares"
         android:layout_marginBottom="@dimen/dimen_24"

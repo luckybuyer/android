@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/dimen_711"
     android:orientation="vertical">
 
     <ImageView
@@ -20,15 +20,15 @@
         android:layout_height="@dimen/dimen_50" />
 
     <TextView
+        android:layout_centerInParent="true"
         android:layout_width="@dimen/dimen_500"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dimen_230"
         android:gravity="center"
         android:lineSpacingExtra="@dimen/dimen_10"
         android:paddingLeft="@dimen/dimen_90"
         android:paddingRight="@dimen/dimen_90"
-        android:text="Sorry, we found that the device you used has been regsitered on Lucky Buyer. One device can only be given free gift coins for once!"
+        android:text="@string/dvicehasgift"
         android:textColor="#ffffff"
         android:textSize="@dimen/dimen_29" />
 
@@ -41,7 +41,7 @@
         android:gravity="center"
         android:text="@string/Done"
         android:textColor="#ffffff"
-        android:textSize="@dimen/dimen_45"
+        android:textSize="@dimen/dimen_36"
         android:textStyle="bold" />
 
 </RelativeLayout>

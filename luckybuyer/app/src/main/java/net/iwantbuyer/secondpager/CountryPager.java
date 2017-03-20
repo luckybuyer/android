@@ -1,7 +1,7 @@
 package net.iwantbuyer.secondpager;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -361,7 +362,7 @@ public class CountryPager extends BasePager {
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         Window window = show.getWindow();
         window.setGravity(Gravity.CENTER);
-        show.getWindow().setLayout(3 * screenWidth / 4, 2 * screenHeight / 5);
+        show.getWindow().setLayout(3 * screenWidth / 4, LinearLayout.LayoutParams.WRAP_CONTENT);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 

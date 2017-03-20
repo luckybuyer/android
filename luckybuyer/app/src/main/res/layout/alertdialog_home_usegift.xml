@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/iv_gift"
         android:layout_width="@dimen/dimen_660"
         android:layout_height="@dimen/dimen_711"
         android:layout_centerHorizontal="true"
@@ -20,11 +21,12 @@
         android:background="@drawable/home_gift_coins_en" />
 
     <ImageView
+        android:layout_alignLeft="@+id/iv_gift"
         android:id="@+id/iv_home_coin"
-        android:layout_width="@dimen/dimen_40"
-        android:layout_height="@dimen/dimen_70"
-        android:layout_marginLeft="@dimen/dimen_230"
-        android:layout_marginTop="@dimen/dimen_265"
+        android:layout_width="@dimen/dimen_45"
+        android:layout_height="@dimen/dimen_69"
+        android:layout_marginLeft="@dimen/dimen_190"
+        android:layout_marginTop="@dimen/dimen_263"
         android:background="@drawable/home_gift_two" />
 
     <ImageView

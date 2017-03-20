@@ -3,8 +3,7 @@ package net.iwantbuyer.bean;
 /**
  * Created by admin on 2017/2/9.
  */
-public class
-Address {
+public class Address {
 
     /**
      * _resource : type of the resource

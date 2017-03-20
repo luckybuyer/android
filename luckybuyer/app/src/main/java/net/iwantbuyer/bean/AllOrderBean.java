@@ -468,7 +468,7 @@ public class AllOrderBean implements Serializable{
                 this.lucky_user = lucky_user;
             }
 
-            public int getNum_orders() {
+            public double getNum_orders() {
                 return num_orders;
             }
 

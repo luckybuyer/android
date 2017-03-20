@@ -270,7 +270,7 @@
             <RelativeLayout
                 android:id="@+id/rl_dispatch_shipping"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_100"
+                android:layout_height="@dimen/dimen_160"
                 android:layout_below="@id/rl_dispatch_address"
                 android:layout_marginTop="-5dp">
 
@@ -289,15 +289,28 @@
                     android:layout_marginStart="@dimen/dimen_18"
                     android:layout_toEndOf="@+id/iv_disaptch_shipping"
                     android:gravity="center_horizontal"
-                    android:text="@string/Waitingforshippment"
+                    android:text="@string/WaitingforProcessing"
                     android:textColor="#cccccc"
                     android:textSize="@dimen/dimen_26" />
+
+                <TextView
+                    android:id="@+id/tv_dispach_shipping_warn"
+                    android:layout_marginTop="@dimen/dimen_12"
+                    android:paddingRight="@dimen/dimen_24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dimen_18"
+                    android:layout_toEndOf="@+id/iv_disaptch_shipping"
+                    android:layout_below="@+id/tv_dispatch_shipping"
+                    android:text="@string/WaitingforProcessingwarn"
+                    android:textColor="#cccccc"
+                    android:textSize="@dimen/dimen_22" />
 
 
                 <View
                     android:id="@+id/view_shipping"
                     android:layout_width="1px"
-                    android:layout_height="@dimen/dimen_80"
+                    android:layout_height="@dimen/dimen_160"
                     android:layout_marginStart="@dimen/dimen_36"
                     android:layout_marginTop="@dimen/dimen_20"
                     android:background="#cccccc"></View>
@@ -454,7 +467,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

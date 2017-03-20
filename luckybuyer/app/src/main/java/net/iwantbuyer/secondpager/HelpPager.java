@@ -61,7 +61,7 @@ public class HelpPager extends BaseNoTrackPager{
                 case R.id.rl_buycoins_email:
                     Intent data = new Intent(Intent.ACTION_SENDTO);
                     data.setData(Uri.parse("mailto:contact@luckybuyer.net"));
-                    data.putExtra(Intent.EXTRA_SUBJECT,Utils.getSpData("id",context) + "");
+                    data.putExtra(Intent.EXTRA_SUBJECT, "User ID:" + Utils.getSpData("id", context) + "");
                     startActivity(data);
                     break;
             }

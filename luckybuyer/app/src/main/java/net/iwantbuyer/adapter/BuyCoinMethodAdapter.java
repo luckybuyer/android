@@ -172,6 +172,15 @@ public class BuyCoinMethodAdapter extends RecyclerView.Adapter<BuyCoinMethodAdap
             case "webcash_my":
                 methed = "Webcash";
                 break;
+            case "digi_my":
+                methed = "DIGI";
+                break;
+            case "maxis_my":
+                methed = "Maxis";
+                break;
+            case "celcom_my":
+                methed = "Celcom";
+                break;
             case "paypal":
                 methed = "paypal";
                 break;
