@@ -28,7 +28,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.LikeView;
+import com.facebook.share.widget.ShareDialog;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 
@@ -52,6 +54,7 @@ import net.iwantbuyer.view.CustomViewPager;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -151,6 +154,8 @@ public class MePager extends BaseNoTrackPager {
         likeView.setObjectIdAndType(
                 "https://www.facebook.com/luckybuyer.net",
                 LikeView.ObjectType.PAGE);
+
+
         return inflate;
     }
 

@@ -247,5 +247,6 @@
     <string name="EnterAddress">Please enter address</string>
     <string name="Address">Address</string>
     <string name="Postcode">Post code</string>
+    <string name="Province">Province</string>
 
 </resources>

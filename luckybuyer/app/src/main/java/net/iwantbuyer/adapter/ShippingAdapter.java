@@ -64,7 +64,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.tv_shipping_name.setText(list.get(position).getName() + "");
         holder.tv_shipping_telnum.setText(list.get(position).getPhone());
-        holder.jtv_shipping_detailed.setText(list.get(position).getAddress());
+        holder.jtv_shipping_detailed.setText(list.get(position).getAddress() + "-" + list.get(position).getZipcode());
         if (list.get(position).isIs_default()) {
             holder.cb_shipping_select.setChecked(true);
             ((SecondPagerActivity)context).shippingBean = list.get(position);

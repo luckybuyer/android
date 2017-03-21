@@ -52,45 +52,40 @@ public class AddAddressPager extends BaseNoTrackPager {
     private TextView tv_addaddress_save;                          //保存地址
     private LinearLayout ll_addaddress_back;
 
-    //    private RelativeLayout rl_addaddress_locationtype;
-    private EditText et_addaddress_firstname;
-    private EditText et_addaddress_lastname;
-    private EditText et_addaddress_country;
+    //名字
+    private EditText et_addaddress_name;
+    private TextView tv_addaddress_name;
+
+    //地址
+    private EditText et_addaddress_address;
+    private TextView tv_addaddress_address;
+    private TextView tv_addaddress_topaddress;
+
+    //编码
+    private EditText et_addaddress_postcode;
+    private TextView tv_addaddress_postcode;
+    private TextView tv_addaddress_toppostcode;
+
+    //城市
     private EditText et_addaddress_city;
-    private EditText et_addaddress_area;                          //area
-    private EditText et_addaddress_street;                        //街道信息
-    private EditText et_addaddress_build;                         //房屋号码
-    private EditText et_addaddress_shippingnote;                 //装运通知单
-    private EditText et_addaddress_mobile;
-
-    //    private TextView tv_addaddress_locationtype;
-    private TextView tv_addaddress_firstname;
-    private TextView tv_addaddress_lastname;
-    private TextView tv_addaddress_topcountry;
     private TextView tv_addaddress_topcity;
-    private TextView tv_addaddress_toparea;
-    private TextView tv_addaddress_topstrest;
-    private TextView tv_addaddress_topbuilding;
-    //    private TextView tv_addaddress_toptype;
-    private TextView tv_addaddress_topmobile;
-
-
-    private TextView tv_addaddress_country;
     private TextView tv_addaddress_city;
-    private TextView tv_addaddress_area;
-    private TextView tv_addaddress_street;
-    private TextView tv_addaddress_build;
-    //    private TextView tv_addaddress_type;
+
+    //省
+    private EditText et_addaddress_province;
+    private TextView tv_addaddress_topprovince;
+    private TextView tv_addaddress_province;
+
+    //电话号码
+    private EditText et_addaddress_mobile;
+    private TextView tv_addaddress_topmobile;
     private TextView tv_addaddress_mobile;
 
-    private View view_addaddress_firstname;
-    private View view_addaddress_lastname;
-    private View view_addaddress_country;
+    private View view_addaddress_name;
+    private View view_addaddress_address;
+    private View view_addaddress_postcode;
     private View view_addaddress_city;
-    private View view_addaddress_area;
-    private View view_addaddress_street;
-    private View view_addaddress_build;
-    private View view_addaddress_locationtype;
+    private View view_addaddress_province;
     private View view_addaddress_mobile;
 
     private TextView tv_title;
@@ -108,7 +103,6 @@ public class AddAddressPager extends BaseNoTrackPager {
         address_id = ((SecondPagerActivity) context).address_id;
         findView();
 //        setHeadMargin();
-        et_addaddress_lastname.clearFocus();
 
         return inflate;
     }
@@ -122,45 +116,30 @@ public class AddAddressPager extends BaseNoTrackPager {
         rl_addaddress_header = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress_header);
         ll_addaddress_back = (LinearLayout) inflate.findViewById(R.id.ll_addaddress_back);
         tv_addaddress_save = (TextView) inflate.findViewById(R.id.tv_addaddress_save);
-        et_addaddress_firstname = (EditText) inflate.findViewById(R.id.et_addaddress_firstname);
-        et_addaddress_lastname = (EditText) inflate.findViewById(R.id.et_addaddress_lastname);
-        et_addaddress_country = (EditText) inflate.findViewById(R.id.et_addaddress_country);
+
+        et_addaddress_name = (EditText) inflate.findViewById(R.id.et_addaddress_name);
+        tv_addaddress_name = (TextView) inflate.findViewById(R.id.tv_addaddress_name);
+        et_addaddress_address = (EditText) inflate.findViewById(R.id.et_addaddress_address);
+        tv_addaddress_address = (TextView) inflate.findViewById(R.id.tv_addaddress_address);
+        tv_addaddress_topaddress = (TextView) inflate.findViewById(R.id.tv_addaddress_topaddress);
+        et_addaddress_postcode = (EditText) inflate.findViewById(R.id.et_addaddress_postcode);
+        tv_addaddress_postcode = (TextView) inflate.findViewById(R.id.tv_addaddress_postcode);
+        tv_addaddress_toppostcode = (TextView) inflate.findViewById(R.id.tv_addaddress_toppostcode);
         et_addaddress_city = (EditText) inflate.findViewById(R.id.et_addaddress_city);
-        et_addaddress_area = (EditText) inflate.findViewById(R.id.et_addaddress_area);
-        et_addaddress_street = (EditText) inflate.findViewById(R.id.et_addaddress_street);
-        et_addaddress_build = (EditText) inflate.findViewById(R.id.et_addaddress_build);
-        et_addaddress_shippingnote = (EditText) inflate.findViewById(R.id.et_addaddress_shippingnote);
-        et_addaddress_mobile = (EditText) inflate.findViewById(R.id.et_addaddress_mobile);
-
-//        rl_addaddress_locationtype = (RelativeLayout) inflate.findViewById(R.id.rl_addaddress_locationtype);
-//        tv_addaddress_locationtype = (TextView) inflate.findViewById(R.id.tv_addaddress_locationtype);
-        tv_addaddress_firstname = (TextView) inflate.findViewById(R.id.tv_addaddress_firstname);
-        tv_addaddress_lastname = (TextView) inflate.findViewById(R.id.tv_addaddress_lastname);
-        tv_addaddress_topcountry = (TextView) inflate.findViewById(R.id.tv_addaddress_topcountry);
         tv_addaddress_topcity = (TextView) inflate.findViewById(R.id.tv_addaddress_topcity);
-        tv_addaddress_toparea = (TextView) inflate.findViewById(R.id.tv_addaddress_toparea);
-        tv_addaddress_topstrest = (TextView) inflate.findViewById(R.id.tv_addaddress_topstrest);
-        tv_addaddress_topbuilding = (TextView) inflate.findViewById(R.id.tv_addaddress_topbuilding);
-//        tv_addaddress_toptype = (TextView) inflate.findViewById(R.id.tv_addaddress_toptype);
-        tv_addaddress_topmobile = (TextView) inflate.findViewById(R.id.tv_addaddress_topmobile);
-
-
-        tv_addaddress_country = (TextView) inflate.findViewById(R.id.tv_addaddress_country);
         tv_addaddress_city = (TextView) inflate.findViewById(R.id.tv_addaddress_city);
-        tv_addaddress_area = (TextView) inflate.findViewById(R.id.tv_addaddress_area);
-        tv_addaddress_street = (TextView) inflate.findViewById(R.id.tv_addaddress_street);
-        tv_addaddress_build = (TextView) inflate.findViewById(R.id.tv_addaddress_build);
-//        tv_addaddress_type = (TextView) inflate.findViewById(R.id.tv_addaddress_type);
+        et_addaddress_province = (EditText) inflate.findViewById(R.id.et_addaddress_province);
+        tv_addaddress_topprovince = (TextView) inflate.findViewById(R.id.tv_addaddress_topprovince);
+        tv_addaddress_province = (TextView) inflate.findViewById(R.id.tv_addaddress_province);
+        et_addaddress_mobile = (EditText) inflate.findViewById(R.id.et_addaddress_mobile);
+        tv_addaddress_topmobile = (TextView) inflate.findViewById(R.id.tv_addaddress_topmobile);
         tv_addaddress_mobile = (TextView) inflate.findViewById(R.id.tv_addaddress_mobile);
 
-
-        view_addaddress_firstname = (View) inflate.findViewById(R.id.view_addaddress_firstname);
-        view_addaddress_lastname = (View) inflate.findViewById(R.id.view_addaddress_lastname);
-        view_addaddress_country = (View) inflate.findViewById(R.id.view_addaddress_country);
+        view_addaddress_name = (View) inflate.findViewById(R.id.view_addaddress_name);
+        view_addaddress_address = (View) inflate.findViewById(R.id.view_addaddress_address);
+        view_addaddress_postcode = (View) inflate.findViewById(R.id.view_addaddress_postcode);
         view_addaddress_city = (View) inflate.findViewById(R.id.view_addaddress_city);
-        view_addaddress_area = (View) inflate.findViewById(R.id.view_addaddress_area);
-        view_addaddress_street = (View) inflate.findViewById(R.id.view_addaddress_street);
-        view_addaddress_build = (View) inflate.findViewById(R.id.view_addaddress_build);
+        view_addaddress_province = (View) inflate.findViewById(R.id.view_addaddress_province);
         view_addaddress_mobile = (View) inflate.findViewById(R.id.view_addaddress_mobile);
 
 
@@ -171,43 +150,31 @@ public class AddAddressPager extends BaseNoTrackPager {
 
         ll_addaddress_back.setOnClickListener(new MyOnClickListener());
         tv_addaddress_save.setOnClickListener(new MyOnClickListener());
-//        rl_addaddress_locationtype.setOnClickListener(new MyOnClickListener());
 
 
-        et_addaddress_firstname.requestFocus();
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
-        et_addaddress_lastname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    et_addaddress_lastname.setHint(context.getString(R.string.lastname));
-                } else {
-                    et_addaddress_lastname.setHint("");
-                }
-            }
-        });
 
-        et_addaddress_firstname.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_addaddress_name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_firstname.setHint(context.getString(R.string.firstname));
+                    et_addaddress_name.setHint(context.getString(R.string.Name));
                     Log.e("TAG", "丢失焦点");
                 } else {
-                    et_addaddress_firstname.setHint("");
+                    et_addaddress_name.setHint("");
                     Log.e("TAG", "获取焦点");
                 }
             }
         });
-        et_addaddress_area.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_addaddress_address.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    et_addaddress_area.setHint(context.getString(R.string.Enterarea));
+                    et_addaddress_address.setHint(context.getString(R.string.EnterAddress));
                 } else {
-                    et_addaddress_area.setHint("");
+                    et_addaddress_address.setHint("");
                     Log.e("TAG", "area 获取焦点");
                 }
             }
@@ -215,10 +182,10 @@ public class AddAddressPager extends BaseNoTrackPager {
 
 
         //firstname 的长度监听
-        et_addaddress_firstname.addTextChangedListener(new TextWatcher() {
+        et_addaddress_name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                tv_addaddress_name.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -229,17 +196,17 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-                    tv_addaddress_firstname.setVisibility(View.VISIBLE);
+                    tv_addaddress_name.setVisibility(View.VISIBLE);
                 } else {
-                    tv_addaddress_firstname.setVisibility(View.GONE);
+                    tv_addaddress_name.setVisibility(View.GONE);
                 }
             }
         });
-        //lastname 的长度监听
-        et_addaddress_lastname.addTextChangedListener(new TextWatcher() {
+        //地址 的长度监听
+        et_addaddress_address.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                tv_addaddress_topaddress.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -250,17 +217,17 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-                    tv_addaddress_lastname.setVisibility(View.VISIBLE);
+                    tv_addaddress_topaddress.setVisibility(View.VISIBLE);
                 } else {
-                    tv_addaddress_lastname.setVisibility(View.GONE);
+                    tv_addaddress_topaddress.setVisibility(View.GONE);
                 }
             }
         });
         //country 的长度监听
-        et_addaddress_country.addTextChangedListener(new TextWatcher() {
+        et_addaddress_postcode.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                tv_addaddress_toppostcode.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -271,9 +238,9 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-                    tv_addaddress_topcountry.setVisibility(View.VISIBLE);
+                    tv_addaddress_toppostcode.setVisibility(View.VISIBLE);
                 } else {
-                    tv_addaddress_topcountry.setVisibility(View.GONE);
+                    tv_addaddress_toppostcode.setVisibility(View.GONE);
                 }
             }
         });
@@ -282,7 +249,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_city.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                tv_addaddress_topcity.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -299,11 +266,11 @@ public class AddAddressPager extends BaseNoTrackPager {
                 }
             }
         });
-        //area 的长度监听
-        et_addaddress_area.addTextChangedListener(new TextWatcher() {
+        //province 的长度监听
+        et_addaddress_province.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                tv_addaddress_topprovince.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -314,81 +281,18 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-                    tv_addaddress_toparea.setVisibility(View.VISIBLE);
+                    tv_addaddress_topprovince.setVisibility(View.VISIBLE);
                 } else {
-                    tv_addaddress_toparea.setVisibility(View.GONE);
+                    tv_addaddress_topprovince.setVisibility(View.GONE);
                 }
             }
         });
 
-        //street 的长度监听
-        et_addaddress_street.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    tv_addaddress_topstrest.setVisibility(View.VISIBLE);
-                } else {
-                    tv_addaddress_topstrest.setVisibility(View.GONE);
-                }
-            }
-        });
-        //build 的长度监听
-        et_addaddress_build.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    tv_addaddress_topbuilding.setVisibility(View.VISIBLE);
-                } else {
-                    tv_addaddress_topbuilding.setVisibility(View.GONE);
-                }
-            }
-        });
-        //locationtype 的长度监听
-//        tv_addaddress_locationtype.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if(s.toString().length()>0) {
-//                    tv_addaddress_toptype.setVisibility(View.VISIBLE);
-//                }else {
-//                    tv_addaddress_toptype.setVisibility(View.GONE);
-//                }
-//            }
-//        });
         //mobile 的长度监听
         et_addaddress_mobile.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                tv_addaddress_topmobile.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -434,66 +338,8 @@ public class AddAddressPager extends BaseNoTrackPager {
                     selectSave();
 //                    startSaveOrEdit();
                     break;
-//                case R.id.rl_addaddress_locationtype:
-//                    startLocationType();
-//                    break;
-//                case R.id.tv_addaddress_home:
-//                    tv_addaddress_locationtype.setText(context.getString(R.string.Home));
-//                    if(mPopupWindow.isShowing()) {
-//                        mPopupWindow.dismiss();
-//                    }
-//                    break;
-//                case R.id.tv_addaddress_business:
-//                    tv_addaddress_locationtype.setText(context.getString(R.string.Business));
-//                    if(mPopupWindow.isShowing()) {
-//                        mPopupWindow.dismiss();
-//                    }
-//                    break;
             }
         }
-    }
-
-    //选择locationtype
-    private void startLocationType() {
-        int width = Utils.getScreenWidth(context);
-        int height = Utils.getScreenHeight(context);
-        View view = View.inflate(context, R.layout.ppw_locationtype, null);
-        TextView tv_addaddress_home = (TextView) view.findViewById(R.id.tv_addaddress_home);
-        TextView tv_addaddress_business = (TextView) view.findViewById(R.id.tv_addaddress_business);
-
-        tv_addaddress_home.setOnClickListener(new MyOnClickListener());
-        tv_addaddress_business.setOnClickListener(new MyOnClickListener());
-
-        mPopupWindow = new PopupWindow(view, width, 13 * height / 80);
-        mPopupWindow.setFocusable(true);
-        ColorDrawable dw = new ColorDrawable(0xb0000000);
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.setBackgroundDrawable(dw);
-        mPopupWindow.setOutsideTouchable(false);
-
-        int[] location = new int[2];
-        view_addaddress_locationtype.getLocationOnScreen(location);
-        if (height - location[1] > 13 * height / 80) {
-            mPopupWindow.showAsDropDown(view_addaddress_locationtype, 0, -13 * height / 80);
-        } else {
-            mPopupWindow.showAsDropDown(view_addaddress_locationtype);
-        }
-
-
-        // 设置背景颜色变暗
-        WindowManager.LayoutParams lp = ((SecondPagerActivity) context).getWindow().getAttributes();
-        lp.alpha = 0.6f;
-        ((SecondPagerActivity) context).getWindow().setAttributes(lp);
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams lp = ((SecondPagerActivity) context).getWindow().getAttributes();
-                lp.alpha = 1f;
-                ((SecondPagerActivity) context).getWindow().setAttributes(lp);
-            }
-        });
-
     }
 
     //检测是否可以保存
@@ -501,28 +347,30 @@ public class AddAddressPager extends BaseNoTrackPager {
         int count = 0;
         switch (-1) {
             default:
-            case R.id.et_addaddress_firstname:
-                if (et_addaddress_firstname.getText() != null && et_addaddress_firstname.getText().length() > 0) {
+            case R.id.et_addaddress_name:
+                if (et_addaddress_name.getText() != null && et_addaddress_name.getText().length() > 0) {
                     count++;
-                    view_addaddress_firstname.setEnabled(true);
+                    view_addaddress_name.setEnabled(true);
                 } else {
-                    view_addaddress_firstname.setEnabled(false);
+                    view_addaddress_name.setEnabled(false);
                 }
-            case R.id.et_addaddress_lastname:
-                if (et_addaddress_lastname.getText() != null && et_addaddress_lastname.getText().length() > 0) {
+            case R.id.et_addaddress_address:
+                if (et_addaddress_address.getText() != null && et_addaddress_address.getText().length() > 0) {
                     count++;
-                    view_addaddress_lastname.setEnabled(true);
+                    view_addaddress_address.setEnabled(true);
+                    tv_addaddress_address.setVisibility(View.GONE);
                 } else {
-                    view_addaddress_lastname.setEnabled(false);
+                    view_addaddress_address.setEnabled(false);
+                    tv_addaddress_address.setVisibility(View.VISIBLE);
                 }
-            case R.id.et_addaddress_country:
-                if (et_addaddress_country.getText() != null && et_addaddress_country.getText().length() > 0) {
+            case R.id.et_addaddress_postcode:
+                if (et_addaddress_postcode.getText() != null && et_addaddress_postcode.getText().length() > 0) {
                     count++;
-                    view_addaddress_country.setEnabled(true);
-                    tv_addaddress_country.setVisibility(View.GONE);
+                    view_addaddress_postcode.setEnabled(true);
+                    tv_addaddress_postcode.setVisibility(View.GONE);
                 } else {
-                    view_addaddress_country.setEnabled(false);
-                    tv_addaddress_country.setVisibility(View.VISIBLE);
+                    view_addaddress_postcode.setEnabled(false);
+                    tv_addaddress_postcode.setVisibility(View.VISIBLE);
                 }
             case R.id.et_addaddress_city:
                 if (et_addaddress_city.getText() != null && et_addaddress_city.getText().length() > 0) {
@@ -533,42 +381,16 @@ public class AddAddressPager extends BaseNoTrackPager {
                     view_addaddress_city.setEnabled(false);
                     tv_addaddress_city.setVisibility(View.VISIBLE);
                 }
-            case R.id.et_addaddress_area:
-                if (et_addaddress_area.getText() != null && et_addaddress_area.getText().length() > 0) {
+
+            case R.id.et_addaddress_province:
+                if (et_addaddress_province.getText() != null && et_addaddress_province.getText().length() > 0) {
                     count++;
-                    view_addaddress_area.setEnabled(true);
-                    tv_addaddress_area.setVisibility(View.GONE);
+                    view_addaddress_province.setEnabled(true);
+                    tv_addaddress_province.setVisibility(View.GONE);
                 } else {
-                    view_addaddress_area.setEnabled(false);
-                    tv_addaddress_area.setVisibility(View.VISIBLE);
+                    view_addaddress_province.setEnabled(false);
+                    tv_addaddress_province.setVisibility(View.VISIBLE);
                 }
-            case R.id.et_addaddress_street:
-                if (et_addaddress_street.getText() != null && et_addaddress_street.getText().length() > 0) {
-                    count++;
-                    view_addaddress_street.setEnabled(true);
-                    tv_addaddress_street.setVisibility(View.GONE);
-                } else {
-                    view_addaddress_street.setEnabled(false);
-                    tv_addaddress_street.setVisibility(View.VISIBLE);
-                }
-            case R.id.et_addaddress_build:
-                if (et_addaddress_build.getText() != null && et_addaddress_build.getText().length() > 0) {
-                    count++;
-                    view_addaddress_build.setEnabled(true);
-                    tv_addaddress_build.setVisibility(View.GONE);
-                } else {
-                    view_addaddress_build.setEnabled(false);
-                    tv_addaddress_build.setVisibility(View.VISIBLE);
-                }
-//            case R.id.tv_addaddress_locationtype:
-//                if (tv_addaddress_locationtype.getText() != null && tv_addaddress_locationtype.getText().length() > 0) {
-//                    count++;
-//                    view_addaddress_locationtype.setEnabled(true);
-//                    tv_addaddress_type.setVisibility(View.GONE);
-//                } else {
-//                    view_addaddress_build.setEnabled(false);
-//                    tv_addaddress_type.setVisibility(View.VISIBLE);
-//                }
             case R.id.et_addaddress_mobile:
                 if (et_addaddress_mobile.getText() != null && et_addaddress_mobile.getText().length() > 0) {
                     count++;
@@ -578,17 +400,11 @@ public class AddAddressPager extends BaseNoTrackPager {
                     view_addaddress_mobile.setEnabled(false);
                     tv_addaddress_mobile.setVisibility(View.VISIBLE);
                 }
-            case R.id.et_addaddress_shippingnote:
-                if (et_addaddress_shippingnote.getText() != null && et_addaddress_shippingnote.getText().length() > 0) {
-                    count++;
-                    break;
-                }
-
+                break;
         }
-        Log.e("TAG", count + "" + et_addaddress_shippingnote.getText().toString());
-        if (count == 9) {
+        if (count == 6) {
             startSaveOrEdit();
-        } else if (count < 9) {
+        } else if (count <6) {
             Utils.MyToast(context, context.getString(R.string.completeinformation));
         }
     }
@@ -598,14 +414,14 @@ public class AddAddressPager extends BaseNoTrackPager {
         if (address_id != -1) {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/" + address_id + "?timezone=" + MyApplication.utc;
-            String addre = et_addaddress_country.getText() + "," + et_addaddress_city.getText() + "," + et_addaddress_area.getText() + "," + et_addaddress_street.getText() + "," + et_addaddress_build.getText();
-            String json = "{\"address\": \"" + addre + "\",\"name\": \"" + et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
+            String addre = et_addaddress_address.getText() + "," + et_addaddress_province.getText() + "," + et_addaddress_city.getText();
             Address address = new Address();
             address.setAddress(addre);
-            address.setName(et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText());
+            address.setName(et_addaddress_name.getText() + "");
             address.setPhone(et_addaddress_mobile.getText() + "");
-            address.setZipcode(et_addaddress_shippingnote.getText().toString() + "");
-            json = address.toString();
+            address.setZipcode(et_addaddress_postcode.getText().toString() + "");
+            String json = address.toString();
+            Log.e("TAG_address", json);
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
@@ -645,16 +461,14 @@ public class AddAddressPager extends BaseNoTrackPager {
         } else {
             HttpUtils.getInstance().startNetworkWaiting(context);
             String url = MyApplication.url + "/v1/addresses/?timezone=" + MyApplication.utc;
-            String addre = et_addaddress_country.getText() + "," + et_addaddress_city.getText() + "," + et_addaddress_area.getText() + "," + et_addaddress_street.getText() + "," + et_addaddress_build.getText();
-            String json = "{\"address\": \"" + addre + "\",\"name\": \"" + et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText() + "\",\"phone\": \"" + "+" + et_addaddress_mobile.getText() + "\",\"zipcode\": \"" + "123456" + "\"}";
-
+            String addre = et_addaddress_address.getText() + "," + et_addaddress_province.getText() + "," + et_addaddress_city.getText();
             Address address = new Address();
             address.setAddress(addre);
-            address.setName(et_addaddress_firstname.getText() + " " + et_addaddress_lastname.getText());
+            address.setName(et_addaddress_name.getText() + "");
             address.setPhone(et_addaddress_mobile.getText() + "");
-            address.setZipcode(et_addaddress_shippingnote.getText().toString() + "");
-            json = address.toString();
-
+            address.setZipcode(et_addaddress_postcode.getText().toString() + "");
+            String json = address.toString();
+            Log.e("TAG_address", json);
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
