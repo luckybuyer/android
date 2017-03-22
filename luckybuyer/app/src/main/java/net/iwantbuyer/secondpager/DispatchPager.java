@@ -1,6 +1,7 @@
 package net.iwantbuyer.secondpager;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaBrowserCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -25,11 +28,20 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
+import com.facebook.share.widget.ShareDialog;
 import com.google.gson.Gson;
 import com.paypal.android.sdk.payments.ShippingAddress;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
+import net.iwantbuyer.adapter.DispatchAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.DispatchGameBean;
@@ -40,7 +52,10 @@ import net.iwantbuyer.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,19 +65,18 @@ public class DispatchPager extends BaseNoTrackPager {
 
     private RelativeLayout rl_dispatch_header;
     private LinearLayout ll_dispatch_back;
-    private RelativeLayout rl_dispatch_address;
-    private RelativeLayout rl_dispatch_participate;
+//    private RelativeLayout rl_dispatch_address;
+//    private RelativeLayout rl_dispatch_participate;
     //商品信息
     private ImageView iv_dispatch_icon;
     private TextView jtv_dispatch_title;
     private TextView tv_dispatch_issue;
     private TextView tv_dispatch_participate;
-    private TextView tv_dispatch_time;
 
-    private TextView tv_dispatch_adddiscribe;
-    private RelativeLayout rl_dispatch_address_content;
     private View inflate;
     private int dispatch_game_id;
+
+    private RecyclerView rv_dispatch;
 
     private RelativeLayout rl_keepout;                     //联网
     private RelativeLayout rl_neterror;
@@ -70,17 +84,7 @@ public class DispatchPager extends BaseNoTrackPager {
     private RelativeLayout rl_loading;
     private TextView tv_net_again;
 
-    private TextView tv_dispatch_confirm;                    //确认收货
-    private TextView tv_dispatch_isshow;                    //确认收货
-    private TextView tv_dispatch_delivered;
 
-    private EditText et_dispatch_phonenum;
-    private EditText et_dispatch_operator;
-
-    private TextView tv_dispatch_5coins;
-
-    private View defaultaddress;
-    private View cardView;
     private int shared_coins;
 
     @Override
@@ -90,13 +94,6 @@ public class DispatchPager extends BaseNoTrackPager {
         findView();
         ((SecondPagerActivity) context).from = "";
 
-        String str = Utils.getSpData("gifts_post_share", context);
-        shared_coins = Integer.parseInt(str);
-        if (shared_coins == 0) {
-            tv_dispatch_5coins.setVisibility(View.GONE);
-        } else {
-            tv_dispatch_5coins.setText(context.getString(R.string.showitstart) + shared_coins + context.getString(R.string.showitlast));
-        }
         return inflate;
     }
 
@@ -128,7 +125,6 @@ public class DispatchPager extends BaseNoTrackPager {
                                     public void run() {
                                         rl_keepout.setVisibility(View.GONE);
                                         setView(response);
-                                        Log.e("TAG_dispatch", response);
                                     }
                                 }
                         );
@@ -161,6 +157,7 @@ public class DispatchPager extends BaseNoTrackPager {
                     }
                 }
         );
+
     }
 
     private void findView() {
@@ -170,14 +167,6 @@ public class DispatchPager extends BaseNoTrackPager {
         jtv_dispatch_title = (TextView) inflate.findViewById(R.id.jtv_dispatch_title);
         tv_dispatch_issue = (TextView) inflate.findViewById(R.id.tv_dispatch_issue);
         tv_dispatch_participate = (TextView) inflate.findViewById(R.id.tv_dispatch_participate);
-        tv_dispatch_adddiscribe = (TextView) inflate.findViewById(R.id.tv_dispatch_adddiscribe);
-        tv_dispatch_time = (TextView) inflate.findViewById(R.id.tv_dispatch_time);
-
-        rl_dispatch_address_content = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_address_content);
-        rl_dispatch_address = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_address);
-        rl_dispatch_participate = (RelativeLayout) inflate.findViewById(R.id.rl_dispatch_participate);
-
-        defaultaddress = View.inflate(context, R.layout.pager_dispatch_address_default, null);
 
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
@@ -185,146 +174,40 @@ public class DispatchPager extends BaseNoTrackPager {
         rl_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_neterror);
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
 
-        tv_dispatch_confirm = (TextView) inflate.findViewById(R.id.tv_dispatch_confirm);
-        tv_dispatch_isshow = (TextView) inflate.findViewById(R.id.tv_dispatch_isshow);
-        tv_dispatch_delivered = (TextView) inflate.findViewById(R.id.tv_dispatch_delivered);
 
-        cardView = View.inflate(context, R.layout.pager_dispatch_address_card, null);              //卡的时候所需要的视图
-        et_dispatch_operator = (EditText) cardView.findViewById(R.id.et_dispatch_operator);
-        et_dispatch_phonenum = (EditText) cardView.findViewById(R.id.et_dispatch_phonenum);
-        tv_dispatch_5coins = ((TextView) inflate.findViewById(R.id.tv_dispatch_5coins));
+        rv_dispatch = (RecyclerView) inflate.findViewById(R.id.rv_dispatch);
 
         ll_dispatch_back.setOnClickListener(new MyOnClickListener());
-        tv_dispatch_confirm.setOnClickListener(new MyOnClickListener());
-        tv_dispatch_isshow.setOnClickListener(new MyOnClickListener());
-        rl_dispatch_participate.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
     }
 
     DispatchGameBean dispatchGameBean;
-
+    DispatchAdapter dispatchAdapter;
     //设置视图
     public void setView(String response) {
-        Log.e("TAG_dispatch", response);
+
         Gson gson = new Gson();
         dispatchGameBean = gson.fromJson(response, DispatchGameBean.class);
-
-        TextView tv_dispatch_selector_address = (TextView) defaultaddress.findViewById(R.id.tv_dispatch_selector_address);
-        Log.e("TAG", defaultaddress.toString());
-        TextView tv_dispatch_current_address = (TextView) defaultaddress.findViewById(R.id.tv_dispatch_current_address);
-
-        TextView tv_disaptch_name = (TextView) defaultaddress.findViewById(R.id.tv_disaptch_name);
-        TextView tv_disaptch_telnum = (TextView) defaultaddress.findViewById(R.id.tv_disaptch_telnum);
-        TextView tv_disaptch_add_detailed = (TextView) defaultaddress.findViewById(R.id.tv_disaptch_add_detailed);
-
-        String status = dispatchGameBean.getDelivery().getStatus();
-        if ("pending".equals(status)) {
-            setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
-
-        } else if ("processing".equals(status)) {
-            //设置地址
-            setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
-            inflate.findViewById(R.id.iv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.tv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.view_address).setEnabled(false);
-
-            inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(true);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context, R.color.ff9c05));
-            ((TextView) inflate.findViewById(R.id.tv_dispach_shipping_warn)).setTextColor(ContextCompat.getColor(context, R.color.ff9c05));
-            inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_shipping).setEnabled(true);
-        } else if ("shipping".equals(status)) {
-            //设置地址
-            setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
-            inflate.findViewById(R.id.iv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.tv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.view_address).setEnabled(false);
-
-            inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(false);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-            ((TextView) inflate.findViewById(R.id.tv_dispach_shipping_warn)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-            inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_shipping).setEnabled(false);
-
-
-            inflate.findViewById(R.id.iv_disaptch_delivered).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_delivered).setEnabled(true);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_delivered)).setTextColor(ContextCompat.getColor(context, R.color.ff9c05));
-            inflate.findViewById(R.id.view_delivered).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_delivered).setEnabled(true);
-            tv_dispatch_confirm.setVisibility(View.VISIBLE);
-        } else if ("finished".equals(status)) {
-            Log.e("TAG", "finished");
-            //设置地址
-            setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
-            inflate.findViewById(R.id.iv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.tv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.view_address).setEnabled(false);
-
-            inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(false);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-            ((TextView) inflate.findViewById(R.id.tv_dispach_shipping_warn)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-
-            inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_shipping).setEnabled(false);
-
-            inflate.findViewById(R.id.iv_disaptch_delivered).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_delivered).setEnabled(false);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_delivered)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-            inflate.findViewById(R.id.view_delivered).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_delivered).setEnabled(false);
-
-            inflate.findViewById(R.id.iv_disaptch_show).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_show).setEnabled(true);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_show)).setTextColor(ContextCompat.getColor(context, R.color.ff9c05));
-            tv_dispatch_5coins.setTextColor(ContextCompat.getColor(context, R.color.ff9c05));
-            tv_dispatch_isshow.setVisibility(View.VISIBLE);
-        } else if ("shared".equals(status)) {
-            rl_dispatch_participate.setVisibility(View.VISIBLE);
-            //设置地址
-            setAddress(dispatchGameBean, defaultaddress, tv_dispatch_selector_address, tv_dispatch_current_address, tv_disaptch_name, tv_disaptch_telnum, tv_disaptch_add_detailed, status);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_show)).setText(context.getString(R.string.Shared));
-            if (shared_coins != 0) {
-                tv_dispatch_5coins.setText(context.getString(R.string.shoSuccess) + ":" + shared_coins + context.getString(R.string.showSuccessDiscribe));
+        dispatchAdapter = new DispatchAdapter(context,dispatchGameBean);
+        rv_dispatch.setAdapter(dispatchAdapter);
+        rv_dispatch.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
+        dispatchAdapter.setDispatchOnClickListener(new DispatchAdapter.DispatchOnClickListener() {
+            @Override
+            public void onClick(String method) {
+                if("setCurrentAddress".equals(method)) {
+                    setCurrentAddress();
+                }else if("currentAddress".equals(method)) {
+                    currentAddress();
+                }else if("sharedFacebook".equals(method)) {
+                    sharedFacebook();
+                }
             }
+        });
 
-            inflate.findViewById(R.id.iv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.tv_disaptch_selector_address).setEnabled(false);
-            inflate.findViewById(R.id.view_address).setEnabled(false);
 
-            inflate.findViewById(R.id.iv_disaptch_shipping).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_shipping).setEnabled(false);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-            ((TextView) inflate.findViewById(R.id.tv_dispach_shipping_warn)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-            inflate.findViewById(R.id.view_shipping).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_shipping).setEnabled(false);
-
-            inflate.findViewById(R.id.iv_disaptch_delivered).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_delivered).setEnabled(false);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_delivered)).setTextColor(ContextCompat.getColor(context, R.color.text_black));
-            inflate.findViewById(R.id.view_delivered).setBackgroundResource(R.drawable.selector_dispatch_view);
-            inflate.findViewById(R.id.view_delivered).setEnabled(false);
-
-            inflate.findViewById(R.id.iv_disaptch_show).setBackgroundResource(R.drawable.selector_dispatch_point);
-            inflate.findViewById(R.id.iv_disaptch_show).setEnabled(true);
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_show)).setTextColor(ContextCompat.getColor(context, R.color.ff9c05));
-            tv_dispatch_5coins.setTextColor(ContextCompat.getColor(context, R.color.ff9c05));
-
-        }
-        if ("virtual_mobile".equals(dispatchGameBean.getDelivery().getType())) {
-            ((TextView) inflate.findViewById(R.id.tv_disaptch_selector_address)).setText(context.getString(R.string.editphoneoperator));
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setText(context.getString(R.string.WaitingforProcessing));
-        } else {
-            ((TextView) inflate.findViewById(R.id.tv_disaptch_selector_address)).setText(context.getString(R.string.confirmshippingaddress));
-            ((TextView) inflate.findViewById(R.id.tv_dispatch_shipping)).setText(context.getString(R.string.Waitingforshippment));
-        }
         jtv_dispatch_title.setText(dispatchGameBean.getGame().getProduct().getTitle() + "");
         tv_dispatch_issue.setText("" + dispatchGameBean.getGame().getIssue_id() + "");
         tv_dispatch_participate.setText("" + dispatchGameBean.getGame().getLucky_order().getTotal_shares() + "");
-        tv_dispatch_time.setText(dispatchGameBean.getDelivery().getCreated_at().substring(0, 20).replace("T", "\t ") + "");
         Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -334,81 +217,6 @@ public class DispatchPager extends BaseNoTrackPager {
 
     }
 
-    //设置地址  包括有默认地址与无默认地址
-    private void setAddress(DispatchGameBean dispatchGameBean, View defaultaddress, TextView tv_dispatch_selector_address, TextView tv_dispatch_current_address, TextView tv_disaptch_name, TextView tv_disaptch_telnum, TextView tv_disaptch_add_detailed, String status) {
-        //当 物品为  虚拟物品的时候
-        if ("virtual_mobile".equals(dispatchGameBean.getDelivery().getType())) {
-            rl_dispatch_address_content.removeAllViews();
-            rl_dispatch_address_content.addView(cardView);
-            cardView.findViewById(R.id.tv_dispatch_card_submit).setOnClickListener(new MyOnClickListener());
-            if (!"pending".equals(status)) {
-                setXian((int) getResources().getDimension(R.dimen.dimen_85));
-                cardView.findViewById(R.id.tv_dispatch_card_submit).setVisibility(View.GONE);
-                if (dispatchGameBean.getDelivery().getAddress() != null) {
-                    et_dispatch_phonenum.setEnabled(false);
-                    et_dispatch_phonenum.setText(dispatchGameBean.getDelivery().getAddress().getPhone() + "");
-                    et_dispatch_operator.setEnabled(false);
-                    et_dispatch_operator.setText(dispatchGameBean.getDelivery().getAddress().getVendor() + "");
-                }
-            }else {
-                setXian((int) getResources().getDimension(R.dimen.dimen_85));
-            }
-        }
-
-        if ("post".equals(dispatchGameBean.getDelivery().getType()) && dispatchGameBean.getDelivery().getAddress() == null && ((SecondPagerActivity) context).shippingBean == null) {
-            setXian((int) getResources().getDimension(R.dimen.dimen_50));
-
-            View addView = View.inflate(context, R.layout.pager_dispatch_address, null);
-            rl_dispatch_address_content.addView(addView);
-            rl_dispatch_address_content.setOnClickListener(new MyOnClickListener());
-        }  else if ("post".equals(dispatchGameBean.getDelivery().getType()) && ((SecondPagerActivity) context).shippingBean != null) {
-            setXian((int) getResources().getDimension(R.dimen.dimen_90));
-
-            Log.e("TAG_qianmian", ((SecondPagerActivity) context).shippingBean + "");
-
-            tv_disaptch_name.setText(((SecondPagerActivity) context).shippingBean.getName() + "");
-            tv_disaptch_telnum.setText(((SecondPagerActivity) context).shippingBean.getPhone() + "");
-            tv_disaptch_add_detailed.setText(((SecondPagerActivity) context).shippingBean.getAddress() + "");
-
-            if (!"pending".equals(status)) {
-                defaultaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.GONE);
-            } else {
-                defaultaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.VISIBLE);
-            }
-            rl_dispatch_address_content.removeAllViews();
-            rl_dispatch_address_content.addView(defaultaddress);
-            tv_dispatch_selector_address.setOnClickListener(new MyOnClickListener());
-            tv_dispatch_current_address.setOnClickListener(new MyOnClickListener());
-        }else if ("post".equals(dispatchGameBean.getDelivery().getType()) && dispatchGameBean.getDelivery().getAddress() != null) {
-            setXian((int) getResources().getDimension(R.dimen.dimen_81));
-
-            tv_disaptch_name.setText(dispatchGameBean.getDelivery().getAddress().getName() + "");
-            tv_disaptch_telnum.setText(dispatchGameBean.getDelivery().getAddress().getPhone() + "");
-            tv_disaptch_add_detailed.setText(dispatchGameBean.getDelivery().getAddress().getAddress() + "");
-
-            if (!"pending".equals(status)) {
-                defaultaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.GONE);
-            } else {
-                defaultaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.VISIBLE);
-            }
-            rl_dispatch_address_content.removeAllViews();
-            rl_dispatch_address_content.addView(defaultaddress);
-            tv_dispatch_selector_address.setOnClickListener(new MyOnClickListener());
-            tv_dispatch_current_address.setOnClickListener(new MyOnClickListener());
-        }
-
-    }
-
-    //设置那条竖线的长度
-    private void setXian(int i) {
-        View view = inflate.findViewById(R.id.view_address);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(DensityUtil.dip2px(context, 1), DensityUtil.dip2px(context, i));
-        lp.leftMargin = DensityUtil.dip2px(context, 17);
-        lp.topMargin = DensityUtil.dip2px(context, 8);
-        view.setLayoutParams(lp);
-    }
-
-
     class MyOnClickListener implements View.OnClickListener {
 
         @Override
@@ -417,10 +225,6 @@ public class DispatchPager extends BaseNoTrackPager {
                 case R.id.ll_dispatch_back:
                     ((SecondPagerActivity) context).finish();
                     break;
-                case R.id.rl_dispatch_address_content:
-                    ((SecondPagerActivity) context).switchPage(9);
-                    ((SecondPagerActivity) context).from = "dispatchpager";
-                    break;
                 case R.id.tv_dispatch_selector_address:
                     ((SecondPagerActivity) context).switchPage(9);
                     ((SecondPagerActivity) context).from = "dispatchpager";
@@ -428,12 +232,6 @@ public class DispatchPager extends BaseNoTrackPager {
                 case R.id.tv_dispatch_current_address:
                     View viewAddress = View.inflate(context, R.layout.alertdialog_current_address, null);
                     StartAlertDialog(viewAddress);
-                    break;
-                case R.id.rl_dispatch_participate:
-                    Intent intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from", "productdetail");
-                    intent.putExtra("batch_id", dispatchGameBean.getGame().getBatch_id());
-                    context.startActivity(intent);
                     break;
                 case R.id.tv_address_ok:
                     if (show.isShowing()) {
@@ -457,16 +255,46 @@ public class DispatchPager extends BaseNoTrackPager {
                     ((SecondPagerActivity) context).switchPage(10);
                     ((SecondPagerActivity) context).order_id = dispatchGameBean.getId();
                     break;
-                case R.id.tv_dispatch_card_submit:
-                    if (et_dispatch_phonenum == null ) {
-                        Utils.MyToast(context, context.getString(R.string.numbernullwarn));
-                    } else if(et_dispatch_operator == null) {
-                        Utils.MyToast(context, context.getString(R.string.operatornummwarn));
-                    }else {
-                        setCurrentAddress();
-                    }
-                    break;
             }
+        }
+    }
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
+    public void sharedFacebook(){
+        FacebookSdk.sdkInitialize(context);
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
+        // this part is optional
+        shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+            @Override
+            public void onSuccess(Sharer.Result result) {
+                Log.e("TAG", result.getPostId()+"");
+                Log.e("TAG", result.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.e("TAG", "0.0.0.");
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e("TAG", error.toString());
+            }
+        });
+        File file = new File("/sdcard/DCIM/P61005-115348.jpg");
+        if (ShareDialog.canShow(ShareLinkContent.class)) {
+            ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                    .setContentTitle("hahah")
+                    .setContentDescription(
+                            "The 'Hello Facebook' sample  showcases simple Facebook integration")
+                    .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=net.iwantbuyer"))
+                    .setImageUrl(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490010419156&di=501a13537dd9addf9651f7de35327bd8&imgtype=0&src=http%3A%2F%2Fimg4.baixing.net%2F62c2199d1cdab27d21f7e7057d2ae370.jpg_bi"))
+                    .build();
+
+            shareDialog.show(linkContent);
+//            ShareButton shareButton = (ShareButton)findViewById(R.id.fb_share_button);
+//            shareButton.setShareContent(linkContent);
         }
     }
 
@@ -506,10 +334,7 @@ public class DispatchPager extends BaseNoTrackPager {
                             public void run() {
                                 HttpUtils.getInstance().stopNetWorkWaiting();
                                 if (requestCode == 204) {
-                                    tv_dispatch_delivered.setText(context.getString(R.string.Delivered));
-                                    tv_dispatch_confirm.setVisibility(View.VISIBLE);
                                     initData();
-                                    tv_dispatch_confirm.setVisibility(View.GONE);
                                 } else {
                                     Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode + "deliveries");
                                 }
@@ -543,8 +368,8 @@ public class DispatchPager extends BaseNoTrackPager {
             url = MyApplication.url + "/v1/deliveries/" + dispatchGameBean.getDelivery().getId() + "?timezone=" + MyApplication.utc;
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.accumulate("phone", et_dispatch_phonenum.getText() + "");
-                jsonObject.accumulate("vendor", et_dispatch_operator.getText() + "");
+                jsonObject.accumulate("phone", dispatchAdapter.et_dispatch_phonenum.getText() + "");
+                jsonObject.accumulate("vendor", dispatchAdapter.et_dispatch_operator.getText() + "");
 
             } catch (JSONException e) {
                 e.printStackTrace();

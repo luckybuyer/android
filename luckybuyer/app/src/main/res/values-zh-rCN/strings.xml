@@ -245,5 +245,9 @@
     <string name="Name">Name</string>
     <string name="Address">Address</string>
     <string name="Postcode">Post code</string>
+    <string name="SendtoFacebook">Send to facebook</string>
+    <string name="InternetBanking">Internet Banking</string>
+    <string name="carrierbillingmol"><![CDATA[Carrier Billing & MOL]]></string>
+    <string name="walletcash"><![CDATA[E-wallet & Cash]]></string>
 
 </resources>

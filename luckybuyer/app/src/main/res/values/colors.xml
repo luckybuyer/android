@@ -37,4 +37,5 @@
     <color name="background">#ECEEF3</color>
 
     <color name="auth0_header">#F0F0F0</color>
+    <color name="fcblue">#4967B4</color>
 </resources>

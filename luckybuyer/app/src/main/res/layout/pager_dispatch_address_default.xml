@@ -2,51 +2,60 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F5F5F6">
-
-    <TextView
-        android:id="@+id/tv_disaptch_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_24"
-        android:text="name"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_26" />
-
-    <TextView
-        android:id="@+id/tv_disaptch_telnum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_28"
-        android:text="name"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_26" />
-
-    <TextView
-        android:id="@+id/tv_disaptch_add_detailed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_disaptch_name"
-        android:layout_marginBottom="@dimen/dimen_20"
-        android:layout_marginStart="@dimen/dimen_24"
-        android:layout_marginEnd="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_24"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="name"
-        android:textColor="#999999"
-        android:textSize="@dimen/dimen_26" />
+    android:background="#ffffff">
 
     <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_marginBottom="@dimen/dimen_12"
+        android:layout_width="match_parent"
+        android:background="#F5F5F6"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_disaptch_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:text="name"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_26" />
+
+        <TextView
+            android:id="@+id/tv_disaptch_telnum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_28"
+            android:text="name"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/dimen_26" />
+
+        <TextView
+            android:id="@+id/tv_disaptch_add_detailed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_disaptch_name"
+            android:layout_marginBottom="@dimen/dimen_20"
+            android:layout_marginStart="@dimen/dimen_24"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_24"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="name"
+            android:textColor="#999999"
+            android:textSize="@dimen/dimen_26" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_marginBottom="@dimen/dimen_15"
         android:id="@+id/rl_dispatch_selector_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_disaptch_add_detailed"
+        android:layout_below="@+id/rl"
         android:background="@color/bg_while"
-        android:paddingTop="@dimen/dimen_12">
+        android:layout_marginTop="@dimen/dimen_12">
 
         <TextView
             android:id="@+id/tv_dispatch_selector_address"
