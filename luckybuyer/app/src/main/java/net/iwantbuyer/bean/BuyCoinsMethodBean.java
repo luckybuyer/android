@@ -1,30 +1,37 @@
 package net.iwantbuyer.bean;
 
+import java.util.List;
+
 /**
- * Created by admin on 2017/3/6.
+ * Created by admin on 2017/3/23.
  */
 public class BuyCoinsMethodBean {
-    private boolean flag;
-    private String method;
 
-    public BuyCoinsMethodBean(boolean flag, String method) {
-        this.flag = flag;
-        this.method = method;
+    private List<String> bank;
+    private List<String> mol;
+    private List<String> cash;
+
+    public List<String> getBank() {
+        return bank;
     }
 
-    public boolean isFlag() {
-        return flag;
+    public void setBank(List<String> bank) {
+        this.bank = bank;
     }
 
-    public void setFlag(boolean flag) {
-        this.flag = flag;
+    public List<String> getMol() {
+        return mol;
     }
 
-    public String getMethod() {
-        return method;
+    public void setMol(List<String> mol) {
+        this.mol = mol;
     }
 
-    public void setMethod(String method) {
-        this.method = method;
+    public List<String> getCash() {
+        return cash;
+    }
+
+    public void setCash(List<String> cash) {
+        this.cash = cash;
     }
 }

@@ -29,6 +29,10 @@ import android.widget.TextView;
 import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
 import net.iwantbuyer.R;
 import net.iwantbuyer.adapter.ServersAdapter;
 import net.iwantbuyer.app.MyApplication;
@@ -69,7 +73,6 @@ public class WelcomeActivity extends Activity {
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_welcome);
-
 
 
         fl_welcome = (FrameLayout) findViewById(R.id.fl_welcome);
@@ -262,16 +265,26 @@ public class WelcomeActivity extends Activity {
     private void processData(String response) {
         Gson gson = new Gson();
         PaySwitchBean paySwitchBean = gson.fromJson(response, PaySwitchBean.class);
-        String method = "";
-        for (int i = 0; i < paySwitchBean.getPayment_methods().size(); i++) {
-            if(i == 0) {
-                method += paySwitchBean.getPayment_methods().get(i).getVendor();
-            }else {
-                method += "." + paySwitchBean.getPayment_methods().get(i).getVendor();
+//        String method = "";
+//        for (int i = 0; i < paySwitchBean.getPayment_methods().size(); i++) {
+//            if(i == 0) {
+//                method += paySwitchBean.getPayment_methods().get(i).getVendor();
+//            }else {
+//                method += "." + paySwitchBean.getPayment_methods().get(i).getVendor();
+//            }
+//
+//        }
+//        Utils.setSpData("paymentmethod", method, this);
+        JSONObject jsonObject = new JSONObject();
+        for (int i = 0;i < paySwitchBean.getPayment_methods().size();i++){
+            try {
+                jsonObject.accumulate(paySwitchBean.getPayment_methods().get(i).getMethod() + "",paySwitchBean.getPayment_methods().get(i).getVendor());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-
         }
-        Utils.setSpData("paymentmethod", method, this);
+        Utils.setSpData("paymentmethod", jsonObject.toString(), this);
+        Log.e("TAG_paymentmethod", jsonObject.toString());
 
         Utils.setSpData("client_id",paySwitchBean.getAuth0_client_id(),WelcomeActivity.this);
         Utils.setSpData("domain",paySwitchBean.getAuth0_domain(),WelcomeActivity.this);

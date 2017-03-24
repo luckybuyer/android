@@ -1,8 +1,5 @@
 package net.iwantbuyer.activity;
 
-import android.app.Activity;
-import android.app.ActivityManager;
-import android.support.v7.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,13 +11,13 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.telephony.TelephonyManager;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -55,15 +52,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
-import com.facebook.internal.LockOnGetVariable;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
-import com.halopay.sdk.main.HaloPay;
 import com.payssion.android.sdk.PayssionActivity;
 import com.payssion.android.sdk.model.PayResponse;
-
-//import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.app.MyApplication;
@@ -77,14 +69,12 @@ import net.iwantbuyer.pager.MePager;
 import net.iwantbuyer.pager.ShowPager;
 import net.iwantbuyer.pager.WinningPager;
 import net.iwantbuyer.secondpager.BuyCoinPager;
-import net.iwantbuyer.secondpager.DispatchPager;
 import net.iwantbuyer.util.IabHelper;
 import net.iwantbuyer.util.IabResult;
 import net.iwantbuyer.util.Purchase;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.MyBase64;
 import net.iwantbuyer.utils.Utils;
-import net.iwantbuyer.view.NoScrollViewPager;
 
 import org.json.JSONObject;
 
@@ -94,6 +84,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+//import com.inthecheesefactory.lib.fblike.widget.FBLikeView;
 
 public class MainActivity extends FragmentActivity {
 
@@ -211,8 +203,6 @@ public class MainActivity extends FragmentActivity {
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(MainActivity.this));
             rl_main.setLayoutParams(lp);
         }
-
-        HaloPay.getInstance().init(this, HaloPay.PORTRAIT, "3000600754");
 
         String token = FirebaseInstanceId.getInstance().getToken();
         if (token != null) {
@@ -495,15 +485,6 @@ public class MainActivity extends FragmentActivity {
                         mePager.setView();
                     }
                 } else if (fg == buyCoinPager) {
-                    if (buyCoinPager != null && buyCoinPager.tv_buycoins_balance != null) {
-                        if (Utils.getSpData("balance", MainActivity.this) == null) {
-                            buyCoinPager.tv_buycoins_balance.setVisibility(View.GONE);
-                        } else {
-                            buyCoinPager.tv_buycoins_balance.setVisibility(View.VISIBLE);
-                        }
-
-                        buyCoinPager.tv_buycoins_balance.setText(Utils.getSpData("balance", MainActivity.this) + "");
-                    }
 
                 } else if (fg == winningPager) {
                     if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
@@ -797,11 +778,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (buyCoinPager != null && buyCoinPager.wv_buycoins_cashu != null && buyCoinPager.wv_buycoins_cashu.getVisibility() == View.VISIBLE) {
-                buyCoinPager.wv_buycoins_cashu.setVisibility(View.GONE);
-                buyCoinPager.ll_buycoins_back.setVisibility(View.GONE);
-                buyCoinPager.tv_title.setText(getString(R.string.BuyCoins));
-            } else {
                 if (show != null && show.isShowing()) {
                     //AppFlyer 埋点
                     Map eventValue = new HashMap<String, Object>();
@@ -814,7 +790,6 @@ public class MainActivity extends FragmentActivity {
                 } else {
                     finish();
                 }
-            }
 
             return true;
         }

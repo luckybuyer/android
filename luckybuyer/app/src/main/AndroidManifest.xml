@@ -13,8 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <!--谷歌支付权限-->
@@ -111,10 +111,6 @@
             android:screenOrientation="portrait">
         </activity>
 
-        <!-- 支付 -->
-        <activity
-            android:name="com.paypal.android.sdk.payments.PaymentActivity"
-            android:theme="@android:style/Theme.Dialog" />
 
         <!-- facebook -->
         <activity
@@ -140,88 +136,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
-
-        <!--holypay支付所用的-->
-        <!-- 登录界面 -->
-        <activity
-            android:name="com.halopay.openid.channel.ui.LoginActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="singleTask"></activity>
-        <!-- 注册界面 -->
-        <activity
-            android:name="com.halopay.openid.channel.ui.RegistActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="singleTask"></activity>
-        <!--  注册协议界面-->
-        <activity
-            android:name="com.halopay.openid.channel.ui.RegisterProtocolActivity"
-            android:configChanges="screenSize|orientation|keyboardHidden|navigation|layoutDirection|locale"></activity>
-        <!--  忘记密码界面-->
-        <activity
-            android:name="com.halopay.openid.channel.ui.ForgotPasswordActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"></activity>
-        <activity
-            android:name="com.halopay.openid.channel.ui.ForgotSetPwdActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"></activity>
-
-        <!-- 显示网页界面 -->
-        <activity
-            android:name="com.halopay.openid.channel.ui.WebActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="singleInstance"></activity>
-
-        <!-- 收银台-普通 -->
-        <activity
-            android:name="com.halopay.ui.activity.normalpay.PayHubActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
-        <!-- 收银台-爱贝币 -->
-        <activity
-            android:name="com.halopay.ui.activity.iapppay.IAppPayHubActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Translucent"></activity>
-
-        <!-- 充值界面 -->
-        <activity
-            android:name="com.halopay.ui.activity.normalpay.ChargeActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"></activity>
-        <!-- 用户选择设置界面 -->
-        <activity
-            android:name="com.halopay.ui.activity.SelectSettingsActivity"
-            android:configChanges="screenSize|orientation|keyboardHidden|navigation|layoutDirection|locale"
-            android:launchMode="standard"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-        <!-- 用户输入金额充值界面 -->
-        <activity
-            android:name="com.halopay.ui.activity.PutAmountForChargeActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="standard"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-        <!-- 分组弹出页面 -->
-        <activity
-            android:name="com.halopay.ui.activity.normalpay.PayTypeGroupsActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="standard"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-        <!-- 填卡信息页面 -->
-        <activity
-            android:name="com.halopay.ui.activity.normalpay.CardInfoActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:launchMode="standard"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-        <!-- 反馈信息页面 -->
-        <activity
-            android:name="com.halopay.ui.activity.FeedBackActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-        <!-- 短代页面 -->
-        <activity
-            android:name="com.halopay.ui.activity.SmsPayActivity"
-            android:configChanges="screenSize|orientation|keyboard|navigation|layoutDirection"
-            android:theme="@android:style/Theme.Light.NoTitleBar"></activity>
-        <service android:name="com.halopay.interfaces.SurveyService"></service>
-
 
         <!--更新推动服务页面-->
         <service android:name="net.iwantbuyer.sever.MyFirebaseMessagingService">
