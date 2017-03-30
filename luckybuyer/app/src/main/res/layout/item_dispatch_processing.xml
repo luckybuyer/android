@@ -7,7 +7,6 @@
         android:id="@+id/tv_dispatch_processing"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_36"
-        android:layout_toEndOf="@+id/iv_disaptch_shipping"
         android:gravity="center_horizontal"
         android:text="@string/WaitingforProcessing"
         android:textColor="#cccccc"
@@ -15,7 +14,7 @@
 
     <TextView
         android:layout_marginBottom="@dimen/dimen_32"
-        android:id="@+id/tv_dispach_shipping_warn"
+        android:id="@+id/tv_dispach_processing_warn"
         android:paddingRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_12"
         android:layout_width="wrap_content"

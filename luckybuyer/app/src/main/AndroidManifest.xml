@@ -7,67 +7,70 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <!--支付权限-->
+    <!-- 支付权限 -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
-    <!--谷歌支付权限-->
+    <!-- 谷歌支付权限 -->
     <uses-permission android:name="com.android.vending.BILLING" />
 
-    <!--友盟集成-->
+    <!-- 友盟集成 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="net.iwantbuyer.app.MyApplication"
+        android:name=".app.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="luckybuyer"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="net.iwantbuyer.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
-            android:name="net.iwantbuyer.activity.SecondPagerActivity"
+            android:name=".activity.SecondPagerActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="secondpager" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-
         <activity
-            android:name="net.iwantbuyer.activity.ThirdPagerActivity"
+            android:name=".activity.ThirdPagerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="net.iwantbuyer.activity.WelcomeActivity"
+            android:name=".activity.WelcomeActivity"
             android:alwaysRetainTaskState="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+     Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@mipmap/ic_launcher" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-
         <meta-data
             android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
             android:value="GlideModule" />
@@ -94,23 +97,21 @@
             android:name="com.auth0.android.provider.WebAuthActivity"
             android:theme="@style/Lock.Theme" />
 
-        <!--payssion支付-->
+        <!-- payssion支付 -->
         <activity
             android:name="com.payssion.android.sdk.PayssionActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PayssionTrans"/>
+            android:theme="@style/Theme.PayssionTrans" />
         <activity
             android:name="com.payssion.android.sdk.PaymentWebActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
-        <!--mol 支付-->
+        <!-- mol 支付 -->
         <activity
             android:name="com.mol.payment.MOLPointsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
 
         <!-- facebook -->
         <activity
@@ -121,7 +122,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationName"
             android:value="luckybuyer" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"
@@ -132,33 +132,31 @@
             android:authorities="com.facebook.app.FacebookContentProvider1333788250026847"
             android:exported="true" />
 
-        <!--google登陆-->
+        <!-- google登陆 -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <!--更新推动服务页面-->
-        <service android:name="net.iwantbuyer.sever.MyFirebaseMessagingService">
+        <!-- 更新推动服务页面 -->
+        <service android:name=".sever.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <service android:name="net.iwantbuyer.sever.MyFirebaseInstanceIDService">
+        <service android:name=".sever.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
-
-        <!--友盟统计-->
+        <!-- 友盟统计 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="584f6d37b27b0a635d0010a1" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Free_Game" />
-        <!--AppFlyer-->
+        <!-- AppFlyer -->
         <receiver
             android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
             android:exported="true">
@@ -166,9 +164,11 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>

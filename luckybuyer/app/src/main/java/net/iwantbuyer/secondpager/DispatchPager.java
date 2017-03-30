@@ -199,13 +199,15 @@ public class DispatchPager extends BaseNoTrackPager {
         jtv_dispatch_title.setText(dispatchGameBean.getGame().getProduct().getTitle() + "");
         tv_dispatch_issue.setText("" + dispatchGameBean.getGame().getIssue_id() + "");
         tv_dispatch_participate.setText("" + dispatchGameBean.getGame().getLucky_order().getTotal_shares() + "");
-        Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                iv_dispatch_icon.setImageBitmap(resource);
-            }
-        });
-
+        if(!((SecondPagerActivity)context).isDestroyed()) {
+            Glide.with(context).load("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    if(!((SecondPagerActivity)context).isDestroyed()) {
+                    iv_dispatch_icon.setImageBitmap(resource);}
+                }
+            });
+        }
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -280,7 +282,7 @@ public class DispatchPager extends BaseNoTrackPager {
                     .setContentDescription(
                             "The 'Hello Facebook' sample  showcases simple Facebook integration")
                     .setContentUrl(Uri.parse("https://play.google.com/store/apps/details?id=net.iwantbuyer"))
-                    .setImageUrl(Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490010419156&di=501a13537dd9addf9651f7de35327bd8&imgtype=0&src=http%3A%2F%2Fimg4.baixing.net%2F62c2199d1cdab27d21f7e7057d2ae370.jpg_bi"))
+                    .setImageUrl(Uri.parse("https:" + dispatchGameBean.getGame().getProduct().getTitle_image()))
                     .build();
 
             shareDialog.show(linkContent);

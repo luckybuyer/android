@@ -220,7 +220,7 @@ public class WelcomeActivity extends Activity {
                 WelcomeActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.setSpData("paymentmethod", "android-inapp", WelcomeActivity.this);
+                        Utils.setSpData("paymentmethod", "{\"cash\":[\"android-inapp\"]}", WelcomeActivity.this);
                         if(!WelcomeActivity.this.isDestroyed()) {
                             StartAlertDialog();
                         }
@@ -233,7 +233,7 @@ public class WelcomeActivity extends Activity {
                 WelcomeActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Utils.setSpData("paymentmethod", "android-inapp", WelcomeActivity.this);
+                        Utils.setSpData("paymentmethod", "{\"cash\":[\"android-inapp\"]}", WelcomeActivity.this);
                         if(!WelcomeActivity.this.isDestroyed()) {
                             StartAlertDialog();
                         }
@@ -275,15 +275,19 @@ public class WelcomeActivity extends Activity {
 //
 //        }
 //        Utils.setSpData("paymentmethod", method, this);
+        Log.e("TAG_paymentmethod", response);
         JSONObject jsonObject = new JSONObject();
         for (int i = 0;i < paySwitchBean.getPayment_methods().size();i++){
             try {
-                jsonObject.accumulate(paySwitchBean.getPayment_methods().get(i).getMethod() + "",paySwitchBean.getPayment_methods().get(i).getVendor());
+                jsonObject.accumulate(paySwitchBean.getPayment_methods().get(i).getVendor() + "",paySwitchBean.getPayment_methods().get(i).getMethod());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         Utils.setSpData("paymentmethod", jsonObject.toString(), this);
+        if(paySwitchBean.getPayment_methods().size() == 1) {
+            Utils.setSpData("paymentmethod", "{\"cash\": [\"android-inapp\",]}", this);
+        }
         Log.e("TAG_paymentmethod", jsonObject.toString());
 
         Utils.setSpData("client_id",paySwitchBean.getAuth0_client_id(),WelcomeActivity.this);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.bean.BuyCoinBean;
+import net.iwantbuyer.secondpager.BuyCoinPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,22 +29,32 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
             notifyDataSetChanged();
         }
     };
-    
+
     private Context context;
     private List<BuyCoinBean.BuycoinsBean> list;
+    String method;
 
     public interface BuyCoinOnClickListener{
-        public void onClick(View view,int position);
+        public void onClick(View view,int topup_option_id);
     }
 
     public BuyCoinOnClickListener buyCoinOnClickListener;
     public void setBuyCoinOnClickListener(BuyCoinOnClickListener buyCoinOnClickListener){
         this.buyCoinOnClickListener = buyCoinOnClickListener;
     }
-    public BuyCoinAdapter(Context context, List<BuyCoinBean.BuycoinsBean> list) {
+    public BuyCoinAdapter(Context context, List<BuyCoinBean.BuycoinsBean> list, String method) {
         this.context = context;
-        this.list = list;
-        list.get(0).setHovered(true);
+        this.method = method;
+        BuyCoinAdapter.this.list= new ArrayList();
+        for (int i = 0;i < list.size();i++){
+            if(list.get(i).getCategory().contains(method)) {
+                BuyCoinAdapter.this.list.add(list.get(i));
+            }
+            list.get(i).setHovered(false);
+        }
+        if(BuyCoinAdapter.this.list.size() > 0) {
+            BuyCoinAdapter.this.list.get(0).setHovered(true);
+        }
     }
 
     @Override
@@ -54,12 +67,12 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         int amount = list.get(position).getAmount();
-        if(amount == 1) {
-            holder.tv_buyconis_coins.setText(list.get(position).getPrice() + context.getString(R.string.Coin));
+        if(amount == 1 || method.equals("mol_3") || method.equals("mol_804") || method.equals("mol_805") || method.equals("mol_806") || method.equals("mol_815")) {
+            holder.tv_buyconis_coins.setText(list.get(position).getPrice() + "");
             holder.tv_buyconis_coins.setEnabled(true);
             holder.tv_buyconis_free.setVisibility(View.GONE);
         }else {
-            holder.tv_buyconis_coins.setText(list.get(position).getPrice() + context.getString(R.string.Coins));
+            holder.tv_buyconis_coins.setText(list.get(position).getPrice() +"");
             int free = list.get(position).getAmount()-list.get(position).getPrice();
             if(free > 0) {
                 holder.tv_buyconis_free.setText(" + " + free + context.getString(R.string.free_coins));
@@ -81,17 +94,18 @@ public class BuyCoinAdapter extends RecyclerView.Adapter<BuyCoinAdapter.ViewHold
             holder.tv_buyconis_free.setEnabled(false);
             holder.rl_buycoins_coins.setHovered(false);
         }
+
+        Log.e("TAG333", list.get(position).getId() + "");
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(buyCoinOnClickListener != null) {
                     for (int i = 0;i < list.size();i++) {
                         list.get(i).setHovered(false);
-
                     }
                     list.get(position).setHovered(true);
                     handler.sendEmptyMessage(WHAT);
-                    buyCoinOnClickListener.onClick(holder.view,position);
+                    buyCoinOnClickListener.onClick(holder.view,list.get(position).getId());
                 }
             }
         });

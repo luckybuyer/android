@@ -29,6 +29,6 @@
         android:paddingStart="@dimen/dimen_20"
         android:paddingTop="@dimen/dimen_6"
         android:text="@string/Send"
-        android:textColor="#ffffff"
+        android:textColor="#cccccc"
         android:textSize="@dimen/dimen_30" />
 </RelativeLayout>

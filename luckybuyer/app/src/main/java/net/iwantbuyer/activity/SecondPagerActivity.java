@@ -92,11 +92,8 @@ public class SecondPagerActivity extends FragmentActivity {
     public List<Fragment> list;
     public int batch_id;
     public int game_id;
-
     public int dispatch_game_id;
-
     public int address_id;                 //进入addaddresspager页面   标记表明是增加地址还是修改
-
     public int order_id;                 //进入addaddresspager页面   标记表明是增加地址还是修改
 
     //需要去哪

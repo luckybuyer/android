@@ -224,7 +224,6 @@
     <string name="logout_error" />
 
 
-
     <!--数字夹杂英语-->
     <!--Total 5 coins-->
     <string name="total_num">total</string>
@@ -240,17 +239,21 @@
     <string name="one_free_coins">1 free</string>
     <string name="free_coins">&#160;free</string>
     <string name="seletebuycoinsmethod">Choose Payment Method</string>
-    <string name="Googleplay">谷歌支付</string>
+    <string name="Googleplay">Google play</string>
     <string name="WaitingforProcessingwarn">Please be kindly noted that our working time is 9:00 am Monday to 6:00 pm Friday. So your order will be processed once we start work. Thanks for your patience.</string>
     <string name="dvicehasgift">We found that the device you used has been regsitered on Lucky Buyer. One device can only be given free gift coins for once!</string>
-    <string name="Name">Name</string>
+    <string name="Name">Nama</string>
     <string name="EnterAddress">Please enter address</string>
     <string name="Address">Address</string>
-    <string name="Postcode">Post code</string>
     <string name="Province">Province</string>
     <string name="SendtoFacebook">Send to facebook</string>
     <string name="InternetBanking">Internet Banking</string>
     <string name="carrierbillingmol"><![CDATA[Carrier Billing & MOL]]></string>
     <string name="walletcash"><![CDATA[E-wallet & Cash]]></string>
+    <!--<string name="promat0">There will be&#160;</string>-->
+    <!--<string name="promat1">&#160;There will be&#160;</string>-->
+    <!--<string name="promat2">&#160;There will be&#160;</string>-->
+    <!--<string name="promat3">&#160;There will be&#160;</string>-->
+    <string name="promat">By using this payment method, you will be topped up according your actual top up amount.</string>
 
 </resources>

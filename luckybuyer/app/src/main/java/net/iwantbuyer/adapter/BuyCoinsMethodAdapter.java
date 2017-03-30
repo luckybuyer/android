@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -43,20 +44,31 @@ public class BuyCoinsMethodAdapter extends RecyclerView.Adapter<BuyCoinsMethodAd
 
     @Override
     public void onBindViewHolder(MyViewholder holder, final int position) {
-        try {
-            Field field = R.drawable.class.getField("buycoins_" + list.get(position).replace(" ", "_").toLowerCase());
-            int i = field.getInt(new R.drawable());
-            holder.iv_buycoins_method.setBackgroundResource(i);
-        } catch (Exception e) {
+        Log.e("TAGandroid", list.get(position));
+        if ("android-inapp".equals(list.get(position))) {
+            holder.iv_buycoins_method.setBackgroundResource(R.drawable.buycoins_google);
+        } else {
+            try {
+                Field field = R.drawable.class.getField("buycoins_" + list.get(position).replace(" ", "_").toLowerCase());
+                int i = field.getInt(new R.drawable());
+                holder.iv_buycoins_method.setBackgroundResource(i);
+            } catch (Exception e) {
+            }
         }
-
+        if(list.get(position).equals(Utils.getSpData("method",context))) {
+            holder.iv_buycoins_method.setHovered(true);
+            holder.iv_buycoins_method_jiao.setVisibility(View.VISIBLE);
+        }else {
+            holder.iv_buycoins_method.setHovered(false);
+            holder.iv_buycoins_method_jiao.setVisibility(View.GONE);
+        }
         holder.iv_buycoins_method.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 buyCoinMethodOnClickListener.onClick(v,list.get(position));
+                notifyDataSetChanged();
             }
         });
-
     }
 
     @Override
@@ -67,10 +79,12 @@ public class BuyCoinsMethodAdapter extends RecyclerView.Adapter<BuyCoinsMethodAd
     class MyViewholder extends RecyclerView.ViewHolder {
 
         private ImageView iv_buycoins_method;
+        private ImageView iv_buycoins_method_jiao;
 
         public MyViewholder(View itemView) {
             super(itemView);
             iv_buycoins_method = (ImageView) itemView.findViewById(R.id.iv_buycoins_method);
+            iv_buycoins_method_jiao = (ImageView) itemView.findViewById(R.id.iv_buycoins_method_jiao);
         }
     }
 }

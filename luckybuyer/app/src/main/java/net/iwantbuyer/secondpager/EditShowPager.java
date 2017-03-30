@@ -46,6 +46,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by admin on 2016/12/6.
@@ -170,9 +172,7 @@ public class EditShowPager extends BaseNoTrackPager {
         } else if (list.size() == 4) {
             json = "{\"content\": \"" + et_editshow_discribe.getText().toString() + "\",\"images\": [\"" + MyBase64.bitmapToBase64((Bitmap) list.get(0)) + "\",\"" + MyBase64.bitmapToBase64((Bitmap) list.get(1)) + "\",\"" + MyBase64.bitmapToBase64((Bitmap) list.get(2)) + "\"],\"order_id\": " + ((SecondPagerActivity) context).order_id + "}";
         }
-        Log.e("TAG", json.substring(0, json.length() / 2));
-        Log.e("TAG", json.substring(9 * json.length() / 10, json.length()));
-
+        json = json.replace("\n","，");
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
@@ -203,6 +203,7 @@ public class EditShowPager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.e("TAG_edit", message + code);
                         Utils.MyToast(context, context.getString(R.string.Networkfailure) + code + "posts");
                         if(mPopupWindow != null && mPopupWindow.isShowing()) {
                             mPopupWindow.dismiss();
@@ -305,7 +306,7 @@ public class EditShowPager extends BaseNoTrackPager {
         WindowManager.LayoutParams lp = window.getAttributes();
 //        lp.alpha = 0.5f;
         window.setAttributes(lp);
-
+        window.setLayout(Utils.getScreenWidth(context),11 * Utils.getScreenHeight(context)/40);
         ObjectAnimator.ofFloat(inflate, "alpha", 0, 1).setDuration(400).start();
     }
 

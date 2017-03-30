@@ -55,6 +55,7 @@ public class AddAddressPager extends BaseNoTrackPager {
     //名字
     private EditText et_addaddress_name;
     private TextView tv_addaddress_name;
+    private TextView tv_addaddress_topname;
 
     //地址
     private EditText et_addaddress_address;
@@ -119,6 +120,7 @@ public class AddAddressPager extends BaseNoTrackPager {
 
         et_addaddress_name = (EditText) inflate.findViewById(R.id.et_addaddress_name);
         tv_addaddress_name = (TextView) inflate.findViewById(R.id.tv_addaddress_name);
+        tv_addaddress_topname = (TextView) inflate.findViewById(R.id.tv_addaddress_topname);
         et_addaddress_address = (EditText) inflate.findViewById(R.id.et_addaddress_address);
         tv_addaddress_address = (TextView) inflate.findViewById(R.id.tv_addaddress_address);
         tv_addaddress_topaddress = (TextView) inflate.findViewById(R.id.tv_addaddress_topaddress);
@@ -185,7 +187,7 @@ public class AddAddressPager extends BaseNoTrackPager {
         et_addaddress_name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                tv_addaddress_name.setVisibility(View.VISIBLE);
+                tv_addaddress_topname.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -196,9 +198,11 @@ public class AddAddressPager extends BaseNoTrackPager {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
-                    tv_addaddress_name.setVisibility(View.VISIBLE);
+                    tv_addaddress_topname.setVisibility(View.VISIBLE);
+                    tv_addaddress_name.setVisibility(View.GONE);
                 } else {
                     tv_addaddress_name.setVisibility(View.GONE);
+                    tv_addaddress_topname.setVisibility(View.GONE);
                 }
             }
         });
@@ -218,6 +222,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
                     tv_addaddress_topaddress.setVisibility(View.VISIBLE);
+                    tv_addaddress_address.setVisibility(View.GONE);
                 } else {
                     tv_addaddress_topaddress.setVisibility(View.GONE);
                 }
@@ -239,6 +244,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
                     tv_addaddress_toppostcode.setVisibility(View.VISIBLE);
+                    tv_addaddress_postcode.setVisibility(View.GONE);
                 } else {
                     tv_addaddress_toppostcode.setVisibility(View.GONE);
                 }
@@ -261,6 +267,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
                     tv_addaddress_topcity.setVisibility(View.VISIBLE);
+                    tv_addaddress_city.setVisibility(View.GONE);
                 } else {
                     tv_addaddress_topcity.setVisibility(View.GONE);
                 }
@@ -282,6 +289,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
                     tv_addaddress_topprovince.setVisibility(View.VISIBLE);
+                    tv_addaddress_province.setVisibility(View.GONE);
                 } else {
                     tv_addaddress_topprovince.setVisibility(View.GONE);
                 }
@@ -304,6 +312,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             public void afterTextChanged(Editable s) {
                 if (s.toString().length() > 0) {
                     tv_addaddress_topmobile.setVisibility(View.VISIBLE);
+                    tv_addaddress_mobile.setVisibility(View.GONE);
                 } else {
                     tv_addaddress_topmobile.setVisibility(View.GONE);
                 }
@@ -558,5 +567,4 @@ public class AddAddressPager extends BaseNoTrackPager {
     public void onPause() {
         super.onPause();
     }
-
 }

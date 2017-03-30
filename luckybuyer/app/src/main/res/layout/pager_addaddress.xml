@@ -9,8 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_138"
         android:background="@color/abc_white">
-
-
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
@@ -99,6 +97,16 @@
                 android:layout_marginStart="@dimen/dimen_24"
                 android:background="@drawable/shape__c0bfcfe_fe5745"></View>
 
+            <TextView
+                android:id="@+id/tv_addaddress_topname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginStart="@dimen/dimen_24"
+                android:layout_marginTop="@dimen/dimen_30"
+                android:text="@string/Name"
+                android:textColor="#C0BFC7"
+                android:textSize="@dimen/dimen_22"/>
 
             <TextView
                 android:id="@+id/tv_addaddress_name"
@@ -126,7 +134,7 @@
 
             <EditText
                 android:id="@+id/et_addaddress_address"
-                android:layout_width="@dimen/dimen_320"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_58"
                 android:layout_below="@+id/et_addaddress_name"
                 android:layout_marginStart="@dimen/dimen_24"
@@ -183,7 +191,8 @@
                 android:layout_marginTop="@dimen/dimen_88"
                 android:background="@null"
                 android:ellipsize="end"
-                android:hint="@string/Postcode"
+                android:hint="@string/ZipCode"
+                android:inputType="number"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:paddingBottom="@dimen/dimen_6"
@@ -207,7 +216,7 @@
                 android:layout_below="@+id/view_addaddress_address"
                 android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_62"
-                android:text="@string/Postcode"
+                android:text="@string/ZipCode"
                 android:textColor="#C0BFC7"
                 android:textSize="@dimen/dimen_22"/>
 
@@ -219,7 +228,7 @@
                 android:layout_below="@id/et_addaddress_postcode"
                 android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_6"
-                android:text="@string/Postcode"
+                android:text="@string/ZipCode"
                 android:textColor="#FE5745"/>
 
             <EditText
@@ -352,7 +361,7 @@
                 android:id="@+id/tv_addaddress_topmobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_addaddress_province"
+                android:layout_below="@+id/view_addaddress_province"
                 android:layout_marginStart="@dimen/dimen_24"
                 android:layout_marginTop="@dimen/dimen_62"
                 android:text="@string/Mobilenumber"

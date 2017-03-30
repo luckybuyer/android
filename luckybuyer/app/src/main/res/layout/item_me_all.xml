@@ -176,7 +176,7 @@
         android:layout_marginStart="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_6"
         android:indeterminate="false"
-        android:progressDrawable="@drawable/home_product_progress" />
+        android:progressDrawable="@drawable/homenew_product_progress" />
 
 
     <TextView

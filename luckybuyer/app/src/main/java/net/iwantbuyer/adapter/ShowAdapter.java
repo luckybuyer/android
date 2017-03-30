@@ -94,7 +94,12 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
         holder.iv_show_three.setVisibility(View.GONE);
         if(list.get(position).getImages().size() ==2) {
             holder.iv_show_two.setVisibility(View.VISIBLE);
-
+            Glide.with(context).load("https:"+list.get(position).getImages().get(0)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    setImage(holder.iv_show_one, resource);
+                }
+            });
             Glide.with(context).load("https:"+list.get(position).getImages().get(1)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -105,6 +110,12 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
         if(list.get(position).getImages().size() == 3) {
             holder.iv_show_two.setVisibility(View.VISIBLE);
             holder.iv_show_three.setVisibility(View.VISIBLE);
+            Glide.with(context).load("https:"+list.get(position).getImages().get(0)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                @Override
+                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                    setImage(holder.iv_show_one, resource);
+                }
+            });
             Glide.with(context).load("https:"+list.get(position).getImages().get(1)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

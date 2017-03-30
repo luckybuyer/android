@@ -61,11 +61,12 @@
             android:id="@+id/tv_dispatch_selector_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_black_border"
+            android:background="@drawable/shape_666666_border"
             android:paddingBottom="@dimen/dimen_6"
             android:paddingStart="@dimen/dimen_8"
             android:paddingEnd="@dimen/dimen_8"
             android:paddingTop="@dimen/dimen_6"
+            android:textColor="@color/all_orange"
             android:text="@string/Alternativeaddress"
             android:textSize="@dimen/dimen_22" />
 

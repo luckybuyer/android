@@ -118,12 +118,12 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
             View processing = LayoutInflater.from(context).inflate(R.layout.item_dispatch_processing,null);
             if("processing".equals(dispatchGameBean.getDelivery().getStatus())) {
                 ((TextView)processing.findViewById(R.id.tv_dispatch_processing)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
-                ((TextView)processing.findViewById(R.id.tv_dispach_shipping_warn)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
+                ((TextView)processing.findViewById(R.id.tv_dispach_processing_warn)).setTextColor(ContextCompat.getColor(context,R.color.ff9c05));
                 holder.iv_disaptch_delivered.setEnabled(true);
                 holder.view_delivered.setEnabled(true);
             }else {
                 ((TextView)processing.findViewById(R.id.tv_dispatch_processing)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
-                ((TextView)processing.findViewById(R.id.tv_dispach_shipping_warn)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                ((TextView)processing.findViewById(R.id.tv_dispach_processing_warn)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
                 holder.iv_disaptch_delivered.setEnabled(false);
                 holder.view_delivered.setEnabled(false);
                 if("pending".equals(dispatchGameBean.getDelivery().getStatus())) {

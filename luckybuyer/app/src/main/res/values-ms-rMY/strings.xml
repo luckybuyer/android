@@ -237,17 +237,22 @@
     <!--10 coins + 1 free-->
     <string name="coins_coins">syiling</string>
     <string name="one_free_coins">percuma 1</string>
-    <string name="free_coins">&#160;percuma</string>
+    <string name="free_coins">&#160;free</string>
     <string name="seletebuycoinsmethod">Choose Payment Method</string>
-    <string name="Googleplay">谷歌支付</string>
+    <string name="Googleplay">Google play</string>
     <string name="WaitingforProcessingwarn">sila menyatakan bhw masa kerja kita ialah 09:00  -6.00 petang. Isnin - Jumaat. Jadi pesanan anda akan diproses sebaik  pada waktu perkerja. Terima kasih atas kesabaran anda.</string>
+    <string name="EnterAddress">Sila masukkan alamat</string>
+    <string name="Province">Wilayah</string>
     <string name="dvicehasgift">Kami mendapati bahawa peranti yang anda gunakan telah berdaftar di Lucky buyer. Satu peranti hanya boleh diberikan syiling percuma sekali!</string>
-    <string name="Name">Name</string>
-    <string name="Address">Address</string>
-    <string name="Postcode">Post code</string>
-    <string name="SendtoFacebook">Send to facebook</string>
-    <string name="InternetBanking">Internet Banking</string>
-    <string name="carrierbillingmol"><![CDATA[Carrier Billing & MOL]]></string>
-    <string name="walletcash"><![CDATA[E-wallet & Cash]]></string>
+    <string name="Name">Nama</string>
+    <string name="Address">Alamat</string>
+    <string name="SendtoFacebook">Kongsi ke Facebook</string>
+    <string name="InternetBanking">perbankan Internet</string>
+    <string name="carrierbillingmol">Pembayaran SMS dan MOL</string>
+    <string name="walletcash">Wallet dan wang tunai</string>
+    <!--<string name="promat0">There will be</string>-->
+    <!--<string name="promat2">yangshuyuyangshuyuyangshuyu</string>-->
+    <!--<string name="promat3" />-->
+    <string name="promat">memilih kaedah pembayaran ini, kami akan memberikan anda jumlah caj semula aliran sebenar anda.</string>
 
 </resources>

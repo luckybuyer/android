@@ -52,6 +52,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.payssion.android.sdk.PayssionActivity;
@@ -778,18 +779,20 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-                if (show != null && show.isShowing()) {
-                    //AppFlyer 埋点
-                    Map eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_closed", eventValue);
-                }
-                if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                    Toast.makeText(this, MainActivity.this.getString(R.string.Clickexit), Toast.LENGTH_SHORT).show();
-                    mExitTime = System.currentTimeMillis();
-
-                } else {
-                    finish();
-                }
+            if (show != null && show.isShowing()) {
+                //AppFlyer 埋点
+                Map eventValue = new HashMap<String, Object>();
+                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_closed", eventValue);
+            }
+            if (currentFragment == buyCoinPager && buyCoinPager != null && buyCoinPager.rl_buycoins_mol.getVisibility() == View.VISIBLE) {
+                buyCoinPager.rl_buycoins_mol.setVisibility(View.GONE);
+                this.rg_main.setVisibility(View.VISIBLE);
+            }else if ((System.currentTimeMillis() - mExitTime) > 3000) {
+                Toast.makeText(this, MainActivity.this.getString(R.string.Clickexit), Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
 
             return true;
         }

@@ -242,12 +242,17 @@
     <string name="Googleplay">谷歌支付</string>
     <string name="WaitingforProcessingwarn">我们的派奖时间为周一至周五上午10点至下午6点，所以您收到奖品的时间可能会有延迟，请多多谅解哦</string>
     <string name="dvicehasgift">检测到您在此设备上已经注册过账号，同一个设备目前只能送一次金币哦</string>
-    <string name="Name">Name</string>
-    <string name="Address">Address</string>
-    <string name="Postcode">Post code</string>
-    <string name="SendtoFacebook">Send to facebook</string>
-    <string name="InternetBanking">Internet Banking</string>
-    <string name="carrierbillingmol"><![CDATA[Carrier Billing & MOL]]></string>
-    <string name="walletcash"><![CDATA[E-wallet & Cash]]></string>
+    <string name="EnterAddress">请输入地址</string>
+    <string name="Province">省份</string>
+    <string name="Name">姓名</string>
+    <string name="Address">地址</string>
+    <string name="SendtoFacebook">分享至Facebook</string>
+    <string name="InternetBanking">网络银行</string>
+    <string name="carrierbillingmol">短信支付和MOL</string>
+    <string name="walletcash">电子钱包和现金</string>
+    <!--<string name="promat1">&#160;There will be&#160;</string>-->
+    <!--<string name="promat2">&#160;There will be&#160;</string>-->
+    <!--<string name="promat3">&#160;There will be&#160;</string>-->
+    <string name="promat">选择此种支付方式，我们会根据您实际充值金额为您充值。</string>
 
 </resources>
