@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,7 +74,7 @@ public class MePager extends BaseNoTrackPager {
     private TextView tv_me_name;
     private TextView tv_me_gold;
     public CustomViewPager vp_me;
-    private SlidingTabLayout stl_me_vpcontrol;
+    private TabLayout tl_me_vpcontrol;
     public BottomScrollView sv_me;
     private LinearLayout ll_me_gold;
     public View inflate;
@@ -162,6 +163,7 @@ public class MePager extends BaseNoTrackPager {
 
     @Override
     public void initData() {
+        Log.e("TAG_me", "重新走一遍");
         super.initData();
         if (rl_keepout != null && rl_nodata != null && rl_neterror != null && rl_loading != null) {
             rl_keepout.setVisibility(View.VISIBLE);
@@ -335,7 +337,7 @@ public class MePager extends BaseNoTrackPager {
 
 
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
-        stl_me_vpcontrol.setViewPager(vp_me);
+        tl_me_vpcontrol.setupWithViewPager(vp_me);
 
         //判断是否需要显示底部加载进度条
         if (allOrderBean.getAllorder().size() < 20) {
@@ -552,7 +554,7 @@ public class MePager extends BaseNoTrackPager {
         tv_me_name = (TextView) inflate.findViewById(R.id.tv_me_name);
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
         vp_me = (CustomViewPager) inflate.findViewById(R.id.vp_me);
-        stl_me_vpcontrol = (SlidingTabLayout) inflate.findViewById(R.id.stl_me_vpcontrol);
+        tl_me_vpcontrol = (TabLayout) inflate.findViewById(R.id.tl_me_vpcontrol);
 //        fb_shipping_facebook = (FBLikeView) inflate.findViewById(R.id.fb_shipping_facebook);
         sv_me = (BottomScrollView) inflate.findViewById(R.id.sv_me);
         rl_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_keepout);
@@ -573,11 +575,9 @@ public class MePager extends BaseNoTrackPager {
         i_me_set.setOnClickListener(new MyOnClickListener());
         iv_me_news.setOnClickListener(new MyOnClickListener());
         iv_me_voice.setOnClickListener(new MyOnClickListener());
-//        tv_me_gold.setOnClickListener(new MyOnClickListener());
         ll_me_gold.setOnClickListener(new MyOnClickListener());
         tv_net_again.setOnClickListener(new MyOnClickListener());
     }
-
 
     private void Login(String token) {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
@@ -708,16 +708,6 @@ public class MePager extends BaseNoTrackPager {
                     break;
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     //根据版本判断是否 需要设置据顶部状态栏高度

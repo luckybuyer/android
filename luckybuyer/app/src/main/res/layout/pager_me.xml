@@ -173,30 +173,41 @@
             </RelativeLayout>
 
 
-            <com.flyco.tablayout.SlidingTabLayout
-                android:id="@+id/stl_me_vpcontrol"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tl_me_vpcontrol"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_100"
                 android:layout_below="@+id/rl_me_title"
                 android:background="#ffffff"
-                tl:tl_divider_color="@null"
+                tl:tabSelectedTextColor="@color/all_orange"
+                tl:tabIndicatorHeight="@dimen/dimen_2"
+                tl:tabMode="fixed"></android.support.design.widget.TabLayout>
+            <!--2.tabIndicatorColor：TabLayout指示器的颜色-->
+            <!--3.tabIndicatorHeight：TabLayout指示器高度-->
+            <!--4.tabPaddingStart：距离开始的长度-->
+            <!--5.tabPaddingEnd：距离结束的长度-->
+            <!--6.tabBackground：TabLayout背景-->
+            <!--7.tabTextAppearance：TabLayout title字体属性-->
+                <!--/>-->
+            <!--tl:tl_divider_color="@null"-->
+            <!--tl:tl_indicator_color="#ff4f3c"-->
+            <!--tl:tl_indicator_height="@dimen/dimen_4"-->
+            <!--tl:tl_indicator_width_equal_title="true"-->
+            <!--tl:tl_tab_padding="0dp"-->
+            <!--tl:tl_tab_space_equal="true"-->
+            <!--tl:tl_textSelectColor="#ff0000"-->
+            <!--tl:tl_textUnselectColor="#999999"-->
+            <!--tl:tl_underline_color="#ff0000"-->
+            <!--tl:tl_underline_height="0dp"-->
 
-                tl:tl_indicator_color="#ff4f3c"
-                tl:tl_indicator_height="@dimen/dimen_4"
-                tl:tl_indicator_width_equal_title="true"
-                tl:tl_tab_padding="0dp"
-                tl:tl_tab_space_equal="true"
-                tl:tl_textSelectColor="#ff0000"
-                tl:tl_textUnselectColor="#999999"
-                tl:tl_underline_color="#ff0000"
-                tl:tl_underline_height="0dp" />
+
 
 
             <net.iwantbuyer.view.CustomViewPager
                 android:id="@+id/vp_me"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/stl_me_vpcontrol"
+                android:layout_below="@+id/tl_me_vpcontrol"
                 android:background="#ffffff"
                 android:focusable="false"
                 android:focusableInTouchMode="false" />

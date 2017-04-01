@@ -500,7 +500,6 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-
         //全局变量，记录当前显示的fragment
         currentFragment = fg;
         boolean flag = this.isDestroyed();
@@ -716,9 +715,6 @@ public class MainActivity extends FragmentActivity {
                         mePager.mePagerLuckyAdapter.notifyDataSetChanged();
                     }
 
-//                                if(mePager != null) {
-//                                    mePager.initData();
-//                                }
                 } else {
                     rb_main_homepager.setChecked(true);
                     rb_main_buycoins.setChecked(false);
@@ -837,7 +833,6 @@ public class MainActivity extends FragmentActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction("Message");
         registerReceiver(MessageReceiver, filter);
-
     }
 
     @Override

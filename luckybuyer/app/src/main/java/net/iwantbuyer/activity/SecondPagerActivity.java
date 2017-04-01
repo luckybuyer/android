@@ -106,6 +106,7 @@ public class SecondPagerActivity extends FragmentActivity {
     public CountDownTimer countDownTimer;
 
     private BuyCoinPager buyCoinPager;
+    public ShippingAddressBean.ShippingBean address;                   //为了editAddress 的回显
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

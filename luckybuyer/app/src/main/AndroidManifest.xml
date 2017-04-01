@@ -20,8 +20,6 @@
     <!-- 谷歌支付权限 -->
     <uses-permission android:name="com.android.vending.BILLING" />
 
-    <!-- 友盟集成 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".app.MyApplication"

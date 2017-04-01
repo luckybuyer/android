@@ -21,7 +21,7 @@ public class MePagerViewPagerAdapter extends PagerAdapter {
     public MePagerViewPagerAdapter(Context context, List list) {
         this.context = context;
         this.list = list;
-        titleList.add("\n\n\n\n"+context.getString(R.string.All)+"\n\n\n");
+        titleList.add(context.getString(R.string.All));
         titleList.add(context.getString(R.string.LuckyRecords));
 //        titleList.add("    Show   ");
 //        titleList.add("   Hisory  ");

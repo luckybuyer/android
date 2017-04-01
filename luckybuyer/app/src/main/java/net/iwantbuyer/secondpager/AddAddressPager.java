@@ -322,11 +322,29 @@ public class AddAddressPager extends BaseNoTrackPager {
 
         if (address_id != -1) {
             tv_title.setText(context.getString(R.string.Editaddress));
+            et_addaddress_name.setText(((SecondPagerActivity)context).address.getName());
+            et_addaddress_address.setText(((SecondPagerActivity)context).address.getName());
+            et_addaddress_postcode.setText(((SecondPagerActivity)context).address.getZipcode() + "");
+            et_addaddress_city.setText(((SecondPagerActivity)context).address.getName());
+            et_addaddress_province.setText(((SecondPagerActivity)context).address.getName());
+            et_addaddress_mobile.setText(((SecondPagerActivity)context).address.getName());
+
         } else {
             tv_title.setText(context.getString(R.string.Addaddress));
+            et_addaddress_name.setText("");
+            et_addaddress_address.setText("");
+            et_addaddress_postcode.setText("");
+            et_addaddress_city.setText("");
+            et_addaddress_province.setText("");
+            et_addaddress_mobile.setText("");
         }
 
-
+        et_addaddress_name.setSaveEnabled(false);
+        et_addaddress_address.setSaveEnabled(false);
+        et_addaddress_postcode.setSaveEnabled(false);
+        et_addaddress_city.setSaveEnabled(false);
+        et_addaddress_province.setSaveEnabled(false);
+        et_addaddress_mobile.setSaveEnabled(false);
     }
 
     class MyOnClickListener implements View.OnClickListener {

@@ -1097,7 +1097,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case R.id.tv_insert_buy:
                     //AppFlyer 埋点
                     eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click：Total " + et_insert_count.getText().toString() + " coins ", eventValue);
+                    eventValue.put("%coin", et_insert_count.getText().toString() + "");
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click：Total coins ", eventValue);
 
                     String token_s = Utils.getSpData("token_num", context);
                     int token = 0;
