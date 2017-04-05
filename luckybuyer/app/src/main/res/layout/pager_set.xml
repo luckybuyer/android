@@ -113,34 +113,76 @@
             android:id="@+id/iv_country"
             android:layout_width="@dimen/dimen_70"
             android:layout_height="@dimen/dimen_35"
-            android:scaleType="fitXY"
-            android:padding="0.5px"
-            android:background="@drawable/shape_biankuang_black"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/dimen_24"
-            android:layout_toLeftOf="@+id/iv_set_country"/>
+            android:layout_toLeftOf="@+id/iv_set_country"
+            android:background="@drawable/shape_biankuang_black"
+            android:padding="0.5px"
+            android:scaleType="fitXY" />
     </RelativeLayout>
 
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/rl_set_version"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dimen_100"-->
+        <!--android:layout_below="@+id/rl_set_country"-->
+        <!--android:layout_marginTop="@dimen/dimen_30"-->
+        <!--android:background="#ffffff"-->
+        <!--android:visibility="gone">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="@dimen/dimen_40"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginStart="@dimen/dimen_24"-->
+            <!--android:text="@string/CheckForUpdates"-->
+            <!--android:textColor="@color/text_black"-->
+            <!--android:textSize="@dimen/dimen_28" />-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/iv_set_version"-->
+            <!--android:layout_width="@dimen/dimen_12"-->
+            <!--android:layout_height="@dimen/dimen_22"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginEnd="@dimen/dimen_24"-->
+            <!--android:background="@drawable/go_go" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="@dimen/dimen_24"-->
+            <!--android:layout_toLeftOf="@+id/iv_set_version"-->
+            <!--android:text="V1.0.1"-->
+            <!--android:textSize="@dimen/dimen_25" />-->
+
+    <!--</RelativeLayout>-->
+
+
     <RelativeLayout
-        android:visibility="gone"
-        android:id="@+id/rl_set_version"
+        android:id="@+id/rl_set_problem"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"
         android:layout_below="@+id/rl_set_country"
-        android:layout_marginTop="@dimen/dimen_30"
+        android:layout_marginTop="@dimen/dimen_20"
         android:background="#ffffff">
+
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="@color/bg_view"></View>-->
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_40"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/dimen_24"
-            android:text="@string/CheckForUpdates"
+            android:text="@string/Problem"
             android:textColor="@color/text_black"
             android:textSize="@dimen/dimen_28" />
 
         <ImageView
-            android:id="@+id/iv_set_version"
             android:layout_width="@dimen/dimen_12"
             android:layout_height="@dimen/dimen_22"
             android:layout_alignParentEnd="true"
@@ -148,29 +190,26 @@
             android:layout_marginEnd="@dimen/dimen_24"
             android:background="@drawable/go_go" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/dimen_24"
-            android:layout_toLeftOf="@+id/iv_set_version"
-            android:text="V1.0.1"
-            android:textSize="@dimen/dimen_25" />
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/bg_view"
+            android:layout_alignParentBottom="true"
+            android:layout_height="@dimen/dimen_1"></View>
+
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/dimen_20"
         android:id="@+id/rl_set_email"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_100"
-        android:layout_below="@+id/rl_set_version"
+        android:layout_below="@+id/rl_set_problem"
         android:background="#ffffff">
 
         <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1px"-->
-            <!--android:background="@color/bg_view"></View>-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1px"-->
+        <!--android:background="@color/bg_view"></View>-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -192,32 +231,6 @@
 
     </RelativeLayout>
 
-
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/rl_set_us"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/dimen_50"-->
-    <!--android:layout_below="@+id/rl_set_help"-->
-    <!--android:layout_marginTop="@dimen/dimen_15"-->
-    <!--android:background="#ffffff">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="@dimen/dimen_20"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:layout_marginStart="@dimen/dimen_12"-->
-    <!--android:text="About us"-->
-    <!--android:textColor="@color/text_black"-->
-    <!--android:textSize="@dimen/dimen_14" />-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="@dimen/dimen_6"-->
-    <!--android:layout_height="@dimen/dimen_11"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_centerVertical="true"-->
-    <!--android:layout_marginEnd="@dimen/dimen_12"-->
-    <!--android:background="@drawable/go_go" />-->
-    <!--</RelativeLayout>-->
 
     <TextView
         android:id="@+id/tv_set_login"

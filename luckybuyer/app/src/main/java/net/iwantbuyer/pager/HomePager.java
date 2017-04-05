@@ -95,6 +95,8 @@ public class HomePager extends BaseNoTrackPager {
     private List<SpannableStringBuilder> mStringArray;
     int mLoopCount = 1;
 
+    private ImageView iv_home_problem;
+
     private int batch_id;
     private int game_id;
 
@@ -202,6 +204,8 @@ public class HomePager extends BaseNoTrackPager {
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
 
+        iv_home_problem = (ImageView) inflate.findViewById(R.id.iv_home_problem);
+
         tv_home_country.setText(Utils.getSpData("country",context));
 
         //设置监听
@@ -229,6 +233,15 @@ public class HomePager extends BaseNoTrackPager {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ThirdPagerActivity.class);
                 intent.putExtra("from","countrypager");
+                startActivity(intent);
+            }
+        });
+
+        iv_home_problem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ThirdPagerActivity.class);
+                intent.putExtra("from", "problem");
                 startActivity(intent);
             }
         });

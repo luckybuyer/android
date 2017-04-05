@@ -69,6 +69,7 @@ import net.iwantbuyer.secondpager.ProductInformationPager;
 import net.iwantbuyer.secondpager.SetPager;
 import net.iwantbuyer.secondpager.ShippingAddressPager;
 import net.iwantbuyer.secondpager.WinnersSharingPager;
+import net.iwantbuyer.secondpager.problemPager;
 import net.iwantbuyer.util.IabHelper;
 import net.iwantbuyer.util.IabResult;
 import net.iwantbuyer.util.Purchase;
@@ -224,6 +225,7 @@ public class SecondPagerActivity extends FragmentActivity {
         list.add(new EditShowPager());
         //Help界面                        11
         list.add(new HelpPager());
+
     }
 
     //发现视图  设置监听

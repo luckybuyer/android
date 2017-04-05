@@ -37,6 +37,8 @@ import android.widget.Toast;
 import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
+import com.auth0.android.authentication.AuthenticationException;
+import com.auth0.android.callback.BaseCallback;
 import com.auth0.android.facebook.FacebookAuthHandler;
 import com.auth0.android.facebook.FacebookAuthProvider;
 import com.auth0.android.google.GoogleAuthHandler;
@@ -47,6 +49,7 @@ import com.auth0.android.lock.Lock;
 import com.auth0.android.lock.LockCallback;
 import com.auth0.android.lock.utils.LockException;
 import com.auth0.android.result.Credentials;
+import com.auth0.android.result.Delegation;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -112,6 +115,8 @@ public class MainActivity extends FragmentActivity {
 
     public int id;
 
+    AuthenticationAPIClient client;
+    Auth0 auth0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,9 +132,9 @@ public class MainActivity extends FragmentActivity {
         MyApplication.domain = Utils.getSpData("domain", this);
 
 
-        Auth0 auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
+        auth0 = new Auth0(MyApplication.client_id, MyApplication.domain);
 
-        AuthenticationAPIClient client = new AuthenticationAPIClient(auth0);
+        client = new AuthenticationAPIClient(auth0);
         FacebookAuthProvider provider = new FacebookAuthProvider(client);
 //        provider.setPermissions(Arrays.asList("public_profile", "user_photos"));
         FacebookAuthHandler handler = new FacebookAuthHandler(provider);
@@ -210,11 +215,11 @@ public class MainActivity extends FragmentActivity {
             Log.e("TAG_000", token);
         }
 
-
-//        getsp();
         Utils.setSpData("main_pager", null, this);       //当editshow 返回时候的临时变量 一定要删除
 
         StartUpdateAlertDialog();
+
+        refreshToken();                                  //Auth0  刷新token
 
     }
 
@@ -514,10 +519,9 @@ public class MainActivity extends FragmentActivity {
     private LockCallback callback = new AuthenticationCallback() {
         @Override
         public void onAuthentication(Credentials credentials) {
-            // Base64 解码：
+            // Base64 解码：idtoken
             String token = credentials.getIdToken();
-            Log.e("TAG", token);
-
+            Utils.setSpData("idtoken",token,MainActivity.this);
 //            byte[] mmmm = Base64.decode(token.getBytes(), Base64.URL_SAFE);
             byte[] mmmm = MyBase64.decode(token.getBytes());
             String str = null;
@@ -579,6 +583,48 @@ public class MainActivity extends FragmentActivity {
             selectPager();
         }
     };
+
+    //auth0刷新token
+    private void refreshToken() {
+        String idToken = Utils.getSpData("idtoken",MainActivity.this);
+        if(idToken == null || client ==null) {
+            return;
+        }
+        client.delegationWithIdToken(idToken)
+//                .setScope("openid email")
+                .start(new BaseCallback<Delegation, AuthenticationException>() {
+                    @Override
+                    public void onSuccess(Delegation delegation) {
+                        //SUCCESS
+                        String token = delegation.getIdToken();
+                        Utils.setSpData("idtoken",token,MainActivity.this);
+                        byte[] mmmm = MyBase64.decode(token.getBytes());
+                        String str = null;
+                        try {
+                            str = new String(mmmm, "UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+
+                        String[] use = str.split("\\}");
+                        String user = use[1] + "}";
+
+                        TokenBean tokenBean = new Gson().fromJson(user, TokenBean.class);
+
+                        Utils.setSpData("token", token, MainActivity.this);
+                        Utils.setSpData("token_num", tokenBean.getExp() + "", MainActivity.this);
+                        Log.e("TAG_刷新token", token + "");
+                    }
+
+                    @Override
+                    public void onFailure(AuthenticationException error) {
+                        //FAILURE
+                        Log.e("TAG_刷新token", error.toString() + "");
+                    }
+                });
+
+
+    }
 
     //FCM注册
     private void FCMregist(String mToken) {
@@ -783,7 +829,7 @@ public class MainActivity extends FragmentActivity {
             if (currentFragment == buyCoinPager && buyCoinPager != null && buyCoinPager.rl_buycoins_mol.getVisibility() == View.VISIBLE) {
                 buyCoinPager.rl_buycoins_mol.setVisibility(View.GONE);
                 this.rg_main.setVisibility(View.VISIBLE);
-            }else if ((System.currentTimeMillis() - mExitTime) > 3000) {
+            } else if ((System.currentTimeMillis() - mExitTime) > 3000) {
                 Toast.makeText(this, MainActivity.this.getString(R.string.Clickexit), Toast.LENGTH_SHORT).show();
                 mExitTime = System.currentTimeMillis();
             } else {

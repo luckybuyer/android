@@ -36,6 +36,7 @@ public class SetPager extends BasePager {
     private View inflate;
     private RelativeLayout rl_set_back;
     private RelativeLayout rl_set_country;
+    private RelativeLayout rl_set_problem;
     private ImageView iv_country;
 
     @Override
@@ -68,6 +69,7 @@ public class SetPager extends BasePager {
         tv_set_login = (TextView) inflate.findViewById(R.id.tv_set_login);
         rl_set_back = (RelativeLayout) inflate.findViewById(R.id.rl_set_back);
         rl_set_country = (RelativeLayout) inflate.findViewById(R.id.rl_set_country);
+        rl_set_problem = (RelativeLayout) inflate.findViewById(R.id.rl_set_problem);
         iv_country = (ImageView) inflate.findViewById(R.id.iv_country);
         tv_set_cl = (TextView) inflate.findViewById(R.id.tv_set_cl);
 
@@ -87,6 +89,7 @@ public class SetPager extends BasePager {
         tv_set_login.setOnClickListener(new MyOnClickListener());
         rl_set_back.setOnClickListener(new MyOnClickListener());
         rl_set_country.setOnClickListener(new MyOnClickListener());
+        rl_set_problem.setOnClickListener(new MyOnClickListener());
         String token = Utils.getSpData("token", context);
 
 
@@ -119,6 +122,11 @@ public class SetPager extends BasePager {
                 case R.id.rl_set_country:
                     Intent intent = new Intent(context, ThirdPagerActivity.class);
                     intent.putExtra("from", "clpager");
+                    startActivity(intent);
+                    break;
+                case R.id.rl_set_problem:
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "problem");
                     startActivity(intent);
                     break;
             }

@@ -255,5 +255,6 @@
     <!--<string name="promat2">&#160;There will be&#160;</string>-->
     <!--<string name="promat3">&#160;There will be&#160;</string>-->
     <string name="promat">By using this payment method, you will be topped up according your actual top up amount.</string>
+    <string name="Problem">常见问题</string>
 
 </resources>

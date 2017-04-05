@@ -48,6 +48,14 @@
             android:gravity="center"
             android:text="Canadaxcv"
             android:textColor="@color/ff9c05" />
+        <ImageView
+            android:id="@+id/iv_home_problem"
+            android:layout_width="@dimen/dimen_45"
+            android:layout_height="@dimen/dimen_45"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/dimen_24"
+            android:layout_marginTop="@dimen/dimen_67"
+            android:background="@drawable/buycoins_help" />
 
         <ImageView
             android:layout_width="match_parent"

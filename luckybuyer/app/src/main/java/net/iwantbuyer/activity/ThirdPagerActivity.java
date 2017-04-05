@@ -32,6 +32,7 @@ import net.iwantbuyer.secondpager.LanguagePager;
 import net.iwantbuyer.secondpager.NewsPager;
 import net.iwantbuyer.secondpager.ParticipationPager;
 import net.iwantbuyer.secondpager.PreviousWinnersPager;
+import net.iwantbuyer.secondpager.problemPager;
 import net.iwantbuyer.utils.StatusBarUtils;
 import net.iwantbuyer.utils.Utils;
 
@@ -90,6 +91,8 @@ public class ThirdPagerActivity extends FragmentActivity {
         list.add(new LanguagePager());
         //语言设置页面                     6
         list.add(new NewsPager());
+        //语言设置页面                     7
+        list.add(new problemPager());
     }
 
     private void selectPager() {
@@ -106,6 +109,8 @@ public class ThirdPagerActivity extends FragmentActivity {
             switchPage(4);
         } else if ("news".equals(from)) {
             switchPage(6);
+        }else if("problem".equals(from)) {
+            switchPage(7);
         }
     }
 
