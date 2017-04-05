@@ -255,5 +255,6 @@
     <!--<string name="promat3" />-->
     <string name="promat">memilih kaedah pembayaran ini, kami akan memberikan anda jumlah caj semula aliran sebenar anda.</string>
     <string name="Problem">常见问题</string>
+    <string name="product_has_soldout">产品已经出售完~</string>
 
 </resources>

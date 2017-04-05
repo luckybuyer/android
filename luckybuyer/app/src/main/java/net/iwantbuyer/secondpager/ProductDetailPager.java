@@ -103,6 +103,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
     private TextView tv_productdetail_inprogress;                 //无意义  描述  黄边
     private RelativeLayout rl_productdetail_mybuy;
     private TextView tv_productdetal_again;                   //buy it now
+    private TextView tv_productdetail_sold_discribe;
     private RelativeLayout rl_productdetail_participation_me;     //我中奖 view go
     private RelativeLayout rl_productdetail_participation_lucky;  //别人中奖view go
     private ImageView iv_productdetail_number;                    //最低购买份数 图片
@@ -511,6 +512,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         tv_productdetail_inprogress = (TextView) inflate.findViewById(R.id.tv_productdetail_inprogress);
         rl_productdetail_mybuy = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_mybuy);
         tv_productdetal_again = (TextView) inflate.findViewById(R.id.tv_productdetal_again);
+        tv_productdetail_sold_discribe = (TextView) inflate.findViewById(R.id.tv_productdetail_sold_discribe);
         rl_productdetail_participation_me = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_participation_me);
         rl_productdetail_participation_lucky = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_participation_lucky);
         tv_productdetail_percentage = (TextView) inflate.findViewById(R.id.tv_productdetail_percentage);
@@ -1443,10 +1445,15 @@ public class ProductDetailPager extends BaseNoTrackPager {
                             ll_productdetail_buyit.setVisibility(View.VISIBLE);
                             newData = response.replace("[", "");
                             newData = newData.replace("]", "");
-                            Log.e("TAG_newdata",newData );
                         } else {
-                            ll_productdetail_buyit.setVisibility(View.GONE);
+                            ll_productdetail_buyit.setVisibility(View.VISIBLE);
+                            rl_productdetail_indsertcoins.setVisibility(View.GONE);
+                            tv_productdetail_sold_discribe.setText(context.getString(R.string.product_has_soldout));
+                            tv_productdetal_again.setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                            tv_productdetal_again.setEnabled(false);
+                            Log.e("TAG_newdata", "进没进来");
                         }
+
                         rl_keepout.setVisibility(View.GONE);
                         if (((SecondPagerActivity) context).game_id == -1) {
                             if (((SecondPagerActivity) context).batch_id != -1  && newData != null && newData.length() > 10) {
@@ -1487,13 +1494,4 @@ public class ProductDetailPager extends BaseNoTrackPager {
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 }
