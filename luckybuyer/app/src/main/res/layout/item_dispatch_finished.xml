@@ -15,7 +15,7 @@
             android:gravity="center_horizontal"
             android:text="@string/Show"
             android:textColor="#cccccc"
-            android:textSize="@dimen/dimen_26" />
+            android:textSize="@dimen/dimen_28" />
 
         <TextView
             android:layout_marginTop="@dimen/dimen_3"
@@ -31,17 +31,16 @@
 
     <TextView
         android:visibility="gone"
+        android:gravity="center"
         android:id="@+id/tv_dispatch_isshow"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_60"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/rl_show"
         android:layout_marginEnd="@dimen/dimen_24"
-        android:background="@color/bg_ff4f3c"
-        android:paddingBottom="@dimen/dimen_6"
-        android:paddingEnd="@dimen/dimen_20"
-        android:paddingStart="@dimen/dimen_20"
-        android:paddingTop="@dimen/dimen_6"
+        android:background="@drawable/shape_rectangle_orange"
+        android:paddingEnd="@dimen/dimen_35"
+        android:paddingStart="@dimen/dimen_35"
         android:text="@string/Show"
         android:textColor="#ffffff"
         android:textSize="@dimen/dimen_30" />

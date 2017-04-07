@@ -8,7 +8,7 @@
         android:id="@+id/rl_dispatch_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_128"
-        android:background="@color/abc_white">
+        android:background="@drawable/shape_header">
 
         <TextView
             android:id="@+id/tv_title"
@@ -19,7 +19,7 @@
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
             android:text="@string/Itemsconfirm"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_white"
             android:textSize="@dimen/dimen_36" />
 
         <TextView

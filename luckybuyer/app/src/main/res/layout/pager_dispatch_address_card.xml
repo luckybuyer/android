@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rl_phonenum"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_70"
+        android:layout_height="@dimen/dimen_80"
         android:gravity="center_vertical">
 
         <TextView
@@ -43,7 +43,7 @@
     <RelativeLayout
         android:id="@+id/rl_operator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_70"
+        android:layout_height="@dimen/dimen_80"
         android:layout_below="@+id/view"
         android:gravity="center_vertical">
 
@@ -68,21 +68,36 @@
             android:textSize="@dimen/dimen_30" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:background="#ffffff"
-        android:layout_below="@+id/rl_operator"
+    <ImageView
+        android:id="@+id/iv_envelope"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_70">
+        android:layout_height="@dimen/dimen_12"
+        android:layout_below="@+id/rl_operator"
+        android:background="@drawable/dispatch_envelope" />
+
+    <RelativeLayout
+        android:layout_below="@+id/iv_envelope"
+        android:layout_width="match_parent"
+        android:background="#ffffff"
+        android:layout_height="@dimen/dimen_18"></RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_18"
+        android:layout_below="@+id/iv_envelope"
+        android:background="#ffffff">
+
         <TextView
-            android:layout_marginTop="@dimen/dimen_10"
-            android:layout_centerInParent="true"
-            android:gravity="center"
             android:id="@+id/tv_dispatch_card_submit"
             android:layout_width="@dimen/dimen_125"
-            android:layout_height="@dimen/dimen_48"
+            android:layout_height="@dimen/dimen_60"
             android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/dimen_15"
             android:layout_marginRight="@dimen/dimen_24"
             android:background="@drawable/shape_red_radius"
+            android:gravity="center"
             android:paddingBottom="@dimen/dimen_6"
             android:paddingEnd="@dimen/dimen_8"
             android:paddingStart="@dimen/dimen_8"

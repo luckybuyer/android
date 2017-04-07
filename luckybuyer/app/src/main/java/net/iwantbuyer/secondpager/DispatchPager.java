@@ -218,14 +218,6 @@ public class DispatchPager extends BaseNoTrackPager {
                 case R.id.ll_dispatch_back:
                     ((SecondPagerActivity) context).finish();
                     break;
-                case R.id.tv_dispatch_selector_address:
-                    ((SecondPagerActivity) context).switchPage(9);
-                    ((SecondPagerActivity) context).from = "dispatchpager";
-                    break;
-                case R.id.tv_dispatch_current_address:
-                    View viewAddress = View.inflate(context, R.layout.alertdialog_current_address, null);
-                    StartAlertDialog(viewAddress);
-                    break;
                 case R.id.tv_address_ok:
                     if (show.isShowing()) {
                         show.dismiss();

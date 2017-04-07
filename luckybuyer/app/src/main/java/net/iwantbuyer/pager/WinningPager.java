@@ -1,7 +1,6 @@
 package net.iwantbuyer.pager;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,10 +18,10 @@ import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.adapter.DividerGridItemDecoration;
 import net.iwantbuyer.adapter.WinningAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
-import net.iwantbuyer.bean.CoinDetailBean;
 import net.iwantbuyer.bean.PreviousWinnerBean;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
@@ -194,13 +193,17 @@ public class WinningPager extends BaseNoTrackPager {
             ll_loading_data.setVisibility(View.GONE);
         }
         final WinningAdapter winningAdapter = new WinningAdapter(context, previousWinnerBean.getPrevious());
-        rv_winning.setAdapter(winningAdapter);
-        rv_winning.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,2,LinearLayoutManager.VERTICAL,false){
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
-        });
+        };
+        rv_winning.setAdapter(winningAdapter);
+        rv_winning.addItemDecoration(new DividerGridItemDecoration(context));
+        rv_winning.setLayoutManager(gridLayoutManager);
+
+
 
         //下拉加载
         sv_winning.setOnScrollToBottomLintener(new BottomScrollView.OnScrollToBottomListener() {

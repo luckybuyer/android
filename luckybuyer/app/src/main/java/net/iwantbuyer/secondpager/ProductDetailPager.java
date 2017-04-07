@@ -755,11 +755,12 @@ public class ProductDetailPager extends BaseNoTrackPager {
         Gson gson = new Gson();
         MyBuyBean myBuyBean = gson.fromJson(st, MyBuyBean.class);
 
-        if ("finished".equals(myBuyBean.getMybuy().get(0).getGame().getStatus())) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.leftMargin = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky)).getWidth() + DensityUtil.px2dip(context, 34);
-            rl_productdetail_mybuy.setLayoutParams(params);
-        }
+        //老板如果是自己中奖  会缩进一下
+//        if ("finished".equals(myBuyBean.getMybuy().get(0).getGame().getStatus())) {
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            params.leftMargin = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky)).getWidth() + DensityUtil.px2dip(context, 34);
+//            rl_productdetail_mybuy.setLayoutParams(params);
+//        }
         String str = "";
         int count = 0;
         for (int i = 0; i < myBuyBean.getMybuy().size(); i++) {
@@ -904,9 +905,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
     }
 
     private void setLucky() {
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_typesomething)).setText(productDetailBean.getLucky_user().getProfile().getName());
+        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckyname)).setText(productDetailBean.getLucky_user().getProfile().getName());
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckynum)).setText("" + productDetailBean.getLucky_number() + "");
-        ((TextView) inflate.findViewById(R.id.tv_productdetail_luckyid)).setText("" + productDetailBean.getLucky_user().getId() + "");
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckytime)).setText("" + productDetailBean.getFinished_at().substring(0, 19).replace("T", "\t"));
         ((TextView) inflate.findViewById(R.id.tv_productdetail_luckymany)).setText("" + productDetailBean.getLucky_order().getTotal_shares() + "");
         final RoundCornerImageView civ_productdetail_lucky = ((RoundCornerImageView) inflate.findViewById(R.id.civ_productdetail_lucky));

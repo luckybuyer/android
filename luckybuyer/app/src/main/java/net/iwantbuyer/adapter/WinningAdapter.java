@@ -72,8 +72,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.jtv_winning_title.setText(list.get(position).getProduct().getTitle());
-        holder.item_winning_issue.setText("" + list.get(position).getIssue_id());
+        holder.tv_winning_title.setText(list.get(position).getProduct().getTitle());
         Glide.with(context).load("http:" + list.get(position).getProduct().getTitle_image()).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -154,10 +153,10 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
                 }
             }.start();
         }else if(type == 1) {
+            holder.item_winning_issue.setText("" + list.get(position).getIssue_id());
             holder.tv_winning_luckynum.setText(list.get(position).getLucky_number());
             holder.tv_winning_winningname.setText(list.get(position).getLucky_user().getProfile().getName() + "");
-            holder.tv_winning_participations.setText(list.get(position).getLucky_order().getTotal_shares() + "");
-            holder.tv_winning_announced.setText(list.get(position).getFinished_at().substring(0,19).replace("T"," ") + "");
+            holder.tv_winning_date.setText(list.get(position).getFinished_at().substring(0,19).replace("T"," ") + "");
         }
 
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +181,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
         //公共的
         View view;
         ImageView iv_winning_icon;
-        JustifyTextView jtv_winning_title;
+        TextView tv_winning_title;
         TextView item_winning_issue;
 
         //倒计时
@@ -194,18 +193,16 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
         TextView tv_winning_countdown6;
 
         //已经完事的
-        TextView tv_winning_luckynum;
         TextView tv_winning_winningname;
-        TextView tv_winning_participations;
-        TextView tv_winning_announced;
+        TextView tv_winning_luckynum;
+        TextView tv_winning_date;
 
         public ViewHolder(View itemView, int viewType) {
             super(itemView);
             if(viewType == 0) {
                 view = itemView;
                 iv_winning_icon = (ImageView) itemView.findViewById(R.id.iv_winning_icon);
-                jtv_winning_title = (JustifyTextView) itemView.findViewById(R.id.jtv_winning_title);
-                item_winning_issue = (TextView) itemView.findViewById(R.id.item_winning_issue);
+                tv_winning_title = (TextView) itemView.findViewById(R.id.tv_winning_title);
                 tv_winning_countdown1 = (TextView) itemView.findViewById(R.id.tv_winning_countdown1);
                 tv_winning_countdown2 = (TextView) itemView.findViewById(R.id.tv_winning_countdown2);
                 tv_winning_countdown3 = (TextView) itemView.findViewById(R.id.tv_winning_countdown3);
@@ -215,12 +212,11 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
             }else if(viewType == 1) {
                 view = itemView;
                 iv_winning_icon = (ImageView) itemView.findViewById(R.id.iv_winning_icon);
-                jtv_winning_title = (JustifyTextView) itemView.findViewById(R.id.jtv_winning_title);
+                tv_winning_title = (TextView) itemView.findViewById(R.id.tv_winning_title);
                 item_winning_issue = (TextView) itemView.findViewById(R.id.item_winning_issue);
                 tv_winning_luckynum = (TextView) itemView.findViewById(R.id.tv_winning_luckynum);
                 tv_winning_winningname = (TextView) itemView.findViewById(R.id.tv_winning_winningname);
-                tv_winning_participations = (TextView) itemView.findViewById(R.id.tv_winning_participations);
-                tv_winning_announced = (TextView) itemView.findViewById(R.id.tv_winning_announced);
+                tv_winning_date = (TextView) itemView.findViewById(R.id.tv_winning_date);
 
             }
         }

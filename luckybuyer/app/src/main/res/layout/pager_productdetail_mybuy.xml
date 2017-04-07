@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="#ffffff"
-    android:visibility="gone"
     android:layout_height="wrap_content">
     <TextView
 
@@ -49,6 +48,7 @@
         android:layout_marginStart="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_8"
         android:layout_marginEnd="@dimen/dimen_24"
+        android:layout_marginBottom="@dimen/dimen_40"
         android:text="109653049   109653049 109653049 109653049 109653049 109653049"
         android:layout_below="@id/tv_mybuynum"
         android:layout_toEndOf="@id/civ_productdetail_lucky"
@@ -57,11 +57,11 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/tv_mybuyparticipate"
         android:id="@+id/rl_productdetail_participation_me"
-        android:layout_width="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="@dimen/dimen_24"
-        android:layout_below="@+id/tv_productdetail_mybuynum"
+        android:layout_width="@dimen/dimen_250"
+        android:layout_marginEnd="@dimen/dimen_26"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_productdetail_mybuygo"

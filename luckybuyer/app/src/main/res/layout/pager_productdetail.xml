@@ -4,7 +4,6 @@
     android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:orientation="vertical">
 
 
@@ -31,9 +30,9 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:background="#FFFFFF"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/bg_while">
+                        android:layout_height="wrap_content">
 
                         <ImageView
                             android:id="@+id/iv_productdetail_image"
@@ -387,10 +386,6 @@
                         android:id="@+id/rl_productdetail_lucky"
                         layout="@layout/include"></include>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/bg_view"></View>
 
                     <include
                         android:id="@+id/rl_productdetail_mybuy"

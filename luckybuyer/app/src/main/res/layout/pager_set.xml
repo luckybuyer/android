@@ -7,7 +7,7 @@
         android:id="@+id/rl_set_header"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_128"
-        android:background="@color/abc_white">
+        android:background="@drawable/shape_header">
 
         <TextView
             android:id="@+id/tv_set_title"
@@ -18,7 +18,7 @@
             android:layout_marginTop="@dimen/dimen_52"
             android:gravity="center"
             android:text="@string/Settings"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_white"
             android:textSize="@dimen/dimen_38" />
 
         <RelativeLayout
@@ -37,11 +37,6 @@
 
         </RelativeLayout>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="3px"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/default_shadow_top" />
     </RelativeLayout>
 
     <RelativeLayout

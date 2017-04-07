@@ -16,9 +16,12 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dimen_30"
             android:background="#ffffff"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLines="1"
             android:text="1. Learn Anout Lucky buyer"
             android:textColor="#333333"
-            android:textSize="@dimen/dimen_28" />
+            android:textSize="@dimen/dimen_32" />
 
         <ImageView
             android:id="@+id/iv_problem"
@@ -44,10 +47,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_problem"
         android:background="#f2f2f2"
-        android:paddingBottom="@dimen/dimen_30"
+        android:paddingBottom="@dimen/dimen_20"
         android:paddingLeft="@dimen/dimen_30"
         android:paddingRight="@dimen/dimen_30"
-        android:paddingTop="@dimen/dimen_30"
+        android:paddingTop="@dimen/dimen_24"
         android:text="You can check it from Me AND you will be notified by the push message if you are the winner."
         android:textColor="#999999"
         android:textSize="@dimen/dimen_24" />

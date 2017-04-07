@@ -15,7 +15,7 @@
         android:text="@string/Confirmdelivery"
         android:layout_marginBottom="@dimen/dimen_55"
         android:textColor="#cccccc"
-        android:textSize="@dimen/dimen_26" />
+        android:textSize="@dimen/dimen_28" />
     <TextView
         android:visibility="gone"
         android:id="@+id/tv_dispatch_confirm"

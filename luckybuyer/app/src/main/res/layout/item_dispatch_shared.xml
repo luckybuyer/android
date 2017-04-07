@@ -12,22 +12,21 @@
         android:gravity="center_horizontal"
         android:text="@string/SendtoFacebook"
         android:textColor="#cccccc"
-        android:textSize="@dimen/dimen_26" />
+        android:textSize="@dimen/dimen_28" />
 
     <TextView
         android:visibility="gone"
+        android:gravity="center"
         android:id="@+id/tv_dispatch_isfcshare"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dimen_60"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/tv_dispatch_fcshare"
         android:layout_marginRight="@dimen/dimen_24"
         android:layout_marginTop="@dimen/dimen_5"
         android:background="@drawable/shape_fcblue"
-        android:paddingBottom="@dimen/dimen_6"
-        android:paddingEnd="@dimen/dimen_20"
-        android:paddingStart="@dimen/dimen_20"
-        android:paddingTop="@dimen/dimen_6"
+        android:paddingEnd="@dimen/dimen_35"
+        android:paddingStart="@dimen/dimen_35"
         android:text="@string/Send"
         android:textColor="#cccccc"
         android:textSize="@dimen/dimen_30" />

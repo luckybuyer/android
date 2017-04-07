@@ -12,5 +12,5 @@
         android:text="@string/Ordertracking"
         android:layout_marginBottom="@dimen/dimen_30"
         android:textColor="@color/text_black"
-        android:textSize="@dimen/dimen_26" />
+        android:textSize="@dimen/dimen_28" />
 </LinearLayout>

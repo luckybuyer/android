@@ -269,13 +269,13 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
             ((TextView)curaddress.findViewById(R.id.tv_disaptch_add_detailed)).setText(((SecondPagerActivity) context).shippingBean.getAddress() + "");
 
             if (!"pending".equals(dispatchGameBean.getDelivery().getStatus())) {
-                curaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.GONE);
+                curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.GONE);
             } else {
-                curaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.VISIBLE);
+                curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.VISIBLE);
             }
             holder.rl_disaptch.addView(curaddress);
-            curaddress.findViewById(R.id.tv_dispatch_selector_address).setOnClickListener(new MyOnClickListener());
-            curaddress.findViewById(R.id.tv_dispatch_current_address).setOnClickListener(new MyOnClickListener());
+            curaddress.findViewById(R.id.rl_disaptch_address).setOnClickListener(new MyOnClickListener());
+            curaddress.findViewById(R.id.tv_dispatch_submit).setOnClickListener(new MyOnClickListener());
         }else if ("post".equals(dispatchGameBean.getDelivery().getType()) && dispatchGameBean.getDelivery().getAddress() != null) {
             View curaddress = View.inflate(context, R.layout.pager_dispatch_address_default, null);
             ((TextView)curaddress.findViewById(R.id.tv_disaptch_name)).setText(dispatchGameBean.getDelivery().getAddress().getName() + "");
@@ -284,13 +284,13 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
 
             Log.e("TAG_ss", dispatchGameBean.getDelivery().getType() + "");
             if (!"pending".equals(dispatchGameBean.getDelivery().getStatus())) {
-                curaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.GONE);
+                curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.GONE);
             } else {
-                curaddress.findViewById(R.id.rl_dispatch_selector_address).setVisibility(View.VISIBLE);
+                curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.VISIBLE);
             }
             holder.rl_disaptch.addView(curaddress);
-            curaddress.findViewById(R.id.tv_dispatch_selector_address).setOnClickListener(new MyOnClickListener());
-            curaddress.findViewById(R.id.tv_dispatch_current_address).setOnClickListener(new MyOnClickListener());
+            curaddress.findViewById(R.id.rl_disaptch_address).setOnClickListener(new MyOnClickListener());
+            curaddress.findViewById(R.id.tv_dispatch_submit).setOnClickListener(new MyOnClickListener());
         }
 
     }
@@ -332,11 +332,11 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
                     ((SecondPagerActivity) context).switchPage(9);
                     ((SecondPagerActivity) context).from = "dispatchpager";
                     break;
-                case R.id.tv_dispatch_selector_address:
+                case R.id.rl_disaptch_address:
                     ((SecondPagerActivity) context).switchPage(9);
                     ((SecondPagerActivity) context).from = "dispatchpager";
                     break;
-                case R.id.tv_dispatch_current_address:
+                case R.id.tv_dispatch_submit:
                     View viewAddress = View.inflate(context, R.layout.alertdialog_current_address, null);
                     StartAlertDialog(viewAddress);
                     break;

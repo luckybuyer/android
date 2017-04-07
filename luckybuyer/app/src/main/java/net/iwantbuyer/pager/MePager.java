@@ -338,6 +338,7 @@ public class MePager extends BaseNoTrackPager {
 
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
         tl_me_vpcontrol.setupWithViewPager(vp_me);
+        
 
         //判断是否需要显示底部加载进度条
         if (allOrderBean.getAllorder().size() < 20) {
