@@ -67,7 +67,7 @@ public class ShippingAddressPager extends BaseNoTrackPager {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(MyBuyUrl, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
 
                         ((Activity) context).runOnUiThread(
 

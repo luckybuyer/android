@@ -1,6 +1,7 @@
 package net.iwantbuyer.secondpager;
 
 import android.app.Activity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -51,6 +52,7 @@ import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.ProductDetailAdapter;
+import net.iwantbuyer.adapter.ProductDetailImagePageAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.BroadcastBean;
@@ -88,6 +90,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
     public static final int WHAT_AUTO = 1;
     private static final int PPW_WHAT = 2;
     private static final int MORE_DATA = 3;
+    private static final int WHAT = 4;
     private RelativeLayout rl_productdetail_allview;
     private TextView tv_productdetail_producttitle;
     private TextView tv_productdetail_issue;           //当前轮
@@ -98,7 +101,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
     private ProgressBar pb_productdetail_progress;    //比率
     private RelativeLayout rl_productdetail_announced;           //往期揭晓
     private RecyclerView rv_productdetail;                       //参与记录
-    private ImageView iv_productdetail_image;                    //顶部图片
+    private ViewPager vp_productdetail;                    //顶部图片
+    private LinearLayout ll_productdetail_point;           //底部的点
     private RelativeLayout rl_productdetail_indsertcoins;
     private TextView tv_productdetail_inprogress;                 //无意义  描述  黄边
     private RelativeLayout rl_productdetail_mybuy;
@@ -165,8 +169,23 @@ public class ProductDetailPager extends BaseNoTrackPager {
     boolean isNeedNetWaiting = true;
     int mLoopCount = 1;
 
+    private Handler hand = new Handler(){
+        public void handleMessage(Message msg){
+            switch (msg.what) {
+                case WHAT:                                       //轮播
+                    if (productDetailBean != null && productDetailBean.getProduct().getDetail_image_urls().size() == 1) {
+                        return;
+                    }
+                    vp_productdetail.setCurrentItem(vp_productdetail.getCurrentItem() + 1);
+                    hand.sendEmptyMessageDelayed(WHAT, 5000);
+                    break;
+            }
+        }
+    };
+
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
+
             switch (msg.what) {
                 case WHAT_AUTO:
                     if (bcList != null) {
@@ -197,6 +216,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 case MORE_DATA:
                     ll_loading_data.setVisibility(View.GONE);
                     break;
+
             }
         }
     };
@@ -270,12 +290,13 @@ public class ProductDetailPager extends BaseNoTrackPager {
         }
 
 
+        Log.e("TAG_gameid", ((SecondPagerActivity) context).game_id +"");
         String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "?timezone=" + MyApplication.utc;
         Map map =new HashMap();
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -334,7 +355,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(MyBuyUrl, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
                                     @Override
@@ -377,7 +398,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(listUrl, ma, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -415,7 +436,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         m.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(broadcastUrl, m, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -507,7 +528,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
         pb_productdetail_progress = (ProgressBar) inflate.findViewById(R.id.pb_productdetail_progress);
         rl_productdetail_announced = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_announced);
         rv_productdetail = (RecyclerView) inflate.findViewById(R.id.rv_productdetail);
-        iv_productdetail_image = (ImageView) inflate.findViewById(R.id.iv_productdetail_image);
+        vp_productdetail = (ViewPager) inflate.findViewById(R.id.vp_productdetail);
+        ll_productdetail_point = (LinearLayout) inflate.findViewById(R.id.ll_productdetail_point);
         rl_productdetail_indsertcoins = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_indsertcoins);
         tv_productdetail_inprogress = (TextView) inflate.findViewById(R.id.tv_productdetail_inprogress);
         rl_productdetail_mybuy = (RelativeLayout) inflate.findViewById(R.id.rl_productdetail_mybuy);
@@ -569,6 +591,8 @@ public class ProductDetailPager extends BaseNoTrackPager {
                 }
             }
         });
+
+        vp_productdetail.addOnPageChangeListener(new MyOnPageChangeListener());
     }
 
     //解析数据
@@ -666,21 +690,27 @@ public class ProductDetailPager extends BaseNoTrackPager {
     private void setView(final String response) {
         srl_productdetail_refresh.setRefreshing(false);
         Gson gson = new Gson();
-//        String game = "{\"productdetail\":" + s + "}";
         productDetailBean = gson.fromJson(response, ProductDetailBean.class);
-
-        String imgUrl = "http:" + productDetailBean.getProduct().getDetail_image();
-
-        boolean flag = ((SecondPagerActivity) context).isDestroyed();
-        if (!flag) {
-//            Glide.with(context).load(imgUrl).into(iv_productdetail_image);
-            Glide.with(context).load(imgUrl).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                @Override
-                public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    iv_productdetail_image.setImageBitmap(resource);
-                }
-            });
+        //设置Viewpager
+        ll_productdetail_point.removeAllViews();
+        ImageView imageView;
+        for (int i = 0; i < productDetailBean.getProduct().getDetail_image_urls().size(); i++) {
+            imageView = new ImageView(context);
+            imageView.setBackgroundResource(R.drawable.productdetail_point_selector);
+            ll_productdetail_point.addView(imageView);
+            if (i < productDetailBean.getProduct().getDetail_image_urls().size()) {
+                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                lp.gravity = Gravity.CENTER;
+                lp.leftMargin = DensityUtil.px2dip(context, 20);
+                imageView.setLayoutParams(lp);
+            }
         }
+        if (ll_productdetail_point.getChildCount() > 0) {
+            ll_productdetail_point.getChildAt(0).setEnabled(false);
+        }
+
+        vp_productdetail.setAdapter(new ProductDetailImagePageAdapter(context,productDetailBean.getProduct().getDetail_image_urls()));
+        hand.sendEmptyMessageDelayed(WHAT,5000);
 
         tv_productdetail_producttitle.setText(productDetailBean.getProduct().getTitle());
         tv_productdetail_discribe.setText(productDetailBean.getProduct().getDetail());
@@ -813,7 +843,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
-                        public void success(final String string) {
+                        public void success(final String string,String link) {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -1168,7 +1198,39 @@ public class ProductDetailPager extends BaseNoTrackPager {
             }
         }
     }
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            int total = productDetailBean.getProduct().getDetail_image_urls().size();
+            for (int i= 0;i < total;i++){
+                if(i == position%total) {
+                    ll_productdetail_point.getChildAt(i).setEnabled(false);
+                }else {
+                    ll_productdetail_point.getChildAt(i).setEnabled(true);
+                }
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            if (productDetailBean!= null && productDetailBean.getProduct().getDetail_image_urls().size() > 1) {
+                if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                    hand.removeMessages(WHAT);
+                } else if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    hand.removeMessages(WHAT);
+                    hand.sendEmptyMessageDelayed(WHAT,5000);
+                } else if (state == ViewPager.SCROLL_STATE_SETTLING) {
+                    hand.removeMessages(WHAT);
+                }
+            }
+        }
+    }
     private void buyCoins() {
         tv_insert_buy.setClickable(false);
         int money = Integer.parseInt(et_insert_count.getText().toString());
@@ -1197,7 +1259,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1437,7 +1499,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1494,4 +1556,17 @@ public class ProductDetailPager extends BaseNoTrackPager {
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacksAndMessages(null);
+        hand.removeCallbacksAndMessages(null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.sendEmptyMessageDelayed(WHAT_AUTO,3000);
+        hand.sendEmptyMessageDelayed(WHAT_AUTO,5000);
+    }
 }

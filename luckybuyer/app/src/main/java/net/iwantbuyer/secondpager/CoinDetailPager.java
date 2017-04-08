@@ -88,7 +88,7 @@ public class CoinDetailPager extends BasePager {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
                                     @Override
@@ -175,7 +175,7 @@ public class CoinDetailPager extends BasePager {
                     map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
-                        public void success(final String string) {
+                        public void success(final String string,String link) {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

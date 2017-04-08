@@ -108,7 +108,7 @@ public class DispatchPager extends BaseNoTrackPager {
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
 
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
@@ -300,7 +300,7 @@ public class DispatchPager extends BaseNoTrackPager {
         final String finalToken = token;
         HttpUtils.getInstance().patchJson(url, json, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
 
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
@@ -387,7 +387,7 @@ public class DispatchPager extends BaseNoTrackPager {
         final String finalToken = token;
         HttpUtils.getInstance().patchJson(url, json, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
 
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {

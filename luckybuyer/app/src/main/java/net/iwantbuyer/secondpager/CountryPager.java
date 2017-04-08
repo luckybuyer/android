@@ -82,7 +82,7 @@ public class CountryPager extends BasePager {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -262,7 +262,7 @@ public class CountryPager extends BasePager {
         url = server + "/v1/config/android-iwantbuyer-v" + versionName;
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

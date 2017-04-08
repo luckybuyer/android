@@ -183,7 +183,7 @@ public class MePager extends BaseNoTrackPager {
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
 
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
@@ -242,7 +242,7 @@ public class MePager extends BaseNoTrackPager {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
                         ((Activity) context).runOnUiThread(
                                 new Runnable() {
                                     @Override
@@ -338,7 +338,7 @@ public class MePager extends BaseNoTrackPager {
 
         vp_me.setAdapter(new MePagerViewPagerAdapter(context, vpList));
         tl_me_vpcontrol.setupWithViewPager(vp_me);
-        
+
 
         //判断是否需要显示底部加载进度条
         if (allOrderBean.getAllorder().size() < 20) {
@@ -377,7 +377,7 @@ public class MePager extends BaseNoTrackPager {
                     //请求登陆接口
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                                 @Override
-                                public void success(final String response) {
+                                public void success(final String response,String link) {
                                     ((Activity) context).runOnUiThread(
                                             new Runnable() {
                                                 @Override
@@ -470,7 +470,7 @@ public class MePager extends BaseNoTrackPager {
                     map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
-                        public void success(final String string) {
+                        public void success(final String string,String link) {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -588,7 +588,7 @@ public class MePager extends BaseNoTrackPager {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(String response) {
+            public void success(String response,String link) {
 
 
                 Gson gson = new Gson();

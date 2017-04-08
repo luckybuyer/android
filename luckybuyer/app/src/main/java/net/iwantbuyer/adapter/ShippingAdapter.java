@@ -105,7 +105,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     HttpUtils.getInstance().startNetworkWaiting(context);
                     HttpUtils.getInstance().putJson(url, json, map, new HttpUtils.OnRequestListener() {
                         @Override
-                        public void success(final String response) {
+                        public void success(final String response,String link) {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -176,7 +176,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     HttpUtils.getInstance().startNetworkWaiting(context);
                     HttpUtils.getInstance().deleteResponse(url, map, new HttpUtils.OnRequestListener() {
                         @Override
-                        public void success(final String response) {
+                        public void success(final String response,String link) {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

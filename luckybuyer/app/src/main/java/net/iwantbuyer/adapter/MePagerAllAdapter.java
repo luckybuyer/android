@@ -180,7 +180,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     final String finalToken = token;
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                                 @Override
-                                public void success(final String response) {
+                                public void success(final String response,String link) {
 
                                     ((Activity) context).runOnUiThread(
                                             new Runnable() {

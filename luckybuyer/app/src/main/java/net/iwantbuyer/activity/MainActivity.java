@@ -647,7 +647,7 @@ public class MainActivity extends FragmentActivity {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
             }
 
             @Override
@@ -676,7 +676,7 @@ public class MainActivity extends FragmentActivity {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(String response) {
+            public void success(String response,String link) {
                 //埋点
                 try {
                     JSONObject props = new JSONObject();
@@ -1107,7 +1107,7 @@ public class MainActivity extends FragmentActivity {
         String json = "{\"device_id\": \"" + token + "\"}";
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

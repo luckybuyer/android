@@ -58,7 +58,7 @@ public class PreviousWinnersPager extends BasePager {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

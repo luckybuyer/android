@@ -34,19 +34,35 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:id="@+id/iv_productdetail_image"
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/vp_productdetail"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:adjustViewBounds="true"
-                            android:background="@drawable/productdetail_defaulticon"
-                            android:scaleType="fitXY" />
+                            android:layout_height="@dimen/dimen_662"></android.support.v4.view.ViewPager>
+                        <LinearLayout
+                            android:background="#ffffff"
+                            android:layout_below="@+id/vp_productdetail"
+                            android:id="@+id/ll_productdetail_point"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dimen_16"
+                            android:layout_alignBottom="@+id/vp_home"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/dimen_20"
+                            android:gravity="center"
+                            android:orientation="horizontal"></LinearLayout>
+
+                        <!--<ImageView-->
+                            <!--android:id="@+id/iv_productdetail_image"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="@dimen/dimen_660"-->
+                            <!--android:adjustViewBounds="true"-->
+                            <!--android:background="@drawable/productdetail_defaulticon"-->
+                            <!--android:scaleType="fitXY" />-->
 
                         <View
                             android:id="@+id/view"
                             android:layout_width="match_parent"
                             android:layout_height="1px"
-                            android:layout_below="@+id/iv_productdetail_image"
+                            android:layout_below="@+id/vp_productdetail"
                             android:background="@color/bg_view"></View>
 
 
@@ -73,10 +89,10 @@
                             android:id="@+id/tv_productdetail_producttitle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/view"
+                            android:layout_below="@+id/ll_productdetail_point"
                             android:layout_marginEnd="@dimen/dimen_24"
                             android:layout_marginStart="@dimen/dimen_24"
-                            android:layout_marginTop="@dimen/dimen_30"
+                            android:layout_marginTop="@dimen/dimen_25"
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:text="Magic sound headphones second generation"
@@ -564,6 +580,7 @@
 
 
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/rl_keepout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,6 +1,5 @@
 package net.iwantbuyer.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,7 +7,6 @@ import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,7 +17,7 @@ import com.bumptech.glide.request.target.Target;
 import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.bean.BannersBean;
-import net.iwantbuyer.utils.Utils;
+import net.iwantbuyer.bean.ProductDetailBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +26,13 @@ import java.util.List;
  * Created by admin on 2016/9/13.
  * yangshuyu
  */
-public class HomeImagePageAdapter extends PagerAdapter {
+public class ProductDetailImagePageAdapter extends PagerAdapter {
 
     public List<ImageView> list = new ArrayList();
     public Context context;
-    public List<BannersBean.BannerBean> gameList;
+    public List<String> gameList;
 
-    public HomeImagePageAdapter(Context context, List<BannersBean.BannerBean> gameList) {
+    public ProductDetailImagePageAdapter(Context context, List<String> gameList) {
         this.context = context;
         this.gameList = gameList;
         getList(context, gameList);
@@ -42,17 +40,18 @@ public class HomeImagePageAdapter extends PagerAdapter {
             getList(context, gameList);
         }
 
-        if (gameList.size() == 3) {
+        if(gameList.size() == 3) {
             getList(context, gameList);
         }
 
     }
 
-    private void getList(Context context, List<BannersBean.BannerBean> gameList) {
+    private void getList(Context context, List<String> gameList) {
         for (int i = 0; i < gameList.size(); i++) {
-            String detail_image = "http:" + gameList.get(i).getImage();
+            String detail_image = "https:" + gameList.get(i);
+            Log.e("TAG_detail", detail_image);
             final ImageView image_header = new ImageView(context);
-            if (!((MainActivity) context).isDestroyed()) {
+            if (!((SecondPagerActivity) context).isDestroyed()) {
                 Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -88,7 +87,6 @@ public class HomeImagePageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
 
-
         ImageView image = list.get(position % list.size());
         //如果View已经在之前添加到了一个父组件，则必须先remove，否则会抛出IllegalStateException。
 //        ViewParent vp=image.getParent();
@@ -98,18 +96,6 @@ public class HomeImagePageAdapter extends PagerAdapter {
 //        }
 
         container.addView(image);
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(context, SecondPagerActivity.class);
-                intent.putExtra("from", "productdetail");
-                intent.putExtra("game_id", -1);
-                intent.putExtra("batch_id", gameList.get(position % list.size()).getBatch_id());
-                context.startActivity(intent);
-
-            }
-        });
         return image;
     }
 }

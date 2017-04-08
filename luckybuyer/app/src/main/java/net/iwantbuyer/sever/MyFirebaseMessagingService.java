@@ -177,7 +177,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
-                    public void success(final String response) {
+                    public void success(final String response,String link) {
                         Intent intent = new Intent();
                         intent.setAction("Message");
                         intent.putExtra("response", response);

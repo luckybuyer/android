@@ -119,7 +119,7 @@ public class WelcomeActivity extends Activity {
             //请求登陆接口
             HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                 @Override
-                public void success(String response) {
+                public void success(String response,String link) {
                     Gson gson = new Gson();
                     User user = gson.fromJson(response, User.class);
                     Utils.setSpData("id", user.getId() + "", WelcomeActivity.this);
@@ -151,7 +151,7 @@ public class WelcomeActivity extends Activity {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 WelcomeActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -205,7 +205,7 @@ public class WelcomeActivity extends Activity {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 WelcomeActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

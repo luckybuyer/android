@@ -455,7 +455,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
             HttpUtils.getInstance().putJson(url, json, map, new HttpUtils.OnRequestListener() {
                 @Override
-                public void success(final String response) {
+                public void success(final String response,String link) {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -501,7 +501,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             map.put("Authorization", "Bearer " + mToken);
             HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
                 @Override
-                public void success(final String response) {
+                public void success(final String response,String link) {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

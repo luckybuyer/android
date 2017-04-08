@@ -66,7 +66,7 @@ public class HttpUtils {
      * 只是回调请求码的原因（200  返回success  其余返回error   一些另外错误（url错误） 会在Log中打印）
      */
     public interface OnRequestListener {
-        public void success(String response);
+        public void success(String response,String link);
 
         public void error(int requestCode, String message);
 
@@ -149,7 +149,14 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
+                        Log.e("TAG_httpsres", response.headers().toString());
+                        Log.e("TAG_httpsres", response.headers().toString().split("\n").length + "");
+                        Log.e("TAG_httpsres", response.header("link") + "");
+
+//                        for (int i =0;i < response.headers().toString().split("\n").length;i++){
+//                            response.header
+//                        }
                     } else {
                         onRequestListener.error(response.code(), response.body().string());
                     }
@@ -189,7 +196,7 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
                     } else {
                         onRequestListener.error(response.code(), response.body().string());
                     }
@@ -224,7 +231,7 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
                     } else {
                         onRequestListener.error(response.code(), response.body().string());
 
@@ -262,7 +269,7 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
                     } else {
                         onRequestListener.error(response.code(), response.body().string());
 
@@ -298,7 +305,7 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
                     } else {
                         onRequestListener.error(response.code(), response.body().string());
 
@@ -335,7 +342,7 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
                     } else {
                         onRequestListener.error(response.code(), response.body().string());
 
@@ -373,7 +380,7 @@ public class HttpUtils {
             public void onResponse(Call call, Response response) throws IOException {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
                     } else {
                         onRequestListener.error(response.code(), response.body().string());
                     }
@@ -420,7 +427,7 @@ public class HttpUtils {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
                         Log.e("TAG_okhttp", "下载成功");
-                        onRequestListener.success(response.body().string());
+                        onRequestListener.success(response.body().string(),response.header("link"));
                         if (response != null) {
                             //下载完成，保存数据到文件
                             InputStream is = response.body().byteStream();

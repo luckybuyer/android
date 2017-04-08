@@ -393,7 +393,7 @@ public class SecondPagerActivity extends FragmentActivity {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
             }
 
             @Override
@@ -421,7 +421,7 @@ public class SecondPagerActivity extends FragmentActivity {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(String response) {
+            public void success(String response,String link) {
                 SecondPagerActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -611,7 +611,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
         HttpUtils.getInstance().postJson(url, json,map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 SecondPagerActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

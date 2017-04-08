@@ -144,7 +144,7 @@ public class SetPager extends BasePager {
         HttpUtils.getInstance().startNetworkWaiting(context);
         HttpUtils.getInstance().deleteResponse(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

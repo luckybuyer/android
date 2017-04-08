@@ -7,9 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.media.MediaBrowserCompat;
-import android.support.v4.util.LogWriter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -25,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
@@ -75,8 +73,10 @@ public class HomePager extends BaseNoTrackPager {
     private View inflate;
     private SwipeRefreshLayout srl_home_refresh;
     private TextView tv_net_again;
+    private TextView tv_list_net_again;
     private BottomScrollView sv_home;
     public TextView tv_home_country;
+    private TabLayout tl_home_products;
 
     //网络连接错误 与没有数据
     private RelativeLayout rl_keepout;
@@ -84,14 +84,18 @@ public class HomePager extends BaseNoTrackPager {
     private RelativeLayout rl_nodata;
     private RelativeLayout rl_loading;
 
+    //网络连接错误 与没有数据
+    private RelativeLayout rl_list_keepout;
+    private RelativeLayout rl_list_neterror;
+    private RelativeLayout rl_list_nodata;
+    private RelativeLayout rl_list_loading;
+
     //下拉加载更多
     private LinearLayout ll_home_loading;
     private ProgressBar pb_loading_data;
     private TextView tv_loading_data;
 
-    //轮播图集合
-    public List imageList;
-    public List<GameProductBean.GameBean> productList;
+    public List<GameProductBean.GameBean> productList = new ArrayList();
     private List<SpannableStringBuilder> mStringArray;
     int mLoopCount = 1;
 
@@ -107,7 +111,7 @@ public class HomePager extends BaseNoTrackPager {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case WHAT:
-                    if(bannersBean != null && bannersBean.getBanner().size() == 1) {
+                    if (bannersBean != null && bannersBean.getBanner().size() == 1) {
                         return;
                     }
                     vp_home.setCurrentItem(vp_home.getCurrentItem() + 1);
@@ -115,7 +119,7 @@ public class HomePager extends BaseNoTrackPager {
                     break;
                 case WHAT_AUTO:
                     handler.removeMessages(WHAT_AUTO);
-                    if (mStringArray != null && mStringArray.size() !=0) {
+                    if (mStringArray != null && mStringArray.size() != 0) {
                         int i = mLoopCount % mStringArray.size();
                         atv_home_marquee.next();
                         atv_home_marquee.setText(mStringArray.get(i));
@@ -151,7 +155,7 @@ public class HomePager extends BaseNoTrackPager {
 
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:homepage",eventValue);
+        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:homepage", eventValue);
 
         return inflate;
     }
@@ -191,8 +195,10 @@ public class HomePager extends BaseNoTrackPager {
         atv_home_marquee = (AutoTextHomeView) inflate.findViewById(R.id.atv_home_marquee);
         srl_home_refresh = (SwipeRefreshLayout) inflate.findViewById(R.id.srl_home_refresh);
         tv_net_again = (TextView) inflate.findViewById(R.id.tv_net_again);
+        tv_list_net_again = (TextView) inflate.findViewById(R.id.tv_list_net_again);
         sv_home = (BottomScrollView) inflate.findViewById(R.id.sv_home);
         tv_home_country = (TextView) inflate.findViewById(R.id.tv_home_country);
+        tl_home_products = (TabLayout) inflate.findViewById(R.id.tl_home_products);
 
         ll_home_loading = (LinearLayout) inflate.findViewById(R.id.ll_home_loading);
         pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
@@ -204,49 +210,104 @@ public class HomePager extends BaseNoTrackPager {
         rl_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_nodata);
         rl_loading = (RelativeLayout) inflate.findViewById(R.id.rl_loading);
 
+        rl_list_keepout = (RelativeLayout) inflate.findViewById(R.id.rl_list_keepout);
+        rl_list_neterror = (RelativeLayout) inflate.findViewById(R.id.rl_list_neterror);
+        rl_list_nodata = (RelativeLayout) inflate.findViewById(R.id.rl_list_nodata);
+        rl_list_loading = (RelativeLayout) inflate.findViewById(R.id.rl_list_loading);
+
         iv_home_problem = (ImageView) inflate.findViewById(R.id.iv_home_problem);
 
-        tv_home_country.setText(Utils.getSpData("country",context));
+        tv_home_country.setText(Utils.getSpData("country", context));
 
         //设置监听
         vp_home.setOnPageChangeListener(new MyOnPageChangeListener());
 
-        atv_home_marquee.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, SecondPagerActivity.class);
-                intent.putExtra("from", "productdetail");
-                intent.putExtra("game_id", broadcastBean.getBroad().get(mLoopCount % mStringArray.size()).getGame_id());
-                context.startActivity(intent);
+        atv_home_marquee.setOnClickListener(new MyOnClickListener());
+        tv_net_again.setOnClickListener(new MyOnClickListener());
+        tv_list_net_again.setOnClickListener(new MyOnClickListener());
+        tv_home_country.setOnClickListener(new MyOnClickListener());
 
-            }
-        });
-        tv_net_again.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isWaiting = true;
-                initData();
-            }
-        });
-        tv_home_country.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ThirdPagerActivity.class);
-                intent.putExtra("from","countrypager");
-                startActivity(intent);
-            }
-        });
-
-        iv_home_problem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ThirdPagerActivity.class);
-                intent.putExtra("from", "problem");
-                startActivity(intent);
-            }
-        });
+        iv_home_problem.setOnClickListener(new MyOnClickListener());
+        tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.All)), 0);
+        tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.Inprogress)), 1);
+        tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.News)), 2);
+        tl_home_products.addOnTabSelectedListener(new MyOnTabSelectedListener());
     }
 
+    class MyOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.atv_home_marquee:
+                    Intent intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from", "productdetail");
+                    intent.putExtra("game_id", broadcastBean.getBroad().get(mLoopCount % mStringArray.size()).getGame_id());
+                    context.startActivity(intent);
+                    break;
+                case R.id.tv_net_again:
+                    isWaiting = true;
+                    initData();
+                    break;
+                case R.id.tv_home_country:
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "countrypager");
+                    startActivity(intent);
+                    break;
+                case R.id.iv_home_problem:
+                    intent = new Intent(context, ThirdPagerActivity.class);
+                    intent.putExtra("from", "problem");
+                    startActivity(intent);
+                    break;
+                case R.id.tv_list_net_again:
+                    int id = tl_home_products.getSelectedTabPosition();
+                    Log.e("TAG_listagain", "" + id);
+                    if(id == 0) {
+                        startAll();
+                    }else if(id == 1) {
+                        startProgress();
+                    }else if(id == 2) {
+                        startNew();
+                    }
+                    break;
+            }
+        }
+    }
+
+    //点击tablayout的监听
+    class MyOnTabSelectedListener implements TabLayout.OnTabSelectedListener {
+
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            productList.clear();
+            switch (tab.getPosition()) {
+                case 0:
+                    //请求ALL
+                    startAll();
+                    break;
+                case 1:
+                    //请求Progress
+                    productList.clear();
+                    startProgress();
+                    break;
+                case 2:
+                    //New
+                    productList.clear();
+                    startNew();
+                    break;
+            }
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    }
 
     private void startRequestGame() {
         String spString = Utils.getSpData("locale", context);
@@ -265,11 +326,19 @@ public class HomePager extends BaseNoTrackPager {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(broadcastUrl, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response, String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        processbroadcastData(response);
+                        if (response.length() > 10) {
+                            rl_keepout.setVisibility(View.GONE);
+                            processbroadcastData(response);
+
+                        } else {
+                            rl_nodata.setVisibility(View.VISIBLE);
+                            rl_neterror.setVisibility(View.GONE);
+                            rl_loading.setVisibility(View.GONE);
+                        }
 
                     }
                 });
@@ -280,6 +349,78 @@ public class HomePager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        rl_nodata.setVisibility(View.GONE);
+                        rl_neterror.setVisibility(View.VISIBLE);
+                        rl_loading.setVisibility(View.GONE);
+                    }
+                });
+            }
+
+        });
+
+
+        //请求 产品轮播图
+        responseBanner();
+        startAll();
+
+    }
+
+    public void startAll() {
+        //请求  产品  列表
+        String url = MyApplication.url + "/v1/games/?status=running&order_by=all&per_page=6&page=1&timezone=" + MyApplication.utc;
+        Map ma = new HashMap();
+        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response, final String link) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        srl_home_refresh.setRefreshing(false);
+
+                        if (response.length() > 10) {
+                            rl_list_keepout.setVisibility(View.GONE);
+                            HomePager.this.link = link;
+                            processData(response);
+                            tl_home_products.getTabAt(0).select();
+                        } else {
+                            rl_list_nodata.setVisibility(View.VISIBLE);
+                            rl_list_neterror.setVisibility(View.GONE);
+                            rl_list_loading.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void error(final int requestCode, final String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl_home_refresh.setRefreshing(false);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_list_keepout.setVisibility(View.VISIBLE);
+                        rl_list_nodata.setVisibility(View.GONE);
+                        rl_list_neterror.setVisibility(View.VISIBLE);
+                        rl_list_loading.setVisibility(View.GONE);
+                        productList.clear();
+                        if(homeProductAdapter !=null) {
+                            homeProductAdapter.notifyDataSetChanged();
+                        }
 
                     }
                 });
@@ -290,24 +431,30 @@ public class HomePager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        srl_home_refresh.setRefreshing(false);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_list_keepout.setVisibility(View.VISIBLE);
+                        rl_list_nodata.setVisibility(View.GONE);
+                        rl_list_neterror.setVisibility(View.VISIBLE);
+                        rl_list_loading.setVisibility(View.GONE);
+                        productList.clear();
+                        homeProductAdapter.notifyDataSetChanged();
                     }
                 });
+
             }
 
         });
+    }
 
-
-        //请求 产品轮播图
-        responseBanner();
-
+    public void startProgress() {
         //请求  产品  列表
-        String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=1&timezone=" + MyApplication.utc;
+        String url = MyApplication.url + "/v1/games/?status=running&order_by=progress&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map ma = new HashMap();
         ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response, final String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -315,13 +462,14 @@ public class HomePager extends BaseNoTrackPager {
                         srl_home_refresh.setRefreshing(false);
 
                         if (response.length() > 10) {
-                            rl_keepout.setVisibility(View.GONE);
+                            rl_list_keepout.setVisibility(View.GONE);
+                            HomePager.this.link = link;
                             processData(response);
-                            Log.e("TAG", response.length() + "");
+                            tl_home_products.getTabAt(1).select();
                         } else {
-                            rl_nodata.setVisibility(View.VISIBLE);
-                            rl_neterror.setVisibility(View.GONE);
-                            rl_loading.setVisibility(View.GONE);
+                            rl_list_nodata.setVisibility(View.VISIBLE);
+                            rl_list_neterror.setVisibility(View.GONE);
+                            rl_list_loading.setVisibility(View.GONE);
 //                            }
                         }
 
@@ -336,12 +484,12 @@ public class HomePager extends BaseNoTrackPager {
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
                         HttpUtils.getInstance().stopNetWorkWaiting();
-                        if (isFirst) {
-                            rl_nodata.setVisibility(View.GONE);
-                            rl_neterror.setVisibility(View.VISIBLE);
-                            rl_loading.setVisibility(View.GONE);
-                        }
-
+                        rl_list_keepout.setVisibility(View.VISIBLE);
+                        rl_list_nodata.setVisibility(View.GONE);
+                        rl_list_neterror.setVisibility(View.VISIBLE);
+                        rl_list_loading.setVisibility(View.GONE);
+                        productList.clear();
+                        homeProductAdapter.notifyDataSetChanged();
                     }
                 });
             }
@@ -353,10 +501,13 @@ public class HomePager extends BaseNoTrackPager {
                     public void run() {
                         srl_home_refresh.setRefreshing(false);
                         HttpUtils.getInstance().stopNetWorkWaiting();
-                        if (isFirst) {
-                            rl_nodata.setVisibility(View.GONE);
-                            rl_neterror.setVisibility(View.VISIBLE);
-                            rl_loading.setVisibility(View.GONE);
+                        rl_list_keepout.setVisibility(View.VISIBLE);
+                        rl_list_nodata.setVisibility(View.GONE);
+                        rl_list_neterror.setVisibility(View.VISIBLE);
+                        rl_list_loading.setVisibility(View.GONE);
+                        productList.clear();
+                        if(homeProductAdapter !=null) {
+                            homeProductAdapter.notifyDataSetChanged();
                         }
                     }
                 });
@@ -364,7 +515,139 @@ public class HomePager extends BaseNoTrackPager {
             }
 
         });
+    }
 
+    public void startNew() {
+        //请求  产品  列表
+        String url = MyApplication.url + "/v1/games/?status=running&order_by=latest&per_page=20&page=1&timezone=" + MyApplication.utc;
+        Map ma = new HashMap();
+        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String response, final String link) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        srl_home_refresh.setRefreshing(false);
+
+                        if (response.length() > 10) {
+                            rl_list_keepout.setVisibility(View.GONE);
+                            HomePager.this.link = link;
+                            processData(response);
+                            tl_home_products.getTabAt(2).select();
+                        } else {
+                            rl_list_nodata.setVisibility(View.VISIBLE);
+                            rl_list_neterror.setVisibility(View.GONE);
+                            rl_list_loading.setVisibility(View.GONE);
+//                            }
+                        }
+
+                    }
+                });
+            }
+
+            @Override
+            public void error(final int requestCode, final String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl_home_refresh.setRefreshing(false);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_list_keepout.setVisibility(View.VISIBLE);
+                        rl_list_nodata.setVisibility(View.GONE);
+                        rl_list_neterror.setVisibility(View.VISIBLE);
+                        rl_list_loading.setVisibility(View.GONE);
+                        productList.clear();
+                        homeProductAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        srl_home_refresh.setRefreshing(false);
+                        HttpUtils.getInstance().stopNetWorkWaiting();
+                        rl_list_keepout.setVisibility(View.VISIBLE);
+                        rl_list_nodata.setVisibility(View.GONE);
+                        rl_list_neterror.setVisibility(View.VISIBLE);
+                        rl_list_loading.setVisibility(View.GONE);
+                        productList.clear();
+                        if(homeProductAdapter !=null) {
+                            homeProductAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+            }
+
+        });
+    }
+
+    private void startMore(String url) {
+        Map map = new HashMap();
+        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
+            @Override
+            public void success(final String string, final String link) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("TAG_lll", link);
+                        isNeedpull = true;
+                        HomePager.this.link = link;
+                        Gson gson = new Gson();
+                        final String game = "{\"game\":" + string + "}";
+                        GameProductBean gameProductBean = gson.fromJson(game, GameProductBean.class);
+
+                        //产品列表数据
+                        productList.addAll(gameProductBean.getGame());
+                        homeProductAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+
+            @Override
+            public void error(final int requestCode, final String message) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        isNeedpull = true;
+                        pb_loading_data.setVisibility(View.GONE);
+                        tv_loading_data.setText(context.getString(R.string.Networkfailure));
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ll_home_loading.setVisibility(View.GONE);
+                            }
+                        }, 3000);
+                    }
+                });
+            }
+
+            @Override
+            public void failure(Exception exception) {
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        isNeedpull = true;
+                        pb_loading_data.setVisibility(View.GONE);
+                        tv_loading_data.setText(context.getString(R.string.Networkfailure));
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                ll_home_loading.setVisibility(View.GONE);
+                            }
+                        }, 3000);
+                    }
+                });
+
+            }
+
+        });
     }
 
     //请求产品轮播图
@@ -374,7 +657,7 @@ public class HomePager extends BaseNoTrackPager {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(bannersUrl, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response, String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -422,7 +705,7 @@ public class HomePager extends BaseNoTrackPager {
             //获取内容字符串
             String content = broadcastBean.getBroad().get(i).getContent();
             builder = new SpannableStringBuilder(content);
-            ForegroundColorSpan redSpan = new ForegroundColorSpan(ContextCompat.getColor(context,R.color.ff9c05));
+            ForegroundColorSpan redSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.ff9c05));
             ForegroundColorSpan blackSpan = null;
             builder.setSpan(redSpan, 0, content.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             String[] st = str.split("\\}");
@@ -455,31 +738,13 @@ public class HomePager extends BaseNoTrackPager {
         String banner = "{\"banner\":" + response + "}";
         bannersBean = gson.fromJson(banner, BannersBean.class);
 
-        imageList = new ArrayList();
-        for (int i = 0; i < bannersBean.getBanner().size(); i++) {
-            String detail_image = "http:" + bannersBean.getBanner().get(i).getImage();
-            final ImageView image_header = new ImageView(context);
-            if (!((MainActivity) context).isDestroyed()) {
-                Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        image_header.setImageBitmap(resource);
-                    }
-                });
-            }
-
-//            Glide.with(context).load(detail_image).into(image_header);
-            imageList.add(image_header);
-
-        }
-
         ll_home_point.removeAllViews();
         ImageView imageView;
-        for (int i = 0; i < imageList.size(); i++) {
+        for (int i = 0; i < bannersBean.getBanner().size(); i++) {
             imageView = new ImageView(context);
             imageView.setBackgroundResource(R.drawable.homepager_point_selector);
             ll_home_point.addView(imageView);
-            if (i < imageList.size()) {
+            if (i < bannersBean.getBanner().size()) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 lp.gravity = Gravity.CENTER;
                 lp.leftMargin = DensityUtil.px2dip(context, 20);
@@ -492,8 +757,8 @@ public class HomePager extends BaseNoTrackPager {
 
 
         //设置viewpager
-        vp_home.setAdapter(new HomeImagePageAdapter(imageList, context, bannersBean.getBanner()));
-        if (imageList.size() <= 1) {
+        vp_home.setAdapter(new HomeImagePageAdapter(context, bannersBean.getBanner()));
+        if (bannersBean.getBanner().size() <= 1) {
             handler.removeMessages(WHAT);
             vp_home.setCurrentItem(0);
         }
@@ -506,9 +771,12 @@ public class HomePager extends BaseNoTrackPager {
     boolean isMoreData = true;
     boolean isNeedpull = true;
     int page = 2;
+    String link;
+    HomeProductAdapter homeProductAdapter;
 
     //解析数据
     private void processData(String s) {
+        Log.e("TAG_link", link);
         //停止刷新
         srl_home_refresh.setRefreshing(false);
 
@@ -525,7 +793,7 @@ public class HomePager extends BaseNoTrackPager {
         }
 
         //设置recycleView
-        final HomeProductAdapter homeProductAdapter = new HomeProductAdapter(context, productList);
+        homeProductAdapter = new HomeProductAdapter(context, productList);
         rv_home_producer.setAdapter(homeProductAdapter);
 
         //设置 recycleviewde manager   重写canScrollVertically方法是为了解决潜逃scrollview的卡顿问题
@@ -557,13 +825,13 @@ public class HomePager extends BaseNoTrackPager {
 
                 //AppFlyer 埋点
                 Map<String, Object> eventValue = new HashMap<String, Object>();
-                eventValue.put("%id",productList.get(position).getProduct().getId() + "");
-                if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-my")) {
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_my",eventValue);
-                }else if(Utils.getSpData("service",context)!= null && Utils.getSpData("service",context).contains("api-sg")) {
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ae",eventValue);
-                }else {
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ca",eventValue);
+                eventValue.put("%id", productList.get(position).getProduct().getId() + "");
+                if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_my", eventValue);
+                } else if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-sg")) {
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ae", eventValue);
+                } else {
+                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ca", eventValue);
                 }
 
             }
@@ -578,91 +846,45 @@ public class HomePager extends BaseNoTrackPager {
         sv_home.setOnScrollToBottomLintener(new BottomScrollView.OnScrollToBottomListener() {
             @Override
             public void onScrollBottomListener(boolean isBottom) {
-                if (isBottom && isMoreData && isNeedpull) {
+
+                String next = "";
+                String last = null;
+                String[] str = link.split(",");
+                for (int i = 0; i < str.length; i++) {
+                    if (str[i].contains("rel=\"next\"")) {
+                        next = str[i].substring(str[i].indexOf("<") + 1, str[i].indexOf(">"));
+                    }
+                    if (str[i].contains("rel=\"last\"")) {
+                        last = str[i].substring(str[i].indexOf("<") + 1, str[i].indexOf(">"));
+                    }
+                }
+
+                if (link.contains("rel=\"next\"") && isNeedpull && isBottom && !next.equals(last)) {
+                    Log.e("TAG_link...", link);
+                    isNeedpull = false;
                     ll_home_loading.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
                     tv_loading_data.setText(context.getString(R.string.loading___));
 
-                    isNeedpull = false;
-                    String url = MyApplication.url + "/v1/games/?status=running&per_page=20&page=" + page + "&timezone=" + MyApplication.utc;
-                    Map map = new HashMap();
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
-                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
-                        @Override
-                        public void success(final String string) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    isNeedpull = true;
-                                    if (string.length() > 10) {
-                                        String str = "{\"game\":" + string + "}";
-                                        GameProductBean gameProduct = gson.fromJson(str, GameProductBean.class);
-                                        for (int i = 0; i < gameProduct.getGame().size(); i++) {
-                                            homeProductAdapter.list.add(gameProduct.getGame().get(i));
-                                            if (i == gameProduct.getGame().size() - 1) {
-                                                homeProductAdapter.notifyDataSetChanged();
-                                            }
-                                        }
-                                        if (gameProduct.getGame().size() < 20) {
-                                            isMoreData = false;
-                                            pb_loading_data.setVisibility(View.GONE);
-                                        }
-                                        page++;
-                                    } else {
-                                        ll_home_loading.setVisibility(View.VISIBLE);
-                                        pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded));
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ll_home_loading.setVisibility(View.GONE);
-                                            }
-                                        },3000);
-                                    }
-
-                                }
-                            });
+                    String[] st = link.split(",");
+                    for (int i = 0; i < str.length; i++) {
+                        if (st[i].contains("rel=\"next\"")) {
+                            String url = st[i].substring(st[i].indexOf("<") + 1, st[i].indexOf(">"));
+                            startMore(url);
                         }
-
+                    }
+                } else if (link.contains("rel=\"last\"") && next.equals(last)) {
+                    ll_home_loading.setVisibility(View.VISIBLE);
+                    pb_loading_data.setVisibility(View.GONE);
+                    tv_loading_data.setText(context.getString(R.string.nomoredata));
+                    handler.postDelayed(new Runnable() {
                         @Override
-                        public void error(final int requestCode, final String message) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    isNeedpull = true;
-                                    pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ll_home_loading.setVisibility(View.GONE);
-                                        }
-                                    },3000);
-                                }
-                            });
+                        public void run() {
+                            ll_home_loading.setVisibility(View.GONE);
                         }
-
-                        @Override
-                        public void failure(Exception exception) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    isNeedpull = true;
-                                    pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ll_home_loading.setVisibility(View.GONE);
-                                        }
-                                    },3000);
-                                }
-                            });
-
-                        }
-
-                    });
+                    }, 3000);
                 }
+
 
             }
         });
@@ -670,7 +892,6 @@ public class HomePager extends BaseNoTrackPager {
     }
 
 
-    int curPostion = 0;
 
 
     //ViewPager页面改变监听
@@ -683,15 +904,19 @@ public class HomePager extends BaseNoTrackPager {
 
         @Override
         public void onPageSelected(int position) {
-            position = position % bannersBean.getBanner().size();
-            ll_home_point.getChildAt(curPostion).setEnabled(true);
-            ll_home_point.getChildAt(position).setEnabled(false);
-            curPostion = position;
+            int total = bannersBean.getBanner().size();
+            for (int i= 0;i < total;i++){
+                if(i == position%total) {
+                    ll_home_point.getChildAt(i).setEnabled(false);
+                }else {
+                    ll_home_point.getChildAt(i).setEnabled(true);
+                }
+            }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (imageList.size() > 1) {
+            if (bannersBean!= null && bannersBean.getBanner().size() > 1) {
                 if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                     handler.removeMessages(WHAT);
                 } else if (state == ViewPager.SCROLL_STATE_IDLE) {
@@ -743,6 +968,7 @@ public class HomePager extends BaseNoTrackPager {
     @Override
     public void onResume() {
         super.onResume();
+        handler.removeCallbacksAndMessages(null);
         handler.sendEmptyMessageDelayed(WHAT, 5000);
         if (mStringArray != null && mStringArray.size() > 0) {
             handler.sendEmptyMessageDelayed(WHAT_AUTO, 5000);

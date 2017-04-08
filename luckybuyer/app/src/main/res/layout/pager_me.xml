@@ -180,7 +180,8 @@
                 android:layout_below="@+id/rl_me_title"
                 android:background="#ffffff"
                 tl:tabSelectedTextColor="@color/all_orange"
-                tl:tabIndicatorHeight="@dimen/dimen_2"
+                tl:tabIndicatorColor="@color/all_orange"
+                tl:tabIndicatorHeight="@dimen/dimen_1"
                 tl:tabMode="fixed"></android.support.design.widget.TabLayout>
             <!--2.tabIndicatorColor：TabLayout指示器的颜色-->
             <!--3.tabIndicatorHeight：TabLayout指示器高度-->

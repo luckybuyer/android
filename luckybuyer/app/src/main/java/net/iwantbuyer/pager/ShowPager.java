@@ -93,7 +93,7 @@ public class ShowPager extends BaseNoTrackPager{
 
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -215,7 +215,7 @@ public class ShowPager extends BaseNoTrackPager{
 
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
-                        public void success(final String string) {
+                        public void success(final String string,String link) {
                             ((Activity) context).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {

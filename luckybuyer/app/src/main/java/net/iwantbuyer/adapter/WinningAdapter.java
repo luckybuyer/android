@@ -110,7 +110,7 @@ public class WinningAdapter extends RecyclerView.Adapter<WinningAdapter.ViewHold
                     final String finalToken = token;
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                                 @Override
-                                public void success(final String response) {
+                                public void success(final String response,String link) {
 
                                     ((Activity) context).runOnUiThread(
                                             new Runnable() {

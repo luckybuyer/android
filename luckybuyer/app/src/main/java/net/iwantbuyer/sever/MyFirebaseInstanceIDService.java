@@ -86,7 +86,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response) {
+            public void success(final String response,String link) {
             }
 
             @Override
