@@ -14,6 +14,7 @@
         android:id="@+id/riv_show_head"
         android:layout_width="@dimen/dimen_46"
         android:layout_height="@dimen/dimen_46"
+        android:layout_marginLeft="@dimen/dimen_20"
         android:layout_marginTop="@dimen/dimen_50"
         android:src="@drawable/default_icon" />
 
@@ -36,10 +37,12 @@
         android:layout_alignParentRight="true"
         android:layout_marginTop="@dimen/dimen_62"
         android:text="2016-11-28  15:31"
+        android:layout_marginRight="@dimen/dimen_20"
         android:textColor="#969696"
         android:textSize="@dimen/dimen_22" />
 
     <TextView
+        android:layout_marginLeft="@dimen/dimen_20"
         android:paddingTop="@dimen/dimen_4"
         android:paddingBottom="@dimen/dimen_4"
         android:id="@+id/tv_show_title"
@@ -51,6 +54,7 @@
         android:textSize="@dimen/dimen_28" />
 
     <ImageView
+        android:layout_marginLeft="@dimen/dimen_20"
         android:id="@+id/iv_show_one"
         android:layout_width="@dimen/dimen_210"
         android:layout_height="@dimen/dimen_210"
@@ -70,10 +74,10 @@
         android:background="@drawable/default_icon" />
 
     <ImageView
+        android:layout_alignRight="@+id/tv_show_time"
         android:id="@+id/iv_show_three"
         android:layout_width="@dimen/dimen_210"
         android:layout_height="@dimen/dimen_210"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/tv_show_title"
         android:layout_marginTop="@dimen/dimen_9"
         android:background="@drawable/default_icon" />

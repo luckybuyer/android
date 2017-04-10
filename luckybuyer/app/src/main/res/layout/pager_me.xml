@@ -20,71 +20,71 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <View
-                android:id="@+id/view_me_top"
-                android:layout_width="match_parent"
-                android:layout_height="1px"></View>
 
             <RelativeLayout
                 android:id="@+id/rl_me_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/view_me_top"
-                android:background="#E9E6E8">
-
-                <net.iwantbuyer.view.CircleImageView
-                    android:layout_width="@dimen/dimen_128"
-                    android:layout_height="@dimen/dimen_128"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dimen_80"
-                    android:background="@drawable/civ_shape" />
-
-                <net.iwantbuyer.view.CircleImageView
-                    android:id="@+id/civ_me_header"
-                    android:layout_width="@dimen/dimen_120"
-                    android:layout_height="@dimen/dimen_120"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dimen_84"
-                    android:src="@drawable/default_icon" />
+                android:background="#ffffff">
 
                 <ImageView
-                    android:id="@+id/iv_me_voice"
-                    android:layout_width="@dimen/dimen_62"
-                    android:layout_height="@dimen/dimen_62"
-                    android:layout_marginEnd="@dimen/dimen_110"
-                    android:layout_marginTop="@dimen/dimen_110"
-                    android:layout_toStartOf="@+id/civ_me_header"
-                    android:background="@drawable/me_information" />
+                    android:layout_marginTop="-2px"
+                    android:id="@+id/iv_me_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_260"
+                    android:background="@drawable/me_top" />
 
                 <ImageView
                     android:id="@+id/i_me_set"
-                    android:layout_width="@dimen/dimen_62"
-                    android:layout_height="@dimen/dimen_62"
-                    android:layout_marginStart="@dimen/dimen_110"
-                    android:layout_marginTop="@dimen/dimen_110"
-                    android:layout_toEndOf="@+id/civ_me_header"
+                    android:layout_width="@dimen/dimen_48"
+                    android:layout_height="@dimen/dimen_48"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/dimen_39"
+                    android:layout_marginTop="@dimen/dimen_70"
                     android:background="@drawable/me_set" />
 
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/iv_me_news"
-                    android:layout_width="@dimen/dimen_62"
-                    android:layout_height="@dimen/dimen_62"
-                    android:layout_marginStart="@dimen/dimen_110"
-                    android:layout_marginTop="@dimen/dimen_210"
-                    android:layout_toEndOf="@+id/civ_me_header"
-                    android:background="@drawable/me_set" />
+
+                <net.iwantbuyer.view.CircleImageView
+                    android:id="@+id/civ_me_header"
+                    android:layout_width="@dimen/dimen_147"
+                    android:layout_height="@dimen/dimen_147"
+                    android:layout_marginLeft="@dimen/dimen_57"
+                    android:layout_marginTop="@dimen/dimen_145"
+                    android:background="@drawable/civ_shape" />
+
+                <net.iwantbuyer.view.CircleImageView
+                    android:id="@+id/civ_me_header_src"
+                    android:layout_width="@dimen/dimen_86"
+                    android:layout_height="@dimen/dimen_86"
+                    android:layout_marginLeft="@dimen/dimen_91"
+                    android:layout_marginTop="@dimen/dimen_175"
+                    android:background="@drawable/me_noselector" />
+
+                <TextView
+                    android:id="@+id/tv_me_login"
+                    android:layout_width="@dimen/dimen_235"
+                    android:layout_height="@dimen/dimen_50"
+                    android:layout_marginLeft="@dimen/dimen_69"
+                    android:layout_marginTop="@dimen/dimen_193"
+                    android:layout_toRightOf="@+id/civ_me_header_src"
+                    android:background="@drawable/shape_me_login"
+                    android:gravity="center"
+                    android:text="@string/loginsignout"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/dimen_28"
+                    android:visibility="gone" />
+
 
                 <TextView
                     android:id="@+id/tv_me_name"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_40"
-                    android:layout_below="@+id/civ_me_header"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dimen_20"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dimen_37"
+                    android:layout_marginTop="@dimen/dimen_163"
+                    android:layout_toRightOf="@+id/civ_me_header"
                     android:text="PILItong"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/dimen_30" />
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/dimen_32" />
 
 
                 <TextView
@@ -92,123 +92,114 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_me_name"
-                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/dimen_37"
+                    android:layout_marginTop="@dimen/dimen_12"
+                    android:layout_toRightOf="@+id/civ_me_header"
                     android:text="ID:1000 0001"
-                    android:textColor="#666666"
+                    android:textColor="#ffffff"
                     android:textSize="@dimen/dimen_26" />
 
-                <LinearLayout
-                    android:id="@+id/ll_me_gold"
+
+                <TextView
+                    android:id="@+id/tv_gold"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dimen_40"
-                    android:layout_below="@+id/tv_me_id"
-                    android:layout_centerHorizontal="true">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_me_header"
+                    android:layout_marginLeft="@dimen/dimen_37"
+                    android:layout_marginTop="@dimen/dimen_30"
+                    android:layout_toRightOf="@+id/civ_me_header"
+                    android:text="@string/coins."
+                    android:textColor="#999999"
+                    android:textSize="@dimen/dimen_28" />
 
-                    <TextView
-                        android:id="@+id/tv_gold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/dimen_36"
-                        android:layout_below="@+id/tv_me_fbcode"
-                        android:layout_centerHorizontal="true"
-                        android:text="@string/coins."
-                        android:textColor="#ff9c05"
-                        android:textSize="@dimen/dimen_28" />
+                <TextView
+                    android:id="@+id/tv_me_gold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_me_header"
+                    android:layout_marginTop="@dimen/dimen_30"
+                    android:layout_toRightOf="@+id/tv_gold"
+                    android:text="998"
+                    android:textColor="@color/all_orange"
+                    android:textSize="@dimen/dimen_28" />
 
-                    <TextView
-                        android:id="@+id/tv_me_gold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/dimen_36"
-                        android:layout_below="@+id/tv_me_fbcode"
-                        android:layout_centerHorizontal="true"
-                        android:layout_toEndOf="@+id/tv_gold"
-                        android:text="998"
-                        android:textColor="#ff9c05"
-                        android:textSize="@dimen/dimen_28" />
-                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_me_topup"
+                    android:layout_width="@dimen/dimen_130"
+                    android:layout_height="@dimen/dimen_50"
+                    android:layout_below="@+id/iv_me_header"
+                    android:layout_marginLeft="@dimen/dimen_38"
+                    android:layout_marginTop="@dimen/dimen_21"
+                    android:layout_toRightOf="@+id/tv_me_gold"
+                    android:background="@drawable/shape_rectangle_orange"
+                    android:gravity="center"
+                    android:text="@string/BuyCoins"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/dimen_28" />
 
                 <View
+
                     android:id="@+id/view_shipping"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_2"
-                    android:layout_below="@+id/ll_me_gold"
-                    android:layout_marginEnd="@dimen/dimen_70"
-                    android:layout_marginStart="@dimen/dimen_70"
-                    android:layout_marginTop="@dimen/dimen_20"
-                    android:background="#cccccc"></View>
+                    android:layout_below="@+id/tv_me_topup"
+                    android:layout_marginEnd="@dimen/dimen_40"
+                    android:layout_marginStart="@dimen/dimen_40"
+                    android:layout_marginTop="@dimen/dimen_22"
+                    android:background="#cdcdcd"></View>
 
-                <net.iwantbuyer.view.JustifyTextView
-                    android:id="@+id/jtv_shipinng_facebook"
+                <TextView
+                    android:id="@+id/tv_shipinng_facebook"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/view_shipping"
                     android:layout_marginBottom="@dimen/dimen_34"
                     android:layout_marginEnd="@dimen/dimen_84"
                     android:layout_marginStart="@dimen/dimen_84"
-                    android:layout_marginTop="@dimen/dimen_7"
+                    android:layout_marginTop="@dimen/dimen_16"
                     android:text="@string/facebooklike"
                     android:textColor="#666666"
                     android:textSize="@dimen/dimen_28" />
 
-                <!--<com.inthecheesefactory.lib.fblike.widget.FBLikeView-->
-                <!--android:visibility="gone"-->
-                <!--android:id="@+id/fb_shipping_facebook"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="@dimen/dimen_50"-->
-                <!--android:layout_alignStart="@id/jtv_shipinng_facebook"-->
-                <!--android:layout_below="@+id/jtv_shipinng_facebook"-->
-                <!--android:layout_marginBottom="@dimen/dimen_24"-->
-                <!--android:layout_marginTop="@dimen/dimen_16" />-->
 
                 <com.facebook.share.widget.LikeView
                     android:id="@+id/lv_me"
-                    android:background="#ffffff"
-                    android:layout_marginTop="@dimen/dimen_80"
-                    android:layout_below="@+id/view_shipping"
-                    android:layout_marginBottom="@dimen/dimen_20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/view_shipping"
                     android:layout_alignRight="@+id/view_shipping"
-                    android:layout_alignEnd="@+id/view_shipping"></com.facebook.share.widget.LikeView>
+                    android:layout_below="@+id/iv_me_header"
+                    android:layout_marginBottom="@dimen/dimen_20"
+                    android:layout_marginTop="@dimen/dimen_195"
+                    android:background="#ffffff"></com.facebook.share.widget.LikeView>
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_below="@+id/rl_me_title"
+                android:background="#f8f8f9"
+                android:layout_height="@dimen/dimen_20"></RelativeLayout>
 
             <android.support.design.widget.TabLayout
-                android:id="@+id/tl_me_vpcontrol"
+                android:id="@+id/tl_me"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_100"
                 android:layout_below="@+id/rl_me_title"
+                android:layout_marginTop="@dimen/dimen_20"
                 android:background="#ffffff"
-                tl:tabSelectedTextColor="@color/all_orange"
                 tl:tabIndicatorColor="@color/all_orange"
                 tl:tabIndicatorHeight="@dimen/dimen_1"
-                tl:tabMode="fixed"></android.support.design.widget.TabLayout>
-            <!--2.tabIndicatorColor：TabLayout指示器的颜色-->
-            <!--3.tabIndicatorHeight：TabLayout指示器高度-->
-            <!--4.tabPaddingStart：距离开始的长度-->
-            <!--5.tabPaddingEnd：距离结束的长度-->
-            <!--6.tabBackground：TabLayout背景-->
-            <!--7.tabTextAppearance：TabLayout title字体属性-->
-                <!--/>-->
-            <!--tl:tl_divider_color="@null"-->
-            <!--tl:tl_indicator_color="#ff4f3c"-->
-            <!--tl:tl_indicator_height="@dimen/dimen_4"-->
-            <!--tl:tl_indicator_width_equal_title="true"-->
-            <!--tl:tl_tab_padding="0dp"-->
-            <!--tl:tl_tab_space_equal="true"-->
-            <!--tl:tl_textSelectColor="#ff0000"-->
-            <!--tl:tl_textUnselectColor="#999999"-->
-            <!--tl:tl_underline_color="#ff0000"-->
-            <!--tl:tl_underline_height="0dp"-->
+                tl:tabMode="fixed"
+                tl:tabSelectedTextColor="@color/all_orange"></android.support.design.widget.TabLayout>
 
 
-
-
-            <net.iwantbuyer.view.CustomViewPager
-                android:id="@+id/vp_me"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_me"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tl_me_vpcontrol"
+                android:layout_below="@+id/tl_me"
                 android:background="#ffffff"
                 android:focusable="false"
                 android:focusableInTouchMode="false" />
@@ -217,7 +208,7 @@
                 android:id="@+id/ll_loading_data"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_100"
-                android:layout_below="@+id/vp_me"
+                android:layout_below="@+id/rv_me"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -236,24 +227,21 @@
                     android:textSize="@dimen/dimen_30" />
             </LinearLayout>
 
-
             <RelativeLayout
-                android:id="@+id/rl_keepout"
+                android:id="@+id/rl_list_keepout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/rl_me_title"
-                android:background="@color/f2f2f2"
-                android:visibility="gone">
+                android:layout_height="@dimen/dimen_550"
+                android:layout_below="@+id/tl_me"
+                android:background="@color/f2f2f2">
 
                 <RelativeLayout
-                    android:id="@+id/rl_loading"
+                    android:id="@+id/rl_list_loading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true">
 
                     <ProgressBar
-                        android:id="@+id/pb_loading"
+                        android:id="@+id/pb_list_loading"
                         android:layout_width="@dimen/dimen_60"
                         android:layout_height="@dimen/dimen_60"
                         android:indeterminateDrawable="@drawable/shape_loading" />
@@ -263,14 +251,14 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="@dimen/dimen_8"
-                        android:layout_toEndOf="@+id/pb_loading"
+                        android:layout_toEndOf="@+id/pb_list_loading"
                         android:text="@string/loading..."
                         android:textColor="#000000"
                         android:textSize="@dimen/dimen_32" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/rl_neterror"
+                    android:id="@+id/rl_list_neterror"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -278,7 +266,7 @@
                     android:visibility="gone">
 
                     <ImageView
-                        android:id="@+id/iv_neterror"
+                        android:id="@+id/iv_list_neterror"
                         android:layout_width="@dimen/dimen_300"
                         android:layout_height="@dimen/dimen_315"
                         android:background="@drawable/default_neterror" />
@@ -286,7 +274,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_neterror"
+                        android:layout_below="@+id/iv_list_neterror"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dimen_16"
                         android:text="@string/Networkfailure"
@@ -294,10 +282,10 @@
                         android:textSize="@dimen/dimen_28" />
 
                     <TextView
-                        android:id="@+id/tv_net_again"
+                        android:id="@+id/tv_list_net_again"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_neterror"
+                        android:layout_below="@+id/iv_list_neterror"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dimen_80"
                         android:background="@drawable/shape_radius_4pxoragne"
@@ -312,7 +300,7 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/rl_nodata"
+                    android:id="@+id/rl_list_nodata"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -320,7 +308,7 @@
                     android:visibility="gone">
 
                     <ImageView
-                        android:id="@+id/iv_nodata"
+                        android:id="@+id/iv_list_nodata"
                         android:layout_width="@dimen/dimen_250"
                         android:layout_height="@dimen/dimen_300"
                         android:layout_marginStart="@dimen/dimen_40"
@@ -329,7 +317,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/iv_nodata"
+                        android:layout_below="@+id/iv_list_nodata"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/dimen_16"
                         android:text="@string/nomoredata"

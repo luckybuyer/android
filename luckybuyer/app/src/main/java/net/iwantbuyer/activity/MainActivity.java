@@ -498,7 +498,7 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
                 transaction.hide(currentFragment).show(fg);
-                if (mePager != null && mePager.vp_me != null) {
+                if (mePager != null && mePager.rv_me != null) {
                     mePager.setView();
                     mePager.initData();
                 }

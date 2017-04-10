@@ -438,7 +438,9 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        homeProductAdapter.notifyDataSetChanged();
+                        if(homeProductAdapter !=null) {
+                            homeProductAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
 
@@ -489,7 +491,9 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        homeProductAdapter.notifyDataSetChanged();
+                        if(homeProductAdapter !=null) {
+                            homeProductAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }
@@ -559,7 +563,9 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        homeProductAdapter.notifyDataSetChanged();
+                        if(homeProductAdapter !=null) {
+                            homeProductAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }

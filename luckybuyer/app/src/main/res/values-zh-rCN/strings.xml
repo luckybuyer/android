@@ -256,5 +256,6 @@
     <string name="promat">选择此种支付方式，我们会根据您实际充值金额为您充值。</string>
     <string name="Problem">常见问题</string>
     <string name="product_has_soldout">产品已经出售完~</string>
+    <string name="loginsignout">Login In/Sign Up</string>
 
 </resources>
