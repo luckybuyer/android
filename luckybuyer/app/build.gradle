@@ -72,5 +72,8 @@ dependencies {
     compile 'com.auth0.android:lock-facebook:3.0.1'
     compile 'com.auth0.android:lock-google:1.0.0'
     compile files('libs/PayssionSDK.jar')
+
+    //可缩放图片
+    compile 'com.bm.photoview:library:1.4.1'
 }
 apply plugin: 'com.google.gms.google-services'

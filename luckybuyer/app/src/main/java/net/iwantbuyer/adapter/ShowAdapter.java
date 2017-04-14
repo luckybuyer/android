@@ -21,6 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bm.library.PhotoView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -345,15 +346,19 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            final ImageView imageview = (ImageView) View.inflate(context,R.layout.item_show_viewpager,null);
-            container.addView(imageview);
+            final PhotoView photoView = (PhotoView) View.inflate(context,R.layout.item_show_viewpager,null);
+            photoView.enable();
+//            photoView.setScaleType();
+            container.addView(photoView);
             Glide.with(context).load("https:" + list.get(position)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
                 public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                    imageview.setImageBitmap(resource);
+                    Log.e("TAG_image", "_image" + resource.getWidth() + resource.getHeight());
+                    photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                    photoView.setImageBitmap(resource);
                 }
             });
-            imageview.setOnClickListener(new View.OnClickListener() {
+            photoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(popupWindow.isShowing()) {
@@ -361,7 +366,7 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
                     }
                 }
             });
-            return imageview;
+            return photoView;
         }
     }
 }
