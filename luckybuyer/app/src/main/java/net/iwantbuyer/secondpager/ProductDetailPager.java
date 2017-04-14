@@ -26,6 +26,7 @@ import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -169,19 +170,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
     boolean isNeedNetWaiting = true;
     int mLoopCount = 1;
 
-    private Handler hand = new Handler(){
-        public void handleMessage(Message msg){
-            switch (msg.what) {
-                case WHAT:                                       //轮播
-                    if (productDetailBean != null && productDetailBean.getProduct().getDetail_image_urls().size() == 1) {
-                        return;
-                    }
-                    vp_productdetail.setCurrentItem(vp_productdetail.getCurrentItem() + 1);
-                    hand.sendEmptyMessageDelayed(WHAT, 5000);
-                    break;
-            }
-        }
-    };
 
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -593,6 +581,21 @@ public class ProductDetailPager extends BaseNoTrackPager {
         });
 
         vp_productdetail.addOnPageChangeListener(new MyOnPageChangeListener());
+        vp_productdetail.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        srl_productdetail_refresh.setEnabled(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        srl_productdetail_refresh.setEnabled(true);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     //解析数据
@@ -603,7 +606,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         productDetailBean = gson.fromJson(s, ProductDetailBean.class);
         ((SecondPagerActivity) context).game_id = productDetailBean.getId();
 
-        Log.e("TAG_状态", productDetailBean.getStatus());
+        Log.e("TAG__123", s);
         if ("running".equals(productDetailBean.getStatus())) {
             tv_productdetail_inprogress.setVisibility(View.VISIBLE);
             tv_productdetail_issue.setVisibility(View.VISIBLE);
@@ -701,16 +704,17 @@ public class ProductDetailPager extends BaseNoTrackPager {
             if (i < productDetailBean.getProduct().getDetail_image_urls().size()) {
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
                 lp.gravity = Gravity.CENTER;
-                lp.leftMargin = DensityUtil.px2dip(context, 20);
+                lp.leftMargin = DensityUtil.px2dip(context, 30);
                 imageView.setLayoutParams(lp);
             }
         }
         if (ll_productdetail_point.getChildCount() > 0) {
             ll_productdetail_point.getChildAt(0).setEnabled(false);
         }
-
+        if(productDetailBean.getProduct().getDetail_image_urls().size() ==1) {
+            ll_productdetail_point.setVisibility(View.GONE);
+        }
         vp_productdetail.setAdapter(new ProductDetailImagePageAdapter(context,productDetailBean.getProduct().getDetail_image_urls()));
-        hand.sendEmptyMessageDelayed(WHAT,5000);
 
         tv_productdetail_producttitle.setText(productDetailBean.getProduct().getTitle());
         tv_productdetail_discribe.setText(productDetailBean.getProduct().getDetail());
@@ -1219,16 +1223,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (productDetailBean!= null && productDetailBean.getProduct().getDetail_image_urls().size() > 1) {
-                if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-                    hand.removeMessages(WHAT);
-                } else if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    hand.removeMessages(WHAT);
-                    hand.sendEmptyMessageDelayed(WHAT,5000);
-                } else if (state == ViewPager.SCROLL_STATE_SETTLING) {
-                    hand.removeMessages(WHAT);
-                }
-            }
         }
     }
     private void buyCoins() {
@@ -1505,13 +1499,16 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     public void run() {
                         if (response.length() > 10) {
                             ll_productdetail_buyit.setVisibility(View.VISIBLE);
-                            newData = response.replace("[", "");
-                            newData = newData.replace("]", "");
+//                            newData = response.replace("[", "");
+//                            newData = newData.replace("]", "");
+                            if(response.substring(0,1).equals("[") && response.substring(response.length()-2,response.length()-1).equals("]")) {
+                                newData = response.substring(1,response.length()-2);
+                            }
                         } else {
                             ll_productdetail_buyit.setVisibility(View.VISIBLE);
                             rl_productdetail_indsertcoins.setVisibility(View.GONE);
                             tv_productdetail_sold_discribe.setText(context.getString(R.string.product_has_soldout));
-                            tv_productdetal_again.setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                            tv_productdetal_again.setTextColor(ContextCompat.getColor(context,R.color.ff796b));
                             tv_productdetal_again.setEnabled(false);
                             Log.e("TAG_newdata", "进没进来");
                         }
@@ -1560,13 +1557,11 @@ public class ProductDetailPager extends BaseNoTrackPager {
     public void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
-        hand.removeCallbacksAndMessages(null);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         handler.sendEmptyMessageDelayed(WHAT_AUTO,3000);
-        hand.sendEmptyMessageDelayed(WHAT_AUTO,5000);
     }
 }

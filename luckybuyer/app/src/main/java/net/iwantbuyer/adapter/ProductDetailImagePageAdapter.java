@@ -14,6 +14,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 
+import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.bean.BannersBean;
@@ -50,18 +51,21 @@ public class ProductDetailImagePageAdapter extends PagerAdapter {
         for (int i = 0; i < gameList.size(); i++) {
             String detail_image = "https:" + gameList.get(i);
             Log.e("TAG_detail", detail_image);
-            final ImageView image_header = new ImageView(context);
-            if (!((SecondPagerActivity) context).isDestroyed()) {
-                Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        image_header.setImageBitmap(resource);
-                    }
-                });
+            ImageView imageView = (ImageView) View.inflate(context, R.layout.item_productdetail_pager,null);
+//            final ImageView image_header = new ImageView(context);
+//            if (!((SecondPagerActivity) context).isDestroyed()) {
+//                Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+//                    @Override
+//                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+//                        image_header.setImageBitmap(resource);
+//                    }
+//                });
+//            }
+            if(!((SecondPagerActivity)context).isDestroyed()) {
+                Glide.with(context).load(detail_image).into(imageView).onStart();
             }
 
-//            Glide.with(context).load(detail_image).into(image_header);
-            this.list.add(image_header);
+            this.list.add(imageView);
         }
     }
 

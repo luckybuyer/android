@@ -18,6 +18,7 @@
             android:background="#ffffff"
             android:ellipsize="end"
             android:singleLine="true"
+            android:layout_marginRight="@dimen/dimen_60"
             android:maxLines="1"
             android:text="1. Learn Anout Lucky buyer"
             android:textColor="#333333"
@@ -53,6 +54,7 @@
         android:paddingTop="@dimen/dimen_24"
         android:text="You can check it from Me AND you will be notified by the push message if you are the winner."
         android:textColor="#999999"
-        android:textSize="@dimen/dimen_24" />
+        android:lineSpacingExtra="@dimen/dimen_5"
+        android:textSize="@dimen/dimen_28" />
 
 </RelativeLayout>

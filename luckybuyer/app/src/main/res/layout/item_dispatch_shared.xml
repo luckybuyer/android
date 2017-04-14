@@ -28,6 +28,6 @@
         android:paddingEnd="@dimen/dimen_35"
         android:paddingStart="@dimen/dimen_35"
         android:text="@string/Send"
-        android:textColor="#cccccc"
+        android:textColor="#ffffff"
         android:textSize="@dimen/dimen_30" />
 </RelativeLayout>

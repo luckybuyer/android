@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_46"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/dimen_18"
             android:layout_marginTop="@dimen/dimen_52"
@@ -50,7 +50,7 @@
 
             android:text="@string/Send"
 
-            android:textColor="@color/selecotr_addaddress_save_textcolor"
+            android:textColor="#ffffff"
 
             android:textSize="@dimen/dimen_32" />
 

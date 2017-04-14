@@ -105,7 +105,8 @@ public class HomeImagePageAdapter extends PagerAdapter {
                 Intent intent = new Intent(context, SecondPagerActivity.class);
                 intent.putExtra("from", "productdetail");
                 intent.putExtra("game_id", -1);
-                intent.putExtra("batch_id", gameList.get(position % list.size()).getBatch_id());
+                Log.e("TAG_home", position + "==" + list.size() + "--" + position%list.size());
+                intent.putExtra("batch_id", gameList.get(position % gameList.size()).getBatch_id());
                 context.startActivity(intent);
 
             }

@@ -180,6 +180,7 @@ public class ShowPager extends BaseNoTrackPager{
         response = "{\"show\":" + response + "}";
         ShownBean shownBean = gson.fromJson(response, ShownBean.class);
 
+        Log.e("TAG_show", response);
         final ShowAdapter showAdapter = new ShowAdapter(context,shownBean.getShow(),view_show);
         rv_show.setAdapter(showAdapter);
         rv_show.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false){

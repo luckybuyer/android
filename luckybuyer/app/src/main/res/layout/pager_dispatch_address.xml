@@ -32,4 +32,5 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="@dimen/dimen_24"
         android:layout_height="@dimen/dimen_22" />
+
 </RelativeLayout>

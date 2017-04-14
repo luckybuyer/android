@@ -2,20 +2,17 @@ package net.iwantbuyer.pager;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -29,40 +26,30 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.LikeView;
-import com.facebook.share.widget.ShareDialog;
-import com.flyco.tablayout.SlidingTabLayout;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
-import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.adapter.MePagerAllAdapter;
 import net.iwantbuyer.adapter.MePagerLuckyAdapter;
-import net.iwantbuyer.adapter.MePagerViewPagerAdapter;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.bean.AllOrderBean;
-import net.iwantbuyer.bean.GameProductBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.utils.DensityUtil;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
 import net.iwantbuyer.view.BottomScrollView;
 import net.iwantbuyer.view.CircleImageView;
-import net.iwantbuyer.view.CustomViewPager;
 
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by admin on 2016/9/13.
@@ -71,6 +58,7 @@ public class MePager extends BaseNoTrackPager {
 
     public RelativeLayout rl_me_title;
     private CircleImageView civ_me_header;
+    private CircleImageView civ_me_header_src;
     private ImageView i_me_set;                  //设置
     private TextView tv_me_name;
     private TextView tv_me_gold;
@@ -80,6 +68,7 @@ public class MePager extends BaseNoTrackPager {
     private TextView tv_me_topup;
     private TextView tv_me_login;
     public View inflate;
+    private RelativeLayout rl_me_coins;
 
     //下拉加载更多
     private LinearLayout ll_loading_data;
@@ -115,6 +104,7 @@ public class MePager extends BaseNoTrackPager {
         inflate = View.inflate(context, R.layout.pager_me, null);
         findView();
         token = Utils.getSpData("token", context);
+        Log.e("TAG_me", token + "");
         setView();
 
 
@@ -122,13 +112,6 @@ public class MePager extends BaseNoTrackPager {
         Map<String, Object> eventValue = new HashMap<String, Object>();
         AppsFlyerLib.getInstance().trackEvent(context, "PAGE: Me", eventValue);
 
-        FacebookSdk.sdkInitialize(context);
-        AppEventsLogger.activateApp(context);
-//        FacebookSdk.isInitialized()
-        LikeView likeView = (LikeView) inflate.findViewById(R.id.lv_me);
-        likeView.setObjectIdAndType(
-                "https://www.facebook.com/luckybuyer.net",
-                LikeView.ObjectType.PAGE);
 
 
         return inflate;
@@ -139,10 +122,33 @@ public class MePager extends BaseNoTrackPager {
     public void initData() {
         super.initData();
         String token = Utils.getSpData("token", context);
-        Login(token);
 
-        startAll(token);
+        if (token == null) {
 
+        } else {
+            Login(token);
+            startAll(token);
+        }
+
+        if(token != null) {
+
+            FacebookSdk.sdkInitialize(context);
+            AppEventsLogger.activateApp(context);
+//        FacebookSdk.isInitialized()
+//            LikeView likeView = (LikeView) inflate.findViewById(R.id.lv_me);
+
+            Log.e("TAG——likeview", "进来lockview了");
+            LikeView likeView = new LikeView(context);
+            likeView.setObjectIdAndType(
+                    "https://www.facebook.com/luckybuyer.net",
+                    LikeView.ObjectType.PAGE);
+
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.dimen_135), (int) getResources().getDimension(R.dimen.dimen_60));
+            likeView.setLayoutParams(lp);
+
+            ((RelativeLayout)inflate.findViewById(R.id.rl_me)).setVisibility(View.VISIBLE);
+            ((RelativeLayout)inflate.findViewById(R.id.rl_me)).addView(likeView);
+        }
 
     }
 
@@ -398,7 +404,6 @@ public class MePager extends BaseNoTrackPager {
                 }
 
                 if (link.contains("rel=\"next\"") && isNeedpull && isBottom && !next.equals(last)) {
-                    Log.e("TAG_link...", link);
                     isNeedpull = false;
                     ll_loading_data.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
@@ -421,6 +426,16 @@ public class MePager extends BaseNoTrackPager {
                             ll_loading_data.setVisibility(View.GONE);
                         }
                     }, 3000);
+                }else if(!link.contentEquals("rel=\"next\"")) {
+                    ll_loading_data.setVisibility(View.VISIBLE);
+                    pb_loading_data.setVisibility(View.GONE);
+                    tv_loading_data.setText(context.getString(R.string.nomoredata));
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ll_loading_data.setVisibility(View.GONE);
+                        }
+                    }, 3000);
                 }
 
 
@@ -430,204 +445,13 @@ public class MePager extends BaseNoTrackPager {
 
     }
 
-    boolean isMoreLData = true;
-    boolean isuckyLuckyNeedpull = true;
-    int luckyPage = 2;
-
-    boolean isMoreData = true;
     boolean isNeedpull = true;
-    int page = 2;
 
-    private void getMoreData(final Gson gson, final MePagerLuckyAdapter mePagerLuckyAdapter, final MePagerAllAdapter mePagerAllAdapter) {
-        sv_me.setOnScrollToBottomLintener(new BottomScrollView.OnScrollToBottomListener() {
-            @Override
-            public void onScrollBottomListener(boolean isBottom) {
-                if (isBottom && isMoreLData && isuckyLuckyNeedpull) {
-                    ll_loading_data.setVisibility(View.VISIBLE);
-                    pb_loading_data.setVisibility(View.VISIBLE);
-                    tv_loading_data.setText(context.getString(R.string.loading___));
-
-                    isuckyLuckyNeedpull = false;
-                    String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=" + luckyPage + "&timezone=" + MyApplication.utc;
-                    Map map = new HashMap<String, String>();
-                    String token = Utils.getSpData("token", context);
-                    map.put("Authorization", "Bearer " + token);
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
-                    //请求登陆接口
-                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
-                                @Override
-                                public void success(final String response, String link) {
-                                    ((Activity) context).runOnUiThread(
-                                            new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    isuckyLuckyNeedpull = true;
-                                                    if (response.length() > 10) {
-                                                        String res = "{\"allorder\":" + response + "}";
-                                                        AllOrderBean luckyOrder = gson.fromJson(res, AllOrderBean.class);
-                                                        for (int i = 0; i < luckyOrder.getAllorder().size(); i++) {
-                                                            mePagerLuckyAdapter.list.add(luckyOrder.getAllorder().get(i));
-                                                            if (i == luckyOrder.getAllorder().size() - 1) {
-                                                                mePagerLuckyAdapter.notifyDataSetChanged();
-                                                            }
-                                                        }
-                                                        if (luckyOrder.getAllorder().size() < 20) {
-                                                            isMoreData = false;
-                                                        }
-                                                        luckyPage++;
-                                                    } else {
-                                                        ll_loading_data.setVisibility(View.VISIBLE);
-                                                        pb_loading_data.setVisibility(View.GONE);
-                                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded));
-                                                        handler.postDelayed(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                ll_loading_data.setVisibility(View.GONE);
-                                                            }
-                                                        }, 3000);
-                                                    }
-
-                                                }
-                                            }
-                                    );
-                                }
-
-                                @Override
-                                public void error(int requestCode, String message) {
-                                    ((Activity) context).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            isNeedpull = true;
-                                            pb_loading_data.setVisibility(View.GONE);
-                                            tv_loading_data.setText(context.getString(R.string.Networkfailure));
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    ll_loading_data.setVisibility(View.GONE);
-                                                }
-                                            }, 3000);
-
-                                        }
-                                    });
-                                }
-
-                                @Override
-                                public void failure(Exception exception) {
-                                    ((Activity) context).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            isNeedpull = true;
-                                            pb_loading_data.setVisibility(View.GONE);
-                                            tv_loading_data.setText(context.getString(R.string.Networkfailure));
-                                            handler.postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    ll_loading_data.setVisibility(View.GONE);
-                                                }
-                                            }, 3000);
-                                        }
-                                    });
-                                }
-                            }
-
-
-                    );
-                }
-
-
-                if (isBottom && isMoreData && isNeedpull) {
-                    ll_loading_data.setVisibility(View.VISIBLE);
-                    pb_loading_data.setVisibility(View.VISIBLE);
-                    tv_loading_data.setText(context.getString(R.string.loading___));
-
-                    isNeedpull = false;
-                    String token = Utils.getSpData("token", context);
-                    String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=" + page + "&timezone=" + MyApplication.utc;
-                    Log.e("TAG", url);
-                    Map map = new HashMap<String, String>();
-                    map.put("Authorization", "Bearer " + token);
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
-                    HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
-                        @Override
-                        public void success(final String string, String link) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    isNeedpull = true;
-                                    if (string.length() > 10) {
-                                        String res = "{\"allorder\":" + string + "}";
-                                        AllOrderBean allOrderBean = gson.fromJson(res, AllOrderBean.class);
-                                        for (int i = 0; i < allOrderBean.getAllorder().size(); i++) {
-                                            mePagerAllAdapter.list.add(allOrderBean.getAllorder().get(i));
-                                            if (i == allOrderBean.getAllorder().size() - 1) {
-                                                mePagerAllAdapter.notifyDataSetChanged();
-                                            }
-                                        }
-                                        if (allOrderBean.getAllorder().size() < 20) {
-                                            isMoreData = false;
-                                        }
-                                        page++;
-                                    } else {
-                                        ll_loading_data.setVisibility(View.VISIBLE);
-                                        pb_loading_data.setVisibility(View.GONE);
-                                        tv_loading_data.setText(context.getString(R.string.Alreadyfullyloaded));
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                ll_loading_data.setVisibility(View.GONE);
-                                            }
-                                        }, 3000);
-                                    }
-
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void error(final int requestCode, final String message) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    isNeedpull = true;
-                                    pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ll_loading_data.setVisibility(View.GONE);
-                                        }
-                                    }, 3000);
-                                }
-                            });
-                        }
-
-                        @Override
-                        public void failure(Exception exception) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    isNeedpull = true;
-                                    pb_loading_data.setVisibility(View.GONE);
-                                    tv_loading_data.setText(context.getString(R.string.Networkfailure));
-                                    handler.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            ll_loading_data.setVisibility(View.GONE);
-                                        }
-                                    }, 3000);
-                                }
-                            });
-
-                        }
-                    });
-                }
-            }
-        });
-    }
 
     private void findView() {
         rl_me_title = (RelativeLayout) inflate.findViewById(R.id.rl_me_title);
         civ_me_header = (CircleImageView) inflate.findViewById(R.id.civ_me_header);
+        civ_me_header_src = (CircleImageView) inflate.findViewById(R.id.civ_me_header_src);
         i_me_set = (ImageView) inflate.findViewById(R.id.i_me_set);
         tv_me_name = (TextView) inflate.findViewById(R.id.tv_me_name);
         tv_me_gold = (TextView) inflate.findViewById(R.id.tv_me_gold);
@@ -646,6 +470,7 @@ public class MePager extends BaseNoTrackPager {
         ll_loading_data = (LinearLayout) inflate.findViewById(R.id.ll_loading_data);
         pb_loading_data = (ProgressBar) inflate.findViewById(R.id.pb_loading_data);
         tv_loading_data = (TextView) inflate.findViewById(R.id.tv_loading_data);
+        rl_me_coins = (RelativeLayout) inflate.findViewById(R.id.rl_me_coins);
 
         tv_me_id = (TextView) inflate.findViewById(R.id.tv_me_id);                                  //用户id
 
@@ -654,6 +479,7 @@ public class MePager extends BaseNoTrackPager {
         tv_me_login.setOnClickListener(new MyOnClickListener());
         tv_me_topup.setOnClickListener(new MyOnClickListener());
         tv_list_net_again.setOnClickListener(new MyOnClickListener());
+        rl_me_coins.setOnClickListener(new MyOnClickListener());
 
         tl_me.addTab(tl_me.newTab().setText(context.getString(R.string.All)), 0);
         tl_me.addTab(tl_me.newTab().setText(context.getString(R.string.LuckyRecords)), 1);
@@ -704,12 +530,21 @@ public class MePager extends BaseNoTrackPager {
             tv_me_name.setVisibility(View.GONE);
             tv_me_gold.setText("0");
             tv_me_login.setVisibility(View.VISIBLE);
-        } else {
+
+            civ_me_header_src.setVisibility(View.VISIBLE);
+            civ_me_header.setImageResource(R.drawable.civ_shape);
+            rl_list_keepout.setVisibility(View.VISIBLE);
+            rl_list_nodata.setVisibility(View.VISIBLE);
+            rl_list_neterror.setVisibility(View.GONE);
+            rl_list_loading.setVisibility(View.GONE);
+
+        } else if(Utils.getSpData("id", context) != null){
             String user_id = Utils.getSpData("user_id", context);
             String id__ = Utils.getSpData("id", context);
             String balance = Utils.getSpData("balance", context);
             String name = Utils.getSpData("name", context);
             final String picture = Utils.getSpData("picture", context);
+
 
             //增加id
             int id = Integer.parseInt(id__) + 10000000;
@@ -723,6 +558,11 @@ public class MePager extends BaseNoTrackPager {
                 }
 
             }
+            tv_me_id.setVisibility(View.VISIBLE);
+            tv_me_name.setVisibility(View.VISIBLE);
+            tv_me_login.setVisibility(View.GONE);
+            civ_me_header_src.setVisibility(View.GONE);
+
             tv_me_id.setText(context.getString(R.string.ID_) + _id);
             tv_me_name.setText(name);
             tv_me_gold.setText("" + balance);
@@ -736,7 +576,6 @@ public class MePager extends BaseNoTrackPager {
             }
 
         }
-
 
     }
 
@@ -761,12 +600,13 @@ public class MePager extends BaseNoTrackPager {
                     break;
                 case R.id.tv_me_topup:
                     intent = new Intent(context, SecondPagerActivity.class);
-                    intent.putExtra("from", "coindetailpager");
+                    intent.putExtra("from", "buycoins");
                     startActivity(intent);
                     break;
                 case R.id.tv_me_login:
                     //登录
                     context.startActivity(((MainActivity) context).lock.newIntent(((MainActivity) context)));
+//
                     //AppFlyer 埋点
                     Map eventValue = new HashMap<String, Object>();
                     AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
@@ -778,6 +618,11 @@ public class MePager extends BaseNoTrackPager {
                     } else if (id == 1) {
                         startLucky(token);
                     }
+                    break;
+                case R.id.rl_me_coins:
+                    intent = new Intent(context, SecondPagerActivity.class);
+                    intent.putExtra("from", "coindetailpager");
+                    startActivity(intent);
                     break;
             }
         }

@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="@dimen/dimen_180"
     android:gravity="center"
-    android:background="@drawable/rounded_corners_background"
+    android:background="@drawable/shape_httputils"
     android:layout_height="@dimen/dimen_80">
 
 

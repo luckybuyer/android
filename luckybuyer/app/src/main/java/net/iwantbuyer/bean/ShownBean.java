@@ -7,14 +7,6 @@ import java.util.List;
  */
 public class ShownBean {
 
-    /**
-     * _resource : Post
-     * content : Shahs
-     * created_at : 2016-12-09T10:15:53.583386+00:00
-     * id : 12
-     * images : ["//static-staging.luckybuyer.net/social/images/6f07a94df0af4dfab289deebaefdbd8d","//static-staging.luckybuyer.net/social/images/91acad33b8584ede9a9f57082e3852a0","//static-staging.luckybuyer.net/social/images/65cd8f4983374a13af179cf6e7a04fac.png"]
-     * user : {"_resource":"PublicUser","id":10,"profile":{"locale":"en_US","name":"Carol","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/14517544_1831029820460827_2354002370786964344_n.jpg?oh=131e1afcecf169923111aa16634792c7&oe=58BAD4BA","social_link":"https://www.facebook.com/app_scoped_user_id/1830467243850418/","timezone":"+08:00"}}
-     */
 
     private List<ShowBean> show;
 
@@ -27,16 +19,23 @@ public class ShownBean {
     }
 
     public static class ShowBean {
+        /**
+         * _resource : Post
+         * content : hdhsh
+         * created_at : 2017-03-31T10:50:52.584980+08:00
+         * game_issue_id : 199
+         * id : 82
+         * images : ["//static-staging.luckybuyer.net/social/images/655452b8acd1411891e0151a550ccbb0.jpeg"]
+         * product_title : 杨树宇来来来
+         * user : {"_resource":"PublicUser","id":648,"profile":{"locale":null,"name":"杨树宇","picture":"https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png","social_link":"https://twitter.com/intent/user?user_id=818725636785119234","timezone":null}}
+         */
+
         private String _resource;
         private String content;
         private String created_at;
+        private int game_issue_id;
         private int id;
-        /**
-         * _resource : PublicUser
-         * id : 10
-         * profile : {"locale":"en_US","name":"Carol","picture":"https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/14517544_1831029820460827_2354002370786964344_n.jpg?oh=131e1afcecf169923111aa16634792c7&oe=58BAD4BA","social_link":"https://www.facebook.com/app_scoped_user_id/1830467243850418/","timezone":"+08:00"}
-         */
-
+        private String product_title;
         private UserBean user;
         private List<String> images;
 
@@ -64,12 +63,28 @@ public class ShownBean {
             this.created_at = created_at;
         }
 
+        public int getGame_issue_id() {
+            return game_issue_id;
+        }
+
+        public void setGame_issue_id(int game_issue_id) {
+            this.game_issue_id = game_issue_id;
+        }
+
         public int getId() {
             return id;
         }
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public String getProduct_title() {
+            return product_title;
+        }
+
+        public void setProduct_title(String product_title) {
+            this.product_title = product_title;
         }
 
         public UserBean getUser() {
@@ -89,16 +104,14 @@ public class ShownBean {
         }
 
         public static class UserBean {
-            private String _resource;
-            private int id;
             /**
-             * locale : en_US
-             * name : Carol
-             * picture : https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/14517544_1831029820460827_2354002370786964344_n.jpg?oh=131e1afcecf169923111aa16634792c7&oe=58BAD4BA
-             * social_link : https://www.facebook.com/app_scoped_user_id/1830467243850418/
-             * timezone : +08:00
+             * _resource : PublicUser
+             * id : 648
+             * profile : {"locale":null,"name":"杨树宇","picture":"https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png","social_link":"https://twitter.com/intent/user?user_id=818725636785119234","timezone":null}
              */
 
+            private String _resource;
+            private int id;
             private ProfileBean profile;
 
             public String get_resource() {
@@ -126,17 +139,25 @@ public class ShownBean {
             }
 
             public static class ProfileBean {
-                private String locale;
+                /**
+                 * locale : null
+                 * name : 杨树宇
+                 * picture : https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png
+                 * social_link : https://twitter.com/intent/user?user_id=818725636785119234
+                 * timezone : null
+                 */
+
+                private Object locale;
                 private String name;
                 private String picture;
                 private String social_link;
-                private String timezone;
+                private Object timezone;
 
-                public String getLocale() {
+                public Object getLocale() {
                     return locale;
                 }
 
-                public void setLocale(String locale) {
+                public void setLocale(Object locale) {
                     this.locale = locale;
                 }
 
@@ -164,11 +185,11 @@ public class ShownBean {
                     this.social_link = social_link;
                 }
 
-                public String getTimezone() {
+                public Object getTimezone() {
                     return timezone;
                 }
 
-                public void setTimezone(String timezone) {
+                public void setTimezone(Object timezone) {
                     this.timezone = timezone;
                 }
             }

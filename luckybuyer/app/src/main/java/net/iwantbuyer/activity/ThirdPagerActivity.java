@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -22,6 +24,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.util.Util;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -52,6 +55,7 @@ public class ThirdPagerActivity extends FragmentActivity {
 
     public int batch_id;
     public FragmentManager fragmentManager;
+    private RelativeLayout rl_thirdpager;
 
     public String language;
     public String country;
@@ -67,8 +71,9 @@ public class ThirdPagerActivity extends FragmentActivity {
         //透明导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_third_pager);
-        batch_id = getIntent().getIntExtra("batch_id", -1);
 
+        rl_thirdpager = (RelativeLayout) findViewById(R.id.rl_thirdpager);
+        batch_id = getIntent().getIntExtra("batch_id", -1);
         title_image = getIntent().getStringExtra("title_image");
         title = getIntent().getStringExtra("title");
         user_id = getIntent().getIntExtra("user_id", -1);
@@ -76,6 +81,12 @@ public class ThirdPagerActivity extends FragmentActivity {
         product_id = getIntent().getIntExtra("product_id", -1);
         setData();
         selectPager();
+
+        if (Utils.checkDeviceHasNavigationBar(ThirdPagerActivity.this)) {
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(ThirdPagerActivity.this));
+            lp.topMargin = Utils.getScreenHeight(this);
+            rl_thirdpager.setLayoutParams(lp);
+        }
     }
 
     //设置数据
@@ -124,7 +135,7 @@ public class ThirdPagerActivity extends FragmentActivity {
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fl_third, fragment);
-        if (checkedId != 0 && checkedId != 1 && checkedId != 2 && checkedId != 4 && checkedId != 6) {
+        if (checkedId != 0 && checkedId != 1 && checkedId != 2 && checkedId != 4 && checkedId != 6&& checkedId != 7) {
             fragmentTransaction.addToBackStack(null);
         }
         fragmentTransaction.commit();

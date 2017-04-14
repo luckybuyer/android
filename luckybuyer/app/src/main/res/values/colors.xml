@@ -40,4 +40,8 @@
 
     <color name="auth0_header">#F0F0F0</color>
     <color name="fcblue">#4967B4</color>
+    <color name="f8f8f8">#F8F8F8</color>
+    <color name="faeeee">#faeeee</color>
+    <color name="ff8080">#ff8080</color>
+    <color name="ff796b">#FF796B</color>
 </resources>

@@ -49,7 +49,7 @@
             android:gravity="center"
             android:paddingBottom="@dimen/dimen_24"
             android:text="@string/Apply"
-            android:textColor="@color/selecotr_addaddress_save_textcolor"
+            android:textColor="#ffffff"
             android:textSize="@dimen/dimen_32" />
 
         <ImageView

@@ -28,10 +28,10 @@
                 android:background="#ffffff">
 
                 <ImageView
-                    android:layout_marginTop="-2px"
                     android:id="@+id/iv_me_header"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dimen_260"
+                    android:layout_marginTop="-2px"
                     android:background="@drawable/me_top" />
 
                 <ImageView
@@ -64,9 +64,9 @@
                     android:id="@+id/tv_me_login"
                     android:layout_width="@dimen/dimen_235"
                     android:layout_height="@dimen/dimen_50"
-                    android:layout_marginLeft="@dimen/dimen_69"
+                    android:layout_marginLeft="@dimen/dimen_36"
                     android:layout_marginTop="@dimen/dimen_193"
-                    android:layout_toRightOf="@+id/civ_me_header_src"
+                    android:layout_toRightOf="@+id/civ_me_header"
                     android:background="@drawable/shape_me_login"
                     android:gravity="center"
                     android:text="@string/loginsignout"
@@ -100,38 +100,42 @@
                     android:textSize="@dimen/dimen_26" />
 
 
-                <TextView
-                    android:id="@+id/tv_gold"
+                <RelativeLayout
+                    android:id="@+id/rl_me_coins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/iv_me_header"
                     android:layout_marginLeft="@dimen/dimen_37"
                     android:layout_marginTop="@dimen/dimen_30"
-                    android:layout_toRightOf="@+id/civ_me_header"
-                    android:text="@string/coins."
-                    android:textColor="#999999"
-                    android:textSize="@dimen/dimen_28" />
+                    android:layout_toRightOf="@+id/civ_me_header">
 
-                <TextView
-                    android:id="@+id/tv_me_gold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_me_header"
-                    android:layout_marginTop="@dimen/dimen_30"
-                    android:layout_toRightOf="@+id/tv_gold"
-                    android:text="998"
-                    android:textColor="@color/all_orange"
-                    android:textSize="@dimen/dimen_28" />
+                    <TextView
+                        android:id="@+id/tv_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/coins."
+                        android:textColor="#999999"
+                        android:textSize="@dimen/dimen_28" />
+
+                    <TextView
+                        android:id="@+id/tv_me_gold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tv_gold"
+                        android:text="998"
+                        android:textColor="@color/all_orange"
+                        android:textSize="@dimen/dimen_28" />
+                </RelativeLayout>
 
 
                 <TextView
                     android:id="@+id/tv_me_topup"
-                    android:layout_width="@dimen/dimen_130"
+                    android:layout_width="@dimen/dimen_160"
                     android:layout_height="@dimen/dimen_50"
                     android:layout_below="@+id/iv_me_header"
                     android:layout_marginLeft="@dimen/dimen_38"
                     android:layout_marginTop="@dimen/dimen_21"
-                    android:layout_toRightOf="@+id/tv_me_gold"
+                    android:layout_toRightOf="@+id/rl_me_coins"
                     android:background="@drawable/shape_rectangle_orange"
                     android:gravity="center"
                     android:text="@string/BuyCoins"
@@ -142,7 +146,7 @@
 
                     android:id="@+id/view_shipping"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen_2"
+                    android:layout_height="@dimen/dimen_1"
                     android:layout_below="@+id/tv_me_topup"
                     android:layout_marginEnd="@dimen/dimen_40"
                     android:layout_marginStart="@dimen/dimen_40"
@@ -163,24 +167,35 @@
                     android:textSize="@dimen/dimen_28" />
 
 
-                <com.facebook.share.widget.LikeView
-                    android:id="@+id/lv_me"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <!--<com.facebook.share.widget.LikeView-->
+                <!--android:id="@+id/lv_me"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignEnd="@+id/view_shipping"-->
+                <!--android:layout_alignRight="@+id/view_shipping"-->
+                <!--android:layout_below="@+id/iv_me_header"-->
+                <!--android:layout_marginBottom="@dimen/dimen_20"-->
+                <!--android:layout_marginTop="@dimen/dimen_195"-->
+                <!--android:background="#ffffff"></com.facebook.share.widget.LikeView>-->
+                <RelativeLayout
+                    android:id="@+id/rl_me"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/dimen_135"
+                    android:layout_height="@dimen/dimen_60"
                     android:layout_alignEnd="@+id/view_shipping"
                     android:layout_alignRight="@+id/view_shipping"
                     android:layout_below="@+id/iv_me_header"
                     android:layout_marginBottom="@dimen/dimen_20"
                     android:layout_marginTop="@dimen/dimen_195"
-                    android:background="#ffffff"></com.facebook.share.widget.LikeView>
+                    android:background="#ffffff"></RelativeLayout>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_20"
                 android:layout_below="@+id/rl_me_title"
-                android:background="#f8f8f9"
-                android:layout_height="@dimen/dimen_20"></RelativeLayout>
+                android:background="#f8f8f9"></RelativeLayout>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tl_me"
@@ -190,7 +205,7 @@
                 android:layout_marginTop="@dimen/dimen_20"
                 android:background="#ffffff"
                 tl:tabIndicatorColor="@color/all_orange"
-                tl:tabIndicatorHeight="@dimen/dimen_1"
+                tl:tabIndicatorHeight="@dimen/dimen_2"
                 tl:tabMode="fixed"
                 tl:tabSelectedTextColor="@color/all_orange"></android.support.design.widget.TabLayout>
 
@@ -259,19 +274,21 @@
 
                 <RelativeLayout
                     android:id="@+id/rl_list_neterror"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/dimen_50"
+                    android:layout_marginTop="@dimen/dimen_20"
                     android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_list_neterror"
                         android:layout_width="@dimen/dimen_300"
                         android:layout_height="@dimen/dimen_315"
+                        android:layout_centerHorizontal="true"
                         android:background="@drawable/default_neterror" />
 
                     <TextView
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/iv_list_neterror"
@@ -282,6 +299,7 @@
                         android:textSize="@dimen/dimen_28" />
 
                     <TextView
+
                         android:id="@+id/tv_list_net_again"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

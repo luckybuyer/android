@@ -21,7 +21,7 @@
             android:layout_width="@dimen/dimen_24"
             android:layout_height="@dimen/dimen_24"
             android:layout_marginLeft="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_8"
+            android:layout_marginTop="@dimen/dimen_5"
             android:background="@drawable/selector_dispatch_point" />
 
         <View

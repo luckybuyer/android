@@ -54,7 +54,7 @@
         <net.iwantbuyer.view.JustifyTextView
             android:id="@+id/jtv_all_discribe"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_72"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/dimen_24"
             android:layout_marginStart="@dimen/dimen_30"
             android:layout_marginTop="@dimen/dimen_40"
@@ -72,6 +72,7 @@
             android:layout_height="@dimen/dimen_36"
             android:layout_below="@id/jtv_all_discribe"
             android:layout_marginStart="@dimen/dimen_30"
+            android:layout_marginTop="@dimen/dimen_15"
             android:layout_toEndOf="@+id/rl_all"
             android:text="@string/Issue."
             android:textColor="#666666"
@@ -81,6 +82,7 @@
             android:id="@+id/tv_all_issue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dimen_36"
+            android:layout_marginTop="@dimen/dimen_16"
             android:layout_below="@id/jtv_all_discribe"
             android:layout_toEndOf="@+id/tv_issue"
             android:text="171754"
@@ -109,6 +111,8 @@
             android:textSize="@dimen/dimen_28" />
 
         <ImageView
+            android:layout_alignTop="@+id/tv_issue"
+            android:paddingLeft="@dimen/dimen_16"
             android:id="@+id/iv_all_goview"
             android:layout_width="@dimen/dimen_12"
             android:layout_height="@dimen/dimen_22"
@@ -119,51 +123,9 @@
             android:background="@drawable/go_go"
             android:textColor="@color/text_black" />
 
-        <TextView
-            android:id="@+id/tv_all_goview"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dimen_32"
-            android:layout_below="@+id/tv_all_issue"
-            android:layout_marginEnd="@dimen/dimen_8"
-            android:layout_toStartOf="@id/iv_all_goview"
-            android:text="@string/viewall"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/dimen_24" />
 
     </RelativeLayout>
 
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@+id/rl_top"
-        android:layout_marginEnd="@dimen/dimen_24"
-        android:layout_marginStart="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_40"
-        android:background="@color/bg_view"></View>
-
-    <TextView
-        android:layout_below="@+id/view"
-        android:id="@+id/tv_shares"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_32"
-        android:layout_marginStart="@dimen/dimen_28"
-        android:layout_marginTop="@dimen/dimen_20"
-        android:text="@string/Total."
-        android:textColor="@color/text_gray"
-        android:textSize="@dimen/dimen_24" />
-
-    <TextView
-        android:layout_below="@+id/view"
-        android:id="@+id/tv_all_shares"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/dimen_32"
-        android:layout_marginTop="@dimen/dimen_20"
-        android:layout_toEndOf="@+id/tv_shares"
-        android:text="8888"
-        android:textColor="@color/text_gray"
-        android:textSize="@dimen/dimen_24" />
 
     <ProgressBar
         android:id="@+id/pb_all_progress"
@@ -171,31 +133,77 @@
         android:layout_width="match_parent"
         android:layout_marginEnd="@dimen/dimen_24"
         android:layout_height="@dimen/dimen_14"
-        android:layout_below="@id/tv_all_shares"
-        android:layout_marginBottom="@dimen/dimen_24"
+        android:layout_below="@id/rl_top"
         android:layout_marginStart="@dimen/dimen_24"
-        android:layout_marginTop="@dimen/dimen_6"
+        android:layout_marginTop="@dimen/dimen_38"
         android:indeterminate="false"
         android:progressDrawable="@drawable/homenew_product_progress" />
-
-
     <TextView
-        android:layout_below="@+id/view"
-        android:id="@+id/tv_all_leftshares"
+        android:layout_below="@+id/pb_all_progress"
+        android:id="@+id/tv_shares"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_32"
-        android:layout_alignEnd="@id/pb_all_progress"
-        android:layout_marginTop="@dimen/dimen_20"
-        android:text="88"
+        android:layout_marginStart="@dimen/dimen_28"
+        android:layout_marginTop="@dimen/dimen_12"
+        android:text="@string/Total."
+        android:layout_marginBottom="@dimen/dimen_27"
         android:textColor="@color/text_gray"
         android:textSize="@dimen/dimen_24" />
 
     <TextView
-        android:layout_below="@+id/view"
+        android:layout_below="@+id/pb_all_progress"
+        android:id="@+id/tv_all_shares"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_32"
+        android:layout_marginTop="@dimen/dimen_12"
+        android:layout_toEndOf="@+id/tv_shares"
+        android:text="8888"
+        android:textColor="@color/ff9c05"
+        android:textSize="@dimen/dimen_24" />
+
+    <RelativeLayout
+        android:layout_below="@+id/pb_all_progress"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_32"
+            android:layout_marginStart="@dimen/dimen_28"
+            android:layout_marginTop="@dimen/dimen_12"
+            android:text="@string/Claimed."
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/dimen_24" />
+
+        <TextView
+            android:id="@+id/tv_all_completed"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dimen_32"
+            android:layout_marginTop="@dimen/dimen_12"
+            android:layout_toEndOf="@+id/tv_completed"
+            android:text="30%"
+            android:textColor="@color/ff9c05"
+            android:textSize="@dimen/dimen_24" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_below="@+id/pb_all_progress"
+        android:id="@+id/tv_all_leftshares"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_32"
+        android:layout_alignEnd="@id/pb_all_progress"
+        android:layout_marginTop="@dimen/dimen_12"
+        android:text="88"
+        android:textColor="@color/ff9c05"
+        android:textSize="@dimen/dimen_24" />
+
+    <TextView
+        android:layout_below="@+id/pb_all_progress"
         android:id="@+id/tv_leftshares"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_32"
-        android:layout_marginTop="@dimen/dimen_20"
+        android:layout_marginTop="@dimen/dimen_12"
         android:layout_toStartOf="@+id/tv_all_leftshares"
         android:text="@string/Remaining."
         android:textColor="@color/text_gray"

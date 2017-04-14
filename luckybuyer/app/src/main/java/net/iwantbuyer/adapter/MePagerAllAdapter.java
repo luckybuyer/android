@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -128,8 +129,10 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     holder.iv_all_icon.setImageBitmap(resource);
                 }
             });
+            int precent = (int) ((list.get(position).getGame().getShares()-list.get(position).getGame().getLeft_shares())*100/list.get(position).getGame().getShares());
             holder.jtv_all_discribe.setText(list.get(position).getGame().getProduct().getTitle());
             holder.tv_all_issue.setText("" + list.get(position).getGame().getIssue_id());
+            holder.tv_all_completed.setText(precent + "%");
             holder.tv_all_participation.setText("" + list.get(position).getShares());
             holder.tv_all_shares.setText("" + list.get(position).getGame().getShares());
             holder.tv_all_leftshares.setText("" + list.get(position).getGame().getLeft_shares());
@@ -137,7 +140,6 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.pb_all_progress.setProgress(list.get(position).getGame().getShares() - list.get(position).getGame().getLeft_shares());
 //            holder.rl_all_continue.setOnClickListener(new MyOnClickListener(position));
             holder.iv_all_goview.setOnClickListener(new MyOnClickListener(position));
-            holder.tv_all_goview.setOnClickListener(new MyOnClickListener(position));
             holder.rl_top.setOnClickListener(new MyOnClickListener(position));                                       //后加的 点击上半部分 进入本期
 
         } else if (type == 1) {
@@ -234,8 +236,8 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
             holder.tv_lucky_issue.setText("" + list.get(position).getGame().getIssue_id());
             holder.tv_lucky_participation.setText("" + list.get(position).getShares());
             holder.tv_lucky_name.setText(list.get(position).getGame().getLucky_user().getProfile().getName());
+            holder.tv_he_participation.setText(list.get(position).getGame().getShares() + "");
 
-//            holder.rl_lucky_continue.setOnClickListener(new MyOnClickListener(position));
             holder.iv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
             holder.tv_lucky_goview.setOnClickListener(new MyOnClickListener(position));
             holder.rl_top.setOnClickListener(new MyOnClickListener(position));                                       //后加的 点击上半部分 进入本期
@@ -333,15 +335,6 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
                     ((MainActivity) context).startActivity(intent);
                     break;
-                case R.id.tv_all_goview:
-                    intent = new Intent(context, ThirdPagerActivity.class);
-                    intent.putExtra("from", "participation");
-                    intent.putExtra("game_id", list.get(position).getGame().getId());
-                    intent.putExtra("title_image", list.get(position).getGame().getProduct().getTitle_image());
-                    intent.putExtra("title", list.get(position).getGame().getProduct().getTitle());
-                    intent.putExtra("user_id", Integer.parseInt(Utils.getSpData("id", context)));
-                    ((MainActivity) context).startActivity(intent);
-                    break;
 //                case R.id.rl_lucky_continue:                   //别人中奖了
 //                    intent = new Intent(context, SecondPagerActivity.class);
 //                    intent.putExtra("from", "productdetail");
@@ -407,7 +400,6 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private JustifyTextView jtv_all_discribe;
         private TextView tv_all_issue;
         private TextView tv_all_participation;
-        private TextView tv_all_goview;
         private ImageView iv_all_goview;
         private TextView tv_all_shares;
         private TextView tv_all_leftshares;
@@ -415,6 +407,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
 //        private RelativeLayout rl_all_continue;
         private RelativeLayout rl_top;
         private TextView tv_me_ordernum;
+        private TextView tv_all_completed;
         //countdown
         private ImageView iv_countdown_icon;
         private JustifyTextView jtv_countdown_discribe;
@@ -439,8 +432,13 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
         private ImageView iv_lucky_goview;
         private TextView tv_lucky_name;
         private RelativeLayout rl_lucky_address;
-//        private RelativeLayout rl_lucky_continue;
         private TextView tv_lucky_go;
+
+        private RelativeLayout rl_lucky_all;
+        private ImageView iv_lucky;
+        private ImageView iv_lucky_chi;
+        private TextView tv_he_participation;
+        private TextView tv_lucky_he;
 
         public ViewHolder(View itemView, int type) {
             super(itemView);
@@ -450,13 +448,13 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 jtv_all_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_all_discribe);
                 tv_all_issue = (TextView) itemView.findViewById(R.id.tv_all_issue);
                 tv_all_participation = (TextView) itemView.findViewById(R.id.tv_all_participation);
-                tv_all_goview = (TextView) itemView.findViewById(R.id.tv_all_goview);
                 iv_all_goview = (ImageView) itemView.findViewById(R.id.iv_all_goview);
                 tv_all_shares = (TextView) itemView.findViewById(R.id.tv_all_shares);
                 tv_all_leftshares = (TextView) itemView.findViewById(R.id.tv_all_leftshares);
                 pb_all_progress = (ProgressBar) itemView.findViewById(R.id.pb_all_progress);
 //                rl_all_continue = (RelativeLayout) itemView.findViewById(R.id.rl_all_continue);
                 rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
+                tv_all_completed = (TextView) itemView.findViewById(R.id.tv_all_completed);
             } else if (type == 1) {
                 iv_countdown_icon = (ImageView) itemView.findViewById(R.id.iv_countdown_icon);
                 jtv_countdown_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_countdown_discribe);
@@ -481,10 +479,19 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 iv_lucky_goview = (ImageView) itemView.findViewById(R.id.iv_lucky_goview);
                 tv_lucky_name = (TextView) itemView.findViewById(R.id.tv_lucky_name);
                 rl_lucky_address = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_address);
-//                rl_lucky_continue = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_continue);
                 rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
-//                rl_lucky_continue.setVisibility(View.VISIBLE);
+                iv_lucky = (ImageView) itemView.findViewById(R.id.iv_lucky);
+                iv_lucky_chi = (ImageView) itemView.findViewById(R.id.iv_lucky_chi);
+                rl_lucky_all = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_all);
+                tv_he_participation = (TextView) itemView.findViewById(R.id.tv_he_participation);
+                tv_lucky_he = (TextView) itemView.findViewById(R.id.tv_lucky_he);
+
+                rl_lucky_all.setBackgroundColor(ContextCompat.getColor(context,R.color.f8f8f8));
                 rl_lucky_address.setVisibility(View.GONE);
+                iv_lucky.setVisibility(View.GONE);
+                iv_lucky_chi.setVisibility(View.GONE);
+                tv_lucky_he.setVisibility(View.VISIBLE);
+                tv_he_participation.setVisibility(View.VISIBLE);
             } else if (type == 3) {
                 iv_lucky_icon = (ImageView) itemView.findViewById(R.id.iv_lucky_icon);
                 jtv_lucky_discribe = (JustifyTextView) itemView.findViewById(R.id.jtv_lucky_discribe);
@@ -494,11 +501,20 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                 iv_lucky_goview = (ImageView) itemView.findViewById(R.id.iv_lucky_goview);
                 tv_lucky_name = (TextView) itemView.findViewById(R.id.tv_lucky_name);
                 rl_lucky_address = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_address);
-//                rl_lucky_continue = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_continue);
                 tv_lucky_go = (TextView) itemView.findViewById(R.id.tv_lucky_go);
                 rl_top = (RelativeLayout) itemView.findViewById(R.id.rl_top);
-//                rl_lucky_continue.setVisibility(View.GONE);
+                iv_lucky = (ImageView) itemView.findViewById(R.id.iv_lucky);
+                iv_lucky_chi = (ImageView) itemView.findViewById(R.id.iv_lucky_chi);
+                rl_lucky_all = (RelativeLayout) itemView.findViewById(R.id.rl_lucky_all);;
+                tv_he_participation = (TextView) itemView.findViewById(R.id.tv_he_participation);
+                tv_lucky_he = (TextView) itemView.findViewById(R.id.tv_lucky_he);
+
+                rl_lucky_all.setBackgroundColor(ContextCompat.getColor(context,R.color.faeeee));
                 rl_lucky_address.setVisibility(View.VISIBLE);
+                iv_lucky.setVisibility(View.VISIBLE);
+                iv_lucky_chi.setVisibility(View.VISIBLE);
+                tv_lucky_he.setVisibility(View.GONE);
+                tv_he_participation.setVisibility(View.GONE);
             }
         }
     }

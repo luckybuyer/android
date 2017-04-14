@@ -254,8 +254,12 @@
     <!--<string name="promat2">yangshuyuyangshuyuyangshuyu</string>-->
     <!--<string name="promat3" />-->
     <string name="promat">memilih kaedah pembayaran ini, kami akan memberikan anda jumlah caj semula aliran sebenar anda.</string>
-    <string name="Problem">常见问题</string>
-    <string name="product_has_soldout">产品已经出售完~</string>
-    <string name="loginsignout">Login In/Sign Up</string>
-
+    <string name="Problem">Soalan Lazim</string>
+    <string name="product_has_soldout">Produk ini telah habis dijual~</string>
+    <string name="loginsignout">Log Masuk/Daftar</string>
+    <string name="productinformation.">Informasi produk:&#160;</string>
+    <string name="digipromat">DIGI hanya menyokong kad prabayar untuk membeli koin kami. Kami akan menyediakan jumlah yang anda beli .</string>
+    <string name="progress">Kemajuan</string>
+    <string name="New">Terkini</string>
+    <string name="nomoreproduct">Lebih banyak produk akan datang....</string>
 </resources>

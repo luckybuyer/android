@@ -1,7 +1,6 @@
 package net.iwantbuyer.secondpager;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -21,12 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
-import com.flyco.tablayout.widget.MsgView;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.MainActivity;
-import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.activity.ThirdPagerActivity;
 import net.iwantbuyer.app.MyApplication;
 import net.iwantbuyer.base.BaseNoTrackPager;

@@ -19,6 +19,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -105,8 +106,8 @@ public class HomePager extends BaseNoTrackPager {
     private int game_id;
 
     boolean isWaiting = true;
-    boolean isFirst = true;
 
+    int pager = 0;
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -181,6 +182,13 @@ public class HomePager extends BaseNoTrackPager {
         page = 2;
         //请求接口
         startRequestGame();
+        if(pager ==0) {
+            startAll();
+        }else if(pager == 1) {
+            startProgress();
+        }else if(pager ==2) {
+            startNew();
+        }
 
     }
 
@@ -229,9 +237,25 @@ public class HomePager extends BaseNoTrackPager {
 
         iv_home_problem.setOnClickListener(new MyOnClickListener());
         tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.All)), 0);
-        tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.Inprogress)), 1);
-        tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.News)), 2);
+        tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.progress)), 1);
+        tl_home_products.addTab(tl_home_products.newTab().setText(context.getString(R.string.New)), 2);
         tl_home_products.addOnTabSelectedListener(new MyOnTabSelectedListener());
+
+        vp_home.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_MOVE:
+                        srl_home_refresh.setEnabled(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        srl_home_refresh.setEnabled(true);
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -280,6 +304,7 @@ public class HomePager extends BaseNoTrackPager {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             productList.clear();
+            HttpUtils.getInstance().startNetworkWaiting(context);
             switch (tab.getPosition()) {
                 case 0:
                     //请求ALL
@@ -373,7 +398,6 @@ public class HomePager extends BaseNoTrackPager {
 
         //请求 产品轮播图
         responseBanner();
-        startAll();
 
     }
 
@@ -395,7 +419,8 @@ public class HomePager extends BaseNoTrackPager {
                             rl_list_keepout.setVisibility(View.GONE);
                             HomePager.this.link = link;
                             processData(response);
-                            tl_home_products.getTabAt(0).select();
+//                            tl_home_products.getTabAt(0).select();
+                            pager = 0;
                         } else {
                             rl_list_nodata.setVisibility(View.VISIBLE);
                             rl_list_neterror.setVisibility(View.GONE);
@@ -467,7 +492,8 @@ public class HomePager extends BaseNoTrackPager {
                             rl_list_keepout.setVisibility(View.GONE);
                             HomePager.this.link = link;
                             processData(response);
-                            tl_home_products.getTabAt(1).select();
+//                            tl_home_products.getTabAt(1).select();
+                            pager = 1;
                         } else {
                             rl_list_nodata.setVisibility(View.VISIBLE);
                             rl_list_neterror.setVisibility(View.GONE);
@@ -539,7 +565,8 @@ public class HomePager extends BaseNoTrackPager {
                             rl_list_keepout.setVisibility(View.GONE);
                             HomePager.this.link = link;
                             processData(response);
-                            tl_home_products.getTabAt(2).select();
+//                            tl_home_products.getTabAt(2).select();
+                            pager = 2;
                         } else {
                             rl_list_nodata.setVisibility(View.VISIBLE);
                             rl_list_neterror.setVisibility(View.GONE);
@@ -739,7 +766,6 @@ public class HomePager extends BaseNoTrackPager {
     }
 
     private void processBannerData(String response) {
-        Log.e("TAG_banner", response);
         Gson gson = new Gson();
         String banner = "{\"banner\":" + response + "}";
         bannersBean = gson.fromJson(banner, BannersBean.class);
@@ -782,7 +808,6 @@ public class HomePager extends BaseNoTrackPager {
 
     //解析数据
     private void processData(String s) {
-        Log.e("TAG_link", link);
         //停止刷新
         srl_home_refresh.setRefreshing(false);
 
@@ -866,7 +891,6 @@ public class HomePager extends BaseNoTrackPager {
                 }
 
                 if (link.contains("rel=\"next\"") && isNeedpull && isBottom && !next.equals(last)) {
-                    Log.e("TAG_link...", link);
                     isNeedpull = false;
                     ll_home_loading.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
@@ -882,7 +906,7 @@ public class HomePager extends BaseNoTrackPager {
                 } else if (link.contains("rel=\"last\"") && next.equals(last)) {
                     ll_home_loading.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.GONE);
-                    tv_loading_data.setText(context.getString(R.string.nomoredata));
+                    tv_loading_data.setText(context.getString(R.string.nomoreproduct));
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {

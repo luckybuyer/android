@@ -45,6 +45,7 @@
             android:textColor="#333333"
             android:textSize="@dimen/dimen_26" />
         <ImageView
+            android:id="@+id/iv_dispatch_go"
             android:layout_marginRight="@dimen/dimen_20"
             android:layout_alignParentRight="true"
             android:layout_marginTop="@dimen/dimen_25"

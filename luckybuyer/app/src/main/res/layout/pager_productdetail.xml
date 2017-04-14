@@ -37,7 +37,8 @@
                         <android.support.v4.view.ViewPager
                             android:id="@+id/vp_productdetail"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/dimen_662"></android.support.v4.view.ViewPager>
+                            android:layout_marginTop="-1px"
+                            android:layout_height="@dimen/dimen_663"></android.support.v4.view.ViewPager>
                         <LinearLayout
                             android:background="#ffffff"
                             android:layout_below="@+id/vp_productdetail"

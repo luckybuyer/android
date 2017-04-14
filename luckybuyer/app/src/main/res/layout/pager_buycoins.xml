@@ -51,14 +51,6 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_help"
-            android:layout_width="@dimen/dimen_48"
-            android:layout_height="@dimen/dimen_48"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/dimen_24"
-            android:layout_marginTop="@dimen/dimen_57"
-            android:background="@drawable/buycoins_help" />
 
         <ImageView
             android:layout_width="match_parent"

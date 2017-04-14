@@ -92,6 +92,9 @@ public class SetPager extends BasePager {
         rl_set_problem.setOnClickListener(new MyOnClickListener());
         String token = Utils.getSpData("token", context);
 
+        if(token == null) {
+            rl_set_address.setVisibility(View.GONE);
+        }
 
     }
 
@@ -141,7 +144,6 @@ public class SetPager extends BasePager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        HttpUtils.getInstance().startNetworkWaiting(context);
         HttpUtils.getInstance().deleteResponse(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -160,11 +162,13 @@ public class SetPager extends BasePager {
                     public void run() {
                         Log.e("TAG_logout", code + message);
                         if (code == 204) {
-                            Intent intent = new Intent();
-                            intent.putExtra("go", "homepager");
-                            ((SecondPagerActivity) context).setResult(0, intent);
+//                            Intent intent = new Intent();
+//                            intent.putExtra("go", "homepager");
+//                            ((SecondPagerActivity) context).setResult(0, intent);
                             Utils.setSpData("token", null, context);
                             Utils.setSpData("token_num", null, context);
+                            Utils.setSpData("idtoken", null, context);
+
                             ((SecondPagerActivity) context).finish();
                         } else {
                             Utils.MyToast(context, "退出登陆失败");
@@ -177,7 +181,7 @@ public class SetPager extends BasePager {
 
             @Override
             public void failure(Exception exception) {
-                Utils.MyToast(context, "推出登陆失败");
+                Utils.MyToast(context, "退出登陆失败");
                 HttpUtils.getInstance().stopNetWorkWaiting();
             }
 

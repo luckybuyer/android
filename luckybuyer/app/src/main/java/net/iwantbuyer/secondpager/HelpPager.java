@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.activity.SecondPagerActivity;
 import net.iwantbuyer.base.BaseNoTrackPager;
 import net.iwantbuyer.utils.Utils;

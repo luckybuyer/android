@@ -258,7 +258,6 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    private int login_id = 0;
 
     class MyOnclickListener implements View.OnClickListener {
 
@@ -285,7 +284,6 @@ public class MainActivity extends FragmentActivity {
                     rb_main_newresult.setChecked(false);
                     rb_main_show.setChecked(false);
                     rb_main_me.setChecked(false);
-                    login_id = 1;
                     setPoint("CLICK:buy_coins");
                     break;
                 case R.id.rb_main_newresult:
@@ -310,34 +308,14 @@ public class MainActivity extends FragmentActivity {
                     break;
                 case R.id.rb_main_me:
                     setPoint("CLICK:my_account");
-                    String token_s = Utils.getSpData("token_num", MainActivity.this);
-                    int token = 0;
-                    if (token_s != null) {
-                        token = Integer.parseInt(token_s);
-                    }
 
                     //判断是否登陆  未登陆  先登录  登陆 进入me页面
-                    if (token > System.currentTimeMillis() / 1000) {
-                        showFragment(list.get(4));
-                        rb_main_homepager.setChecked(false);
-                        rb_main_buycoins.setChecked(false);
-                        rb_main_newresult.setChecked(false);
-                        rb_main_me.setChecked(true);
-                        id = 4;
-                    } else {
-                        MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
-                        login_id = 4;
-                        //埋点
-                        try {
-                            JSONObject props = new JSONObject();
-                            MyApplication.mixpanel.track("LOGIN:showpage", props);
-                        } catch (Exception e) {
-                            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                        }
-                        //AppFlyer 埋点
-                        Map<String, Object> eventValue = new HashMap<String, Object>();
-                        AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Page：Login", eventValue);
-                    }
+                    showFragment(list.get(4));
+                    rb_main_homepager.setChecked(false);
+                    rb_main_buycoins.setChecked(false);
+                    rb_main_newresult.setChecked(false);
+                    rb_main_me.setChecked(true);
+                    id = 4;
                     break;
                 case R.id.iv_home_get:
                     MainActivity.this.startActivity(MainActivity.this.lock.newIntent(MainActivity.this));
@@ -521,7 +499,7 @@ public class MainActivity extends FragmentActivity {
         public void onAuthentication(Credentials credentials) {
             // Base64 解码：idtoken
             String token = credentials.getIdToken();
-            Utils.setSpData("idtoken",token,MainActivity.this);
+            Utils.setSpData("idtoken", token, MainActivity.this);
 //            byte[] mmmm = Base64.decode(token.getBytes(), Base64.URL_SAFE);
             byte[] mmmm = MyBase64.decode(token.getBytes());
             String str = null;
@@ -586,8 +564,8 @@ public class MainActivity extends FragmentActivity {
 
     //auth0刷新token
     private void refreshToken() {
-        String idToken = Utils.getSpData("idtoken",MainActivity.this);
-        if(idToken == null || client ==null) {
+        String idToken = Utils.getSpData("idtoken", MainActivity.this);
+        if (idToken == null || client == null) {
             return;
         }
         client.delegationWithIdToken(idToken)
@@ -597,7 +575,7 @@ public class MainActivity extends FragmentActivity {
                     public void onSuccess(Delegation delegation) {
                         //SUCCESS
                         String token = delegation.getIdToken();
-                        Utils.setSpData("idtoken",token,MainActivity.this);
+                        Utils.setSpData("idtoken", token, MainActivity.this);
                         byte[] mmmm = MyBase64.decode(token.getBytes());
                         String str = null;
                         try {
@@ -647,7 +625,7 @@ public class MainActivity extends FragmentActivity {
         map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response,String link) {
+            public void success(final String response, String link) {
             }
 
             @Override
@@ -676,7 +654,7 @@ public class MainActivity extends FragmentActivity {
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(String response,String link) {
+            public void success(String response, String link) {
                 //埋点
                 try {
                     JSONObject props = new JSONObject();
@@ -734,44 +712,13 @@ public class MainActivity extends FragmentActivity {
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.e("TAG_gift", user.isHas_given_new_user_gift() + "");
                 if (!user.isHas_given_new_user_gift()) {
                     startGift();
                 }
 
                 Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.loginsuccess));
                 //登陆成功  直接进入me页面
-                showFragment(list.get(login_id));
-                if (login_id == 1) {
-                    rb_main_buycoins.setChecked(true);
-                    rb_main_me.setChecked(false);
-                    rb_main_homepager.setChecked(false);
-                    rb_main_newresult.setChecked(false);
-                } else if (login_id == 4) {
-                    rb_main_buycoins.setChecked(false);
-                    rb_main_me.setChecked(true);
-                    rb_main_homepager.setChecked(false);
-                    rb_main_newresult.setChecked(false);
-                    if (mePager != null && mePager.mePagerAllAdapter != null) {
-                        mePager.mePagerAllAdapter.list.clear();
-                        mePager.mePagerAllAdapter.notifyDataSetChanged();
-                    }
-                    if (mePager != null && mePager.mePagerLuckyAdapter != null) {
-                        mePager.mePagerLuckyAdapter.list.clear();
-                        mePager.mePagerLuckyAdapter.notifyDataSetChanged();
-                    }
-
-                } else {
-                    rb_main_homepager.setChecked(true);
-                    rb_main_buycoins.setChecked(false);
-                    rb_main_me.setChecked(false);
-                    rb_main_show.setChecked(false);
-                    rb_main_newresult.setChecked(false);
-
-                }
-//                        rb_main_homepager.setChecked(false);
-//                        rb_main_newresult.setChecked(false);
-
+                showFragment(list.get(id));
             }
         });
     }
@@ -806,12 +753,12 @@ public class MainActivity extends FragmentActivity {
             rb_main_show.setChecked(true);
             rb_main_me.setChecked(false);
         } else if (id == 4) {
-            showFragment(list.get(0));
-            rb_main_homepager.setChecked(true);
+            showFragment(list.get(4));
+            rb_main_homepager.setChecked(false);
             rb_main_buycoins.setChecked(false);
             rb_main_newresult.setChecked(false);
             rb_main_show.setChecked(false);
-            rb_main_me.setChecked(false);
+            rb_main_me.setChecked(true);
         }
     }
 
@@ -1107,7 +1054,7 @@ public class MainActivity extends FragmentActivity {
         String json = "{\"device_id\": \"" + token + "\"}";
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
-            public void success(final String response,String link) {
+            public void success(final String response, String link) {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -1261,3 +1208,4 @@ public class MainActivity extends FragmentActivity {
         }
     };
 }
+

@@ -150,9 +150,6 @@ public class HttpUtils {
                 if (onRequestListener != null) {
                     if (response.code() == 200) {
                         onRequestListener.success(response.body().string(),response.header("link"));
-                        Log.e("TAG_httpsres", response.headers().toString());
-                        Log.e("TAG_httpsres", response.headers().toString().split("\n").length + "");
-                        Log.e("TAG_httpsres", response.header("link") + "");
 
 //                        for (int i =0;i < response.headers().toString().split("\n").length;i++){
 //                            response.header
@@ -613,11 +610,11 @@ public class HttpUtils {
         builder.setView(inflate);
         show = builder.show();
         show.setCanceledOnTouchOutside(false);   //点击外部不消失
-//        show.setCancelable(false);               //点击外部和返回按钮都不消失
+        show.setCancelable(false);               //点击外部和返回按钮都不消失
 //        show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        Window window = show.getWindow();
 //        window.setGravity(Gravity.BOTTOM);
-        show.getWindow().setLayout(1 * screenWidth / 3, 1 * screenHeight / 10);
+        show.getWindow().setLayout(3 * screenWidth / 8, 3 * screenHeight / 20);
         show.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 

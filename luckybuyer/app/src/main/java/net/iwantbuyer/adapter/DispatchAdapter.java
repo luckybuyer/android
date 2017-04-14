@@ -128,7 +128,7 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
                     ((TextView)processing.findViewById(R.id.tv_dispach_processing_warn)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
                 }else {
                     ((TextView)processing.findViewById(R.id.tv_dispatch_processing)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
-                    ((TextView)processing.findViewById(R.id.tv_dispach_processing_warn)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
+                    ((TextView)processing.findViewById(R.id.tv_dispach_processing_warn)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
                 }
                 holder.iv_disaptch_delivered.setEnabled(false);
                 holder.view_delivered.setEnabled(false);
@@ -188,7 +188,7 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
                     ((TextView)finished.findViewById(R.id.tv_dispatch_5coins)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
                 }else {
                     ((TextView)finished.findViewById(R.id.tv_dispatch_show)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
-                    ((TextView)finished.findViewById(R.id.tv_dispatch_5coins)).setTextColor(ContextCompat.getColor(context,R.color.text_black));
+                    ((TextView)finished.findViewById(R.id.tv_dispatch_5coins)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
                 }
 
                 holder.iv_disaptch_delivered.setEnabled(false);
@@ -247,6 +247,8 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
             if (!"pending".equals(dispatchGameBean.getDelivery().getStatus()
             )) {
                 card.findViewById(R.id.tv_dispatch_card_submit).setVisibility(View.GONE);
+                et_dispatch_phonenum.setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                et_dispatch_operator.setTextColor(ContextCompat.getColor(context,R.color.text_gray));
                 if (dispatchGameBean.getDelivery().getAddress() != null) {
                     et_dispatch_phonenum.setEnabled(false);
                     et_dispatch_phonenum.setText(dispatchGameBean.getDelivery().getAddress().getPhone() + "");
@@ -270,6 +272,10 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
 
             if (!"pending".equals(dispatchGameBean.getDelivery().getStatus())) {
                 curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.GONE);
+                ((ImageView)curaddress.findViewById(R.id.iv_dispatch_go)).setVisibility(View.GONE);
+                ((TextView)curaddress.findViewById(R.id.tv_disaptch_name)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                ((TextView)curaddress.findViewById(R.id.tv_disaptch_telnum)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                ((TextView)curaddress.findViewById(R.id.tv_disaptch_add_detailed)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
             } else {
                 curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.VISIBLE);
             }
@@ -285,6 +291,10 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
             Log.e("TAG_ss", dispatchGameBean.getDelivery().getType() + "");
             if (!"pending".equals(dispatchGameBean.getDelivery().getStatus())) {
                 curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.GONE);
+                ((ImageView)curaddress.findViewById(R.id.iv_dispatch_go)).setVisibility(View.GONE);
+                ((TextView)curaddress.findViewById(R.id.tv_disaptch_name)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                ((TextView)curaddress.findViewById(R.id.tv_disaptch_telnum)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
+                ((TextView)curaddress.findViewById(R.id.tv_disaptch_add_detailed)).setTextColor(ContextCompat.getColor(context,R.color.text_gray));
             } else {
                 curaddress.findViewById(R.id.rl_dispatch_submit).setVisibility(View.VISIBLE);
             }
@@ -333,8 +343,11 @@ public class DispatchAdapter extends RecyclerView.Adapter<DispatchAdapter.Dispat
                     ((SecondPagerActivity) context).from = "dispatchpager";
                     break;
                 case R.id.rl_disaptch_address:
-                    ((SecondPagerActivity) context).switchPage(9);
-                    ((SecondPagerActivity) context).from = "dispatchpager";
+                    if("pending".equals(dispatchGameBean.getDelivery().getStatus())) {
+                        ((SecondPagerActivity) context).switchPage(9);
+                        ((SecondPagerActivity) context).from = "dispatchpager";
+                    }
+
                     break;
                 case R.id.tv_dispatch_submit:
                     View viewAddress = View.inflate(context, R.layout.alertdialog_current_address, null);

@@ -2,6 +2,7 @@ package net.iwantbuyer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.bean.Problem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +24,9 @@ import java.util.List;
  */
 public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHolder> {
     private Context context;
-    private List list;
+    private List<Problem.ProblemBean> list;
 
-    public ProblemAdapter(Context context, List list) {
+    public ProblemAdapter(Context context, List<Problem.ProblemBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -37,8 +39,24 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.rl_problem.setOnClickListener(new MyOnClickListener(holder));
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Log.e("TAG", list.get(position).getQuestion());
+        holder.tv_problem.setText(list.get(position).getQuestion() + "");
+        holder.tv_problem_discribe.setText(list.get(position).getAnswer() + "");
+        holder.rl_problem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.tv_problem_discribe.getVisibility() == View.VISIBLE) {
+                    holder.tv_problem_discribe.setVisibility(View.GONE);
+                    rotateAnim(holder.iv_problem,0f);
+
+                }else {
+                    holder.tv_problem_discribe.setVisibility(View.VISIBLE);
+                    rotateAnim(holder.iv_problem,180f);
+                    Log.e("TAG..", position + "");
+                }
+            }
+        });
     }
 
     @Override
@@ -46,22 +64,6 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
         return list.size();
     }
 
-    class MyOnClickListener implements View.OnClickListener{
-        private ViewHolder holder;
-        public MyOnClickListener(ViewHolder holder) {
-            this.holder = holder;
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.rl_problem:
-                    holder.tv_problem_discribe.setVisibility(View.VISIBLE);
-                    rotateAnim(holder.iv_problem,180f);
-                    break;
-            }
-        }
-    }
 
     public void rotateAnim(ImageView imageview,float f) {
         Animation anim =new RotateAnimation(0f, f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);

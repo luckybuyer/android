@@ -153,7 +153,6 @@ public class SecondPagerActivity extends FragmentActivity {
         batch_id = getIntent().getIntExtra("batch_id", -1);
         game_id = getIntent().getIntExtra("game_id", -1);
         address_id = getIntent().getIntExtra("address_id", -1);
-
         dispatch_game_id = getIntent().getIntExtra("dispatch_game_id", -1);
 
         setData();

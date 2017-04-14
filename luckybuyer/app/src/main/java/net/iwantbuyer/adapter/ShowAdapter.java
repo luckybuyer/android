@@ -81,6 +81,8 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
         holder.tv_show_name.setText(list.get(position).getUser().getProfile().getName() + "");
         holder.tv_show_time.setText(list.get(position).getCreated_at().substring(0,19).replace("T"," ") + "");
         holder.tv_show_title.setText(list.get(position).getContent());
+        holder.tv_show_information.setText(context.getString(R.string.productinformation_) + list.get(position).getProduct_title() + "");
+        holder.tv_show_round.setText(list.get(position).getGame_issue_id() + "");
         if(list.get(position).getImages().size() ==1 ) {
             Glide.with(context).load("https:"+list.get(position).getImages().get(0)).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                 @Override
@@ -297,6 +299,8 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
         private ImageView iv_show_one;
         private ImageView iv_show_two;
         private ImageView iv_show_three;
+        private TextView tv_show_information;
+        private TextView tv_show_round;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -307,6 +311,8 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
             iv_show_one = (ImageView) itemView.findViewById(R.id.iv_show_one);
             iv_show_two = (ImageView) itemView.findViewById(R.id.iv_show_two);
             iv_show_three = (ImageView) itemView.findViewById(R.id.iv_show_three);
+            tv_show_information = (TextView) itemView.findViewById(R.id.tv_show_information);
+            tv_show_round = (TextView) itemView.findViewById(R.id.tv_show_round);
         }
     }
 
