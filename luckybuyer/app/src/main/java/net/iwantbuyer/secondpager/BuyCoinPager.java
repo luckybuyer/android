@@ -606,13 +606,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         Map eventValue;
                         if (context instanceof SecondPagerActivity) {
                             context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
-                            //埋点
-                            try {
-                                JSONObject prop = new JSONObject();
-                                MyApplication.mixpanel.track("LOGIN:showpage", prop);
-                            } catch (Exception e) {
-                                Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                            }
                             //AppFlyer 埋点
                             eventValue = new HashMap<String, Object>();
                             AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -32,6 +33,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.FacebookSdk;
+import com.facebook.LoggingBehavior;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -146,13 +150,6 @@ public class HomePager extends BaseNoTrackPager {
             }
         });
 
-        //埋点
-        try {
-            JSONObject props = new JSONObject();
-            MyApplication.mixpanel.track("PAGE:homepage", props);
-        } catch (Exception e) {
-            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-        }
 
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -182,14 +179,15 @@ public class HomePager extends BaseNoTrackPager {
         page = 2;
         //请求接口
         startRequestGame();
-        if(pager ==0) {
+        if (pager == 0) {
             startAll();
-        }else if(pager == 1) {
+        } else if (pager == 1) {
             startProgress();
-        }else if(pager ==2) {
+        } else if (pager == 2) {
             startNew();
         }
 
+        isLast = false;
     }
 
 
@@ -286,11 +284,11 @@ public class HomePager extends BaseNoTrackPager {
                 case R.id.tv_list_net_again:
                     int id = tl_home_products.getSelectedTabPosition();
                     Log.e("TAG_listagain", "" + id);
-                    if(id == 0) {
+                    if (id == 0) {
                         startAll();
-                    }else if(id == 1) {
+                    } else if (id == 1) {
                         startProgress();
-                    }else if(id == 2) {
+                    } else if (id == 2) {
                         startNew();
                     }
                     break;
@@ -309,14 +307,17 @@ public class HomePager extends BaseNoTrackPager {
                 case 0:
                     //请求ALL
                     startAll();
+                    isLast = false;
                     break;
                 case 1:
                     //请求Progress
                     productList.clear();
+                    isLast = false;
                     startProgress();
                     break;
                 case 2:
                     //New
+                    isLast = false;
                     productList.clear();
                     startNew();
                     break;
@@ -403,7 +404,7 @@ public class HomePager extends BaseNoTrackPager {
 
     public void startAll() {
         //请求  产品  列表
-        String url = MyApplication.url + "/v1/games/?status=running&order_by=all&per_page=6&page=1&timezone=" + MyApplication.utc;
+        String url = MyApplication.url + "/v1/games/?status=running&order_by=all&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map ma = new HashMap();
         ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
@@ -412,6 +413,7 @@ public class HomePager extends BaseNoTrackPager {
                 ((Activity) context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
                         HttpUtils.getInstance().stopNetWorkWaiting();
                         srl_home_refresh.setRefreshing(false);
 
@@ -443,7 +445,7 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        if(homeProductAdapter !=null) {
+                        if (homeProductAdapter != null) {
                             homeProductAdapter.notifyDataSetChanged();
                         }
 
@@ -463,7 +465,7 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        if(homeProductAdapter !=null) {
+                        if (homeProductAdapter != null) {
                             homeProductAdapter.notifyDataSetChanged();
                         }
                     }
@@ -517,7 +519,7 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        if(homeProductAdapter !=null) {
+                        if (homeProductAdapter != null) {
                             homeProductAdapter.notifyDataSetChanged();
                         }
                     }
@@ -536,7 +538,7 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        if(homeProductAdapter !=null) {
+                        if (homeProductAdapter != null) {
                             homeProductAdapter.notifyDataSetChanged();
                         }
                     }
@@ -590,7 +592,7 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        if(homeProductAdapter !=null) {
+                        if (homeProductAdapter != null) {
                             homeProductAdapter.notifyDataSetChanged();
                         }
                     }
@@ -609,7 +611,7 @@ public class HomePager extends BaseNoTrackPager {
                         rl_list_neterror.setVisibility(View.VISIBLE);
                         rl_list_loading.setVisibility(View.GONE);
                         productList.clear();
-                        if(homeProductAdapter !=null) {
+                        if (homeProductAdapter != null) {
                             homeProductAdapter.notifyDataSetChanged();
                         }
                     }
@@ -639,6 +641,9 @@ public class HomePager extends BaseNoTrackPager {
                         //产品列表数据
                         productList.addAll(gameProductBean.getGame());
                         homeProductAdapter.notifyDataSetChanged();
+                        ll_home_loading.setVisibility(View.GONE);
+
+
                     }
                 });
             }
@@ -802,6 +807,7 @@ public class HomePager extends BaseNoTrackPager {
 
     boolean isMoreData = true;
     boolean isNeedpull = true;
+    boolean isLast = false;
     int page = 2;
     String link;
     HomeProductAdapter homeProductAdapter;
@@ -846,13 +852,6 @@ public class HomePager extends BaseNoTrackPager {
                 intent.putExtra("game_id", game_id);
                 startActivity(intent);
 
-                //埋点
-                try {
-                    JSONObject props = new JSONObject();
-                    MyApplication.mixpanel.track("CLICK:product", props);
-                } catch (Exception e) {
-                    Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                }
 
                 //AppFlyer 埋点
                 Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -890,7 +889,8 @@ public class HomePager extends BaseNoTrackPager {
                     }
                 }
 
-                if (link.contains("rel=\"next\"") && isNeedpull && isBottom && !next.equals(last)) {
+                Log.e("TAG__", isLast + "--" + next.equals(last));
+                if (link.contains("rel=\"next\"") && isNeedpull && isBottom && !isLast) {
                     isNeedpull = false;
                     ll_home_loading.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.VISIBLE);
@@ -903,7 +903,11 @@ public class HomePager extends BaseNoTrackPager {
                             startMore(url);
                         }
                     }
-                } else if (link.contains("rel=\"last\"") && next.equals(last)) {
+                    if(next.equals(last)) {
+                        isLast = true;
+                    }
+                } else if (link.contains("rel=\"last\"") && isLast && isNeedpull) {
+                    isNeedpull = false;
                     ll_home_loading.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.GONE);
                     tv_loading_data.setText(context.getString(R.string.nomoreproduct));
@@ -911,17 +915,15 @@ public class HomePager extends BaseNoTrackPager {
                         @Override
                         public void run() {
                             ll_home_loading.setVisibility(View.GONE);
+                            isNeedpull = true;
                         }
                     }, 3000);
                 }
-
 
             }
         });
 
     }
-
-
 
 
     //ViewPager页面改变监听
@@ -935,10 +937,10 @@ public class HomePager extends BaseNoTrackPager {
         @Override
         public void onPageSelected(int position) {
             int total = bannersBean.getBanner().size();
-            for (int i= 0;i < total;i++){
-                if(i == position%total) {
+            for (int i = 0; i < total; i++) {
+                if (i == position % total) {
                     ll_home_point.getChildAt(i).setEnabled(false);
-                }else {
+                } else {
                     ll_home_point.getChildAt(i).setEnabled(true);
                 }
             }
@@ -946,7 +948,7 @@ public class HomePager extends BaseNoTrackPager {
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (bannersBean!= null && bannersBean.getBanner().size() > 1) {
+            if (bannersBean != null && bannersBean.getBanner().size() > 1) {
                 if (state == ViewPager.SCROLL_STATE_DRAGGING) {
                     handler.removeMessages(WHAT);
                 } else if (state == ViewPager.SCROLL_STATE_IDLE) {
@@ -987,6 +989,7 @@ public class HomePager extends BaseNoTrackPager {
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacksAndMessages(null);
+        Log.e("TAG——fragment", "fragment_destroy");
     }
 
     @Override

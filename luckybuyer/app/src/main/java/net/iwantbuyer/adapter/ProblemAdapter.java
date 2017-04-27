@@ -40,7 +40,7 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Log.e("TAG", list.get(position).getQuestion());
+        Log.e("TAG——problem", list.get(position).getQuestion());
         holder.tv_problem.setText(list.get(position).getQuestion() + "");
         holder.tv_problem_discribe.setText(list.get(position).getAnswer() + "");
         holder.rl_problem.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +53,6 @@ public class ProblemAdapter extends RecyclerView.Adapter<ProblemAdapter.ViewHold
                 }else {
                     holder.tv_problem_discribe.setVisibility(View.VISIBLE);
                     rotateAnim(holder.iv_problem,180f);
-                    Log.e("TAG..", position + "");
                 }
             }
         });

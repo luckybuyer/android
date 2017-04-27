@@ -8,10 +8,6 @@ import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
-import com.mixpanel.android.mpmetrics.MixpanelAPI;
-import com.mixpanel.android.util.StringUtils;
 
 import net.iwantbuyer.utils.Utils;
 
@@ -32,7 +28,6 @@ public class MyApplication extends MultiDexApplication {
     public static String client_id;
     public static String domain;
 
-    public static MixpanelAPI mixpanel;
 
     @Override
     public void onCreate() {
@@ -41,11 +36,6 @@ public class MyApplication extends MultiDexApplication {
         // Initialize the SDK before executing any other operations,
 //        FacebookSdk.sdkInitialize(getApplicationContext());
 //        AppEventsLogger.activateApp(this);
-
-        //埋点
-//        String projectToken = "79fb255c5fce0739c93fa063bd7990ca"; // e.g.: "1ef7e30d2a58d27f4b90c42e31d6d7ad"     测试
-        String projectToken = "1ad47d43bf1c4784bb8a037f420bebc3"; // e.g.: "1ef7e30d2a58d27f4b90c42e31d6d7ad"     真的
-        mixpanel = MixpanelAPI.getInstance(this, projectToken);
 
 
         //多语言切换

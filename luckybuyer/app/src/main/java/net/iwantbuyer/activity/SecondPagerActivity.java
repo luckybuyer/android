@@ -428,13 +428,6 @@ public class SecondPagerActivity extends FragmentActivity {
 
                     }
                 });
-                //埋点
-                try {
-                    JSONObject props = new JSONObject();
-                    MyApplication.mixpanel.track("LOGIN:loggedin", props);
-                } catch (Exception e) {
-                    Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                }
 
                 Gson gson = new Gson();
                 User user = gson.fromJson(response, User.class);

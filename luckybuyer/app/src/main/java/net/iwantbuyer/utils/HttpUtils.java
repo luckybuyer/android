@@ -1,5 +1,7 @@
 package net.iwantbuyer.utils;
 
+import android.app.Activity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -608,6 +610,9 @@ public class HttpUtils {
         View inflate = View.inflate(context, R.layout.network_waiting_alertdialog, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(inflate);
+        if(context instanceof Activity && ((Activity)context).isDestroyed()) {
+            return;
+        }
         show = builder.show();
         show.setCanceledOnTouchOutside(false);   //点击外部不消失
         show.setCancelable(false);               //点击外部和返回按钮都不消失

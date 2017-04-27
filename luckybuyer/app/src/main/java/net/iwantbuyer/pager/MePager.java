@@ -134,10 +134,6 @@ public class MePager extends BaseNoTrackPager {
 
             FacebookSdk.sdkInitialize(context);
             AppEventsLogger.activateApp(context);
-//        FacebookSdk.isInitialized()
-//            LikeView likeView = (LikeView) inflate.findViewById(R.id.lv_me);
-
-            Log.e("TAG——likeview", "进来lockview了");
             LikeView likeView = new LikeView(context);
             likeView.setObjectIdAndType(
                     "https://www.facebook.com/luckybuyer.net",
@@ -229,7 +225,6 @@ public class MePager extends BaseNoTrackPager {
     }
 
     private void startLucky(String token) {
-        HttpUtils.getInstance().startNetworkWaiting(context);
         String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
@@ -586,13 +581,6 @@ public class MePager extends BaseNoTrackPager {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.i_me_set:
-                    //埋点
-                    try {
-                        JSONObject props = new JSONObject();
-                        MyApplication.mixpanel.track("CLICK:setting", props);
-                    } catch (Exception e) {
-                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                    }
 
                     Intent intent = new Intent(context, SecondPagerActivity.class);
                     intent.putExtra("from", "setpager");
@@ -637,12 +625,19 @@ public class MePager extends BaseNoTrackPager {
             switch (tab.getPosition()) {
                 case 0:
                     //请求ALL
-                    HttpUtils.getInstance().startNetworkWaiting(context);
-                    startAll(token);
+
+                    if(Utils.getSpData("token",context) != null) {
+                        startAll(Utils.getSpData("token",context));
+                        HttpUtils.getInstance().startNetworkWaiting(context);
+                    }
+
                     break;
                 case 1:
                     //请求Progress
-                    startLucky(token);
+                    if(Utils.getSpData("token",context) != null) {
+                        startLucky(Utils.getSpData("token",context));
+                        HttpUtils.getInstance().startNetworkWaiting(context);
+                    }
                     break;
             }
         }

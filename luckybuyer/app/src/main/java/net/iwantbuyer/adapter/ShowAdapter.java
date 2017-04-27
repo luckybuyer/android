@@ -163,7 +163,6 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
                         vp_show.setCurrentItem(0);
                         current = 0;
                     }
-                    point();
                     break;
                 case R.id.iv_show_two:
                     if(flag) {
@@ -175,7 +174,6 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
                         vp_show.setCurrentItem(1);
                         current = 1;
                     }
-                    point();
                     break;
                 case R.id.iv_show_three:
                     if(flag) {
@@ -187,22 +185,12 @@ public class ShowAdapter extends RecyclerView.Adapter<ShowAdapter.MyViewHolder> 
                         vp_show.setCurrentItem(2);
                         current = 2;
                     }
-                    point();
                     break;
 
             }
         }
     }
 
-    public void point(){
-        //埋点
-        try {
-            JSONObject props = new JSONObject();
-            MyApplication.mixpanel.track("CLICK:show_image", props);
-        } catch (Exception e) {
-            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-        }
-    }
     /**
      * 创建PopupWindow
      */

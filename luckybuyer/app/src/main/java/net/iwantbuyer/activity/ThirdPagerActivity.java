@@ -83,9 +83,10 @@ public class ThirdPagerActivity extends FragmentActivity {
         selectPager();
 
         if (Utils.checkDeviceHasNavigationBar(ThirdPagerActivity.this)) {
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(ThirdPagerActivity.this));
-            lp.topMargin = Utils.getScreenHeight(this);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, Utils.getNavigationBarHeight(ThirdPagerActivity.this));
+//            lp.topMargin = Utils.getScreenHeight(this);
             rl_thirdpager.setLayoutParams(lp);
+
         }
     }
 

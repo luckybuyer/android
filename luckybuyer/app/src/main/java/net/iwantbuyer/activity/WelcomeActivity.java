@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.appsflyer.AppsFlyerLib;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 
 import org.json.JSONException;

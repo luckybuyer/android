@@ -120,7 +120,7 @@ public class ClPager extends BaseNoTrackPager {
 
         String language = getResources().getConfiguration().locale.getLanguage();
         if (language != null && language.contains("ms")) {
-            tv_cl_language.setText("Malaysia");
+            tv_cl_language.setText("Bahasa malaysia");
         } else if (language != null && language.contains("zh")) {
             tv_cl_language.setText("中文");
         } else {
@@ -205,9 +205,7 @@ public class ClPager extends BaseNoTrackPager {
     private void FCMregist() {
         String token = Utils.getSpData("refreshedToken", context);
         String mToken = Utils.getSpData("token", context);
-        if (mToken == null || "".equals(mToken) || token == null) {
-            return;
-        }
+
         Utils.setSpData("refreshedToken", token, context);
 
         TimeZone tz = TimeZone.getDefault();
@@ -227,6 +225,18 @@ public class ClPager extends BaseNoTrackPager {
                 lang = lang.split("-")[0] + "";
             }
         }
+
+        if (mToken == null || "".equals(mToken) || token == null) {
+            if (((ThirdPagerActivity) context).language != null) {
+                cLanguage(((ThirdPagerActivity) context).language, ((ThirdPagerActivity) context).country);
+            } else if (spString != null) {
+                cLanguage((spString.split("-")[0] + ""), ((ThirdPagerActivity) context).country);
+            }
+            Intent intent = new Intent(context, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return;
+        }
+
         String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + str;
         FCMBean fcm = new FCMBean(lang, "android", token);
         String json = fcm.toString();
@@ -257,7 +267,6 @@ public class ClPager extends BaseNoTrackPager {
                             HttpUtils.getInstance().stopNetWorkWaiting();
                             Utils.MyToast(context, context.getString(R.string.Networkfailure) + code);
                         }
-                        Log.e("TAG_clpager", code  + message);
                     }
                 });
             }
@@ -279,9 +288,6 @@ public class ClPager extends BaseNoTrackPager {
     private void FCM(final PaySwitchBean paySwitchBean, final String method) {
         String token = Utils.getSpData("refreshedToken", context);
         String mToken = Utils.getSpData("token", context);
-        if (mToken == null || "".equals(mToken) || token == null) {
-            return;
-        }
         Utils.setSpData("refreshedToken", token, context);
         TimeZone tz = TimeZone.getDefault();
         String str;
@@ -299,6 +305,11 @@ public class ClPager extends BaseNoTrackPager {
             if (lang != null && !lang.equals("")) {
                 lang = lang.split("-")[0] + "";
             }
+        }
+
+        if (mToken == null || "".equals(mToken) || token == null) {
+            setinformation(paySwitchBean, method);
+            return;
         }
 
         String url = MyApplication.url + "/v1/fcm/registrations/?timezone=" + str;

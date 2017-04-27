@@ -46,6 +46,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.FacebookSdk;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -221,17 +222,11 @@ public class ProductDetailPager extends BaseNoTrackPager {
             }
         });
 
-        //埋点
-        try {
-            JSONObject props = new JSONObject();
-            MyApplication.mixpanel.track("PAGE:product", props);
-        } catch (Exception e) {
-            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-        }
 
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
         AppsFlyerLib.getInstance().trackEvent(context, "PAGE:product", eventValue);
+
 
         return inflate;
     }
@@ -1012,13 +1007,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     initData();
                     break;
                 case R.id.rl_productdetail_indsertcoins:
-                    //埋点
-                    try {
-                        JSONObject props = new JSONObject();
-                        MyApplication.mixpanel.track("CLICK:get_it_by1dollar", props);
-                    } catch (Exception e) {
-                        Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                    }
 
                     //AppFlyer 埋点
                     Map<String, Object> eventValue = new HashMap<String, Object>();
@@ -1147,13 +1135,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                         buyCoins();
                     } else {
                         context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
-                        //埋点
-                        try {
-                            JSONObject props = new JSONObject();
-                            MyApplication.mixpanel.track("LOGIN:showpage", props);
-                        } catch (Exception e) {
-                            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                        }
 
                         //AppFlyer 埋点
                         eventValue = new HashMap<String, Object>();

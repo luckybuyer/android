@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dimen_16"
                     android:text="@string/loading..."
-                    android:textSize="@dimen/dimen_30" />
+                    android:textSize="@dimen/dimen_26" />
             </LinearLayout>
 
         </RelativeLayout>

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
@@ -51,19 +52,19 @@ public class ProductDetailImagePageAdapter extends PagerAdapter {
         for (int i = 0; i < gameList.size(); i++) {
             String detail_image = "https:" + gameList.get(i);
             Log.e("TAG_detail", detail_image);
-            ImageView imageView = (ImageView) View.inflate(context, R.layout.item_productdetail_pager,null);
+            final ImageView imageView = (ImageView) View.inflate(context, R.layout.item_productdetail_pager,null);
 //            final ImageView image_header = new ImageView(context);
-//            if (!((SecondPagerActivity) context).isDestroyed()) {
-//                Glide.with(context).load(detail_image).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-//                    @Override
-//                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                        image_header.setImageBitmap(resource);
-//                    }
-//                });
-//            }
-            if(!((SecondPagerActivity)context).isDestroyed()) {
-                Glide.with(context).load(detail_image).into(imageView).onStart();
+            if (!((SecondPagerActivity) context).isDestroyed()) {
+                Glide.with(context).load(detail_image).asBitmap().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        imageView.setImageBitmap(resource);
+                    }
+                });
             }
+//            if(!((SecondPagerActivity)context).isDestroyed()) {
+//                Glide.with(context).load(detail_image).into(imageView).onStart();
+//            }
 
             this.list.add(imageView);
         }

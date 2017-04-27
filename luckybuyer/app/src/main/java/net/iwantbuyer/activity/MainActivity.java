@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -83,6 +86,8 @@ import net.iwantbuyer.utils.Utils;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -220,6 +225,8 @@ public class MainActivity extends FragmentActivity {
         StartUpdateAlertDialog();
 
         refreshToken();                                  //Auth0  刷新token
+
+        getsp();
 
     }
 
@@ -428,12 +435,8 @@ public class MainActivity extends FragmentActivity {
 
     private void setPoint(String page) {
         //埋点
-        try {
-            JSONObject props = new JSONObject();
-            MyApplication.mixpanel.track(page, props);
-        } catch (Exception e) {
-            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-        }
+        Map<String, Object> eventValue = new HashMap<String, Object>();
+        AppsFlyerLib.getInstance().trackEvent(this, page, eventValue);
     }
 
     private Fragment currentFragment;
@@ -469,6 +472,7 @@ public class MainActivity extends FragmentActivity {
                         mePager.setView();
                     }
                 } else if (fg == buyCoinPager) {
+
 
                 } else if (fg == winningPager) {
                     if (buyCoinPager != null && buyCoinPager.show != null && buyCoinPager.show.isShowing()) {
@@ -542,6 +546,7 @@ public class MainActivity extends FragmentActivity {
             Map<String, Object> eventValue = new HashMap<String, Object>();
             AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in cancel", eventValue);
             selectPager();
+
         }
 
         @Override
@@ -555,6 +560,7 @@ public class MainActivity extends FragmentActivity {
             Map<String, Object> eventValue = new HashMap<String, Object>();
             AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in failed", eventValue);
             selectPager();
+
 
 
             Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.loginfailed));
@@ -655,13 +661,6 @@ public class MainActivity extends FragmentActivity {
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(String response, String link) {
-                //埋点
-                try {
-                    JSONObject props = new JSONObject();
-                    MyApplication.mixpanel.track("LOGIN:loggedin", props);
-                } catch (Exception e) {
-                    Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-                }
                 Gson gson = new Gson();
                 User user = gson.fromJson(response, User.class);
                 Utils.setSpData("id", user.getId() + "", MainActivity.this);
@@ -820,7 +819,6 @@ public class MainActivity extends FragmentActivity {
             showFragment(currentFragment);
         }
 
-//        AppEventsLogger.activateApp(this);                 //facebook统计
 
         //通过广播将firebase传递过来的消息传到ui县城
         IntentFilter filter = new IntentFilter();
@@ -1148,24 +1146,24 @@ public class MainActivity extends FragmentActivity {
         updateShow.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    //    public void getsp() {
-//        try {
-//            Log.e("TAGhehe", "getsp");
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    "net.iwantbuyer",
-//                    PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                Log.e("TAGhehe", "sign");
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.e("TAGhehe:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            Log.e("TAG000", e.toString());
-//        } catch (NoSuchAlgorithmException e) {
-//            Log.e("TAG000", e.toString());
-//        }
-//    }
+        public void getsp() {
+        try {
+            Log.e("TAGhehe", "getsp");
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "net.iwantbuyer",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                Log.e("TAGhehe", "sign");
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("TAGhehe:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("TAG000", e.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("TAG000", e.toString());
+        }
+    }
     AlertDialog winningShow;
     int order_id = 0;
     private BroadcastReceiver MessageReceiver = new BroadcastReceiver() {

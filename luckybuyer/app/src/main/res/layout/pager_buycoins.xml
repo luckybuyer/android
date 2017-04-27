@@ -407,7 +407,7 @@
             android:id="@+id/rl_mol_header"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_128"
-            android:background="@color/abc_white">
+            android:background="@drawable/shape_header">
 
             <TextView
                 android:id="@+id/tv_mol_title"

@@ -73,13 +73,6 @@ public class WinningPager extends BaseNoTrackPager {
         });
         isNeedNetWaiting = true;
 
-        //埋点
-        try {
-            JSONObject props = new JSONObject();
-            MyApplication.mixpanel.track("PAGE:new_result", props);
-        }catch (Exception e){
-            Log.e("MYAPP", "Unable to add properties to JSONObject", e);
-        }
 
         //AppFlyer 埋点
         Map<String, Object> eventValue = new HashMap<String, Object>();
