@@ -817,6 +817,7 @@ public class HomePager extends BaseNoTrackPager {
         //停止刷新
         srl_home_refresh.setRefreshing(false);
 
+
         final Gson gson = new Gson();
         final String game = "{\"game\":" + s + "}";
         GameProductBean gameProductBean = gson.fromJson(game, GameProductBean.class);
@@ -863,6 +864,8 @@ public class HomePager extends BaseNoTrackPager {
                 } else {
                     AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ca", eventValue);
                 }
+                AppEventsLogger logger = AppEventsLogger.newLogger(context);
+                logger.logEvent("yangshuyu");
 
             }
 

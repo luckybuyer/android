@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 
+import com.facebook.FacebookSdk;
+
 import net.iwantbuyer.utils.Utils;
 
 import java.util.Locale;
@@ -34,7 +36,7 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
 
         // Initialize the SDK before executing any other operations,
-//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        FacebookSdk.sdkInitialize(getApplicationContext(),201);
 //        AppEventsLogger.activateApp(this);
 
 
