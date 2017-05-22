@@ -1,15 +1,15 @@
 package net.iwantbuyer.activity;
 
 import android.app.Activity;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,13 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.adapter.ServersAdapter;
@@ -42,6 +36,9 @@ import net.iwantbuyer.bean.ServerBean;
 import net.iwantbuyer.bean.User;
 import net.iwantbuyer.utils.HttpUtils;
 import net.iwantbuyer.utils.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -80,7 +77,6 @@ public class WelcomeActivity extends Activity {
         rl_main = (RelativeLayout) findViewById(R.id.rl_main);
         iv_welcome = (ImageView) findViewById(R.id.iv_welcome);
         rl_welcome_pb = (RelativeLayout) findViewById(R.id.rl_welcome_pb);
-        AppsFlyerLib.getInstance().startTracking(this.getApplication(), "GKRPFQEuht2yY8DiQdfwc8");
 
 
 
@@ -116,7 +112,7 @@ public class WelcomeActivity extends Activity {
             String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
             Map map = new HashMap<String, String>();
             map.put("Authorization", "Bearer " + token);
-            map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
             //请求登陆接口
             HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                 @Override
@@ -149,7 +145,7 @@ public class WelcomeActivity extends Activity {
         //请求  充值列表
         String url = MyApplication.url + "/v1/servers/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -203,7 +199,7 @@ public class WelcomeActivity extends Activity {
         String url;//请求  充值列表
         url = MyApplication.url + "/v1/config/android-iwantbuyer-v" + versionName;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -315,9 +311,6 @@ public class WelcomeActivity extends Activity {
     String country = "";
 
     private void StartView(String response) {
-        //Appflyer 统计  进入选择国家界面
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(this, "Page: splash screen_select country",eventValue);
 
         View inflate = View.inflate(WelcomeActivity.this, R.layout.pager_country, null);
         RecyclerView rv_country = (RecyclerView) inflate.findViewById(R.id.rv_country);
@@ -393,9 +386,6 @@ public class WelcomeActivity extends Activity {
                     startConfig();
                     rl_welcome_pb.setVisibility(View.VISIBLE);
 
-                    //Appflyer 统计  点击apply统计
-                    Map<String, Object> eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(WelcomeActivity.this, "click: splash screen_applied success",eventValue);
                     break;
                 case R.id.tv_welcome_done:
                     if(show != null && show.isShowing()) {

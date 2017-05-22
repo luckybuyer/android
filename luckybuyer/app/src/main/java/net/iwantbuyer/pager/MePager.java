@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -108,10 +107,6 @@ public class MePager extends BaseNoTrackPager {
         setView();
 
 
-        //AppFlyer 埋点
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE: Me", eventValue);
-
 
 
         return inflate;
@@ -130,21 +125,14 @@ public class MePager extends BaseNoTrackPager {
             startAll(token);
         }
 
-        if(token != null) {
 
-            FacebookSdk.sdkInitialize(context);
-            AppEventsLogger.activateApp(context);
-            LikeView likeView = new LikeView(context);
-            likeView.setObjectIdAndType(
-                    "https://www.facebook.com/luckybuyer.net",
-                    LikeView.ObjectType.PAGE);
+        FacebookSdk.sdkInitialize(context);
+        AppEventsLogger.activateApp(context);
+        LikeView likeView = (LikeView) inflate.findViewById(R.id.lv_me);
+        likeView.setObjectIdAndType(
+                "https://www.facebook.com/luckybuyer.net",
+                LikeView.ObjectType.PAGE);
 
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.dimen_135), (int) getResources().getDimension(R.dimen.dimen_60));
-            likeView.setLayoutParams(lp);
-
-            ((RelativeLayout)inflate.findViewById(R.id.rl_me)).setVisibility(View.VISIBLE);
-            ((RelativeLayout)inflate.findViewById(R.id.rl_me)).addView(likeView);
-        }
 
     }
 
@@ -154,7 +142,7 @@ public class MePager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
@@ -228,7 +216,7 @@ public class MePager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/game-orders/?lucky=true&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
@@ -301,7 +289,7 @@ public class MePager extends BaseNoTrackPager {
 
     private void startMore(String url) {
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         map.put("Authorization", "Bearer " + token);
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -421,7 +409,7 @@ public class MePager extends BaseNoTrackPager {
                             ll_loading_data.setVisibility(View.GONE);
                         }
                     }, 3000);
-                }else if(!link.contentEquals("rel=\"next\"")) {
+                } else if (!link.contentEquals("rel=\"next\"")) {
                     ll_loading_data.setVisibility(View.VISIBLE);
                     pb_loading_data.setVisibility(View.GONE);
                     tv_loading_data.setText(context.getString(R.string.nomoredata));
@@ -485,7 +473,7 @@ public class MePager extends BaseNoTrackPager {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -533,7 +521,13 @@ public class MePager extends BaseNoTrackPager {
             rl_list_neterror.setVisibility(View.GONE);
             rl_list_loading.setVisibility(View.GONE);
 
-        } else if(Utils.getSpData("id", context) != null){
+            if(mePagerAllAdapter != null) {
+                list.clear();
+                mePagerAllAdapter.notifyDataSetChanged();
+            }
+
+
+        } else if (Utils.getSpData("id", context) != null) {
             String user_id = Utils.getSpData("user_id", context);
             String id__ = Utils.getSpData("id", context);
             String balance = Utils.getSpData("balance", context);
@@ -566,6 +560,7 @@ public class MePager extends BaseNoTrackPager {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         civ_me_header.setImageBitmap(resource);
+                        civ_me_header_src.setVisibility(View.GONE);
                     }
                 });
             }
@@ -595,9 +590,6 @@ public class MePager extends BaseNoTrackPager {
                     //登录
                     context.startActivity(((MainActivity) context).lock.newIntent(((MainActivity) context)));
 //
-                    //AppFlyer 埋点
-                    Map eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
                     break;
                 case R.id.tv_list_net_again:
                     int id = tl_me.getSelectedTabPosition();
@@ -626,16 +618,16 @@ public class MePager extends BaseNoTrackPager {
                 case 0:
                     //请求ALL
 
-                    if(Utils.getSpData("token",context) != null) {
-                        startAll(Utils.getSpData("token",context));
+                    if (Utils.getSpData("token", context) != null) {
+                        startAll(Utils.getSpData("token", context));
                         HttpUtils.getInstance().startNetworkWaiting(context);
                     }
 
                     break;
                 case 1:
                     //请求Progress
-                    if(Utils.getSpData("token",context) != null) {
-                        startLucky(Utils.getSpData("token",context));
+                    if (Utils.getSpData("token", context) != null) {
+                        startLucky(Utils.getSpData("token", context));
                         HttpUtils.getInstance().startNetworkWaiting(context);
                     }
                     break;

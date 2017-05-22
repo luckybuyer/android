@@ -20,7 +20,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
@@ -83,7 +83,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         Map map = new HashMap();
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {

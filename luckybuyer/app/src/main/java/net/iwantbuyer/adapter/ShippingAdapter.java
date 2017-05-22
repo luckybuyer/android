@@ -19,7 +19,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
+
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
@@ -101,7 +101,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     Map map = new HashMap();
                     String mToken = Utils.getSpData("token", context);
                     map.put("Authorization", "Bearer " + mToken);
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
                     HttpUtils.getInstance().startNetworkWaiting(context);
                     HttpUtils.getInstance().putJson(url, json, map, new HttpUtils.OnRequestListener() {
                         @Override
@@ -172,7 +172,7 @@ public class ShippingAdapter extends RecyclerView.Adapter<ShippingAdapter.ViewHo
                     map = new HashMap();
                     mToken = Utils.getSpData("token", context);
                     map.put("Authorization", "Bearer " + mToken);
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
                     HttpUtils.getInstance().startNetworkWaiting(context);
                     HttpUtils.getInstance().deleteResponse(url, map, new HttpUtils.OnRequestListener() {
                         @Override

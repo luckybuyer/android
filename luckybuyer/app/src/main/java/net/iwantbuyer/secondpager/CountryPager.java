@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -79,7 +79,7 @@ public class CountryPager extends BasePager {
         //请求  充值列表
         String url = MyApplication.url + "/v1/servers/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {

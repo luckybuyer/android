@@ -167,27 +167,27 @@
                     android:textSize="@dimen/dimen_28" />
 
 
-                <!--<com.facebook.share.widget.LikeView-->
-                <!--android:id="@+id/lv_me"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignEnd="@+id/view_shipping"-->
-                <!--android:layout_alignRight="@+id/view_shipping"-->
-                <!--android:layout_below="@+id/iv_me_header"-->
-                <!--android:layout_marginBottom="@dimen/dimen_20"-->
-                <!--android:layout_marginTop="@dimen/dimen_195"-->
-                <!--android:background="#ffffff"></com.facebook.share.widget.LikeView>-->
-                <RelativeLayout
-                    android:id="@+id/rl_me"
-                    android:visibility="gone"
-                    android:layout_width="@dimen/dimen_135"
-                    android:layout_height="@dimen/dimen_60"
+                <com.facebook.share.widget.LikeView
+                    android:id="@+id/lv_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/view_shipping"
                     android:layout_alignRight="@+id/view_shipping"
                     android:layout_below="@+id/iv_me_header"
                     android:layout_marginBottom="@dimen/dimen_20"
                     android:layout_marginTop="@dimen/dimen_195"
-                    android:background="#ffffff"></RelativeLayout>
+                    android:background="#ffffff"></com.facebook.share.widget.LikeView>
+                <!--<RelativeLayout-->
+                <!--android:id="@+id/rl_me"-->
+                <!--android:visibility="gone"-->
+                <!--android:layout_width="@dimen/dimen_135"-->
+                <!--android:layout_height="@dimen/dimen_60"-->
+                <!--android:layout_alignEnd="@+id/view_shipping"-->
+                <!--android:layout_alignRight="@+id/view_shipping"-->
+                <!--android:layout_below="@+id/iv_me_header"-->
+                <!--android:layout_marginBottom="@dimen/dimen_20"-->
+                <!--android:layout_marginTop="@dimen/dimen_195"-->
+                <!--android:background="#ffffff"></RelativeLayout>-->
 
             </RelativeLayout>
 

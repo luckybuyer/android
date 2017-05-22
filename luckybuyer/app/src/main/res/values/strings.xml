@@ -263,6 +263,8 @@
     <string name="progress">Progress</string>
     <string name="New">New</string>
     <string name="nomoreproduct">More products coming soon...</string>
-
+    <string name="pleaseEnterPhoneNum">Please enter phone Number</string>
+    <string name="pleaseEnterOperator">Please enter operator</string>
+    <string name="enterInformationError">The information you entered is incorrect</string>
 
 </resources>

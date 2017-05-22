@@ -28,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.facebook.FacebookAuthHandler;
@@ -46,6 +45,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 
@@ -320,9 +320,9 @@ public class SecondPagerActivity extends FragmentActivity {
         @Override
         public void onAuthentication(Credentials credentials) {
 
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(SecondPagerActivity.this, "LOGIN:logged_in success",eventValue);
+
+            AppEventsLogger logger = AppEventsLogger.newLogger(SecondPagerActivity.this);
+            logger.logEvent("LOGIN_logged_in success");
 
             // Base64 解码：
             String token = credentials.getIdToken();
@@ -355,17 +355,17 @@ public class SecondPagerActivity extends FragmentActivity {
         public void onCanceled() {
             // Login Cancelled response
 
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(SecondPagerActivity.this, "LOGIN:logged_in cancel",eventValue);
+
+            AppEventsLogger logger = AppEventsLogger.newLogger(SecondPagerActivity.this);
+            logger.logEvent("LOGIN_logged_in cancel");
         }
 
         @Override
         public void onError(LockException error) {
 
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(SecondPagerActivity.this, "LOGIN:logged_in failed",eventValue);
+
+            AppEventsLogger logger = AppEventsLogger.newLogger(SecondPagerActivity.this);
+            logger.logEvent("LOGIN_logged_in failed");
 
             Utils.MyToast(SecondPagerActivity.this,"Login failed");
         }
@@ -389,7 +389,7 @@ public class SecondPagerActivity extends FragmentActivity {
 
         Map map = new HashMap();
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -416,7 +416,7 @@ public class SecondPagerActivity extends FragmentActivity {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -598,7 +598,7 @@ public class SecondPagerActivity extends FragmentActivity {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         String json = "{\"device_id\": \""+token+"\"}";
 
         HttpUtils.getInstance().postJson(url, json,map, new HttpUtils.OnRequestListener() {

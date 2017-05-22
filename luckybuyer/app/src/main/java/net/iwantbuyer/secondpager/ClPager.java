@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -243,7 +242,7 @@ public class ClPager extends BaseNoTrackPager {
         Log.e("TAG_clpager", url + json);
         Map map = new HashMap();
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -318,7 +317,7 @@ public class ClPager extends BaseNoTrackPager {
 
         Map map = new HashMap();
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {

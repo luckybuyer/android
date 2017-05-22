@@ -1,6 +1,7 @@
 package net.iwantbuyer.activity;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -9,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -37,7 +39,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.appsflyer.AppsFlyerLib;
 import com.auth0.android.Auth0;
 import com.auth0.android.authentication.AuthenticationAPIClient;
 import com.auth0.android.authentication.AuthenticationException;
@@ -59,6 +60,9 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.payssion.android.sdk.PayssionActivity;
@@ -85,6 +89,7 @@ import net.iwantbuyer.utils.Utils;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -226,8 +231,48 @@ public class MainActivity extends FragmentActivity {
 
         refreshToken();                                  //Auth0  刷新token
 
-        getsp();
+//        getsp();
 
+        ContentResolver res = getContentResolver();
+        getAttributionId(res);
+        getAdvertisingInfo(this);
+    }
+
+    public static final Uri ATTRIBUTION_ID_CONTENT_URI = Uri.parse("content://com.facebook.katana.provider.AttributionIdProvider");
+
+    public static final String ATTRIBUTION_ID_COLUMN_NAME = "aid";
+
+    public String getAttributionId(ContentResolver contentResolver) {
+        String [] projection = {ATTRIBUTION_ID_COLUMN_NAME};
+        Cursor c = contentResolver.query(ATTRIBUTION_ID_CONTENT_URI, projection, null, null, null);
+        if (c == null || !c.moveToFirst()) {
+            return null;
+        }
+        String attributionId = c.getString(c.getColumnIndex(ATTRIBUTION_ID_COLUMN_NAME));
+        Utils.setSpData("lk-attribution",attributionId + "",MainActivity.this);
+        c.close();
+        return attributionId;
+    }
+
+    public static AdvertisingIdClient.Info getAdvertisingInfo(final Context context){
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    AdvertisingIdClient.Info adInfo = null;
+                    try {
+                        adInfo = AdvertisingIdClient.getAdvertisingIdInfo(context);
+                        Utils.setSpData("lk-advertiser-id",adInfo.getId() + "",context);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesNotAvailableException e) {
+                        e.printStackTrace();
+                    } catch (GooglePlayServicesRepairableException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        return null;
     }
 
     //设置数据
@@ -280,7 +325,6 @@ public class MainActivity extends FragmentActivity {
                     rb_main_newresult.setChecked(false);
                     rb_main_show.setChecked(false);
                     rb_main_me.setChecked(false);
-                    setPoint("CLICK:homepage");
 
                     break;
                 case R.id.rb_main_buycoins:
@@ -291,7 +335,6 @@ public class MainActivity extends FragmentActivity {
                     rb_main_newresult.setChecked(false);
                     rb_main_show.setChecked(false);
                     rb_main_me.setChecked(false);
-                    setPoint("CLICK:buy_coins");
                     break;
                 case R.id.rb_main_newresult:
                     id = 2;
@@ -301,7 +344,6 @@ public class MainActivity extends FragmentActivity {
                     rb_main_newresult.setChecked(true);
                     rb_main_show.setChecked(false);
                     rb_main_me.setChecked(false);
-                    setPoint("CLICK:new_result");
                     break;
                 case R.id.rb_main_show:
                     id = 3;
@@ -311,10 +353,8 @@ public class MainActivity extends FragmentActivity {
                     rb_main_newresult.setChecked(false);
                     rb_main_show.setChecked(true);
                     rb_main_me.setChecked(false);
-                    setPoint("CLICK:show");
                     break;
                 case R.id.rb_main_me:
-                    setPoint("CLICK:my_account");
 
                     //判断是否登陆  未登陆  先登录  登陆 进入me页面
                     showFragment(list.get(4));
@@ -330,18 +370,12 @@ public class MainActivity extends FragmentActivity {
                         show.dismiss();
                     }
 
-                    //AppFlyer 埋点
-                    Map<String, Object> eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_GET IT NOW", eventValue);
 
                     break;
                 case R.id.iv_gift_close:
                     if (show != null && show.isShowing()) {
                         show.dismiss();
                     }
-                    //AppFlyer 埋点
-                    eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_closed", eventValue);
                     break;
                 case R.id.iv_home_use:
                     if (currentFragment == homePager) {
@@ -433,11 +467,6 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    private void setPoint(String page) {
-        //埋点
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(this, page, eventValue);
-    }
 
     private Fragment currentFragment;
     private boolean flag = true;
@@ -529,9 +558,9 @@ public class MainActivity extends FragmentActivity {
 
             Login(token);
 
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in success", eventValue);
+
+            AppEventsLogger logger = AppEventsLogger.newLogger(MainActivity.this);
+            logger.logEvent("LOGIN_logged_in success");
 
 
         }
@@ -542,9 +571,10 @@ public class MainActivity extends FragmentActivity {
                 return;
             }
 
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in cancel", eventValue);
+
+            AppEventsLogger logger = AppEventsLogger.newLogger(MainActivity.this);
+            logger.logEvent("LOGIN_logged_in cancel");
+
             selectPager();
 
         }
@@ -556,11 +586,9 @@ public class MainActivity extends FragmentActivity {
                 return;
             }
 
-            //Appflyer 统计
-            Map<String, Object> eventValue = new HashMap<String, Object>();
-            AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "LOGIN:logged_in failed", eventValue);
-            selectPager();
 
+            AppEventsLogger logger = AppEventsLogger.newLogger(MainActivity.this);
+            logger.logEvent("LOGIN_logged_in failed");
 
 
             Utils.MyToast(MainActivity.this, MainActivity.this.getString(R.string.loginfailed));
@@ -613,7 +641,6 @@ public class MainActivity extends FragmentActivity {
     //FCM注册
     private void FCMregist(String mToken) {
         String token = Utils.getSpData("refreshedToken", this);
-        Log.e("TAG", token + "--------" + mToken);
         if (mToken == null || "".equals(mToken) || token == null) {
             return;
         }
@@ -625,10 +652,9 @@ public class MainActivity extends FragmentActivity {
 
         FCMBean fcm = new FCMBean(lang, "android", token);
         String json = fcm.toString();
-        Log.e("TAG_FCM", url + json);
         Map map = new HashMap();
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, String link) {
@@ -656,7 +682,6 @@ public class MainActivity extends FragmentActivity {
         String url = MyApplication.url + "/v1/users/me/?timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -768,9 +793,6 @@ public class MainActivity extends FragmentActivity {
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (show != null && show.isShowing()) {
-                //AppFlyer 埋点
-                Map eventValue = new HashMap<String, Object>();
-                AppsFlyerLib.getInstance().trackEvent(MainActivity.this, "Click：gift_closed", eventValue);
             }
             if (currentFragment == buyCoinPager && buyCoinPager != null && buyCoinPager.rl_buycoins_mol.getVisibility() == View.VISIBLE) {
                 buyCoinPager.rl_buycoins_mol.setVisibility(View.GONE);
@@ -1048,7 +1070,6 @@ public class MainActivity extends FragmentActivity {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", this);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
         String json = "{\"device_id\": \"" + token + "\"}";
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override

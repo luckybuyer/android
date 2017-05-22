@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -70,9 +69,6 @@ public class ShowPager extends BaseNoTrackPager{
             }
         });
 
-        //AppFlyer 埋点
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "Page: Show",eventValue);
 
         return inflate;
     }
@@ -89,7 +85,7 @@ public class ShowPager extends BaseNoTrackPager{
         }
 
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
 
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
@@ -212,7 +208,7 @@ public class ShowPager extends BaseNoTrackPager{
                     }
 
                     Map map = new HashMap();
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
 
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override

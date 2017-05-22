@@ -34,6 +34,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import net.iwantbuyer.R;
+import net.iwantbuyer.activity.MainActivity;
 import net.iwantbuyer.view.CustomToast;
 
 import java.io.ByteArrayInputStream;

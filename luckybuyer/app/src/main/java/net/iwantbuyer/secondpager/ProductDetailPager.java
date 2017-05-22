@@ -41,7 +41,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -223,9 +223,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
         });
 
 
-        //AppFlyer 埋点
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:product", eventValue);
 
 
         return inflate;
@@ -276,7 +273,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         Log.e("TAG_gameid", ((SecondPagerActivity) context).game_id +"");
         String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "?timezone=" + MyApplication.utc;
         Map map =new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -334,7 +331,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         String token = Utils.getSpData("token", context);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         HttpUtils.getInstance().getRequest(MyBuyUrl, map, new HttpUtils.OnRequestListener() {
                     @Override
@@ -378,7 +375,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
 
         String listUrl = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map ma = new HashMap();
-        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(listUrl, ma, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -416,7 +412,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
         //请求  广播列表
         String broadcastUrl = MyApplication.url + "/v1/broadcasts/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map m = new HashMap();
-        m.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(broadcastUrl, m, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -839,7 +834,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/games/" + ((SecondPagerActivity) context).game_id + "/public-orders/?per_page=20&page= " + page + "&timezone=" + MyApplication.utc;
                     Map map = new HashMap();
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string,String link) {
@@ -1008,11 +1003,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     break;
                 case R.id.rl_productdetail_indsertcoins:
 
-                    //AppFlyer 埋点
-                    Map<String, Object> eventValue = new HashMap<String, Object>();
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click: Get it now", eventValue);
-
-
                     View viewPPW = LayoutInflater.from(activity).inflate(R.layout.ppw_insert_coins, null);
                     int height = 0;
                     if (productDetailBean != null && productDetailBean.getShares_increment() < 5) {
@@ -1119,10 +1109,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     handler.sendEmptyMessageDelayed(WHAT_AUTO, 500);
                     break;
                 case R.id.tv_insert_buy:
-                    //AppFlyer 埋点
-                    eventValue = new HashMap<String, Object>();
-                    eventValue.put("%coin", et_insert_count.getText().toString() + "");
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click：Total coins ", eventValue);
 
                     String token_s = Utils.getSpData("token_num", context);
                     int token = 0;
@@ -1136,9 +1122,6 @@ public class ProductDetailPager extends BaseNoTrackPager {
                     } else {
                         context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
 
-                        //AppFlyer 埋点
-                        eventValue = new HashMap<String, Object>();
-                        AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
                     }
 
                     break;
@@ -1231,7 +1214,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -1471,7 +1454,7 @@ public class ProductDetailPager extends BaseNoTrackPager {
         final int batch_id = ((SecondPagerActivity) context).batch_id;
         String url = MyApplication.url + "/v1/games/?status="+status+"&batch_id=" + batch_id + "&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {

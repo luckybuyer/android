@@ -31,7 +31,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -172,7 +172,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.e("TAG——noti", url);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(this) + "");
+
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {

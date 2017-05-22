@@ -32,7 +32,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
+import com.google.android.gms.ads.identifier.AdvertisingIdClient;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.gson.Gson;
 import com.payssion.android.sdk.PayssionActivity;
 import com.payssion.android.sdk.model.PayRequest;
@@ -57,6 +59,7 @@ import net.iwantbuyer.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -151,9 +154,6 @@ public class BuyCoinPager extends BaseNoTrackPager {
             }
         });
 
-        //AppFlyer 埋点
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:topup", eventValue);
 
         setView();
 
@@ -323,7 +323,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
         rl_loading.setVisibility(View.VISIBLE);
         String url = MyApplication.url + "/v1/topup-options/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, null, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, String link) {
@@ -606,14 +606,8 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         Map eventValue;
                         if (context instanceof SecondPagerActivity) {
                             context.startActivity(((SecondPagerActivity) context).lock.newIntent(((SecondPagerActivity) context)));
-                            //AppFlyer 埋点
-                            eventValue = new HashMap<String, Object>();
-                            AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
                         } else if (context instanceof MainActivity) {
                             context.startActivity(((MainActivity) context).lock.newIntent(((MainActivity) context)));
-                            //AppFlyer 埋点
-                            eventValue = new HashMap<String, Object>();
-                            AppsFlyerLib.getInstance().trackEvent(context, "Page：Login", eventValue);
                         }
                     }
                     break;
@@ -687,9 +681,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-CLIENT-TYPE", "appsflyer_android");
-        map.put("LK-APP-ID", "net.iwantbuyer");
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        map.put("LK-CLIENT-TYPE", "facebook");
+        map.put("lk-advertiser-id", Utils.getSpData("lk-advertiser-id",context));
+        map.put("lk-attribution", Utils.getSpData("lk-attribution",context));
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, String link) {
@@ -726,6 +721,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
     }
 
 
+
     private void startPayssion(final String payssionM) {
         tv_buycoins_buy.setEnabled(false);
         inflate.findViewById(R.id.pb_buycoins_topup).setVisibility(View.VISIBLE);
@@ -738,9 +734,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-CLIENT-TYPE", "appsflyer_android");
-        map.put("LK-APP-ID", "net.iwantbuyer");
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        map.put("LK-CLIENT-TYPE", "facebook");
+        map.put("lk-advertiser-id", Utils.getSpData("lk-advertiser-id",context));
+        map.put("lk-attribution", Utils.getSpData("lk-attribution",context));
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, String link) {
@@ -797,6 +794,7 @@ public class BuyCoinPager extends BaseNoTrackPager {
                         .setAPIKey("82323460c3e4a7ab") //Your API Key
                         .setAmount(payssionIdBean.getAmount())
                         .setCurrency(payssionIdBean.getCurrency())
+//                        .setPMId("alipay_cn")
                         .setPMId(method)
                         .setDescription("luckybuyer")
                         .setOrderId(payssionIdBean.getOrder_id()) //Your order id
@@ -828,9 +826,10 @@ public class BuyCoinPager extends BaseNoTrackPager {
         Map map = new HashMap();
         String mToken = Utils.getSpData("token", context);
         map.put("Authorization", "Bearer " + mToken);
-        map.put("LK-CLIENT-TYPE", "appsflyer_android");
-        map.put("LK-APP-ID", "net.iwantbuyer");
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+        map.put("LK-CLIENT-TYPE", "facebook");
+        map.put("lk-advertiser-id", Utils.getSpData("lk-advertiser-id",context));
+        map.put("lk-attribution", Utils.getSpData("lk-attribution",context));
+
         HttpUtils.getInstance().postJson(url, json, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, String link) {

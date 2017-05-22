@@ -10,6 +10,7 @@ import android.util.Log;
 
 
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import net.iwantbuyer.utils.Utils;
 
@@ -26,7 +27,7 @@ public class MyApplication extends MultiDexApplication {
     //    public static String url = "https://ap、i-sg.luckybuyer.net";                           //新加波服务器
 //    public static String url = "https://api-usw.luckybuyer.net";                          //美国服务器
     public static String url = "https://api-my.luckybuyer.net";                            //美国服务器
-//    public static String url = "http://19、2.16e、8.166.236:8000";
+//    public static String url = "http://19、2.、16e、、8.166.236:8000";
     public static String client_id;
     public static String domain;
 
@@ -36,8 +37,7 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
 
         // Initialize the SDK before executing any other operations,
-//        FacebookSdk.sdkInitialize(getApplicationContext(),201);
-//        AppEventsLogger.activateApp(this);
+        FacebookSdk.sdkInitialize(getApplicationContext(),201);
 
 
         //多语言切换

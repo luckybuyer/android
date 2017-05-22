@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -73,7 +73,7 @@ public class ParticipationPager extends BasePager{
             url = MyApplication.url + "/v1/games/"+((ThirdPagerActivity)context).game_id+"/public-orders/?user_id="+user_id+"&per_page=20&page=1&timezone=" + MyApplication.utc;
         }
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {

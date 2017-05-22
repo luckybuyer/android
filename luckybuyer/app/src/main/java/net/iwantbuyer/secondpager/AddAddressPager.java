@@ -25,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 
-import com.appsflyer.AppsFlyerLib;
 
 import net.iwantbuyer.R;
 import net.iwantbuyer.activity.SecondPagerActivity;
@@ -452,7 +451,7 @@ public class AddAddressPager extends BaseNoTrackPager {
             Map map = new HashMap();
             String mToken = Utils.getSpData("token", context);
             map.put("Authorization", "Bearer " + mToken);
-            map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
             HttpUtils.getInstance().putJson(url, json, map, new HttpUtils.OnRequestListener() {
                 @Override
                 public void success(final String response,String link) {

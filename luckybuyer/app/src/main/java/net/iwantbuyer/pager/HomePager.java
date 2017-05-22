@@ -28,13 +28,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
-import com.facebook.FacebookSdk;
-import com.facebook.LoggingBehavior;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 
@@ -151,9 +144,6 @@ public class HomePager extends BaseNoTrackPager {
         });
 
 
-        //AppFlyer 埋点
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "PAGE:homepage", eventValue);
 
         return inflate;
     }
@@ -349,7 +339,7 @@ public class HomePager extends BaseNoTrackPager {
         //请求  广播列表
         String broadcastUrl = MyApplication.url + "/v1/broadcasts/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(broadcastUrl, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, String link) {
@@ -406,7 +396,6 @@ public class HomePager extends BaseNoTrackPager {
         //请求  产品  列表
         String url = MyApplication.url + "/v1/games/?status=running&order_by=all&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map ma = new HashMap();
-        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, final String link) {
@@ -478,9 +467,8 @@ public class HomePager extends BaseNoTrackPager {
 
     public void startProgress() {
         //请求  产品  列表
-        String url = MyApplication.url + "/v1/games/?status=running&order_by=progress&per_page=20&page=1&timezone=" + MyApplication.utc;
+    String url = MyApplication.url + "/v1/games/?status=running&order_by=progress&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map ma = new HashMap();
-        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, final String link) {
@@ -553,7 +541,6 @@ public class HomePager extends BaseNoTrackPager {
         //请求  产品  列表
         String url = MyApplication.url + "/v1/games/?status=running&order_by=latest&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map ma = new HashMap();
-        ma.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(url, ma, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, final String link) {
@@ -624,7 +611,7 @@ public class HomePager extends BaseNoTrackPager {
 
     private void startMore(String url) {
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String string, final String link) {
@@ -692,7 +679,6 @@ public class HomePager extends BaseNoTrackPager {
     public void responseBanner() {
         String bannersUrl = MyApplication.url + "/v1/banners/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
         HttpUtils.getInstance().getRequest(bannersUrl, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response, String link) {
@@ -854,18 +840,11 @@ public class HomePager extends BaseNoTrackPager {
                 startActivity(intent);
 
 
-                //AppFlyer 埋点
-                Map<String, Object> eventValue = new HashMap<String, Object>();
-                eventValue.put("%id", productList.get(position).getProduct().getId() + "");
-                if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-my")) {
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_my", eventValue);
-                } else if (Utils.getSpData("service", context) != null && Utils.getSpData("service", context).contains("api-sg")) {
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ae", eventValue);
-                } else {
-                    AppsFlyerLib.getInstance().trackEvent(context, "Click:productID_ca", eventValue);
-                }
+                //facebook打点
                 AppEventsLogger logger = AppEventsLogger.newLogger(context);
-                logger.logEvent("yangshuyu");
+                Bundle params = new Bundle();
+                params.putString("id", productList.get(position).getProduct().getId() + "");
+                logger.logEvent("Click_productID", params);
 
             }
 

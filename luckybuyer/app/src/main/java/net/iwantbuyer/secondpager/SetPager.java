@@ -53,6 +53,13 @@ public class SetPager extends BasePager {
             tv_set_cl.setText(context.getString(R.string.CountryLanguage));
             iv_country.setVisibility(View.GONE);
         }
+
+        String token = Utils.getSpData("token", context);
+        if(token == null || "".equals(token)) {
+            tv_set_login.setVisibility(View.GONE);
+        }else {
+            tv_set_login.setVisibility(View.VISIBLE);
+        }
         return inflate;
     }
 

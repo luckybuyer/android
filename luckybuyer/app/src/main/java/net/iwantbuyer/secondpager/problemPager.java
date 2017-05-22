@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -48,7 +48,7 @@ public class problemPager extends BaseNoTrackPager{
         String url = MyApplication.url + "/v1/faqs/?per_page=20&timezone=" + MyApplication.utc;
         Log.e("TAG", url);
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String string, final String link) {

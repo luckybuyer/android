@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -84,7 +83,7 @@ public class CoinDetailPager extends BasePager {
         String url = MyApplication.url + "/v1/gold-records/?per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                     @Override
@@ -172,7 +171,7 @@ public class CoinDetailPager extends BasePager {
                     String token = Utils.getSpData("token", context);
                     Map map = new HashMap<String, String>();
                     map.put("Authorization", "Bearer " + token);
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string,String link) {

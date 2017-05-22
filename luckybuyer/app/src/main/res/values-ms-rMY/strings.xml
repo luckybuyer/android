@@ -262,4 +262,7 @@
     <string name="progress">Kemajuan</string>
     <string name="New">Terkini</string>
     <string name="nomoreproduct">Lebih banyak produk akan datang....</string>
+    <string name="pleaseEnterPhoneNum">Sila masukkan Nombor telefon</string>
+    <string name="pleaseEnterOperator">Sila masukkan operator</string>
+    <string name="enterInformationError">Maklumat yang anda masukkan tidak betul</string>
 </resources>

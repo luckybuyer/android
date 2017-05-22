@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
 import com.google.gson.Gson;
 
 import net.iwantbuyer.R;
@@ -74,9 +73,6 @@ public class WinningPager extends BaseNoTrackPager {
         isNeedNetWaiting = true;
 
 
-        //AppFlyer 埋点
-        Map<String, Object> eventValue = new HashMap<String, Object>();
-        AppsFlyerLib.getInstance().trackEvent(context, "Page:Results",eventValue);
 
         return inflate;
     }
@@ -98,7 +94,7 @@ public class WinningPager extends BaseNoTrackPager {
 
         String url = MyApplication.url + "/v1/games/?status=closed&status=finished&per_page=20&page=1&timezone=" + MyApplication.utc;
         Map map = new HashMap();
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
             @Override
             public void success(final String response,String link) {
@@ -210,7 +206,7 @@ public class WinningPager extends BaseNoTrackPager {
                     isNeedpull = false;
                     String url = MyApplication.url + "/v1/games/?status=closed&status=finished&per_page=20&page="+page+"&timezone=" + MyApplication.utc;
                     Map map = new HashMap();
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
                         @Override
                         public void success(final String string,String link) {

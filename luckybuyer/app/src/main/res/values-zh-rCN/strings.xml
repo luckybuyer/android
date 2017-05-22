@@ -259,4 +259,7 @@
     <string name="progress">进度</string>
     <string name="New">最新</string>
     <string name="nomoreproduct">更多商品正在上架中...</string>
+    <string name="pleaseEnterPhoneNum">请输入电话号码</string>
+    <string name="pleaseEnterOperator">请输入运营商</string>
+    <string name="enterInformationError">您输入的信息有误</string>
 </resources>

@@ -14,12 +14,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -103,7 +104,7 @@ public class DispatchPager extends BaseNoTrackPager {
         Log.e("TAG_orderid", url);
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
@@ -295,7 +296,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().patchJson(url, json, map, new HttpUtils.OnRequestListener() {
@@ -322,8 +323,9 @@ public class DispatchPager extends BaseNoTrackPager {
                                     initData();
                                 } else {
                                     Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode + "deliveries");
+
                                 }
-                                Log.e("TAG_delivery", requestCode + message);
+                                Log.e("TAG_deliverys", requestCode + message);
                             }
                         });
                     }
@@ -382,7 +384,7 @@ public class DispatchPager extends BaseNoTrackPager {
 
         Map map = new HashMap<String, String>();
         map.put("Authorization", "Bearer " + token);
-        map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
         //请求登陆接口
         final String finalToken = token;
         HttpUtils.getInstance().patchJson(url, json, map, new HttpUtils.OnRequestListener() {
@@ -409,7 +411,15 @@ public class DispatchPager extends BaseNoTrackPager {
                                 if (requestCode == 204) {
                                     initData();
                                 } else {
-                                    Utils.MyToast(context, context.getString(R.string.Networkfailure) + requestCode + "deliveries");
+                                    if("virtual_mobile".equals(dispatchGameBean.getDelivery().getType())) {
+                                        if(((EditText) inflate.findViewById(R.id.et_dispatch_phonenum)).getText().toString() == null || "".equals(((EditText) inflate.findViewById(R.id.et_dispatch_phonenum)).getText().toString())) {
+                                            Utils.MyToast(context, context.getString(R.string.pleaseEnterPhoneNum));
+                                        }else if(((EditText) inflate.findViewById(R.id.et_dispatch_operator)).getText().toString() == null || "".equals(((EditText) inflate.findViewById(R.id.et_dispatch_operator)).getText().toString())) {
+                                            Utils.MyToast(context, context.getString(R.string.pleaseEnterOperator));
+                                        }else {
+                                            Utils.MyToast(context, context.getString(R.string.enterInformationError));
+                                        }
+                                    }
                                 }
                             }
                         });

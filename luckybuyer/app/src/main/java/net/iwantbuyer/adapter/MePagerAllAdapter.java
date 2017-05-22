@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.appsflyer.AppsFlyerLib;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -177,7 +177,7 @@ public class MePagerAllAdapter extends RecyclerView.Adapter<MePagerAllAdapter.Vi
                     String url = MyApplication.url + "/v1/game-orders/?per_page=20&page=1&timezone=" + MyApplication.utc;
                     Map map = new HashMap<String, String>();
                     map.put("Authorization", "Bearer " + token);
-                    map.put("LK-APPSFLYER-ID", AppsFlyerLib.getInstance().getAppsFlyerUID(context) + "");
+
                     //请求登陆接口
                     final String finalToken = token;
                     HttpUtils.getInstance().getRequest(url, map, new HttpUtils.OnRequestListener() {
